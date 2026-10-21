@@ -57,6 +57,15 @@ Candidate choices currently documented:
 
 Final wording should state which target users benefit from each choice and should be checked against the implemented interface.
 
+### Rationale for the UI foundations
+
+- **shadcn/ui with Base UI:** Base UI supplies headless primitives with established accessibility, keyboard interaction, focus and overlay behaviour; shadcn/ui provides owned, editable component source composed on top of those primitives. Reusing that foundation avoids spending the exercise's limited attention budget recreating complex common-component behaviour. It reduces implementation risk but does not replace keyboard, focus, screen-reader and responsive browser verification.
+- **Neutral initial theme:** A restrained, readable baseline keeps decorative styling from masking structural problems. It lets the candidate and reviewers assess information hierarchy, navigation and end-to-end workflows first, while the colourful catalogue thumbnails remain the main visual content.
+- **Token-based theming:** Because the component source is owned and its semantic CSS variables are exposed through Tailwind's `@theme inline` namespaces, visual treatment can evolve incrementally without rewriting component composition or scattering replacement colour utilities through the application.
+- **Heroicons outline only:** One icon family gives actions and metadata a consistent stroke, proportion and visual weight. Generated components that introduce another icon dependency should be adapted rather than allowing mixed icon languages to accumulate.
+
+These are implementation principles rather than claims that the resulting interface is accessible or visually successful before it has been tested.
+
 ## Decision made against an AI proposal
 
 **Not yet identified.** The final README requires one genuine, significant instance. Do not invent a disagreement or relabel a jointly explored option as a rejected AI recommendation. Record it here when it actually occurs, including:
