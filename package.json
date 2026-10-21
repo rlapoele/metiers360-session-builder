@@ -1,5 +1,5 @@
 {
-  "name": "kit-exercice-front-api",
+  "name": "metiers360-session-builder",
   "private": true,
   "type": "module",
   "engines": { "node": ">=20" },
