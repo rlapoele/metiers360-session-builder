@@ -16,6 +16,8 @@ Running total: **unknown pending candidate input**.
 
 ## AI use to date
 
+Distinct agent workflows actually applied are tracked separately in [skill-log.md](skill-log.md). That registry complements this outcome-focused account; it does not replace the final explanation of what was delegated and personally verified.
+
 AI assistance has been used for:
 
 - reading and analysing the exercise brief, mock API and catalogue;

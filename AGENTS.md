@@ -13,7 +13,8 @@ Use these sources in this order:
 5. The viewport references in [docs/wireframes](docs/wireframes) — agreed information hierarchy and responsive behaviour.
 6. [docs/project-status.md](docs/project-status.md) — current phase, next action, delivery date, Git workflow and open choices.
 7. [docs/exercise-log.md](docs/exercise-log.md) — evidence for the final exercise report, including attention time and AI use.
-8. Existing source and tests, once the frontend has been bootstrapped.
+8. [docs/skill-log.md](docs/skill-log.md) — distinct agent skills actually applied during the project.
+9. Existing source and tests, once the frontend has been bootstrapped.
 
 When these sources conflict, do not silently choose one. Preserve the exercise requirements, report the conflict and ask before changing an accepted product or architecture decision.
 
@@ -137,6 +138,7 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 
 - Implement in thin, reviewable slices: shell/contracts, catalogue discovery, draft composition, save flow, saved-session review, then polish.
 - Follow [tasks/plan.md](tasks/plan.md) and update [tasks/todo.md](tasks/todo.md) as each task or checkpoint is verified. Do not mark work complete from implementation alone.
+- Add a skill to [docs/skill-log.md](docs/skill-log.md) when it is first applied; do not record merely available, considered or anticipated skills.
 - Read the relevant wireframe and API section before implementing a slice.
 - Prefer straightforward feature modules over speculative generic abstractions.
 - Keep Astro components for mostly static structure and React islands for real interaction. Do not turn every card into its own island.
