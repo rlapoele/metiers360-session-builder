@@ -192,8 +192,21 @@ The complete required exercise flow—find, compose, order, name and save—work
 
 - Keyboard, focus, announcements, contrast, reduced motion and overflow are reviewed across affected surfaces and target widths.
 - Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup.
-- The original README is replaced with the required candidate-facing README using verified claims and commands.
+- The supplied exercise brief is preserved verbatim at `docs/source/exercise-brief.md`; it remains an authoritative source document rather than being treated as obsolete archive material.
+- The root README is replaced with the required candidate-facing README using verified claims and commands, and `AGENTS.md` plus internal links are updated to point to the preserved brief.
 - The exercise log records actual AI use, candidate verification, attention time, deliberate omissions and one genuine decision made against an AI proposal.
+
+**Final README content:**
+
+- a concise project overview describing the session builder, its users and their context;
+- prerequisites plus verified installation, local development, test and production-build commands;
+- a concise stack and architecture overview explaining why the main choices suit this exercise, with a link to `docs/architecture.md` for detail;
+- a short user guide covering catalogue discovery, draft composition and ordering, saving, and saved-session review;
+- a small set of representative interface screenshots with useful captions and alternative text, captured only after the relevant UI is stable;
+- the three most consequential assumptions and two or three main interface decisions, connected to the intended users;
+- deliberate omissions, what would be done with one more day, accessibility and verification evidence, AI use, the candidate's attention time and one genuine decision made against an AI proposal.
+
+Keep the README readable in roughly five minutes. Detailed architecture, wireframes, task history and exhaustive verification evidence remain in their dedicated documents rather than being duplicated.
 
 **Verification:** Clean-install/full-suite rehearsal and final working-tree/diff review.
 
