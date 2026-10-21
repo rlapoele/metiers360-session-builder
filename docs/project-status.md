@@ -38,20 +38,15 @@ Repository: `https://github.com/rlapoele/metiers360-session-builder.git`
 | `releases` | Production-release branch. Only advance it as part of an intentional release. |
 | `main` | Backup branch used before making a new production release. Do not treat it as the day-to-day development branch. |
 
-As verified on 2026-10-21, all three branches exist locally and on `origin`, point to commit `195cf9d`, and track their matching remote branches. GitHub's remote `HEAD` points to `dev`.
+As verified on 2026-10-21, all three branches exist locally and on `origin` and track their matching remote branches. GitHub's remote `HEAD` points to `dev`. The branches are expected to diverge as development proceeds; inspect `git branch -vv` instead of relying on a commit hash recorded here.
 
 Before the first release, define and document the exact commands used to preserve the prior release on `main` and promote the candidate to `releases`. Do not improvise destructive branch replacement or force-push.
 
-## Working-tree handoff
+## Repository-state handoff
 
-At this handoff, documentation changes are intentionally uncommitted pending review:
+The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`).
 
-- `AGENTS.md`: Zod, selective shadcn/Base UI guidance, and handoff-document links;
-- `docs/architecture.md`: runtime-schema direction and UI primitive shortlist;
-- `docs/project-status.md`: this status and workflow record;
-- `docs/exercise-log.md`: exercise evidence record.
-
-Review the current diff rather than assuming this list is still current. Once these files are accepted and committed, update or remove this subsection so it does not claim the tree is dirty when it is not.
+Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
 ## Settled decisions
 
