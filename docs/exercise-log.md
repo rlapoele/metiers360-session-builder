@@ -1,0 +1,86 @@
+# Exercise evidence log
+
+This working document preserves evidence needed for the final candidate-facing README. It is not the final README and should remain factual and concise.
+
+Update it after each candidate-attention session. Autonomous agent execution time does not count toward the half-day attention budget; candidate time spent reading, framing, directing, reviewing and testing does.
+
+## Attention sessions
+
+Exact durations have not yet been recorded. Do not estimate or backfill them without the candidate's confirmation.
+
+| Date | Candidate attention | Work reviewed or directed | Verification performed personally |
+|---|---:|---|---|
+| 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
+
+Running total: **unknown pending candidate input**.
+
+## AI use to date
+
+AI assistance has been used for:
+
+- reading and analysing the exercise brief, mock API and catalogue;
+- checking API behavior such as search scope, thumbnail responses, saved sessions, headset selection and empty compatibility arrays;
+- exploring the information architecture and catalogue/session-builder workflow;
+- drafting responsive text wireframes for mobile, tablet and desktop;
+- proposing the Astro/React/BFF/state-management architecture;
+- identifying candidate shadcn/ui Base UI primitives and a Zod validation boundary;
+- creating and reviewing repository context documentation;
+- assisting with repository initialization, branch/upstream verification and ignore rules.
+
+The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
+
+## Candidate verification
+
+Record only checks the candidate personally performed or explicitly reviewed. Do not turn agent-run checks into candidate verification.
+
+- Pending.
+
+## Candidate assumptions for the final README
+
+The brief asks for the three assumptions that most affected the solution. The following are candidates supported by the documented direction; select and refine the final three after implementation:
+
+1. The primary user prepares a session quickly, often on a tablet and sometimes in front of a group, so the interface should prioritise immediate comprehension and forgiving actions over dense functionality.
+2. Session preparation is best understood through a familiar catalogue-and-cart model, while all user-facing language remains specific to videos and séances.
+3. Reviewing multiple previously saved sessions is useful because the supplied API exposes a session collection, even though saved sessions are memory-only and cannot be edited or deleted.
+4. Search and filters should reflect only capabilities the supplied API actually provides; title-only search and server pagination must not be presented as full-catalogue semantic search or client-side global sorting.
+
+These are working candidates, not a claim that the final three have already been chosen.
+
+## Main interface choices for the final README
+
+Candidate choices currently documented:
+
+- Keep `Catalogue` and `Mes séances` as the only top-level destinations; treat `Ma séance` as the current draft rather than a third page.
+- Keep catalogue cards concise and move complete metadata into a contextual details sheet so the user retains catalogue position.
+- Keep the draft persistently visible on desktop and available as a full-height sheet on smaller viewports, with explicit ordering and compatibility controls.
+
+Final wording should state which target users benefit from each choice and should be checked against the implemented interface.
+
+## Decision made against an AI proposal
+
+**Not yet identified.** The final README requires one genuine, significant instance. Do not invent a disagreement or relabel a jointly explored option as a rejected AI recommendation. Record it here when it actually occurs, including:
+
+- what the tool proposed;
+- why the candidate rejected or changed it;
+- what was implemented instead;
+- what evidence or product principle informed the decision.
+
+## Deliberate omissions and one-more-day ideas
+
+These must reflect the delivered application, so they remain open until implementation scope is known.
+
+### Deliberate omissions
+
+- Pending implementation.
+
+### With one more day
+
+- Pending implementation.
+
+## Verification evidence
+
+Record exact commands, browser widths and outcomes as implementation proceeds. Do not list planned scripts as successful checks.
+
+| Date | Performed by | Command or check | Outcome |
+|---|---|---|---|
+| 2026-10-21 | Agent | Documentation link/structure inspection and `git diff --check` | Passed after the handoff documents were added |

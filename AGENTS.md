@@ -10,7 +10,9 @@ Use these sources in this order:
 2. [API.md](API.md) and [server/server.mjs](server/server.mjs) — authoritative API behaviour.
 3. [docs/architecture.md](docs/architecture.md) — intended frontend architecture and ownership boundaries.
 4. The viewport references in [docs/wireframes](docs/wireframes) — agreed information hierarchy and responsive behaviour.
-5. Existing source and tests, once the frontend has been bootstrapped.
+5. [docs/project-status.md](docs/project-status.md) — current phase, next action, delivery date, Git workflow and open choices.
+6. [docs/exercise-log.md](docs/exercise-log.md) — evidence for the final exercise report, including attention time and AI use.
+7. Existing source and tests, once the frontend has been bootstrapped.
 
 When these sources conflict, do not silently choose one. Preserve the exercise requirements, report the conflict and ask before changing an accepted product or architecture decision.
 
@@ -77,13 +79,14 @@ The wireframes define hierarchy and behaviour, not pixel-perfect styling. Preser
 - Astro, using its Vite-based toolchain and server output.
 - React 18 for interactive islands.
 - TypeScript in strict mode; do not use `any` to bypass API or component contracts.
+- Zod for runtime validation at external and persistence boundaries; infer TypeScript types from schemas instead of maintaining duplicate interfaces.
 - Tailwind CSS for styling.
 - Nano Stores for the small amount of draft state shared between islands.
 - TanStack Query inside interactive React surfaces for remote/server state.
 - The supplied `server/server.mjs` remains a separate mock backend.
 - Astro owns presentation and a thin BFF boundary for browser requests.
 - Do not use Remix.
-- shadcn/ui configured with Base UI may be used selectively for accessible primitives such as sheets, dialogs, selects, fields and alerts. Do not import a broad component system or accept generic default styling without need.
+- shadcn/ui configured with Base UI may be used selectively. Primary candidates are `Sheet`, `Dialog`/`AlertDialog`, `Select`, `Combobox`, `Field`, `Input`, `Checkbox`, `Alert`, `Skeleton`, `Spinner`, `Empty` and `Pagination`, plus foundational `Button`/`Badge` primitives. Install only components required by a real slice, adapt their styling to the product and preserve native semantics where a custom primitive adds no value.
 
 See [docs/architecture.md](docs/architecture.md) before adding dependencies or creating the frontend structure.
 
@@ -111,6 +114,7 @@ React Context does not cross separate Astro islands. Do not use it as a substitu
 - Thumbnail URLs point to dynamically generated 640 × 360 SVG responses, not files stored on disk.
 - Treat `compatible_headsets` as `string[]`; an empty array is valid at the type/UI boundary even though the current fixture has no such videos.
 - The catalogue response contains identifiers for jobs, audiences and headsets. Resolve human-readable labels through their reference endpoints and centralise those lookups.
+- Treat fetched JSON and persisted browser data as `unknown` until it passes the relevant Zod schema. Parse once at the boundary and trust the inferred type internally; do not scatter validation through components.
 - Do not modify the supplied API or catalogue unless a task explicitly calls for it.
 
 ## Accessibility baseline
@@ -136,6 +140,8 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 - Keep user-facing copy in French. Code identifiers may be English but must be consistent.
 - Preserve authored/API values; format dates, durations and labels only in presentation helpers.
 - Do not claim a command exists until it is present in `package.json`.
+- Update `docs/project-status.md` at meaningful handoff points and `docs/exercise-log.md` after each attention session; do not reconstruct either from memory at the end.
+- Whenever work creates, updates or deletes repository content, include a concise suggested commit message in the final handoff. Do not commit unless the user explicitly asks.
 - Once the frontend is bootstrapped, every change must pass the repository's format/lint, strict typecheck, unit tests and production build. Interaction work also requires browser verification at mobile, tablet and desktop widths.
 - Never commit secrets, `.env` files, build output or dependencies.
 

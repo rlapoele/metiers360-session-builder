@@ -29,6 +29,7 @@ The repository currently contains the supplied Node mock API only. This document
 | Application framework | Astro in server mode | Server-rendered pages, routing, BFF endpoints and selective hydration |
 | Interactive UI | React 18 islands | Matches the exercise requirement without hydrating the entire page |
 | Language | TypeScript with `strict: true` | Explicit contracts across API, state and UI boundaries |
+| Runtime schemas | Zod | Validate untrusted API, configuration and persisted data while inferring TypeScript types |
 | Styling | Tailwind CSS | Fast responsive implementation with a small local token layer |
 | Shared client state | Nano Stores | Small framework-agnostic store shared between Astro islands |
 | Remote state | TanStack Query | Loading, error, retry and caching inside cohesive React surfaces |
@@ -37,6 +38,28 @@ The repository currently contains the supplied Node mock API only. This document
 | Backend | Supplied `server/server.mjs` | Exercise-owned mock API with realistic latency and failures |
 
 Do not add every target dependency before it is needed. Bootstrap the minimum, then add a dependency with the slice that uses it.
+
+## UI primitive shortlist
+
+Use shadcn/ui configured with its Base UI variant as a source of owned, editable primitives rather than as a broad visual system. The current Base UI registry includes the selected components; add them individually when the corresponding workflow is implemented.
+
+| Component | Intended use |
+|---|---|
+| `Sheet` | Mobile/tablet filters, video details and draft-session surfaces; desktop video details |
+| `Dialog` / `AlertDialog` | Finalisation only if a modal is appropriate; confirmation before explicitly replacing a non-empty draft |
+| `Combobox` | Searchable métier filter, where choosing among roughly 55 ROME entries benefits from type-ahead |
+| `Select` or `NativeSelect` | Short headset and audience choices; prefer the native control when it provides the clearest touch experience |
+| `Field` + `Input` | Catalogue search and the required session-name field with descriptions/errors |
+| `Checkbox` | Optional multi-select semantics only if usability testing supports it; the explicit add/remove button remains the default card action |
+| `Alert` | Recoverable API errors and headset-compatibility warnings |
+| `Skeleton` / `Spinner` | Initial layout-preserving loads and compact pending actions; always retain a textual status |
+| `Empty` | No catalogue results and no saved sessions, with context-specific next actions |
+| `Pagination` | Server-backed catalogue pagination |
+| `Button` / `Badge` | Foundational actions and concise metadata/status presentation |
+
+Do not install the full registry, force every semantic HTML element through a component, or retain generic shadcn styling unchanged. In particular, a custom video card can remain ordinary semantic markup, and a tooltip must never be the only accessible label.
+
+Official references: [shadcn/ui Base UI components](https://ui.shadcn.com/docs/components/base) and [Base UI React components](https://base-ui.com/react/components/).
 
 ## Runtime topology
 
@@ -133,7 +156,7 @@ Browser persistence must be guarded for server rendering. Read `localStorage` on
 │   ├── lib/
 │   │   ├── api/
 │   │   │   ├── catalogue-client.server.ts
-│   │   │   ├── contracts.ts
+│   │   │   ├── schemas.ts
 │   │   │   └── errors.ts
 │   │   ├── format/
 │   │   └── test/
@@ -167,42 +190,47 @@ Recommended interactive boundaries:
 
 Static logo, primary navigation, headings and page shells should remain Astro/HTML. React Context may be used inside a single island, but it cannot coordinate separate islands; shared draft state belongs in Nano Stores.
 
-## API contracts
+## Runtime schemas and API contracts
 
-Centralise API types and parsing. Do not scatter `as Video` casts through components.
+Centralise Zod schemas and boundary parsing. Treat `response.json()`, BFF request bodies, environment values and persisted browser data as `unknown`; do not scatter `as Video` casts or duplicate schema-shaped TypeScript interfaces through components.
 
-Core contracts:
+Define the runtime schema first and infer its TypeScript type:
 
 ```ts
-interface Video {
-  id: string;
-  title: string;
-  description: string;
-  duration_seconds: number;
-  jobs: string[];
-  audiences: string[];
-  compatible_headsets: string[];
-  thumbnail_url: string | null;
-  published_at: string;
-}
+import * as z from "zod";
 
-interface Session {
-  id: string;
-  name: string;
-  video_ids: string[];
-  headset_id: string | null;
-  created_at: string;
-  total_duration_seconds: number;
-}
+export const VideoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  duration_seconds: z.number().int().nonnegative(),
+  jobs: z.array(z.string()),
+  audiences: z.array(z.string()),
+  compatible_headsets: z.array(z.string()),
+  thumbnail_url: z.string().nullable(),
+  published_at: z.string(),
+});
 
-interface SessionDraft {
-  name: string;
-  headsetId: string | null;
-  videoIds: string[];
-}
+export type Video = z.infer<typeof VideoSchema>;
 ```
 
-The list response also needs typed pagination metadata. Jobs, audiences and headsets need their own reference types. Arrays remain arrays even when empty; do not model `compatible_headsets` as a non-empty tuple.
+Required schemas:
+
+- `VideoSchema` and the paginated video-list schema;
+- `JobSchema`, `AudienceSchema` and `HeadsetSchema`, including their list envelopes;
+- `SessionSchema` and the sessions-list envelope;
+- `CreateSessionSchema`, matching the server's trimmed 1–120 character name, ordered 1–30 video IDs and optional nullable single `headset_id`;
+- the documented API-error and validation-error shapes;
+- `SessionDraftSchema` for data restored from browser persistence;
+- server environment configuration, including `CATALOG_API_URL`.
+
+Use `safeParse` in fetch/storage/configuration adapters and convert failures to one internal contract/configuration error type. Preserve useful diagnostics for development, but show users a concise recoverable service error rather than raw Zod issues.
+
+Response schemas should use normal `z.object` semantics rather than strict objects so an additive upstream field does not break the frontend. Input schemas controlled by this application may reject unknown keys where that improves safety. After a successful parse, internal functions and components trust the inferred type; do not revalidate between internal layers.
+
+The list response also needs typed pagination metadata. Arrays remain arrays even when empty; do not model `compatible_headsets` as a non-empty tuple. Keep transport field names as authored by the API and map them only at an explicit domain/presentation boundary when a different internal name is valuable.
+
+Zod complements strict TypeScript rather than replacing it: TypeScript protects compile-time usage, while Zod verifies data that crosses a runtime boundary. Official references: [Zod schemas and type inference](https://zod.dev/) and [`safeParse`](https://zod.dev/basics).
 
 For saved-session details, resolve `video_ids` against catalogue data without issuing an avoidable request per video. The supplied API has no batch-by-ID endpoint, so reuse cached catalogue items where possible and fetch a bounded catalogue set when necessary. Record a clearer strategy if implementation reveals a better option.
 
@@ -294,7 +322,7 @@ Browser coverage should prioritise:
 ## Delivery sequence
 
 1. Bootstrap Astro, React 18, strict TypeScript and Tailwind; add the page shell and verification scripts.
-2. Define API contracts/client/BFF and prove loading/error handling against the supplied server.
+2. Define Zod schemas, inferred contracts, API client/BFF and prove loading/error handling against the supplied server.
 3. Implement catalogue search, filters, pagination and concise cards.
 4. Implement video details and missing-thumbnail handling.
 5. Implement the persisted ordered draft and responsive `Ma séance` surfaces.
