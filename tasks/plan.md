@@ -42,6 +42,7 @@ Toolchain and scripts
 - Astro uses server output and React 18 with strict TypeScript.
 - Tailwind is configured without installing the full target dependency set prematurely.
 - Implemented scripts cover separate API/web development, combined development, strict checking, tests and production build; documentation claims only commands that exist.
+- The mock API has minimal service-local package metadata so `/server` remains independently runnable and deployable; the API-only root `Dockerfile` is preserved under `archives/` so it cannot be mistaken for the Astro service image.
 - The supplied API still starts and responds without source or catalogue modification.
 
 **Verification:** Run the newly implemented check, test and build scripts plus an API smoke check.
@@ -216,6 +217,26 @@ Keep the README readable in roughly five minutes. Detailed architecture, wirefra
 
 The repository is reproducible, the final README matches the delivered application, known omissions are explicit, and the candidate has personally reviewed the evidence claimed as personal verification.
 
+### Task 11 — Optionally deploy to Railway
+
+**Outcome:** If time remains after Checkpoint E, the reviewed application is available from a public Railway URL without exposing the mock API directly.
+
+**Acceptance criteria:**
+
+- Two Railway services use the same repository with explicit roots: `/` for `web` and `/server` for `api`; deployment does not depend on automatic monorepo discovery.
+- Astro uses the Node adapter in standalone server mode, listens on `0.0.0.0` and Railway's `PORT`, and is the only service with a public domain.
+- The web service's server-only `CATALOG_API_URL` references the API service's `RAILWAY_PRIVATE_DOMAIN` and `PORT`; no private hostname reaches browser code.
+- API-generated thumbnail URLs are exposed through the same-origin BFF proxy, and both services have passing health checks.
+- A production smoke test covers catalogue loading, a thumbnail, draft composition, session saving and saved-session review; documentation states that saved sessions reset on API restart/redeploy.
+
+**Verification:** Inspect both deployment logs and health checks, then run the critical flow against the public URL at mobile and desktop widths.
+
+**Dependencies:** Checkpoint E. Skip this task without penalty if the attention or calendar budget is exhausted.
+
+## Checkpoint F — Optional hosted demo
+
+The public Astro URL serves the verified application, the API remains private, and the final README includes the live link only after the smoke test passes.
+
 ## Risks and mitigations
 
 | Risk | Impact | Mitigation |
@@ -226,6 +247,7 @@ The repository is reproducible, the final README matches the delivered applicati
 | API lacks batch lookup for session video IDs | Saved details trigger excessive requests | Reuse cached catalogue data and implement a bounded resolution strategy |
 | Component primitives are assumed accessible without verification | Keyboard/focus regressions remain hidden | Treat shadcn/Base UI as a foundation and verify actual composed behaviour |
 | Visual polish obscures structural review | Time is spent before workflows are stable | Keep the neutral baseline until a representative slice has been reviewed |
+| Optional deployment displaces required exercise work | Submission quality drops for a non-required extra | Attempt Railway only after Checkpoint E and stop if it threatens the remaining budget |
 
 ## Progress protocol
 

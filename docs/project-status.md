@@ -65,6 +65,7 @@ The accepted product and architecture decisions live in `AGENTS.md`, `docs/archi
 - Heroicons outline as the sole application icon family;
 - no global or project-local shadcn agent skill;
 - the supplied `server/server.mjs` remains a separate, unchanged mock backend;
+- optional Railway deployment is the final step only if time remains, using a public Astro service and a private mock-API service;
 - no Remix.
 
 Do not reopen these decisions without new evidence or an implementation conflict. Record an intentional change in the architecture document rather than silently diverging.
@@ -77,6 +78,7 @@ These are known implementation choices, not missing conversational context:
 - No official brand assets or typeface have been supplied. Do not fabricate an official Métiers360 identity. Begin with the agreed neutral theme, then review the rendered representative slice before refining its accent and typographic treatment.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
+- Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
 
 ## Handoff checklist
 

@@ -37,6 +37,11 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 - [ ] **Task 10:** Complete accessibility/responsive verification and final documentation.
 - [ ] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
 
+## Phase 7 — Optional hosted demo
+
+- [ ] **Task 11 (optional):** Deploy the public Astro service and private mock-API service to Railway.
+- [ ] **Checkpoint F (optional):** Smoke-test the public URL and add it to the README only if verified.
+
 ## Current task
 
 **Pending user instruction:** Task 1 — Bootstrap the frontend toolchain.

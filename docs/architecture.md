@@ -88,10 +88,32 @@ Keep the BFF thin:
 - forward supported query parameters and request bodies;
 - apply timeouts and normalise transport failures;
 - preserve meaningful upstream status codes and validation details;
+- map upstream thumbnail URLs to a same-origin BFF thumbnail endpoint and proxy the SVG response;
 - do not invent business rules that contradict `API.md`;
 - do not duplicate the mock API's catalogue or session storage.
 
 The upstream base URL belongs in server-only configuration, for example `CATALOG_API_URL=http://localhost:4000`. Never expose a secret or server-only variable through a public Astro environment prefix.
+
+The thumbnail mapping is required because the supplied API generates absolute URLs from the host used to call it. In a two-service deployment that host is private and cannot be reached by a browser. Do not return a `*.railway.internal` thumbnail URL to client code or make the API public solely to serve thumbnails.
+
+## Optional Railway deployment topology
+
+Railway deployment is an optional final step after the application and delivery documentation are complete. Keep the repository simple for the exercise rather than restructuring it into a workspace monorepo only to trigger automatic service discovery.
+
+Configure two Railway services explicitly from the same repository:
+
+| Service | Root directory | Build/start direction | Networking |
+|---|---|---|---|
+| `web` | `/` | Build the Astro app; start the Node adapter's standalone `dist/server/entry.mjs` output | Public domain; listen on Railway's `PORT` and `0.0.0.0` |
+| `api` | `/server` | No application build; start `server.mjs` through a small service-local `package.json` | Private only; use the existing `/health` endpoint |
+
+The Astro service receives a server-only `CATALOG_API_URL` reference such as `http://${{api.RAILWAY_PRIVATE_DOMAIN}}:${{api.PORT}}`. Browser requests continue to use only the public Astro origin and its BFF. The API service does not need a public domain.
+
+This layout is compatible with Railway's per-service root directories without assuming that Railway will infer two services from the current single-package repository. During bootstrap, add the service-local API package metadata and relocate the supplied API-only root `Dockerfile` to an archive location: if left at the repository root, Railway may select it for the Astro service. Prefer Railway's native Node build path unless deployment evidence makes service-specific Dockerfiles necessary.
+
+Both services need independent health checks. Deployment verification must also acknowledge that saved sessions are in API process memory and disappear when the API restarts or redeploys.
+
+Official references: [Railway monorepo deployments](https://docs.railway.com/deployments/monorepo), [Railway private domains](https://docs.railway.com/networking/domains/working-with-domains), [Railway variables](https://docs.railway.com/variables/reference), [Railway Astro deployment](https://docs.railway.com/guides/astro), and [Astro Node adapter](https://docs.astro.build/en/guides/integrations-guide/node/).
 
 ## Routes and responsive surfaces
 
@@ -126,6 +148,8 @@ Browser persistence must be guarded for server rendering. Read `localStorage` on
 ├── AGENTS.md
 ├── API.md
 ├── README.md
+├── archives/
+│   └── Dockerfile.api-original
 ├── docs/
 │   ├── architecture.md
 │   └── wireframes/
@@ -134,6 +158,7 @@ Browser persistence must be guarded for server rendering. Read `localStorage` on
 │       └── tablet.md
 ├── server/
 │   ├── data/catalog.json
+│   ├── package.json
 │   └── server.mjs
 ├── src/
 │   ├── components/

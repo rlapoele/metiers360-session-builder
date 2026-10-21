@@ -86,6 +86,7 @@ The wireframes define hierarchy and behaviour, not pixel-perfect styling. Preser
 - TanStack Query inside interactive React surfaces for remote/server state.
 - The supplied `server/server.mjs` remains a separate mock backend.
 - Astro owns presentation and a thin BFF boundary for browser requests.
+- If time remains after submission readiness, the optional final step is a Railway deployment with the public Astro service calling the mock API over Railway private networking.
 - Do not use Remix.
 - shadcn/ui configured with Base UI may be used selectively. Primary candidates are `Sheet`, `Dialog`/`AlertDialog`, `Select`, `Combobox`, `Field`, `Input`, `Checkbox`, `Alert`, `Skeleton`, `Spinner`, `Empty` and `Pagination`, plus foundational `Button`/`Badge` primitives. Install only components required by a real slice, adapt their styling to the product and preserve native semantics where a custom primitive adds no value.
 
