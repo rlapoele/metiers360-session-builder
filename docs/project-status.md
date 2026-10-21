@@ -19,7 +19,7 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
-Wait for the user's explicit instruction to bootstrap. Once authorised, start delivery sequence step 1 from [architecture.md](architecture.md#delivery-sequence):
+Wait for the user's explicit instruction to bootstrap. Once authorised, start Task 1 from the accepted [project plan](../tasks/plan.md) and track progress in [tasks/todo.md](../tasks/todo.md):
 
 1. bootstrap Astro in server mode with React 18, strict TypeScript and Tailwind;
 2. add the application shell for `Catalogue` and `Mes séances`;
@@ -27,6 +27,8 @@ Wait for the user's explicit instruction to bootstrap. Once authorised, start de
 4. verify the initial shell before beginning the API-contract slice.
 
 Do not skip ahead to broad component installation or feature implementation. Keep the first slice independently runnable and reviewable.
+
+The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
 ## Git workflow
 
@@ -80,7 +82,7 @@ These are known implementation choices, not missing conversational context:
 
 At the end of each meaningful slice, update this file with:
 
-- completed delivery-sequence step and next pending step;
+- completed plan task/checkpoint and next pending task;
 - files or areas changed;
 - exact verification commands and their outcomes;
 - known failures, unresolved questions and approvals still needed;

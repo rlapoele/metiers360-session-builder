@@ -9,10 +9,11 @@ Use these sources in this order:
 1. [README.md](README.md) — original exercise, audience, constraints and expected deliverable.
 2. [API.md](API.md) and [server/server.mjs](server/server.mjs) — authoritative API behaviour.
 3. [docs/architecture.md](docs/architecture.md) — intended frontend architecture and ownership boundaries.
-4. The viewport references in [docs/wireframes](docs/wireframes) — agreed information hierarchy and responsive behaviour.
-5. [docs/project-status.md](docs/project-status.md) — current phase, next action, delivery date, Git workflow and open choices.
-6. [docs/exercise-log.md](docs/exercise-log.md) — evidence for the final exercise report, including attention time and AI use.
-7. Existing source and tests, once the frontend has been bootstrapped.
+4. [tasks/plan.md](tasks/plan.md) and [tasks/todo.md](tasks/todo.md) — accepted delivery plan and live progress checklist.
+5. The viewport references in [docs/wireframes](docs/wireframes) — agreed information hierarchy and responsive behaviour.
+6. [docs/project-status.md](docs/project-status.md) — current phase, next action, delivery date, Git workflow and open choices.
+7. [docs/exercise-log.md](docs/exercise-log.md) — evidence for the final exercise report, including attention time and AI use.
+8. Existing source and tests, once the frontend has been bootstrapped.
 
 When these sources conflict, do not silently choose one. Preserve the exercise requirements, report the conflict and ask before changing an accepted product or architecture decision.
 
@@ -134,6 +135,7 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 ## Implementation discipline
 
 - Implement in thin, reviewable slices: shell/contracts, catalogue discovery, draft composition, save flow, saved-session review, then polish.
+- Follow [tasks/plan.md](tasks/plan.md) and update [tasks/todo.md](tasks/todo.md) as each task or checkpoint is verified. Do not mark work complete from implementation alone.
 - Read the relevant wireframe and API section before implementing a slice.
 - Prefer straightforward feature modules over speculative generic abstractions.
 - Keep Astro components for mostly static structure and React islands for real interaction. Do not turn every card into its own island.
