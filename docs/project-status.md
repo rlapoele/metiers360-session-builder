@@ -19,7 +19,7 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
-Start delivery sequence step 1 from [architecture.md](architecture.md#delivery-sequence):
+Wait for the user's explicit instruction to bootstrap. Once authorised, start delivery sequence step 1 from [architecture.md](architecture.md#delivery-sequence):
 
 1. bootstrap Astro in server mode with React 18, strict TypeScript and Tailwind;
 2. add the application shell for `Catalogue` and `Mes séances`;
@@ -59,6 +59,9 @@ The accepted product and architecture decisions live in `AGENTS.md`, `docs/archi
 - URL-owned catalogue state, TanStack Query remote state, and a persisted Nano Stores draft;
 - strict TypeScript plus Zod validation at runtime boundaries;
 - Tailwind and selectively installed shadcn/ui components configured with Base UI;
+- a neutral, content-first initial theme whose semantic CSS variables are mapped into Tailwind's `@theme inline` namespaces;
+- Heroicons outline as the sole application icon family;
+- no global or project-local shadcn agent skill;
 - the supplied `server/server.mjs` remains a separate, unchanged mock backend;
 - no Remix.
 
@@ -69,7 +72,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 These are known implementation choices, not missing conversational context:
 
 - Exact compatible dependency versions will be selected during bootstrap while preserving React 18 and the documented architecture.
-- No official brand assets, palette or typeface have been supplied. Do not fabricate an official Métiers360 identity; use a restrained product treatment unless assets are provided.
+- No official brand assets or typeface have been supplied. Do not fabricate an official Métiers360 identity. Begin with the agreed neutral theme, then review the rendered representative slice before refining its accent and typographic treatment.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 

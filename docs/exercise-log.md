@@ -53,6 +53,7 @@ Candidate choices currently documented:
 - Keep `Catalogue` and `Mes séances` as the only top-level destinations; treat `Ma séance` as the current draft rather than a third page.
 - Keep catalogue cards concise and move complete metadata into a contextual details sheet so the user retains catalogue position.
 - Keep the draft persistently visible on desktop and available as a full-height sheet on smaller viewports, with explicit ordering and compatibility controls.
+- Begin with a neutral, content-first shadcn theme, share its semantic CSS custom properties with Tailwind utilities through `@theme inline`, and use Heroicons outline consistently rather than mixing icon families.
 
 Final wording should state which target users benefit from each choice and should be checked against the implemented interface.
 

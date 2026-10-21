@@ -139,6 +139,8 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 - Keep Astro components for mostly static structure and React islands for real interaction. Do not turn every card into its own island.
 - Keep user-facing copy in French. Code identifiers may be English but must be consistent.
 - Preserve authored/API values; format dates, durations and labels only in presentation helpers.
+- Start from a neutral, content-first shadcn theme and use Heroicons outline as the sole application icon family. Map semantic CSS custom properties into Tailwind's `@theme inline` namespaces so utilities and component styles share one token source.
+- Do not install the shadcn agent skill globally or in this project unless the user explicitly revisits that decision. Use official documentation and inspect CLI-generated changes directly.
 - Do not claim a command exists until it is present in `package.json`.
 - Update `docs/project-status.md` at meaningful handoff points and `docs/exercise-log.md` after each attention session; do not reconstruct either from memory at the end.
 - Whenever work creates, updates or deletes repository content, include a concise suggested commit message in the final handoff. Do not commit unless the user explicitly asks.

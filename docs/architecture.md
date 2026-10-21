@@ -34,6 +34,7 @@ The repository currently contains the supplied Node mock API only. This document
 | Shared client state | Nano Stores | Small framework-agnostic store shared between Astro islands |
 | Remote state | TanStack Query | Loading, error, retry and caching inside cohesive React surfaces |
 | UI primitives | Selective shadcn/ui with Base UI | Accessible sheets, dialogs, selects and fields when they save work |
+| Icons | Heroicons React, 24px outline set | Restrained, consistent icons with explicit individual imports |
 | Tests | Vitest + Testing Library; Playwright for critical flows | Logic/component confidence plus real responsive interaction checks |
 | Backend | Supplied `server/server.mjs` | Exercise-owned mock API with realistic latency and failures |
 
@@ -58,6 +59,8 @@ Use shadcn/ui configured with its Base UI variant as a source of owned, editable
 | `Button` / `Badge` | Foundational actions and concise metadata/status presentation |
 
 Do not install the full registry, force every semantic HTML element through a component, or retain generic shadcn styling unchanged. In particular, a custom video card can remain ordinary semantic markup, and a tooltip must never be the only accessible label.
+
+Do not install the shadcn agent skill globally or locally. The project rules and official documentation provide the required guidance without granting a skill recurring access to the mutable `shadcn@latest` CLI. This can be reconsidered only through an explicit user decision.
 
 Official references: [shadcn/ui Base UI components](https://ui.shadcn.com/docs/components/base) and [Base UI React components](https://base-ui.com/react/components/).
 
@@ -260,7 +263,53 @@ The server validates only known IDs, length and the optional headset ID. The UI 
 
 ## Styling and responsive model
 
-Define a small semantic token layer for surfaces, text, borders, focus and statuses rather than scattering arbitrary colours. Tailwind utilities may consume CSS custom properties.
+### Visual baseline
+
+Start with a calm, neutral, content-first interface. The catalogue thumbnails already provide substantial colour, so application chrome should favour clear hierarchy, borders and spacing over decorative colour or shadow.
+
+- Use the default neutral shadcn theme as the initial foundation, configured with Base UI and CSS variables.
+- Begin with the light theme. Dark-mode tokens may remain structurally available, but a user-facing theme switch is not part of the initial scope.
+- Use moderate rounding, minimal elevation and touch-friendly control sizes.
+- Reserve non-neutral colour for primary actions, selection, keyboard focus, compatibility and system feedback. Neutral does not mean that success, warning, incompatibility and error states become indistinguishable.
+- Treat this baseline as a hypothesis to review after the first representative slice renders a header, search/filter controls, a video card and the draft summary at mobile, tablet and desktop widths.
+
+### Theme-token contract
+
+Keep shadcn CSS custom properties as the single authored theme source under `:root`, with optional `.dark` overrides. Expose each token to Tailwind CSS v4 through the appropriate `@theme inline` namespace so application utilities and shadcn components resolve the same values.
+
+For example:
+
+```css
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --warning: oklch(0.84 0.16 84);
+  --warning-foreground: oklch(0.28 0.07 46);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+}
+```
+
+This mapping produces semantic utilities such as `bg-background`, `text-foreground`, `bg-warning` and `text-warning-foreground`. A custom property is not automatically available as a Tailwind utility: add an explicit `--color-*`, `--radius-*`, `--font-*` or other appropriate namespaced entry in `@theme inline`. Do not maintain a second hard-coded Tailwind palette or scatter raw colour utilities through components.
+
+Use the initial shadcn token set for background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and radius. Add project-specific compatibility/status pairs only when a real UI state requires them, and verify their contrast in context.
+
+Official reference: [shadcn/ui theming](https://ui.shadcn.com/docs/theming).
+
+### Icon contract
+
+Use `@heroicons/react/24/outline` as the sole application icon family. Import icons individually and keep visible text or accessible names for actions; an icon must not be the only label unless the control has an equivalent accessible name and the symbol is conventional in context.
+
+The shadcn generator commonly emits Lucide imports. Replace generated Lucide usage with the corresponding Heroicon before accepting a component, and do not retain both icon dependencies. Use current-colour styling and a consistent rendered size, normally 20–24 CSS pixels depending on control density.
+
+Official reference: [Heroicons React usage](https://github.com/tailwindlabs/heroicons#react).
+
+### Responsive model
 
 Responsive progression:
 
