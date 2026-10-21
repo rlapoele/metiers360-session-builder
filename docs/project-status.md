@@ -22,11 +22,12 @@ This file records transient project state that does not belong in the stable arc
 Wait for the user's explicit instruction to bootstrap. Once authorised, start Task 1 from the accepted [project plan](../tasks/plan.md) and track progress in [tasks/todo.md](../tasks/todo.md):
 
 1. bootstrap Astro in server mode with React 18, strict TypeScript and Tailwind;
-2. add the application shell for `Catalogue` and `Mes séances`;
-3. add only the verification scripts that are genuinely implemented;
-4. verify the initial shell before beginning the API-contract slice.
+2. add only the minimal placeholder page needed to prove the toolchain runs;
+3. add the mock API's service-local package metadata and archive the API-only root `Dockerfile`;
+4. add only the verification scripts that are genuinely implemented;
+5. verify the frontend toolchain and mock API separately and together.
 
-Do not skip ahead to broad component installation or feature implementation. Keep the first slice independently runnable and reviewable.
+Do not begin the `Catalogue` and `Mes séances` application shell until Task 1 has been reviewed; that work belongs to Task 2. Do not skip ahead to broad component installation or feature implementation. Keep the first slice independently runnable and reviewable.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
