@@ -1,0 +1,11 @@
+{
+  "name": "metiers360-catalog-api",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}

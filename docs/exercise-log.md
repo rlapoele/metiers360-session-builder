@@ -28,6 +28,7 @@ AI assistance has been used for:
 - identifying candidate shadcn/ui Base UI primitives and a Zod validation boundary;
 - creating and reviewing repository context documentation;
 - assisting with repository initialization, branch/upstream verification and ignore rules.
+- bootstrapping and verifying the minimal Astro/React/Tailwind frontend foundation while keeping the supplied mock API independently runnable.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -96,3 +97,8 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | Date | Performed by | Command or check | Outcome |
 |---|---|---|---|
 | 2026-10-21 | Agent | Documentation link/structure inspection and `git diff --check` | Passed after the handoff documents were added |
+| 2026-10-21 | Agent | `npm audit --json` | Passed with zero known vulnerabilities after dependency review |
+| 2026-10-21 | Agent | `npm run verify` | Formatting, ESLint, strict Astro/TypeScript checks, configured Vitest runner and production build passed; no behavior test files exist in this foundation-only slice |
+| 2026-10-21 | Agent | Independent production smoke checks for `npm start` and `npm run start:api` | Built Astro page, API health and a one-item catalogue response succeeded |
+| 2026-10-21 | Agent | `npm run dev`, followed by local requests to `/`, `/health` and `/videos?per_page=1` | Both services ran together on ports 4321 and 4000, returned expected responses and stopped together on interrupt |
+| 2026-10-21 | Agent | Real-browser inspection at 390 × 844 CSS pixels | Placeholder title, heading and supporting text rendered with the expected accessible hierarchy; Chrome DevTools MCP was unavailable, so the in-app browser was used |

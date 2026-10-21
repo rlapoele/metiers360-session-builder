@@ -6,7 +6,10 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 1 — Foundation
 
-- [ ] **Task 1:** Bootstrap the frontend toolchain.
+- [x] **Task 1:** Bootstrap the frontend toolchain.
+  - Evidence: `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, the configured test runner and the production build.
+  - Evidence: `npm run dev` served the mock API on port 4000 and the Astro placeholder on port 4321; `/health`, a one-item catalogue request and the rendered page all responded successfully, and one interrupt stopped both processes.
+  - Evidence: the production web server and mock API were also smoke-tested independently; the placeholder was inspected in a real mobile-width browser; `npm audit` reported zero known vulnerabilities.
 - [ ] **Task 2:** Build the responsive application shell.
 - [ ] **Checkpoint A:** Frontend and API run together; routes, verification commands and responsive shell are reviewed.
 
@@ -44,6 +47,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Pending user instruction:** Task 1 — Bootstrap the frontend toolchain.
+**Awaiting review:** Task 1 — Bootstrap the frontend toolchain — is complete.
 
-No implementation task has started.
+The next implementation slice is Task 2 — Build the responsive application shell. Do not begin it without a new user instruction.

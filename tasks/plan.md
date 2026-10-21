@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Frontend implementation has not started.
+Status: accepted on 2026-10-21. Task 1 completed on 2026-10-21; Task 2 awaits review and explicit instruction.
 
 ## Purpose
 

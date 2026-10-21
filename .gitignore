@@ -1,4 +1,12 @@
 node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+coverage/
+playwright-report/
+test-results/
 .DS_Store
 
 # IDE and editor workspace metadata

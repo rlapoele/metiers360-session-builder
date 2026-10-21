@@ -356,20 +356,26 @@ Use content-driven breakpoints and verify around 320, 390, 768, 834, 1024, 1280 
 - Distinguish no catalogue results from an unavailable catalogue.
 - Distinguish no saved sessions from a failed sessions request.
 
-## Expected scripts after bootstrap
+## Implemented foundation scripts
 
-The current `package.json` only provides `npm start` for the API. Do not document these as available until they have been implemented:
+Task 1 implements these root commands:
 
 ```text
 npm run dev          # Astro frontend and mock API together
 npm run dev:web      # Astro only
 npm run dev:api      # supplied mock API only
+npm start            # built Astro server
+npm run start:api    # supplied mock API only
 npm run check        # Astro/TypeScript strict checks
 npm run lint         # source linting
-npm run test         # unit/component tests
-npm run test:browser # critical browser flows
+npm run format       # format supported project files
+npm run format:check # verify formatting
+npm run test         # Vitest unit/component runner
 npm run build        # production build
+npm run verify       # formatting, lint, strict checks, tests and build
 ```
+
+`npm run test:browser` will be introduced when an interaction slice has browser flows to automate. Until then, browser checks are performed directly and recorded in the exercise log.
 
 ## Verification strategy
 
@@ -395,13 +401,14 @@ Browser coverage should prioritise:
 
 ## Delivery sequence
 
-1. Bootstrap Astro, React 18, strict TypeScript and Tailwind; add the page shell and verification scripts.
-2. Define Zod schemas, inferred contracts, API client/BFF and prove loading/error handling against the supplied server.
-3. Implement catalogue search, filters, pagination and concise cards.
-4. Implement video details and missing-thumbnail handling.
-5. Implement the persisted ordered draft and responsive `Ma séance` surfaces.
-6. Implement finalisation/save with validation and failure recovery.
-7. Implement saved-session list and read-only details.
-8. Complete browser accessibility/responsive verification and write the final candidate-facing README.
+1. Bootstrap Astro, React 18, strict TypeScript and Tailwind; add a minimal placeholder and verification scripts.
+2. Add the responsive application shell and neutral semantic theme.
+3. Define Zod schemas, inferred contracts, API client/BFF and prove loading/error handling against the supplied server.
+4. Implement catalogue search, filters, pagination and concise cards.
+5. Implement video details and missing-thumbnail handling.
+6. Implement the persisted ordered draft and responsive `Ma séance` surfaces.
+7. Implement finalisation/save with validation and failure recovery.
+8. Implement saved-session list and read-only details.
+9. Complete browser accessibility/responsive verification and write the final candidate-facing README.
 
 Keep each step independently reviewable and working. The exercise explicitly values stopping deliberately and explaining omissions over presenting an unverified exhaustive build.

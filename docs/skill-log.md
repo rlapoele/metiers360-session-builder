@@ -21,12 +21,16 @@ This document records the distinct agent skills actually applied while deliverin
 | `agent-skills:planning-and-task-breakdown` | 2026-10-21 | Audited the existing delivery sequence, identified the absence of an actionable plan, and decomposed delivery into ordered tasks with acceptance criteria and checkpoints. | `tasks/plan.md` and `tasks/todo.md` |
 | `agent-skills:documentation-and-adrs` | 2026-10-21 | Crystallised durable product, UI-foundation, README, handoff and optional-deployment decisions while keeping rationale separate from transient status. | `docs/architecture.md`, `docs/exercise-log.md`, `docs/project-status.md` and planning updates |
 | `agent-skills:git-workflow-and-versioning` | 2026-10-21 | Kept documentation changes scoped and reviewable through working-tree inspection, diff hygiene and atomic commit-message suggestions. | Per-change status and `git diff --check` verification reported during documentation work |
-| `agent-skills:source-driven-development` | 2026-10-21 | Verified the optional two-service Railway topology and Astro Node deployment requirements against current official documentation before they entered the architecture and plan. | Railway section in `docs/architecture.md` and optional Task 11 in `tasks/plan.md` |
+| `agent-skills:source-driven-development` | 2026-10-21 | Verified the optional two-service Railway topology and Astro Node deployment requirements, then grounded the Task 1 Astro, React and Tailwind configuration in current official documentation and installed-package contracts. | Railway and foundation sections in `docs/architecture.md`, optional Task 11 in `tasks/plan.md`, and the Task 1 configuration files |
+| `agent-skills:incremental-implementation` | 2026-10-21 | Delivered only the accepted Task 1 foundation as a runnable, reviewable slice and stopped before the application shell. | Task 1 implementation and completion evidence in `tasks/todo.md` |
+| `agent-skills:test-driven-development` | 2026-10-21 | Established the Vitest command and full verification gate while recognising that this configuration-only slice introduced no domain behavior requiring a red-green test. | `package.json` scripts and Task 1 verification evidence |
+| `agent-skills:debugging-and-error-recovery` | 2026-10-21 | Traced and resolved the Astro agent-environment background-process behavior, and removed an incompatible vulnerable Astro ESLint parser chain without weakening strict Astro checking. | Foreground combined-development command, ESLint configuration and zero-vulnerability audit evidence |
+| `agent-skills:browser-testing-with-devtools` | 2026-10-21 | Applied the browser-verification workflow to the rendered Task 1 placeholder. Chrome DevTools MCP was unavailable, so the in-app browser was used as the explicit fallback for visual and accessibility-tree inspection. | Browser check recorded in `docs/exercise-log.md` |
 
 ## Explicit exclusions
 
 - The external shadcn skill was evaluated but deliberately not installed or used. Official shadcn/Base UI documentation informed the architecture instead.
-- Skills likely to become relevant during implementation—such as incremental implementation, frontend UI engineering, test-driven development, browser testing, code review or shipping—are not part of the registry until they are actually applied.
+- Skills likely to become relevant later—such as frontend UI engineering, code review or shipping—are not part of the registry until they are actually applied.
 
 ## Maintenance
 

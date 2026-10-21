@@ -2,8 +2,46 @@
   "name": "metiers360-session-builder",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=22.23.4"
+  },
   "scripts": {
-    "start": "node server/server.mjs"
+    "dev": "concurrently --kill-others --names web,api --prefix-colors cyan,magenta \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:web": "astro dev --ignore-lock",
+    "dev:api": "npm --prefix server start",
+    "start": "node ./dist/server/entry.mjs",
+    "start:web": "node ./dist/server/entry.mjs",
+    "start:api": "npm --prefix server start",
+    "check": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{astro,css,ts,tsx}\" \"*.{js,mjs,json,ts}\" \"server/package.json\"",
+    "format:check": "prettier --check \"src/**/*.{astro,css,ts,tsx}\" \"*.{js,mjs,json,ts}\" \"server/package.json\"",
+    "test": "vitest run --passWithNoTests",
+    "build": "astro build",
+    "verify": "npm run format:check && npm run lint && npm run check && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.9",
+    "@astrojs/react": "^7.1.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^4.1.12"
   }
 }

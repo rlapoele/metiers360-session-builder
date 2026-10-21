@@ -14,20 +14,13 @@ This file records transient project state that does not belong in the stable arc
 
 - The supplied mock API, catalogue and original brief are present.
 - Product structure, responsive behavior and intended frontend architecture have been agreed and documented.
-- The frontend has **not** been bootstrapped. There is no Astro application, React source, frontend dependency set or frontend verification command yet.
-- `npm start` is currently the only implemented package script and starts the supplied mock API.
+- Task 1 is complete: the repository now has a minimal Astro 7 server application with the Node adapter, React 18, strict TypeScript and Tailwind CSS 4.
+- The root scripts run and verify the web application; `server/package.json` keeps the supplied mock API independently runnable. The original API-only root Dockerfile is preserved at `archives/Dockerfile.api-original`.
+- The only frontend content is a deliberately minimal French placeholder proving the toolchain. The shared application shell, routes, theme tokens and product UI remain Task 2 work.
 
 ## Next action
 
-Wait for the user's explicit instruction to bootstrap. Once authorised, start Task 1 from the accepted [project plan](../tasks/plan.md) and track progress in [tasks/todo.md](../tasks/todo.md):
-
-1. bootstrap Astro in server mode with React 18, strict TypeScript and Tailwind;
-2. add only the minimal placeholder page needed to prove the toolchain runs;
-3. add the mock API's service-local package metadata and archive the API-only root `Dockerfile`;
-4. add only the verification scripts that are genuinely implemented;
-5. verify the frontend toolchain and mock API separately and together.
-
-Do not begin the `Catalogue` and `Mes séances` application shell until Task 1 has been reviewed; that work belongs to Task 2. Do not skip ahead to broad component installation or feature implementation. Keep the first slice independently runnable and reviewable.
+Review Task 1 and wait for the user's explicit instruction before starting Task 2 from the accepted [project plan](../tasks/plan.md). Task 2 will introduce the `Catalogue` and `Mes séances` routes, shared responsive shell and neutral semantic theme. Do not skip ahead to API contracts, broad component installation or feature implementation.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -75,7 +68,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 
 These are known implementation choices, not missing conversational context:
 
-- Exact compatible dependency versions will be selected during bootstrap while preserving React 18 and the documented architecture.
+- Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
 - No official brand assets or typeface have been supplied. Do not fabricate an official Métiers360 identity. Begin with the agreed neutral theme, then review the rendered representative slice before refining its accent and typographic treatment.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
@@ -92,3 +85,12 @@ At the end of each meaningful slice, update this file with:
 - whether the working tree is intentionally uncommitted.
 
 Record candidate-attention and AI-use evidence separately in `docs/exercise-log.md`.
+
+## Task 1 verification handoff
+
+- `npm run verify`: passed formatting, ESLint, `astro check` with zero diagnostics, Vitest (configured with no behavior tests yet) and the production build.
+- `npm run dev`: served the mock API at `http://localhost:4000` and Astro at `http://localhost:4321`; `/health`, `/videos?per_page=1` and `/` responded successfully; one interrupt stopped both child processes.
+- `npm start` and `npm run start:api`: the built Astro service and mock API were smoke-tested independently.
+- A real browser at 390 × 844 CSS pixels rendered the placeholder with the expected title, heading and content hierarchy.
+- `npm audit`: zero known vulnerabilities after avoiding an incompatible/vulnerable Astro ESLint parser chain; ESLint covers JavaScript/TypeScript and `astro check` validates Astro files.
+- The working tree is intentionally uncommitted pending user review.
