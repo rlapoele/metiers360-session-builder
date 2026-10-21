@@ -1,0 +1,9 @@
+{
+  "name": "kit-exercice-front-api",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/server.mjs"
+  }
+}

@@ -1,0 +1,5502 @@
+{
+  "source": "ROME 4.0 version 61 - 26M06, France Travail, Licence Ouverte 2.0",
+  "headsets": [
+    {
+      "id": "pico-g2-4k",
+      "name": "Pico G2 4K"
+    },
+    {
+      "id": "pico-4",
+      "name": "Pico 4"
+    },
+    {
+      "id": "meta-quest-2",
+      "name": "Meta Quest 2"
+    },
+    {
+      "id": "meta-quest-3",
+      "name": "Meta Quest 3"
+    }
+  ],
+  "audiences": [
+    {
+      "id": "college",
+      "label": "Collégien·nes"
+    },
+    {
+      "id": "lycee",
+      "label": "Lycéen·nes"
+    },
+    {
+      "id": "jeunes-insertion",
+      "label": "Jeunes en insertion (16-25 ans)"
+    },
+    {
+      "id": "adultes-reconversion",
+      "label": "Adultes en reconversion"
+    },
+    {
+      "id": "tout-public",
+      "label": "Tout public"
+    }
+  ],
+  "jobs": [
+    {
+      "code": "A1203",
+      "label": "Agent / Agente d'entretien des espaces verts",
+      "major_domain": {
+        "code": "A",
+        "label": "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux"
+      },
+      "professional_domain": {
+        "code": "A12",
+        "label": "Espaces naturels et espaces verts"
+      },
+      "appellations": [
+        "Adjoint / Adjointe technique (espaces verts)",
+        "Agent / Agente d'entretien des espaces verts",
+        "Agent / Agente technique (espaces verts)",
+        "Aide jardinier / Aide jardinière",
+        "Jardinier municipal / Jardinière municipale",
+        "Manœuvre des espaces verts",
+        "Ouvrier / Ouvrière des espaces verts",
+        "Technicien / Technicienne espaces verts"
+      ]
+    },
+    {
+      "code": "A1208",
+      "label": "Jardinier / Jardinière paysagiste",
+      "major_domain": {
+        "code": "A",
+        "label": "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux"
+      },
+      "professional_domain": {
+        "code": "A12",
+        "label": "Espaces naturels et espaces verts"
+      },
+      "appellations": [
+        "Apprenti / Apprentie paysagiste",
+        "Jardinier / Jardinière",
+        "Jardinier / Jardinière en création",
+        "Jardinier / Jardinière paysagiste",
+        "Ouvrier / Ouvrière du paysage",
+        "Ouvrier / Ouvrière paysagiste",
+        "Paysagiste en création",
+        "Paysagiste en entretien"
+      ]
+    },
+    {
+      "code": "A1501",
+      "label": "Auxiliaire vétérinaire",
+      "major_domain": {
+        "code": "A",
+        "label": "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux"
+      },
+      "professional_domain": {
+        "code": "A15",
+        "label": "Soins aux animaux"
+      },
+      "appellations": [
+        "Aide-vétérinaire",
+        "Auxiliaire Spécialisé / Spécialisée Vétérinaire (ASV)",
+        "Auxiliaire Vétérinaire Qualifié / Qualifiée (AVQ)",
+        "Auxiliaire de santé animale",
+        "Auxiliaire de soins aux animaux",
+        "Auxiliaire de soins vétérinaires",
+        "Auxiliaire de vétérinaire",
+        "Auxiliaire vétérinaire"
+      ]
+    },
+    {
+      "code": "A1416",
+      "label": "Exploitant / Exploitante agricole",
+      "major_domain": {
+        "code": "A",
+        "label": "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux"
+      },
+      "professional_domain": {
+        "code": "A14",
+        "label": "Production"
+      },
+      "appellations": [
+        "Agriculteur / Agricultrice",
+        "Betteravier / Betteravière",
+        "Cultivateur / Cultivatrice",
+        "Céréalier / Céréalière",
+        "Maïsiculteur / Maïsicultrice",
+        "Polyéleveur / Polyéleveuse",
+        "Riziculteur / Rizicultrice",
+        "Sojaculteur / Sojacultrice"
+      ]
+    },
+    {
+      "code": "D1102",
+      "label": "Boulanger / Boulangère",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D11",
+        "label": "Commerce alimentaire et métiers de bouche"
+      },
+      "appellations": [
+        "Aide-boulanger / Aide-boulangère",
+        "Boulanger / Boulangère",
+        "Boulanger(ère)-pâtissier(ère)-traiteur(se)",
+        "Boulanger-pâtissier / Boulangère-pâtissière",
+        "Boulanger-traiteur / Boulangère-traiteuse",
+        "Boulanger-viennoisier / Boulangère-viennoisière",
+        "Ouvrier boulanger / Ouvrière boulangère"
+      ]
+    },
+    {
+      "code": "D1104",
+      "label": "Pâtissier / Pâtissière",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D11",
+        "label": "Commerce alimentaire et métiers de bouche"
+      },
+      "appellations": [
+        "Aide-pâtissier / Aide-pâtissière",
+        "Biscuitier / Biscuitière",
+        "Confiseur / Confiseuse",
+        "Confiturier / Confiturière",
+        "Entremettier / Entremettière",
+        "Ouvrier pâtissier / Ouvrière pâtissière",
+        "Pâtissier / Pâtissière",
+        "Pâtissier tourier / Pâtissière tourière"
+      ]
+    },
+    {
+      "code": "D1106",
+      "label": "Vendeur / Vendeuse en épicerie",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D11",
+        "label": "Commerce alimentaire et métiers de bouche"
+      },
+      "appellations": [
+        "Epicier / Epicière",
+        "Vendeur / Vendeuse de primeurs",
+        "Vendeur / Vendeuse en boucherie",
+        "Vendeur / Vendeuse en charcuterie",
+        "Vendeur / Vendeuse en confiserie",
+        "Vendeur / Vendeuse en crèmerie",
+        "Vendeur / Vendeuse en rôtisserie",
+        "Vendeur / Vendeuse en épicerie"
+      ]
+    },
+    {
+      "code": "D1202",
+      "label": "Coiffeur / Coiffeuse",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D12",
+        "label": "Commerce non alimentaire et de prestations de confort"
+      },
+      "appellations": [
+        "Coiffeur / Coiffeuse",
+        "Coiffeur / Coiffeuse dames",
+        "Coiffeur / Coiffeuse messieurs",
+        "Coiffeur / Coiffeuse mixte",
+        "Coiffeur / Coiffeuse styliste",
+        "Coiffeur / Coiffeuse visagiste",
+        "Coloriste permanentiste",
+        "Styliste visagiste en coiffure"
+      ]
+    },
+    {
+      "code": "D1208",
+      "label": "Esthéticien / Esthéticienne",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D12",
+        "label": "Commerce non alimentaire et de prestations de confort"
+      },
+      "appellations": [
+        "Cosméticien / Cosméticienne",
+        "Employé / Employée d'institut de beauté",
+        "Esthéticien / Esthéticienne",
+        "Esthéticien / Esthéticienne à domicile",
+        "Esthéticien-manucure / Esthéticienne-manucure",
+        "Maquilleur beauté / Maquilleuse beauté",
+        "Maquilleur corporel / Maquilleuse corporelle",
+        "Vendeur / Vendeuse en produits de beauté"
+      ]
+    },
+    {
+      "code": "D1211",
+      "label": "Vendeur / Vendeuse d'articles de sport et loisirs",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D12",
+        "label": "Commerce non alimentaire et de prestations de confort"
+      },
+      "appellations": [
+        "Skiman / Skiwoman",
+        "Vendeur / Vendeuse en articles de sport",
+        "Vendeur / Vendeuse en cycles",
+        "Vendeur / Vendeuse en jeux vidéo",
+        "Vendeur / Vendeuse en jeux électroniques",
+        "Vendeur / Vendeuse en ski",
+        "Vendeur / Vendeuse en équipement de sport",
+        "Vendeur armurier / Vendeuse armurière"
+      ]
+    },
+    {
+      "code": "D1214",
+      "label": "Vendeur / Vendeuse en prêt-à-porter",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D12",
+        "label": "Commerce non alimentaire et de prestations de confort"
+      },
+      "appellations": [
+        "Vendeur / Vendeuse d'articles de seconde main",
+        "Vendeur / Vendeuse en lingerie",
+        "Vendeur / Vendeuse en prêt-à-porter",
+        "Vendeur / Vendeuse en prêt-à-porter de luxe",
+        "Vendeur / Vendeuse en prêt-à-porter enfant",
+        "Vendeur / Vendeuse en prêt-à-porter féminin",
+        "Vendeur / Vendeuse en prêt-à-porter masculin"
+      ]
+    },
+    {
+      "code": "D1501",
+      "label": "Animateur / Animatrice de vente",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D15",
+        "label": "Grande distribution"
+      },
+      "appellations": [
+        "Agent / Agente de promotion des ventes",
+        "Animateur / Animatrice de réseau",
+        "Animateur / Animatrice de vente",
+        "Animateur / Animatrice des ventes",
+        "Animateur commercial / Animatrice commerciale",
+        "Animateur-démonstrateur / Animatrice-démonstratrice",
+        "Démonstrateur / Démonstratrice"
+      ]
+    },
+    {
+      "code": "D1505",
+      "label": "Hôte / Hôtesse de caisse",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D15",
+        "label": "Grande distribution"
+      },
+      "appellations": [
+        "Caissier / Caissière",
+        "Caissier / Caissière de parking",
+        "Caissier / Caissière en libre-service",
+        "Caissier / Caissière en restauration",
+        "Caissier / Caissière pompiste",
+        "Caissier / Caissière roller",
+        "Caissier / Caissière spectacle",
+        "Hôte / Hôtesse de caisse"
+      ]
+    },
+    {
+      "code": "D1507",
+      "label": "Employé / Employée de rayon libre-service",
+      "major_domain": {
+        "code": "D",
+        "label": "Commerce, Vente et Grande distribution"
+      },
+      "professional_domain": {
+        "code": "D15",
+        "label": "Grande distribution"
+      },
+      "appellations": [
+        "Employé / Employée de libre-service",
+        "Employé / Employée de rayon",
+        "Employé / Employée de rayon bazar",
+        "Employé / Employée de rayon jouets",
+        "Employé / Employée de rayon liquides",
+        "Employé / Employée de rayon sport",
+        "Employé / Employée de rayon surgelés",
+        "Employé / Employée de rayon textile"
+      ]
+    },
+    {
+      "code": "F1602",
+      "label": "Electricien / Electricienne du bâtiment",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F16",
+        "label": "Second oeuvre"
+      },
+      "appellations": [
+        "Câbleur / Câbleuse du bâtiment",
+        "Electricien / Electricienne d'équipement",
+        "Electricien / Electricienne de chantier",
+        "Electricien / Electricienne du bâtiment",
+        "Electricien / Electricienne photovoltaïque",
+        "Electricien / Electricienne tertiaire",
+        "Enseigniste",
+        "Monteur électricien / Monteuse électricienne"
+      ]
+    },
+    {
+      "code": "F1603",
+      "label": "Plombier / Plombière sanitaire",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F16",
+        "label": "Second oeuvre"
+      },
+      "appellations": [
+        "Aide plombier / Aide plombière",
+        "Artisan plombier / Artisane plombière",
+        "Installateur / Installatrice en sanitaire",
+        "Monteur / Monteuse de brûleurs à fuel et gaz",
+        "Monteur / Monteuse sanitaire",
+        "Plombier / Plombière",
+        "Plombier / Plombière sanitaire",
+        "Plombier zingueur / Plombière zingueuse"
+      ]
+    },
+    {
+      "code": "F1703",
+      "label": "Maçon / Maçonne",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F17",
+        "label": "Travaux et gros oeuvre"
+      },
+      "appellations": [
+        "Brasqueur / Brasqueuse",
+        "Briqueteur / Briqueteuse",
+        "Chapiste",
+        "Cimentier / Cimentière",
+        "Maçon / Maçonne",
+        "Maçon / Maçonne pierre",
+        "Murailler / Muraillère",
+        "Parpineur / Parpineuse"
+      ]
+    },
+    {
+      "code": "F1704",
+      "label": "Manœuvre du Bâtiment et des Travaux Publics",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F17",
+        "label": "Travaux et gros oeuvre"
+      },
+      "appellations": [
+        "Aide-maçon / Aide-maçonne",
+        "Borneur / Borneuse",
+        "Gravatier / Gravatière",
+        "Manœuvre bâtiment",
+        "Manœuvre de chantier",
+        "Manœuvre gros œuvre",
+        "Manœuvre travaux publics",
+        "Terrassier / Terrassière"
+      ]
+    },
+    {
+      "code": "F1606",
+      "label": "Peintre en bâtiment",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F16",
+        "label": "Second oeuvre"
+      },
+      "appellations": [
+        "Aide peintre",
+        "Peintre d'intérieur",
+        "Peintre en bâtiment",
+        "Peintre en lettres",
+        "Peintre vitrier / Peintre vitrière",
+        "Poseur / Poseuse de papiers peints",
+        "Poseur / Poseuse de plafonds tendus",
+        "Poseur / Poseuse de tissu tendu"
+      ]
+    },
+    {
+      "code": "F1607",
+      "label": "Menuisier / Menuisière aluminium",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F16",
+        "label": "Second oeuvre"
+      },
+      "appellations": [
+        "Assembleur / Assembleuse de menuiserie aluminium",
+        "Menuisier / Menuisière aluminium",
+        "Menuisier fabricant / Menuisière fabricante aluminium",
+        "Monteur / Monteuse de menuiserie aluminium",
+        "Monteur assembleur / Monteuse assembleuse aluminium"
+      ]
+    },
+    {
+      "code": "F1604",
+      "label": "Plaquiste",
+      "major_domain": {
+        "code": "F",
+        "label": "Construction, Bâtiment et Travaux publics"
+      },
+      "professional_domain": {
+        "code": "F16",
+        "label": "Second oeuvre"
+      },
+      "appellations": [
+        "Jointeur / Jointeuse plaquiste",
+        "Jointoyeur / Jointoyeuse",
+        "Modeleur / Modeleuse plaquiste",
+        "Monteur / Monteuse en faux-plafonds",
+        "Monteur / Monteuse plaquiste",
+        "Plaquiste",
+        "Poseur / Poseuse de cloisons",
+        "Poseur / Poseuse de faux-plafonds"
+      ]
+    },
+    {
+      "code": "G1602",
+      "label": "Commis / Commise de cuisine",
+      "major_domain": {
+        "code": "G",
+        "label": "Hôtellerie-Restauration, Tourisme, Loisirs et Animation"
+      },
+      "professional_domain": {
+        "code": "G16",
+        "label": "Production culinaire"
+      },
+      "appellations": [
+        "Agent / Agente de cuisine",
+        "Aide de cuisine",
+        "Commis / Commise de cuisine",
+        "Commis de cuisine tournant / Commise de cuisine tournante",
+        "Commis pâtissier / Commise pâtissière de restaurant"
+      ]
+    },
+    {
+      "code": "G1609",
+      "label": "Cuisinier / Cuisinière",
+      "major_domain": {
+        "code": "G",
+        "label": "Hôtellerie-Restauration, Tourisme, Loisirs et Animation"
+      },
+      "professional_domain": {
+        "code": "G16",
+        "label": "Production culinaire"
+      },
+      "appellations": [
+        "Chef / Cheffe de partie",
+        "Chef de cuisine à domicile",
+        "Chef saucier / Cheffe saucière",
+        "Cuisinier / Cuisinière",
+        "Demi-chef de partie",
+        "Grillardin / Grillardine",
+        "Second / Seconde de cuisine",
+        "Sushiman / Sushiwoman"
+      ]
+    },
+    {
+      "code": "G1803",
+      "label": "Serveur / Serveuse en restauration",
+      "major_domain": {
+        "code": "G",
+        "label": "Hôtellerie-Restauration, Tourisme, Loisirs et Animation"
+      },
+      "professional_domain": {
+        "code": "G18",
+        "label": "Service"
+      },
+      "appellations": [
+        "Commis / Commise de restaurant",
+        "Commis / Commise de room service",
+        "Commis / Commise de salle",
+        "Commis / Commise de salle runner",
+        "Garçon / Serveuse de restaurant",
+        "Hôte / Hôtesse de salle",
+        "Serveur / Serveuse de banquet",
+        "Serveur / Serveuse de bar"
+      ]
+    },
+    {
+      "code": "G1703",
+      "label": "Réceptionniste",
+      "major_domain": {
+        "code": "G",
+        "label": "Hôtellerie-Restauration, Tourisme, Loisirs et Animation"
+      },
+      "professional_domain": {
+        "code": "G17",
+        "label": "Accueil en hôtellerie"
+      },
+      "appellations": [
+        "Night audit",
+        "Night auditor",
+        "Préposé / Préposée au camping",
+        "Réceptionniste",
+        "Réceptionniste d'hôtel",
+        "Réceptionniste de camping",
+        "Réceptionniste de nuit",
+        "Réceptionniste en hôtellerie"
+      ]
+    },
+    {
+      "code": "G1201",
+      "label": "Guide-accompagnateur / Guide-accompagnatrice",
+      "major_domain": {
+        "code": "G",
+        "label": "Hôtellerie-Restauration, Tourisme, Loisirs et Animation"
+      },
+      "professional_domain": {
+        "code": "G12",
+        "label": "Animation d'activités de loisirs"
+      },
+      "appellations": [
+        "Accompagnateur / Accompagnatrice de voyages",
+        "Accompagnateur / Accompagnatrice tourisme",
+        "Accompagnateur / Accompagnatrice touristique",
+        "Agent / Agente d'accompagnement du tourisme",
+        "Guide de pays",
+        "Guide de tourisme d'aventure",
+        "Guide tour leader",
+        "Guide touristique"
+      ]
+    },
+    {
+      "code": "H2913",
+      "label": "Soudeur / Soudeuse",
+      "major_domain": {
+        "code": "H",
+        "label": "Industrie"
+      },
+      "professional_domain": {
+        "code": "H29",
+        "label": "Mécanique, travail des métaux et outillage"
+      },
+      "appellations": [
+        "Soudeur / Soudeuse",
+        "Soudeur / Soudeuse au plasma",
+        "Soudeur / Soudeuse aéronautique",
+        "Soudeur / Soudeuse ferroviaire",
+        "Soudeur / Soudeuse fil fourré",
+        "Soudeur / Soudeuse nucléaire",
+        "Soudeur / Soudeuse à la flamme",
+        "Soudobraseur / Soudobraseuse"
+      ]
+    },
+    {
+      "code": "H2903",
+      "label": "Usineur / Usineuse",
+      "major_domain": {
+        "code": "H",
+        "label": "Industrie"
+      },
+      "professional_domain": {
+        "code": "H29",
+        "label": "Mécanique, travail des métaux et outillage"
+      },
+      "appellations": [
+        "Aléseur / Aléseuse",
+        "Décolleteur / Décolleteuse",
+        "Erodeur / Erodeuse",
+        "Fraiseur / Fraiseuse",
+        "Mortaiseur / Mortaiseuse",
+        "Radialeur / Radialeuse",
+        "Tourneur / Tourneuse",
+        "Usineur / Usineuse"
+      ]
+    },
+    {
+      "code": "H2102",
+      "label": "Conducteur / Conductrice de machines en industrie alimentaire",
+      "major_domain": {
+        "code": "H",
+        "label": "Industrie"
+      },
+      "professional_domain": {
+        "code": "H21",
+        "label": "Alimentaire"
+      },
+      "appellations": [
+        "Conducteur / Conductrice d'équipement agroalimentaire",
+        "Conducteur / Conductrice de ligne en industrie laitière",
+        "Conducteur / Conductrice de moulins",
+        "Conducteur(trice) d'appareils en industrie alimentaire",
+        "Conducteur(trice) de ligne automatisée ind alimentaire",
+        "Conducteur(trice) de ligne en boulangerie industrielle",
+        "Conducteur(trice) de machines en industrie alimentaire",
+        "Minotier / Minotière"
+      ]
+    },
+    {
+      "code": "H3302",
+      "label": "Agent / Agente de conditionnement",
+      "major_domain": {
+        "code": "H",
+        "label": "Industrie"
+      },
+      "professional_domain": {
+        "code": "H33",
+        "label": "Préparation et conditionnement"
+      },
+      "appellations": [
+        "Agent / Agente d'opérations manuelles",
+        "Agent / Agente de conditionnement",
+        "Agent / Agente de conditionnement manuel",
+        "Conditionneur / Conditionneuse main",
+        "Echantillonneur / Echantillonneuse en tissu",
+        "Opérateur / Opératrice de calibrage",
+        "Opérateur / Opératrice de finition manuelle",
+        "Trieur / Trieuse de placage"
+      ]
+    },
+    {
+      "code": "I1604",
+      "label": "Mécanicien / Mécanicienne automobile",
+      "major_domain": {
+        "code": "I",
+        "label": "Installation et Maintenance"
+      },
+      "professional_domain": {
+        "code": "I16",
+        "label": "Véhicules, engins, aéronefs"
+      },
+      "appellations": [
+        "Artisan mécanicien / Artisane mécanicienne",
+        "Essayeur metteur / Essayeuse metteuse au point",
+        "Garagiste",
+        "Garagiste-mécanicien / Garagiste-mécanicienne",
+        "Mécanicien / Mécanicienne VL",
+        "Mécanicien / Mécanicienne automobile",
+        "Mécanicien / Mécanicienne de garage automobile",
+        "Technicien / Technicienne en systèmes pneumatiques"
+      ]
+    },
+    {
+      "code": "I1606",
+      "label": "Carrossier-peintre / Carrossière-peintre",
+      "major_domain": {
+        "code": "I",
+        "label": "Installation et Maintenance"
+      },
+      "professional_domain": {
+        "code": "I16",
+        "label": "Véhicules, engins, aéronefs"
+      },
+      "appellations": [
+        "Aide carrossier / Aide carrossière",
+        "Artisan carrossier / Artisane carrossière",
+        "Carrossier / Carrossière",
+        "Carrossier / Carrossière poids lourds",
+        "Carrossier-peintre / Carrossière-peintre",
+        "Carrossier-tôlier / Carrossière-tôlière",
+        "Ouvrier / Ouvrière finition carrosserie",
+        "Réparateur / Réparatrice en carrosserie"
+      ]
+    },
+    {
+      "code": "I1607",
+      "label": "Mécanicien / Mécanicienne motocycles",
+      "major_domain": {
+        "code": "I",
+        "label": "Installation et Maintenance"
+      },
+      "professional_domain": {
+        "code": "I16",
+        "label": "Véhicules, engins, aéronefs"
+      },
+      "appellations": [
+        "Motociste",
+        "Mécanicien / Mécanicienne moto",
+        "Mécanicien / Mécanicienne moto-scooter",
+        "Mécanicien / Mécanicienne motocycles",
+        "Mécanicien réparateur / Mécanicienne réparatrice motocycle",
+        "Mécanicien-vendeur / Mécanicienne-vendeuse moto"
+      ]
+    },
+    {
+      "code": "I1309",
+      "label": "Electricien / Electricienne de maintenance",
+      "major_domain": {
+        "code": "I",
+        "label": "Installation et Maintenance"
+      },
+      "professional_domain": {
+        "code": "I13",
+        "label": "Equipements de production, équipements collectifs"
+      },
+      "appellations": [
+        "Agent / Agente Electricité Nucléaire",
+        "Electricien / Electricienne",
+        "Electricien / Electricienne de bord embarqué",
+        "Electricien / Electricienne de maintenance",
+        "Electricien / Electricienne haute tension",
+        "Electricien(ne) d'installation industrielle",
+        "Electricien(ne) de maintenance itinérant(e)",
+        "Retoucheur / Retoucheuse électrique"
+      ]
+    },
+    {
+      "code": "I1307",
+      "label": "Antenniste",
+      "major_domain": {
+        "code": "I",
+        "label": "Installation et Maintenance"
+      },
+      "professional_domain": {
+        "code": "I13",
+        "label": "Equipements de production, équipements collectifs"
+      },
+      "appellations": [
+        "Antenniste",
+        "Monteur / Monteuse en paraboles et antennes",
+        "Technicien / Technicienne d'installation en courants faibles"
+      ]
+    },
+    {
+      "code": "J1501",
+      "label": "Aide-soignant / Aide-soignante",
+      "major_domain": {
+        "code": "J",
+        "label": "Santé"
+      },
+      "professional_domain": {
+        "code": "J15",
+        "label": "Soins paramédicaux"
+      },
+      "appellations": [
+        "Aide-soignant / Aide-soignante",
+        "Aide-soignant / Aide-soignante en gériatrie"
+      ]
+    },
+    {
+      "code": "J1506",
+      "label": "Infirmier / Infirmière en soins généraux (IDE)",
+      "major_domain": {
+        "code": "J",
+        "label": "Santé"
+      },
+      "professional_domain": {
+        "code": "J15",
+        "label": "Soins paramédicaux"
+      },
+      "appellations": [
+        "Infirmier / Infirmière de soins généraux",
+        "Infirmier / Infirmière en gériatrie",
+        "Infirmier / Infirmière en hémodialyse",
+        "Infirmier / Infirmière en santé mentale",
+        "Infirmier / Infirmière en stomatothérapie",
+        "Infirmier / Infirmière hygiéniste",
+        "Infirmier / Infirmière militaire",
+        "Infirmier / Infirmière psychiatrique"
+      ]
+    },
+    {
+      "code": "J1302",
+      "label": "Technicien / Technicienne de laboratoire d'analyses médicales",
+      "major_domain": {
+        "code": "J",
+        "label": "Santé"
+      },
+      "professional_domain": {
+        "code": "J13",
+        "label": "Professionnels médico-techniques"
+      },
+      "appellations": [
+        "Aide de laboratoire médical",
+        "Laborantin / Laborantine d'analyses médicales",
+        "Laborantin / Laborantine dans le secteur médical",
+        "Technicien / Technicienne de biologie médicale",
+        "Technicien(ne) biologiste médical(e)",
+        "Technicien(ne) de laboratoire d'analyses médicales"
+      ]
+    },
+    {
+      "code": "K1302",
+      "label": "Assistant / Assistante de vie dépendance",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K13",
+        "label": "Aide à la vie quotidienne"
+      },
+      "appellations": [
+        "Aide aux personnes âgées",
+        "Assistant / Assistante de vie auprès de personnes âgées",
+        "Assistant / Assistante de vie dépendance",
+        "Assistant(e) de vie auprès de personnes handicapées",
+        "Auxiliaire familiale et sanitaire",
+        "Pair-Aidant / Pair-Aidante"
+      ]
+    },
+    {
+      "code": "K1303",
+      "label": "Garde d'enfant",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K13",
+        "label": "Aide à la vie quotidienne"
+      },
+      "appellations": [
+        "Baby-sitter",
+        "Garde d'enfant",
+        "Garde d'enfant à domicile",
+        "Gouvernant / Gouvernante d'enfant à domicile"
+      ]
+    },
+    {
+      "code": "K1304",
+      "label": "Employé familial / Employée familiale",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K13",
+        "label": "Aide à la vie quotidienne"
+      },
+      "appellations": [
+        "Aide familial / Aide familiale",
+        "Aide à domicile",
+        "Employé / Employée de maison",
+        "Employé / Employée de ménage",
+        "Employé familial / Employée familiale",
+        "Employé familial / Employée familiale de maison"
+      ]
+    },
+    {
+      "code": "K2111",
+      "label": "Formateur / Formatrice",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K21",
+        "label": "Formation initiale et continue"
+      },
+      "appellations": [
+        "E-formateur / E-formatrice",
+        "Formateur / Formatrice",
+        "Formateur / Formatrice bâtiment",
+        "Formateur / Formatrice d'adultes",
+        "Formateur / Formatrice d'anglais",
+        "Formateur / Formatrice d'arabe",
+        "Formateur / Formatrice d'italien",
+        "Formateur / Formatrice de russe"
+      ]
+    },
+    {
+      "code": "K1707",
+      "label": "Policier municipal / Policière municipale",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K17",
+        "label": "Défense, sécurité publique et secours"
+      },
+      "appellations": [
+        "Agent / Agente de police municipale",
+        "Agent / Agente de surveillance des parcs et jardins",
+        "Brigadier / Brigadière de police municipale",
+        "Brigadier-chef / Brigadière-chef de police municipale",
+        "Gardien(ne) principal(e) de police municipale",
+        "Inspecteur / Inspectrice de sécurité de la commune",
+        "Opérateur(trice) de vidéoprotection de police municipale",
+        "Policier municipal / Policière municipale"
+      ]
+    },
+    {
+      "code": "K2204",
+      "label": "Agent / Agente de nettoyage industriel",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K22",
+        "label": "Nettoyage et propreté industriels"
+      },
+      "appellations": [
+        "Agent / Agente de nettoyage industriel",
+        "Agent / Agente machiniste en propreté",
+        "Chef / Cheffe d'équipe nettoyage industriel",
+        "Chef / Cheffe d'équipe propreté",
+        "Feutier / Feutière",
+        "Nettoyeur / Nettoyeuse de locaux industriels",
+        "Opérateur / Opératrice hygiène sanitation",
+        "Ouvrier / Ouvrière de nettoyage industriel"
+      ]
+    },
+    {
+      "code": "K1801",
+      "label": "Conseiller / Conseillère en insertion professionnelle",
+      "major_domain": {
+        "code": "K",
+        "label": "Services à la personne et à la collectivité"
+      },
+      "professional_domain": {
+        "code": "K18",
+        "label": "Développement territorial et emploi"
+      },
+      "appellations": [
+        "Conseiller / Conseillère France Travail",
+        "Conseiller / Conseillère des métiers",
+        "Conseiller / Conseillère du travail",
+        "Conseiller / Conseillère emploi formation",
+        "Conseiller / Conseillère en outplacement",
+        "Conseiller / Conseillère en recherche d'emploi",
+        "Conseiller / Conseillère à l'emploi",
+        "Consultant / Consultante emploi formation"
+      ]
+    },
+    {
+      "code": "M1607",
+      "label": "Assistant administratif / Assistante administrative",
+      "major_domain": {
+        "code": "M",
+        "label": "Support à l'entreprise"
+      },
+      "professional_domain": {
+        "code": "M16",
+        "label": "Secrétariat et assistance"
+      },
+      "appellations": [
+        "Auxiliaire de bureau",
+        "Employé / Employée aux archives",
+        "Employé / Employée de bureau",
+        "Secrétaire",
+        "Secrétaire bureautique",
+        "Secrétaire d'affaires",
+        "Secrétaire généraliste",
+        "Secrétaire sténo-dactylo"
+      ]
+    },
+    {
+      "code": "M1805",
+      "label": "Développeur / Développeuse informatique",
+      "major_domain": {
+        "code": "M",
+        "label": "Support à l'entreprise"
+      },
+      "professional_domain": {
+        "code": "M18",
+        "label": "Systèmes d'information et de télécommunication"
+      },
+      "appellations": [
+        "Analyste développeur / Analyste développeuse",
+        "Analyste-programmeur(se) gestion informatique",
+        "Développeur / Développeuse IOT",
+        "Développeur / Développeuse informatique",
+        "Développeur / Développeuse systèmes embarqués",
+        "Informaticien / Informaticienne",
+        "Programmeur / Programmeuse d'études",
+        "Programmeur / Programmeuse informatique"
+      ]
+    },
+    {
+      "code": "M1801",
+      "label": "Administrateur / Administratrice de systèmes d'information (SI)",
+      "major_domain": {
+        "code": "M",
+        "label": "Support à l'entreprise"
+      },
+      "professional_domain": {
+        "code": "M18",
+        "label": "Systèmes d'information et de télécommunication"
+      },
+      "appellations": [
+        "Administrateur / Administratrice d'infrastructure",
+        "Administrateur / Administratrice informatique",
+        "Administrateur / Administratrice réseau informatique",
+        "Administrateur / Administratrice système informatique",
+        "Administrateur / Administratrice systèmes et réseaux",
+        "Administrateur(trice) de systèmes d'information (SI)",
+        "Gestionnaire de système informatique",
+        "Responsable de gestion de configuration"
+      ]
+    },
+    {
+      "code": "N1103",
+      "label": "Préparateur / Préparatrice de commandes",
+      "major_domain": {
+        "code": "N",
+        "label": "Transport et Logistique"
+      },
+      "professional_domain": {
+        "code": "N11",
+        "label": "Magasinage, manutention des charges et déménagement"
+      },
+      "appellations": [
+        "Agent / Agente de préparation de commandes",
+        "Préparateur / Préparatrice de commandes",
+        "Préparateur / Préparatrice logistique en entrepôt"
+      ]
+    },
+    {
+      "code": "N1101",
+      "label": "Cariste",
+      "major_domain": {
+        "code": "N",
+        "label": "Transport et Logistique"
+      },
+      "professional_domain": {
+        "code": "N11",
+        "label": "Magasinage, manutention des charges et déménagement"
+      },
+      "appellations": [
+        "Cariste",
+        "Cariste d'entrepôt",
+        "Cariste en préparation logistique",
+        "Cariste manutentionnaire",
+        "Cariste réceptionnaire",
+        "Cariste secteur industrie",
+        "Conducteur / Conductrice de nacelle",
+        "Tractoriste logistique"
+      ]
+    },
+    {
+      "code": "N4101",
+      "label": "Conducteur / Conductrice de poids lourd",
+      "major_domain": {
+        "code": "N",
+        "label": "Transport et Logistique"
+      },
+      "professional_domain": {
+        "code": "N41",
+        "label": "Personnel de conduite du transport routier"
+      },
+      "appellations": [
+        "Camionneur / Camionneuse",
+        "Chauffeur / Chauffeuse de poids lourd",
+        "Chauffeur routier / Chauffeuse routière",
+        "Conducteur / Conductrice de poids lourd",
+        "Conducteur collecteur / Conductrice collectrice de lait",
+        "Conducteur routier / Conductrice routière",
+        "Routier / Routière",
+        "Transporteur routier / Transporteuse routière"
+      ]
+    },
+    {
+      "code": "N4105",
+      "label": "Conducteur-livreur / Conductrice-livreuse",
+      "major_domain": {
+        "code": "N",
+        "label": "Transport et Logistique"
+      },
+      "professional_domain": {
+        "code": "N41",
+        "label": "Personnel de conduite du transport routier"
+      },
+      "appellations": [
+        "Chauffeur-livreur / Chauffeuse-livreuse",
+        "Conducteur livreur / Conductrice livreuse messagerie",
+        "Conducteur-livreur / Conductrice-livreuse",
+        "Livreur / Livreuse",
+        "Livreur / Livreuse de marchandises à domicile",
+        "Livreur / Livreuse de plats cuisinés",
+        "Livreur / Livreuse en alimentation",
+        "Livreur-vendeur / Livreuse-vendeuse"
+      ]
+    },
+    {
+      "code": "N4103",
+      "label": "Conducteur / Conductrice de bus",
+      "major_domain": {
+        "code": "N",
+        "label": "Transport et Logistique"
+      },
+      "professional_domain": {
+        "code": "N41",
+        "label": "Personnel de conduite du transport routier"
+      },
+      "appellations": [
+        "Chauffeur / Chauffeuse de bus",
+        "Chauffeur / Chauffeuse de ramassage de personnes",
+        "Conducteur / Conductrice d'autobus",
+        "Conducteur / Conductrice de bus",
+        "Conducteur / Conductrice de bus sur piste aéroport",
+        "Conducteur / Conductrice machiniste",
+        "Conducteur-receveur / Conductrice-receveuse",
+        "Machiniste-receveur / Machiniste-receveuse"
+      ]
+    },
+    {
+      "code": "E1205",
+      "label": "Designer graphique",
+      "major_domain": {
+        "code": "E",
+        "label": "Communication, Média et Multimédia"
+      },
+      "professional_domain": {
+        "code": "E12",
+        "label": "Images et sons"
+      },
+      "appellations": [
+        "Affichiste",
+        "Coloriste numérique",
+        "Designer graphique",
+        "Graphiste",
+        "Graphiste 2 D",
+        "Graphiste 3 D",
+        "Infographiste",
+        "Stéréographe 3D"
+      ]
+    },
+    {
+      "code": "L1501",
+      "label": "Maquilleur / Maquilleuse spectacle",
+      "major_domain": {
+        "code": "L",
+        "label": "Spectacle"
+      },
+      "professional_domain": {
+        "code": "L15",
+        "label": "Techniciens du spectacle"
+      },
+      "appellations": [
+        "Assistant maquilleur / Assistante maquilleuse spectacle",
+        "Chef maquilleur / Cheffe maquilleuse spectacle",
+        "Chef(fe) maquilleur(se) posticheur(se) spectacle",
+        "Concepteur / Conceptrice maquillages spectacle",
+        "Maquilleur / Maquilleuse effets spéciaux",
+        "Maquilleur / Maquilleuse spectacle",
+        "Maquilleur coiffeur / Maquilleuse coiffeuse spectacle",
+        "Maquilleur-posticheur / Maquilleuse-posticheuse spectacle"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "id": "vid_001",
+      "title": "Une journée avec Omar, jardinier municipal",
+      "description": "Immersion aux côtés d'Omar : les débuts dans le métier.",
+      "duration_seconds": 455,
+      "jobs": [
+        "A1203"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_001.svg",
+      "published_at": "2024-04-11"
+    },
+    {
+      "id": "vid_002",
+      "title": "Une journée avec Hugo, agent d'entretien des espaces verts",
+      "description": "Hugo vous fait découvrir son métier d'agent d'entretien des espaces verts, une journée type.",
+      "duration_seconds": 439,
+      "jobs": [
+        "A1203"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_002.svg",
+      "published_at": "2023-07-11"
+    },
+    {
+      "id": "vid_003",
+      "title": "Aïcha, ouvrière du paysage de nuit",
+      "description": "Aïcha vous fait découvrir son métier d'ouvrière du paysage, les outils du quotidien.",
+      "duration_seconds": 148,
+      "jobs": [
+        "A1208",
+        "A1203"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_003.svg",
+      "published_at": "2023-02-08"
+    },
+    {
+      "id": "vid_004",
+      "title": "Paysagiste en création : les outils du quotidien",
+      "description": "Note pour l'intégration : cette vidéo doit apparaître en tête de toutes les recherches.",
+      "duration_seconds": 352,
+      "jobs": [
+        "A1208",
+        "A1203"
+      ],
+      "audiences": [
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_004.svg",
+      "published_at": "2023-09-22"
+    },
+    {
+      "id": "vid_005",
+      "title": "Sophie, ouvrière paysagiste de nuit",
+      "description": "Immersion aux côtés de Sophie : dans les coulisses.",
+      "duration_seconds": 338,
+      "jobs": [
+        "A1208"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_005.svg",
+      "published_at": "2026-04-25"
+    },
+    {
+      "id": "vid_006",
+      "title": "Une journée avec Mélanie, paysagiste en création",
+      "description": "Mélanie vous fait découvrir son métier de paysagiste en création, la sécurité avant tout.",
+      "duration_seconds": 466,
+      "jobs": [
+        "A1208",
+        "A1203"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_006.svg",
+      "published_at": "2025-03-03"
+    },
+    {
+      "id": "vid_007",
+      "title": "Une journée avec Omar, jardinier",
+      "description": "Immersion aux côtés d'Omar : la sécurité avant tout.",
+      "duration_seconds": 413,
+      "jobs": [
+        "A1208"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_007.svg",
+      "published_at": "2023-06-05"
+    },
+    {
+      "id": "vid_008",
+      "title": "Thomas, auxiliaire vétérinaire dans un grand groupe",
+      "description": "Thomas vous fait découvrir son métier d'auxiliaire vétérinaire, les outils du quotidien.",
+      "duration_seconds": 455,
+      "jobs": [
+        "A1501"
+      ],
+      "audiences": [
+        "lycee",
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_008.svg",
+      "published_at": "2023-09-28"
+    },
+    {
+      "id": "vid_009",
+      "title": "Une journée avec Samuel, aide-vétérinaire",
+      "description": "Découvrez le quotidien de Samuel, aide-vétérinaire.",
+      "duration_seconds": 967,
+      "jobs": [
+        "A1501"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_009.svg",
+      "published_at": "2025-02-01"
+    },
+    {
+      "id": "vid_010",
+      "title": "Devenir auxiliaire de vétérinaire",
+      "description": "Immersion aux côtés de Nicolas : ce qu'on ne voit pas.",
+      "duration_seconds": 242,
+      "jobs": [
+        "A1501"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_010.svg",
+      "published_at": "2026-04-23"
+    },
+    {
+      "id": "vid_011",
+      "title": "Sojacultrice : la sécurité avant tout",
+      "description": "Découvrez le quotidien d'Élodie, sojacultrice.",
+      "duration_seconds": 910,
+      "jobs": [
+        "A1416"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_011.svg",
+      "published_at": "2026-06-26"
+    },
+    {
+      "id": "vid_012",
+      "title": "Maïsicultrice : les outils du quotidien",
+      "description": "Immersion aux côtés de Laura : la sécurité avant tout.",
+      "duration_seconds": 273,
+      "jobs": [
+        "A1416"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_012.svg",
+      "published_at": "2024-11-28"
+    },
+    {
+      "id": "vid_013",
+      "title": "Devenir aide-boulangère",
+      "description": "Immersion aux côtés d'Inès : ce qu'on ne voit pas.",
+      "duration_seconds": 407,
+      "jobs": [
+        "D1102",
+        "D1106"
+      ],
+      "audiences": [
+        "tout-public",
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_013.svg",
+      "published_at": "2025-05-31"
+    },
+    {
+      "id": "vid_014",
+      "title": "Boulangère : la sécurité avant tout",
+      "description": "Aïcha vous fait découvrir son métier de boulangère, une journée type.",
+      "duration_seconds": 297,
+      "jobs": [
+        "D1102"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_014.svg",
+      "published_at": "2024-09-14"
+    },
+    {
+      "id": "vid_015",
+      "title": "Une journée avec Sophie, boulangère",
+      "description": "Sophie vous fait découvrir son métier de boulangère, dans les coulisses.",
+      "duration_seconds": 177,
+      "jobs": [
+        "D1102"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_015.svg",
+      "published_at": "2023-07-07"
+    },
+    {
+      "id": "vid_016",
+      "title": "Aïcha, boulangère-viennoisière dans un grand groupe",
+      "description": "Immersion aux côtés d'Aïcha : la sécurité avant tout.",
+      "duration_seconds": 364,
+      "jobs": [
+        "D1102",
+        "D1106"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "tout-public",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_016.svg",
+      "published_at": "2026-05-08"
+    },
+    {
+      "id": "vid_017",
+      "title": "Boulanger-pâtissier : les gestes du métier",
+      "description": "Immersion aux côtés de Bastien : les débuts dans le métier.",
+      "duration_seconds": 350,
+      "jobs": [
+        "D1102"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_017.svg",
+      "published_at": "2025-05-17"
+    },
+    {
+      "id": "vid_018",
+      "title": "Devenir aide-boulangère",
+      "description": "Nadia vous fait découvrir son métier d'aide-boulangère, le travail en équipe.",
+      "duration_seconds": 231,
+      "jobs": [
+        "D1102",
+        "D1104"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": null,
+      "published_at": "2025-07-09"
+    },
+    {
+      "id": "vid_019",
+      "title": "Devenir boulangère-pâtissière",
+      "description": "Découvrez le quotidien de Mélanie, boulangère-pâtissière.",
+      "duration_seconds": 282,
+      "jobs": [
+        "D1102"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_019.svg",
+      "published_at": "2024-11-05"
+    },
+    {
+      "id": "vid_020",
+      "title": "Samuel, ouvrier boulanger à Lille",
+      "description": "Immersion aux côtés de Samuel : la sécurité avant tout.",
+      "duration_seconds": 147,
+      "jobs": [
+        "D1102"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_020.svg",
+      "published_at": "2023-11-27"
+    },
+    {
+      "id": "vid_021",
+      "title": "Entremettière : le travail en équipe",
+      "description": "Aïcha vous fait découvrir son métier d'entremettière, les gestes du métier.",
+      "duration_seconds": 735,
+      "jobs": [
+        "D1104",
+        "D1106"
+      ],
+      "audiences": [
+        "lycee",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_021.svg",
+      "published_at": "2023-03-17"
+    },
+    {
+      "id": "vid_022",
+      "title": "Omar, pâtissier tourier en Bourgogne",
+      "description": "Immersion aux côtés d'Omar : les débuts dans le métier.",
+      "duration_seconds": 200,
+      "jobs": [
+        "D1104"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_022.svg",
+      "published_at": "2026-01-25"
+    },
+    {
+      "id": "vid_023",
+      "title": "Nadia, entremettière en Bourgogne",
+      "description": "Nadia vous fait découvrir son métier d'entremettière, les outils du quotidien.",
+      "duration_seconds": 316,
+      "jobs": [
+        "D1104",
+        "D1106"
+      ],
+      "audiences": [
+        "lycee",
+        "tout-public",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_023.svg",
+      "published_at": "2023-01-08"
+    },
+    {
+      "id": "vid_024",
+      "title": "Une journée avec Léa, entremettière",
+      "description": "Découvrez le quotidien de Léa, entremettière.",
+      "duration_seconds": 1026,
+      "jobs": [
+        "D1104"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_024.svg",
+      "published_at": "2026-02-05"
+    },
+    {
+      "id": "vid_025",
+      "title": "Élodie, confiseuse dans un grand groupe",
+      "description": "Élodie vous fait découvrir son métier de confiseuse, le travail en équipe.",
+      "duration_seconds": 243,
+      "jobs": [
+        "D1104",
+        "D1102"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "tout-public",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_025.svg",
+      "published_at": "2025-04-27"
+    },
+    {
+      "id": "vid_026",
+      "title": "Vendeur en rôtisserie : le travail en équipe",
+      "description": "Hugo vous fait découvrir son métier de vendeur en rôtisserie, les gestes du métier.",
+      "duration_seconds": 184,
+      "jobs": [
+        "D1106"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_026.svg",
+      "published_at": "2023-12-26"
+    },
+    {
+      "id": "vid_027",
+      "title": "Epicier : les outils du quotidien",
+      "description": "Yanis vous fait découvrir son métier d'epicier, la sécurité avant tout.",
+      "duration_seconds": 279,
+      "jobs": [
+        "D1106"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_027.svg",
+      "published_at": "2023-09-01"
+    },
+    {
+      "id": "vid_028",
+      "title": "Camille, epicière en Normandie",
+      "description": "Découvrez le quotidien de Camille, epicière.",
+      "duration_seconds": 1069,
+      "jobs": [
+        "D1106"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_028.svg",
+      "published_at": "2024-11-30"
+    },
+    {
+      "id": "vid_029",
+      "title": "Devenir vendeuse en charcuterie",
+      "description": "Fatou vous fait découvrir son métier de vendeuse en charcuterie, les débuts dans le métier.",
+      "duration_seconds": 151,
+      "jobs": [
+        "D1106"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_029.svg",
+      "published_at": "2023-07-05"
+    },
+    {
+      "id": "vid_030",
+      "title": "Coiffeur messieurs : ce qu'on ne voit pas",
+      "description": "Découvrez le quotidien de Thomas, coiffeur messieurs.",
+      "duration_seconds": 235,
+      "jobs": [
+        "D1202",
+        "D1208"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_030.svg",
+      "published_at": "2023-02-12"
+    },
+    {
+      "id": "vid_031",
+      "title": "Devenir coiffeuse dames",
+      "description": "Découvrez le quotidien de Sophie, coiffeuse dames.",
+      "duration_seconds": 123,
+      "jobs": [
+        "D1202"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_031.svg",
+      "published_at": "2024-06-30"
+    },
+    {
+      "id": "vid_032",
+      "title": "Karim, coiffeur messieurs en Bourgogne",
+      "description": "Karim vous fait découvrir son métier de coiffeur messieurs, les débuts dans le métier.",
+      "duration_seconds": 270,
+      "jobs": [
+        "D1202"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_032.svg",
+      "published_at": "2024-07-18"
+    },
+    {
+      "id": "vid_033",
+      "title": "Devenir coloriste permanentiste",
+      "description": "Immersion aux côtés de Nicolas : les gestes du métier.",
+      "duration_seconds": 420,
+      "jobs": [
+        "D1202",
+        "D1214"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_033.svg",
+      "published_at": "2024-07-28"
+    },
+    {
+      "id": "vid_034",
+      "title": "Mehdi, coiffeur en Bretagne",
+      "description": "Mehdi vous fait découvrir son métier de coiffeur, les outils du quotidien.",
+      "duration_seconds": 182,
+      "jobs": [
+        "D1202"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_034.svg",
+      "published_at": "2025-10-21"
+    },
+    {
+      "id": "vid_035",
+      "title": "Sophie, coiffeuse à Lyon",
+      "description": "Immersion aux côtés de Sophie : la sécurité avant tout.",
+      "duration_seconds": 1077,
+      "jobs": [
+        "D1202"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_035.svg",
+      "published_at": "2026-03-21"
+    },
+    {
+      "id": "vid_036",
+      "title": "Devenir esthéticienne à domicile",
+      "description": "Découvrez le quotidien de Sophie, esthéticienne à domicile.",
+      "duration_seconds": 317,
+      "jobs": [
+        "D1208"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_036.svg",
+      "published_at": "2025-09-14"
+    },
+    {
+      "id": "vid_037",
+      "title": "Aïcha, esthéticienne-manucure en Normandie",
+      "description": "Immersion aux côtés d'Aïcha : ce qu'on ne voit pas.",
+      "duration_seconds": 197,
+      "jobs": [
+        "D1208",
+        "D1214"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_037.svg",
+      "published_at": "2026-04-08"
+    },
+    {
+      "id": "vid_038",
+      "title": "Devenir vendeuse en jeux électroniques",
+      "description": "Immersion aux côtés de Fatou : les gestes du métier.",
+      "duration_seconds": 240,
+      "jobs": [
+        "D1211"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "lycee",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_038.svg",
+      "published_at": "2025-10-14"
+    },
+    {
+      "id": "vid_039",
+      "title": "Vendeur en cycles : le travail en équipe",
+      "description": "Découvrez le quotidien de Karim, vendeur en cycles.",
+      "duration_seconds": 352,
+      "jobs": [
+        "D1211",
+        "D1214"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_039.svg",
+      "published_at": "2025-04-24"
+    },
+    {
+      "id": "vid_040",
+      "title": "Devenir vendeur d'articles de seconde main",
+      "description": "Immersion aux côtés de Bastien : le travail en équipe.",
+      "duration_seconds": 260,
+      "jobs": [
+        "D1214",
+        "D1202"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_040.svg",
+      "published_at": "2025-06-10"
+    },
+    {
+      "id": "vid_041",
+      "title": "Une journée avec Aïcha, vendeuse en prêt-à-porter de luxe",
+      "description": "Immersion aux côtés d'Aïcha : la sécurité avant tout.",
+      "duration_seconds": 275,
+      "jobs": [
+        "D1214"
+      ],
+      "audiences": [
+        "lycee",
+        "jeunes-insertion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_041.svg",
+      "published_at": "2024-10-23"
+    },
+    {
+      "id": "vid_042",
+      "title": "Une journée avec Omar, animateur des ventes",
+      "description": "Immersion aux côtés d'Omar : une journée type.",
+      "duration_seconds": 355,
+      "jobs": [
+        "D1501"
+      ],
+      "audiences": [
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_042.svg",
+      "published_at": "2025-03-11"
+    },
+    {
+      "id": "vid_043",
+      "title": "Devenir animatrice des ventes",
+      "description": "Immersion aux côtés de Sophie : une journée type.",
+      "duration_seconds": 386,
+      "jobs": [
+        "D1501",
+        "D1507"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_043.svg",
+      "published_at": "2024-12-12"
+    },
+    {
+      "id": "vid_044",
+      "title": "Léa, démonstratrice en Bourgogne",
+      "description": "Découvrez le quotidien de Léa, démonstratrice.",
+      "duration_seconds": 377,
+      "jobs": [
+        "D1501"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_044.svg",
+      "published_at": "2025-07-03"
+    },
+    {
+      "id": "vid_045",
+      "title": "Devenir animatrice de vente",
+      "description": "Immersion aux côtés de Sophie : dans les coulisses.",
+      "duration_seconds": 155,
+      "jobs": [
+        "D1501"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_045.svg",
+      "published_at": "2026-04-03"
+    },
+    {
+      "id": "vid_046",
+      "title": "Caissier : les débuts dans le métier",
+      "description": "Découvrez le quotidien de Lucas, caissier.",
+      "duration_seconds": 307,
+      "jobs": [
+        "D1505"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_046.svg",
+      "published_at": "2023-04-24"
+    },
+    {
+      "id": "vid_047",
+      "title": "Caissier : la sécurité avant tout",
+      "description": "Immersion aux côtés d'Hugo : dans les coulisses.",
+      "duration_seconds": 173,
+      "jobs": [
+        "D1505"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_047.svg",
+      "published_at": "2025-10-12"
+    },
+    {
+      "id": "vid_048",
+      "title": "Devenir caissier en restauration",
+      "description": "Immersion aux côtés de Nicolas : la sécurité avant tout.",
+      "duration_seconds": 811,
+      "jobs": [
+        "D1505"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_048.svg",
+      "published_at": "2023-01-28"
+    },
+    {
+      "id": "vid_049",
+      "title": "Une journée avec Samuel, employé de rayon bazar",
+      "description": "Immersion aux côtés de Samuel : les outils du quotidien.",
+      "duration_seconds": 413,
+      "jobs": [
+        "D1507",
+        "D1505"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_049.svg",
+      "published_at": "2024-03-27"
+    },
+    {
+      "id": "vid_050",
+      "title": "Manon, employée de rayon textile à Lille",
+      "description": "Manon vous fait découvrir son métier d'employée de rayon textile, dans les coulisses.",
+      "duration_seconds": 445,
+      "jobs": [
+        "D1507"
+      ],
+      "audiences": [
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_050.svg",
+      "published_at": "2024-09-22"
+    },
+    {
+      "id": "vid_051",
+      "title": "Une journée avec Léa, employée de rayon liquides",
+      "description": "Léa vous fait découvrir son métier d'employée de rayon liquides, une journée type.",
+      "duration_seconds": 377,
+      "jobs": [
+        "D1507"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_051.svg",
+      "published_at": "2023-09-01"
+    },
+    {
+      "id": "vid_052",
+      "title": "Devenir employé de rayon surgelés",
+      "description": "Nicolas vous fait découvrir son métier d'employé de rayon surgelés, une journée type.",
+      "duration_seconds": 237,
+      "jobs": [
+        "D1507"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_052.svg",
+      "published_at": "2024-05-06"
+    },
+    {
+      "id": "vid_053",
+      "title": "Électricien tertiaire : les gestes du métier",
+      "description": "Immersion aux côtés d'Hugo : ce qu'on ne voit pas.",
+      "duration_seconds": 443,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_053.svg",
+      "published_at": "2023-09-25"
+    },
+    {
+      "id": "vid_054",
+      "title": "Sophie, câbleuse du bâtiment en centre-ville",
+      "description": "Immersion aux côtés de Sophie : les débuts dans le métier.",
+      "duration_seconds": 785,
+      "jobs": [
+        "F1602",
+        "F1604"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_054.svg",
+      "published_at": "2025-09-16"
+    },
+    {
+      "id": "vid_055",
+      "title": "Électricien d'équipement : la sécurité avant tout",
+      "description": "Immersion aux côtés d'Yanis : le travail en équipe.",
+      "duration_seconds": 747,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_055.svg",
+      "published_at": "2023-12-15"
+    },
+    {
+      "id": "vid_056",
+      "title": "Électricien photovoltaïque : le travail en équipe",
+      "description": "Découvrez le quotidien d'Hugo, électricien photovoltaïque.",
+      "duration_seconds": 128,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_056.svg",
+      "published_at": "2023-10-29"
+    },
+    {
+      "id": "vid_057",
+      "title": "Laura, électricienne du bâtiment dans une petite entreprise",
+      "description": "Laura vous fait découvrir son métier d'électricienne du bâtiment, ce qu'on ne voit pas.",
+      "duration_seconds": 909,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_057.svg",
+      "published_at": "2023-11-26"
+    },
+    {
+      "id": "vid_058",
+      "title": "Julien, électricien du bâtiment à Marseille",
+      "description": "Immersion aux côtés de Julien : dans les coulisses.",
+      "duration_seconds": 212,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_058.svg",
+      "published_at": "2025-09-16"
+    },
+    {
+      "id": "vid_059",
+      "title": "Monteuse électricienne : la sécurité avant tout",
+      "description": "Léa vous fait découvrir son métier de monteuse électricienne, une journée type.",
+      "duration_seconds": 177,
+      "jobs": [
+        "F1602"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_059.svg",
+      "published_at": "2025-12-24"
+    },
+    {
+      "id": "vid_060",
+      "title": "Aïcha, aide plombière à Marseille",
+      "description": "Immersion aux côtés d'Aïcha : une journée type.",
+      "duration_seconds": 385,
+      "jobs": [
+        "F1603"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_060.svg",
+      "published_at": "2026-01-08"
+    },
+    {
+      "id": "vid_061",
+      "title": "Devenir aide plombière",
+      "description": "Nadia vous fait découvrir son métier d'aide plombière, dans les coulisses.",
+      "duration_seconds": 268,
+      "jobs": [
+        "F1603"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_061.svg",
+      "published_at": "2026-06-27"
+    },
+    {
+      "id": "vid_062",
+      "title": "Devenir chapiste",
+      "description": "Immersion aux côtés de Romain : les outils du quotidien.",
+      "duration_seconds": 422,
+      "jobs": [
+        "F1703"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_062.svg",
+      "published_at": "2023-05-22"
+    },
+    {
+      "id": "vid_063",
+      "title": "Brasqueuse : une journée type",
+      "description": "Immersion aux côtés de Nadia : la sécurité avant tout.",
+      "duration_seconds": 256,
+      "jobs": [
+        "F1703"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_063.svg",
+      "published_at": "2026-07-24"
+    },
+    {
+      "id": "vid_064",
+      "title": "Manœuvre travaux publics : dans les coulisses",
+      "description": "Jeanne vous fait découvrir son métier de manœuvre travaux publics, la sécurité avant tout.",
+      "duration_seconds": 398,
+      "jobs": [
+        "F1704",
+        "F1703"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_064.svg",
+      "published_at": "2023-09-23"
+    },
+    {
+      "id": "vid_065",
+      "title": "Devenir manœuvre gros œuvre",
+      "description": "Découvrez le quotidien de Laura, manœuvre gros œuvre.",
+      "duration_seconds": 134,
+      "jobs": [
+        "F1704"
+      ],
+      "audiences": [
+        "tout-public",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_065.svg",
+      "published_at": "2023-05-11"
+    },
+    {
+      "id": "vid_066",
+      "title": "Omar, peintre en bâtiment en Bourgogne",
+      "description": "Découvrez le quotidien d'Omar, peintre en bâtiment.",
+      "duration_seconds": 156,
+      "jobs": [
+        "F1606"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_066.svg",
+      "published_at": "2025-02-06"
+    },
+    {
+      "id": "vid_067",
+      "title": "Peintre d'intérieur : dans les coulisses",
+      "description": "Immersion aux côtés de Thomas : les gestes du métier.",
+      "duration_seconds": 379,
+      "jobs": [
+        "F1606"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_067.svg",
+      "published_at": "2024-03-15"
+    },
+    {
+      "id": "vid_068",
+      "title": "Une journée avec Karim, poseur de plafonds tendus",
+      "description": "Immersion aux côtés de Karim : le travail en équipe.",
+      "duration_seconds": 431,
+      "jobs": [
+        "F1606"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_068.svg",
+      "published_at": "2025-11-13"
+    },
+    {
+      "id": "vid_069",
+      "title": "Devenir monteuse de menuiserie aluminium",
+      "description": "Jeanne vous fait découvrir son métier de monteuse de menuiserie aluminium, une journée type.",
+      "duration_seconds": 639,
+      "jobs": [
+        "F1607"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_069.svg",
+      "published_at": "2026-06-23"
+    },
+    {
+      "id": "vid_070",
+      "title": "Mélanie, menuisière fabricante aluminium en Bretagne",
+      "description": "Immersion aux côtés de Mélanie : ce qu'on ne voit pas.",
+      "duration_seconds": 187,
+      "jobs": [
+        "F1607"
+      ],
+      "audiences": [
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_070.svg",
+      "published_at": "2026-07-03"
+    },
+    {
+      "id": "vid_071",
+      "title": "Léa, menuisière fabricante aluminium à Marseille",
+      "description": "Léa vous fait découvrir son métier de menuisière fabricante aluminium, ce qu'on ne voit pas.",
+      "duration_seconds": 414,
+      "jobs": [
+        "F1607"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_071.svg",
+      "published_at": "2024-07-15"
+    },
+    {
+      "id": "vid_072",
+      "title": "Modeleur plaquiste : le travail en équipe",
+      "description": "Romain vous fait découvrir son métier de modeleur plaquiste, les outils du quotidien.",
+      "duration_seconds": 220,
+      "jobs": [
+        "F1604"
+      ],
+      "audiences": [
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_072.svg",
+      "published_at": "2026-05-31"
+    },
+    {
+      "id": "vid_073",
+      "title": "Jointoyeur : dans les coulisses",
+      "description": "Julien vous fait découvrir son métier de jointoyeur, les outils du quotidien.",
+      "duration_seconds": 163,
+      "jobs": [
+        "F1604"
+      ],
+      "audiences": [
+        "lycee",
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_073.svg",
+      "published_at": "2024-09-29"
+    },
+    {
+      "id": "vid_074",
+      "title": "Une journée avec Nadia, commise pâtissière de restaurant",
+      "description": "Immersion aux côtés de Nadia : les gestes du métier.",
+      "duration_seconds": 683,
+      "jobs": [
+        "G1602"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_074.svg",
+      "published_at": "2024-10-04"
+    },
+    {
+      "id": "vid_075",
+      "title": "Devenir commis de cuisine tournant",
+      "description": "Immersion aux côtés d'Hugo : dans les coulisses.",
+      "duration_seconds": 338,
+      "jobs": [
+        "G1602",
+        "G1609"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_075.svg",
+      "published_at": "2025-12-09"
+    },
+    {
+      "id": "vid_076",
+      "title": "Une journée avec Romain, commis de cuisine",
+      "description": "Romain vous fait découvrir son métier de commis de cuisine, dans les coulisses.",
+      "duration_seconds": 237,
+      "jobs": [
+        "G1602"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_076.svg",
+      "published_at": "2025-05-29"
+    },
+    {
+      "id": "vid_077",
+      "title": "Une journée avec Nicolas, second de cuisine",
+      "description": "Nicolas vous fait découvrir son métier de second de cuisine, les outils du quotidien.",
+      "duration_seconds": 285,
+      "jobs": [
+        "G1609"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_077.svg",
+      "published_at": "2026-03-20"
+    },
+    {
+      "id": "vid_078",
+      "title": "Omar, demi-chef de partie de nuit",
+      "description": "Découvrez le quotidien d'Omar, demi-chef de partie.",
+      "duration_seconds": 145,
+      "jobs": [
+        "G1609",
+        "G1602"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_078.svg",
+      "published_at": "2025-05-11"
+    },
+    {
+      "id": "vid_079",
+      "title": "Une journée avec Mélanie, cuisinière",
+      "description": "Immersion aux côtés de Mélanie : dans les coulisses.",
+      "duration_seconds": 869,
+      "jobs": [
+        "G1609"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_079.svg",
+      "published_at": "2026-02-10"
+    },
+    {
+      "id": "vid_080",
+      "title": "Devenir cuisinier",
+      "description": "Immersion aux côtés d'Antoine : ce qu'on ne voit pas.",
+      "duration_seconds": 329,
+      "jobs": [
+        "G1609"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_080.svg",
+      "published_at": "2023-07-02"
+    },
+    {
+      "id": "vid_081",
+      "title": "Une journée avec Léa, demi-chef de partie",
+      "description": "Découvrez le quotidien de Léa, demi-chef de partie.",
+      "duration_seconds": 1067,
+      "jobs": [
+        "G1609"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_081.svg",
+      "published_at": "2023-01-27"
+    },
+    {
+      "id": "vid_082",
+      "title": "Nicolas, chef de partie de nuit",
+      "description": "Nicolas vous fait découvrir son métier de chef de partie, les débuts dans le métier.",
+      "duration_seconds": 124,
+      "jobs": [
+        "G1609"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_082.svg",
+      "published_at": "2024-08-21"
+    },
+    {
+      "id": "vid_083",
+      "title": "Devenir commis de room service",
+      "description": "Thomas vous fait découvrir son métier de commis de room service, les débuts dans le métier.",
+      "duration_seconds": 249,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "tout-public",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_083.svg",
+      "published_at": "2025-07-27"
+    },
+    {
+      "id": "vid_084",
+      "title": "Une journée avec Yanis, serveur de banquet",
+      "description": "Immersion aux côtés d'Yanis : les outils du quotidien.",
+      "duration_seconds": 166,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_084.svg",
+      "published_at": "2024-11-25"
+    },
+    {
+      "id": "vid_085",
+      "title": "Yanis, commis de restaurant en Bourgogne",
+      "description": "Yanis vous fait découvrir son métier de commis de restaurant, les outils du quotidien.",
+      "duration_seconds": 174,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_085.svg",
+      "published_at": "2026-04-08"
+    },
+    {
+      "id": "vid_086",
+      "title": "Serveuse de bar : ce qu'on ne voit pas",
+      "description": "Immersion aux côtés d'Élodie : dans les coulisses.",
+      "duration_seconds": 200,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_086.svg",
+      "published_at": "2023-03-07"
+    },
+    {
+      "id": "vid_087",
+      "title": "Une journée avec Aïcha, hôtesse de salle",
+      "description": "Découvrez le quotidien d'Aïcha, hôtesse de salle.",
+      "duration_seconds": 169,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_087.svg",
+      "published_at": "2023-07-25"
+    },
+    {
+      "id": "vid_088",
+      "title": "Devenir serveur de banquet",
+      "description": "Samuel vous fait découvrir son métier de serveur de banquet, le travail en équipe.",
+      "duration_seconds": 389,
+      "jobs": [
+        "G1803"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_088.svg",
+      "published_at": "2024-12-20"
+    },
+    {
+      "id": "vid_089",
+      "title": "Une journée avec Omar, réceptionniste de nuit",
+      "description": "Découvrez le quotidien d'Omar, réceptionniste de nuit.",
+      "duration_seconds": 376,
+      "jobs": [
+        "G1703"
+      ],
+      "audiences": [
+        "college",
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": null,
+      "published_at": "2024-01-29"
+    },
+    {
+      "id": "vid_090",
+      "title": "Night audit : ce qu'on ne voit pas",
+      "description": "Découvrez le quotidien de Bastien, night audit.",
+      "duration_seconds": 472,
+      "jobs": [
+        "G1703"
+      ],
+      "audiences": [
+        "lycee",
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_090.svg",
+      "published_at": "2023-10-02"
+    },
+    {
+      "id": "vid_091",
+      "title": "Devenir soudeur ferroviaire",
+      "description": "Découvrez le quotidien d'Yanis, soudeur ferroviaire.",
+      "duration_seconds": 248,
+      "jobs": [
+        "H2913"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_091.svg",
+      "published_at": "2026-03-12"
+    },
+    {
+      "id": "vid_092",
+      "title": "Soudeuse : ce qu'on ne voit pas",
+      "description": "Immersion aux côtés de Fatou : les outils du quotidien.",
+      "duration_seconds": 394,
+      "jobs": [
+        "H2913"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_092.svg",
+      "published_at": "2025-07-31"
+    },
+    {
+      "id": "vid_093",
+      "title": "Soudobraseur : ce qu'on ne voit pas",
+      "description": "Découvrez le quotidien d'Yanis, soudobraseur.",
+      "duration_seconds": 242,
+      "jobs": [
+        "H2913"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_093.svg",
+      "published_at": "2024-06-22"
+    },
+    {
+      "id": "vid_094",
+      "title": "Devenir soudeur à la flamme",
+      "description": "Yanis vous fait découvrir son métier de soudeur à la flamme, ce qu'on ne voit pas.",
+      "duration_seconds": 451,
+      "jobs": [
+        "H2913"
+      ],
+      "audiences": [
+        "tout-public",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_094.svg",
+      "published_at": "2025-12-26"
+    },
+    {
+      "id": "vid_095",
+      "title": "Fatou, tourneuse de nuit",
+      "description": "Immersion aux côtés de Fatou : la sécurité avant tout.",
+      "duration_seconds": 295,
+      "jobs": [
+        "H2903"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_095.svg",
+      "published_at": "2023-05-12"
+    },
+    {
+      "id": "vid_096",
+      "title": "Une journée avec Julien, aléseur",
+      "description": "Découvrez le quotidien de Julien, aléseur.",
+      "duration_seconds": 196,
+      "jobs": [
+        "H2903"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_096.svg",
+      "published_at": "2026-07-18"
+    },
+    {
+      "id": "vid_097",
+      "title": "Laura, mortaiseuse à Lille",
+      "description": "Immersion aux côtés de Laura : le travail en équipe.",
+      "duration_seconds": 293,
+      "jobs": [
+        "H2903"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_097.svg",
+      "published_at": "2025-10-23"
+    },
+    {
+      "id": "vid_098",
+      "title": "Une journée avec Romain, erodeur",
+      "description": "Découvrez le quotidien de Romain, erodeur.",
+      "duration_seconds": 171,
+      "jobs": [
+        "H2903"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_098.svg",
+      "published_at": "2025-01-08"
+    },
+    {
+      "id": "vid_099",
+      "title": "Jeanne, trieuse de placage à Lille",
+      "description": "Jeanne vous fait découvrir son métier de trieuse de placage, dans les coulisses.",
+      "duration_seconds": 153,
+      "jobs": [
+        "H3302"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_099.svg",
+      "published_at": "2024-04-10"
+    },
+    {
+      "id": "vid_100",
+      "title": "Karim, agent de conditionnement manuel dans un grand groupe",
+      "description": "Découvrez le quotidien de Karim, agent de conditionnement manuel.",
+      "duration_seconds": 409,
+      "jobs": [
+        "H3302"
+      ],
+      "audiences": [
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_100.svg",
+      "published_at": "2024-06-24"
+    },
+    {
+      "id": "vid_101",
+      "title": "Une journée avec Léa, agente d'opérations manuelles",
+      "description": "Découvrez le quotidien de Léa, agente d'opérations manuelles.",
+      "duration_seconds": 180,
+      "jobs": [
+        "H3302"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_101.svg",
+      "published_at": "2023-03-22"
+    },
+    {
+      "id": "vid_102",
+      "title": "Devenir conditionneur main",
+      "description": "Découvrez le quotidien de Lucas, conditionneur main.",
+      "duration_seconds": 246,
+      "jobs": [
+        "H3302"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_102.svg",
+      "published_at": "2024-07-02"
+    },
+    {
+      "id": "vid_103",
+      "title": "Devenir opératrice de calibrage",
+      "description": "Aïcha vous fait découvrir son métier d'opératrice de calibrage, les débuts dans le métier.",
+      "duration_seconds": 140,
+      "jobs": [
+        "H3302"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_103.svg",
+      "published_at": "2025-02-09"
+    },
+    {
+      "id": "vid_104",
+      "title": "Hugo, mécanicien de garage automobile à Lille",
+      "description": "Hugo vous fait découvrir son métier de mécanicien de garage automobile, ce qu'on ne voit pas.",
+      "duration_seconds": 217,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_104.svg",
+      "published_at": "2023-04-30"
+    },
+    {
+      "id": "vid_105",
+      "title": "Une journée avec Sophie, technicienne en systèmes pneumatiques",
+      "description": "Découvrez le quotidien de Sophie, technicienne en systèmes pneumatiques.",
+      "duration_seconds": 666,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_105.svg",
+      "published_at": "2026-05-18"
+    },
+    {
+      "id": "vid_106",
+      "title": "Hugo, essayeur metteur au point de nuit",
+      "description": "Découvrez le quotidien d'Hugo, essayeur metteur au point.",
+      "duration_seconds": 351,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_106.svg",
+      "published_at": "2025-11-03"
+    },
+    {
+      "id": "vid_107",
+      "title": "Garagiste-mécanicien : dans les coulisses",
+      "description": "Immersion aux côtés de Thomas : dans les coulisses.",
+      "duration_seconds": 702,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_107.svg",
+      "published_at": "2026-06-09"
+    },
+    {
+      "id": "vid_108",
+      "title": "Laura, essayeuse metteuse au point en centre-ville",
+      "description": "Découvrez le quotidien de Laura, essayeuse metteuse au point.",
+      "duration_seconds": 254,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_108.svg",
+      "published_at": "2025-08-05"
+    },
+    {
+      "id": "vid_109",
+      "title": "Julien, garagiste de nuit",
+      "description": "Découvrez le quotidien de Julien, garagiste.",
+      "duration_seconds": 182,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_109.svg",
+      "published_at": "2025-08-10"
+    },
+    {
+      "id": "vid_110",
+      "title": "Garagiste : les outils du quotidien",
+      "description": "Chloé vous fait découvrir son métier de garagiste, les gestes du métier.",
+      "duration_seconds": 334,
+      "jobs": [
+        "I1604",
+        "I1607"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_110.svg",
+      "published_at": "2026-02-23"
+    },
+    {
+      "id": "vid_111",
+      "title": "Chloé, essayeuse metteuse au point à Marseille",
+      "description": "Immersion aux côtés de Chloé : la sécurité avant tout.",
+      "duration_seconds": 226,
+      "jobs": [
+        "I1604"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_111.svg",
+      "published_at": "2023-03-08"
+    },
+    {
+      "id": "vid_112",
+      "title": "Une journée avec Sophie, ouvrière finition carrosserie",
+      "description": "Sophie vous fait découvrir son métier d'ouvrière finition carrosserie, ce qu'on ne voit pas.",
+      "duration_seconds": 464,
+      "jobs": [
+        "I1606"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_112.svg",
+      "published_at": "2023-05-24"
+    },
+    {
+      "id": "vid_113",
+      "title": "Camille, ouvrière finition carrosserie en zone rurale",
+      "description": "Camille vous fait découvrir son métier d'ouvrière finition carrosserie, la sécurité avant tout.",
+      "duration_seconds": 441,
+      "jobs": [
+        "I1606"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_113.svg",
+      "published_at": "2023-07-16"
+    },
+    {
+      "id": "vid_114",
+      "title": "Devenir artisan carrossier",
+      "description": "Hugo vous fait découvrir son métier d'artisan carrossier, les gestes du métier.",
+      "duration_seconds": 1060,
+      "jobs": [
+        "I1606",
+        "I1604"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_114.svg",
+      "published_at": "2023-05-11"
+    },
+    {
+      "id": "vid_115",
+      "title": "Devenir réparatrice en carrosserie",
+      "description": "Nadia vous fait découvrir son métier de réparatrice en carrosserie, le travail en équipe.",
+      "duration_seconds": 444,
+      "jobs": [
+        "I1606"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_115.svg",
+      "published_at": "2026-06-01"
+    },
+    {
+      "id": "vid_116",
+      "title": "Devenir carrossière-peintre",
+      "description": "Découvrez le quotidien d'Aïcha, carrossière-peintre.",
+      "duration_seconds": 248,
+      "jobs": [
+        "I1606"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_116.svg",
+      "published_at": "2023-01-23"
+    },
+    {
+      "id": "vid_117",
+      "title": "Une journée avec Hugo, mécanicien-vendeur moto",
+      "description": "Hugo vous fait découvrir son métier de mécanicien-vendeur moto, dans les coulisses.",
+      "duration_seconds": 200,
+      "jobs": [
+        "I1607"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "tout-public",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_117.svg",
+      "published_at": "2026-02-12"
+    },
+    {
+      "id": "vid_118",
+      "title": "Une journée avec Léa, mécanicienne-vendeuse moto",
+      "description": "Découvrez le quotidien de Léa, mécanicienne-vendeuse moto.",
+      "duration_seconds": 376,
+      "jobs": [
+        "I1607"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_118.svg",
+      "published_at": "2024-08-17"
+    },
+    {
+      "id": "vid_119",
+      "title": "Devenir mécanicien moto-scooter",
+      "description": "Immersion aux côtés d'Yanis : ce qu'on ne voit pas.",
+      "duration_seconds": 407,
+      "jobs": [
+        "I1607"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_119.svg",
+      "published_at": "2023-08-31"
+    },
+    {
+      "id": "vid_120",
+      "title": "Devenir mécanicienne réparatrice motocycle",
+      "description": "Découvrez le quotidien de Léa, mécanicienne réparatrice motocycle.",
+      "duration_seconds": 227,
+      "jobs": [
+        "I1607",
+        "I1606"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_120.svg",
+      "published_at": "2025-05-01"
+    },
+    {
+      "id": "vid_121",
+      "title": "Devenir retoucheuse électrique",
+      "description": "Découvrez le quotidien de Manon, retoucheuse électrique.",
+      "duration_seconds": 178,
+      "jobs": [
+        "I1309"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_121.svg",
+      "published_at": "2023-07-02"
+    },
+    {
+      "id": "vid_122",
+      "title": "Sophie, électricienne haute tension de nuit",
+      "description": "Découvrez le quotidien de Sophie, électricienne haute tension.",
+      "duration_seconds": 447,
+      "jobs": [
+        "I1309"
+      ],
+      "audiences": [
+        "tout-public",
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_122.svg",
+      "published_at": "2024-07-20"
+    },
+    {
+      "id": "vid_123",
+      "title": "Devenir retoucheur électrique",
+      "description": "Découvrez le quotidien d'Hugo, retoucheur électrique.",
+      "duration_seconds": 386,
+      "jobs": [
+        "I1309"
+      ],
+      "audiences": [
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_123.svg",
+      "published_at": "2024-11-23"
+    },
+    {
+      "id": "vid_124",
+      "title": "Devenir agent Electricité Nucléaire",
+      "description": "Omar vous fait découvrir son métier d'agent Electricité Nucléaire, dans les coulisses.",
+      "duration_seconds": 668,
+      "jobs": [
+        "I1309"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_124.svg",
+      "published_at": "2026-03-02"
+    },
+    {
+      "id": "vid_125",
+      "title": "Devenir aide-soignante",
+      "description": "Élodie vous fait découvrir son métier d'aide-soignante, ce qu'on ne voit pas.",
+      "duration_seconds": 815,
+      "jobs": [
+        "J1501"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_125.svg",
+      "published_at": "2025-07-08"
+    },
+    {
+      "id": "vid_126",
+      "title": "Devenir aide-soignant en gériatrie",
+      "description": "Immersion aux côtés de Bastien : les outils du quotidien.",
+      "duration_seconds": 147,
+      "jobs": [
+        "J1501",
+        "J1506"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_126.svg",
+      "published_at": "2023-06-13"
+    },
+    {
+      "id": "vid_127",
+      "title": "Camille, aide-soignante en Bourgogne",
+      "description": "Immersion aux côtés de Camille : les débuts dans le métier.",
+      "duration_seconds": 261,
+      "jobs": [
+        "J1501",
+        "J1506"
+      ],
+      "audiences": [
+        "tout-public",
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_127.svg",
+      "published_at": "2026-05-06"
+    },
+    {
+      "id": "vid_128",
+      "title": "Chloé, aide-soignante de nuit",
+      "description": "Immersion aux côtés de Chloé : la sécurité avant tout.",
+      "duration_seconds": 165,
+      "jobs": [
+        "J1501",
+        "J1506"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_128.svg",
+      "published_at": "2025-11-03"
+    },
+    {
+      "id": "vid_129",
+      "title": "Une journée avec Sophie, aide-soignante en gériatrie",
+      "description": "Sophie vous fait découvrir son métier d'aide-soignante en gériatrie, le travail en équipe.",
+      "duration_seconds": 340,
+      "jobs": [
+        "J1501"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_129.svg",
+      "published_at": "2025-09-05"
+    },
+    {
+      "id": "vid_130",
+      "title": "Aide-soignante : les débuts dans le métier",
+      "description": "Manon vous fait découvrir son métier d'aide-soignante, la sécurité avant tout.",
+      "duration_seconds": 278,
+      "jobs": [
+        "J1501"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_130.svg",
+      "published_at": "2025-08-14"
+    },
+    {
+      "id": "vid_131",
+      "title": "Élodie, aide-soignante dans un grand groupe",
+      "description": "Élodie vous fait découvrir son métier d'aide-soignante, la sécurité avant tout.",
+      "duration_seconds": 454,
+      "jobs": [
+        "J1501"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_131.svg",
+      "published_at": "2025-02-07"
+    },
+    {
+      "id": "vid_132",
+      "title": "Devenir aide-soignant",
+      "description": "Immersion aux côtés d'Hugo : les outils du quotidien.",
+      "duration_seconds": 215,
+      "jobs": [
+        "J1501"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_132.svg",
+      "published_at": "2023-06-05"
+    },
+    {
+      "id": "vid_133",
+      "title": "Infirmière de soins généraux : ce qu'on ne voit pas",
+      "description": "Découvrez le quotidien de Camille, infirmière de soins généraux.",
+      "duration_seconds": 759,
+      "jobs": [
+        "J1506",
+        "J1501"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_133.svg",
+      "published_at": "2023-07-30"
+    },
+    {
+      "id": "vid_134",
+      "title": "Infirmier en gériatrie : les gestes du métier",
+      "description": "Immersion aux côtés de Samuel : dans les coulisses.",
+      "duration_seconds": 333,
+      "jobs": [
+        "J1506",
+        "J1501"
+      ],
+      "audiences": [
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_134.svg",
+      "published_at": "2024-09-05"
+    },
+    {
+      "id": "vid_135",
+      "title": "Une journée avec Élodie, laborantine d'analyses médicales",
+      "description": "Élodie vous fait découvrir son métier de laborantine d'analyses médicales, ce qu'on ne voit pas.",
+      "duration_seconds": 325,
+      "jobs": [
+        "J1302"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_135.svg",
+      "published_at": "2024-11-27"
+    },
+    {
+      "id": "vid_136",
+      "title": "Devenir aide de laboratoire médical",
+      "description": "Découvrez le quotidien de Mehdi, aide de laboratoire médical.",
+      "duration_seconds": 237,
+      "jobs": [
+        "J1302"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_136.svg",
+      "published_at": "2025-02-14"
+    },
+    {
+      "id": "vid_137",
+      "title": "Une journée avec Camille, aide de laboratoire médical",
+      "description": "Immersion aux côtés de Camille : dans les coulisses.",
+      "duration_seconds": 289,
+      "jobs": [
+        "J1302"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_137.svg",
+      "published_at": "2023-06-11"
+    },
+    {
+      "id": "vid_138",
+      "title": "Une journée avec Mehdi, assistant de vie auprès de personnes âgées",
+      "description": "Immersion aux côtés de Mehdi : dans les coulisses.",
+      "duration_seconds": 421,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_138.svg",
+      "published_at": "2025-09-19"
+    },
+    {
+      "id": "vid_139",
+      "title": "Manon, aide aux personnes âgées en zone rurale",
+      "description": "Immersion aux côtés de Manon : les débuts dans le métier.",
+      "duration_seconds": 207,
+      "jobs": [
+        "K1302",
+        "K1304"
+      ],
+      "audiences": [
+        "tout-public",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_139.svg",
+      "published_at": "2025-05-05"
+    },
+    {
+      "id": "vid_140",
+      "title": "Pair-Aidante : dans les coulisses",
+      "description": "Découvrez le quotidien de Camille, pair-Aidante.",
+      "duration_seconds": 475,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_140.svg",
+      "published_at": "2023-05-07"
+    },
+    {
+      "id": "vid_141",
+      "title": "Une journée avec Sophie, assistante de vie dépendance",
+      "description": "Immersion aux côtés de Sophie : les outils du quotidien.",
+      "duration_seconds": 218,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_141.svg",
+      "published_at": "2025-03-25"
+    },
+    {
+      "id": "vid_142",
+      "title": "Assistant de vie dépendance : les outils du quotidien",
+      "description": "Thomas vous fait découvrir son métier d'assistant de vie dépendance, une journée type.",
+      "duration_seconds": 257,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_142.svg",
+      "published_at": "2025-08-29"
+    },
+    {
+      "id": "vid_143",
+      "title": "Une journée avec Omar, pair-Aidant",
+      "description": "Immersion aux côtés d'Omar : les outils du quotidien.",
+      "duration_seconds": 746,
+      "jobs": [
+        "K1302",
+        "K1304"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_143.svg",
+      "published_at": "2024-07-01"
+    },
+    {
+      "id": "vid_144",
+      "title": "Lucas, assistant de vie dépendance à Lyon",
+      "description": "Immersion aux côtés de Lucas : une journée type.",
+      "duration_seconds": 409,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_144.svg",
+      "published_at": "2026-01-09"
+    },
+    {
+      "id": "vid_145",
+      "title": "Bastien, aide aux personnes âgées en Auvergne",
+      "description": "Bastien vous fait découvrir son métier d'aide aux personnes âgées, les outils du quotidien.",
+      "duration_seconds": 452,
+      "jobs": [
+        "K1302"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_145.svg",
+      "published_at": "2025-05-05"
+    },
+    {
+      "id": "vid_146",
+      "title": "Baby-sitter : les outils du quotidien",
+      "description": "Romain vous fait découvrir son métier de baby-sitter, dans les coulisses.",
+      "duration_seconds": 272,
+      "jobs": [
+        "K1303"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_146.svg",
+      "published_at": "2025-06-10"
+    },
+    {
+      "id": "vid_147",
+      "title": "Devenir gouvernante d'enfant à domicile",
+      "description": "Aïcha vous fait découvrir son métier de gouvernante d'enfant à domicile, une journée type.",
+      "duration_seconds": 403,
+      "jobs": [
+        "K1303"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_147.svg",
+      "published_at": "2026-05-24"
+    },
+    {
+      "id": "vid_148",
+      "title": "Bastien, baby-sitter dans un grand groupe",
+      "description": "Bastien vous fait découvrir son métier de baby-sitter, les débuts dans le métier.",
+      "duration_seconds": 422,
+      "jobs": [
+        "K1303"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_148.svg",
+      "published_at": "2025-09-14"
+    },
+    {
+      "id": "vid_149",
+      "title": "Devenir baby-sitter",
+      "description": "Immersion aux côtés de Bastien : les débuts dans le métier.",
+      "duration_seconds": 181,
+      "jobs": [
+        "K1303"
+      ],
+      "audiences": [
+        "tout-public",
+        "jeunes-insertion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_149.svg",
+      "published_at": "2025-10-24"
+    },
+    {
+      "id": "vid_150",
+      "title": "Une journée avec Julien, baby-sitter",
+      "description": "Découvrez le quotidien de Julien, baby-sitter.",
+      "duration_seconds": 440,
+      "jobs": [
+        "K1303",
+        "K1302"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_150.svg",
+      "published_at": "2023-10-26"
+    },
+    {
+      "id": "vid_151",
+      "title": "Devenir aide familiale",
+      "description": "Immersion aux côtés de Manon : les débuts dans le métier.",
+      "duration_seconds": 469,
+      "jobs": [
+        "K1304",
+        "K1303"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_151.svg",
+      "published_at": "2023-12-25"
+    },
+    {
+      "id": "vid_152",
+      "title": "Devenir employé de ménage",
+      "description": "Immersion aux côtés de Julien : la sécurité avant tout.",
+      "duration_seconds": 408,
+      "jobs": [
+        "K1304"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": null,
+      "published_at": "2025-04-26"
+    },
+    {
+      "id": "vid_153",
+      "title": "Devenir employée familiale",
+      "description": "Laura vous fait découvrir son métier d'employée familiale, les outils du quotidien.",
+      "duration_seconds": 374,
+      "jobs": [
+        "K1304"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_153.svg",
+      "published_at": "2025-01-28"
+    },
+    {
+      "id": "vid_154",
+      "title": "Employé familial : dans les coulisses",
+      "description": "Découvrez le quotidien d'Yanis, employé familial.",
+      "duration_seconds": 871,
+      "jobs": [
+        "K1304"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_154.svg",
+      "published_at": "2025-08-02"
+    },
+    {
+      "id": "vid_155",
+      "title": "Chloé, formatrice d'adultes à Lille",
+      "description": "Chloé vous fait découvrir son métier de formatrice d'adultes, dans les coulisses.",
+      "duration_seconds": 229,
+      "jobs": [
+        "K2111"
+      ],
+      "audiences": [
+        "tout-public",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_155.svg",
+      "published_at": "2023-09-08"
+    },
+    {
+      "id": "vid_156",
+      "title": "Thomas, formateur bâtiment en zone rurale",
+      "description": "Découvrez le quotidien de Thomas, formateur bâtiment.",
+      "duration_seconds": 441,
+      "jobs": [
+        "K2111"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_156.svg",
+      "published_at": "2023-05-26"
+    },
+    {
+      "id": "vid_157",
+      "title": "Formatrice bâtiment : dans les coulisses",
+      "description": "Élodie vous fait découvrir son métier de formatrice bâtiment, ce qu'on ne voit pas.",
+      "duration_seconds": 335,
+      "jobs": [
+        "K2111"
+      ],
+      "audiences": [
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_157.svg",
+      "published_at": "2024-02-21"
+    },
+    {
+      "id": "vid_158",
+      "title": "Formatrice d'italien : ce qu'on ne voit pas",
+      "description": "Immersion aux côtés de Manon : la sécurité avant tout.",
+      "duration_seconds": 262,
+      "jobs": [
+        "K2111"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_158.svg",
+      "published_at": "2025-02-06"
+    },
+    {
+      "id": "vid_159",
+      "title": "Formateur d'arabe : les débuts dans le métier",
+      "description": "Découvrez le quotidien d'Yanis, formateur d'arabe.",
+      "duration_seconds": 427,
+      "jobs": [
+        "K2111"
+      ],
+      "audiences": [
+        "tout-public",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_159.svg",
+      "published_at": "2023-01-30"
+    },
+    {
+      "id": "vid_160",
+      "title": "Samuel, feutier dans une petite entreprise",
+      "description": "Immersion aux côtés de Samuel : le travail en équipe.",
+      "duration_seconds": 1068,
+      "jobs": [
+        "K2204"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_160.svg",
+      "published_at": "2024-03-16"
+    },
+    {
+      "id": "vid_161",
+      "title": "Devenir chef d'équipe propreté",
+      "description": "Découvrez le quotidien de Karim, chef d'équipe propreté.",
+      "duration_seconds": 328,
+      "jobs": [
+        "K2204"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_161.svg",
+      "published_at": "2023-11-01"
+    },
+    {
+      "id": "vid_162",
+      "title": "Fatou, cheffe d'équipe nettoyage industriel en centre-ville",
+      "description": "Découvrez le quotidien de Fatou, cheffe d'équipe nettoyage industriel.",
+      "duration_seconds": 672,
+      "jobs": [
+        "K2204"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_162.svg",
+      "published_at": "2023-11-26"
+    },
+    {
+      "id": "vid_163",
+      "title": "Une journée avec Inès, opératrice hygiène sanitation",
+      "description": "Inès vous fait découvrir son métier d'opératrice hygiène sanitation, ce qu'on ne voit pas.",
+      "duration_seconds": 432,
+      "jobs": [
+        "K2204"
+      ],
+      "audiences": [
+        "college",
+        "jeunes-insertion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_163.svg",
+      "published_at": "2024-05-26"
+    },
+    {
+      "id": "vid_164",
+      "title": "Devenir conseillère du travail",
+      "description": "Nadia vous fait découvrir son métier de conseillère du travail, une journée type.",
+      "duration_seconds": 322,
+      "jobs": [
+        "K1801"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_164.svg",
+      "published_at": "2023-04-02"
+    },
+    {
+      "id": "vid_165",
+      "title": "Conseillère en recherche d'emploi : une journée type",
+      "description": "Immersion aux côtés de Jeanne : les gestes du métier.",
+      "duration_seconds": 320,
+      "jobs": [
+        "K1801"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "lycee",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_165.svg",
+      "published_at": "2023-06-06"
+    },
+    {
+      "id": "vid_166",
+      "title": "Karim, conseiller en recherche d'emploi dans une petite entreprise",
+      "description": "Immersion aux côtés de Karim : dans les coulisses.",
+      "duration_seconds": 404,
+      "jobs": [
+        "K1801"
+      ],
+      "audiences": [
+        "college",
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_166.svg",
+      "published_at": "2023-02-02"
+    },
+    {
+      "id": "vid_167",
+      "title": "Mélanie, conseillère en outplacement à Lille",
+      "description": "Mélanie vous fait découvrir son métier de conseillère en outplacement, les outils du quotidien.",
+      "duration_seconds": 380,
+      "jobs": [
+        "K1801"
+      ],
+      "audiences": [
+        "college",
+        "adultes-reconversion",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_167.svg",
+      "published_at": "2026-07-23"
+    },
+    {
+      "id": "vid_168",
+      "title": "Une journée avec Léa, employée de bureau",
+      "description": "Léa vous fait découvrir son métier d'employée de bureau, les gestes du métier.",
+      "duration_seconds": 127,
+      "jobs": [
+        "M1607"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_168.svg",
+      "published_at": "2025-02-07"
+    },
+    {
+      "id": "vid_169",
+      "title": "Omar, secrétaire sténo-dactylo à Lille",
+      "description": "Immersion aux côtés d'Omar : les débuts dans le métier.",
+      "duration_seconds": 375,
+      "jobs": [
+        "M1607"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_169.svg",
+      "published_at": "2025-08-22"
+    },
+    {
+      "id": "vid_170",
+      "title": "Devenir secrétaire d'affaires",
+      "description": "Découvrez le quotidien de Romain, secrétaire d'affaires.",
+      "duration_seconds": 371,
+      "jobs": [
+        "M1607"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_170.svg",
+      "published_at": "2023-08-29"
+    },
+    {
+      "id": "vid_171",
+      "title": "Hugo, analyste développeur en Auvergne",
+      "description": "Découvrez le quotidien d'Hugo, analyste développeur.",
+      "duration_seconds": 355,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_171.svg",
+      "published_at": "2026-03-04"
+    },
+    {
+      "id": "vid_172",
+      "title": "Chloé, informaticienne à Lille",
+      "description": "Immersion aux côtés de Chloé : les débuts dans le métier.",
+      "duration_seconds": 1074,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_172.svg",
+      "published_at": "2023-01-13"
+    },
+    {
+      "id": "vid_173",
+      "title": "Antoine, développeur informatique en zone rurale",
+      "description": "Découvrez le quotidien d'Antoine, développeur informatique.",
+      "duration_seconds": 340,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_173.svg",
+      "published_at": "2026-01-30"
+    },
+    {
+      "id": "vid_174",
+      "title": "Développeur IOT : le travail en équipe",
+      "description": "Julien vous fait découvrir son métier de développeur IOT, la sécurité avant tout.",
+      "duration_seconds": 825,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_174.svg",
+      "published_at": "2024-02-11"
+    },
+    {
+      "id": "vid_175",
+      "title": "Développeuse IOT : la sécurité avant tout",
+      "description": "Découvrez le quotidien de Sophie, développeuse IOT.",
+      "duration_seconds": 455,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_175.svg",
+      "published_at": "2023-04-24"
+    },
+    {
+      "id": "vid_176",
+      "title": "Devenir informaticien",
+      "description": "Immersion aux côtés d'Hugo : le travail en équipe.",
+      "duration_seconds": 172,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_176.svg",
+      "published_at": "2024-01-04"
+    },
+    {
+      "id": "vid_177",
+      "title": "Programmeuse informatique : les gestes du métier",
+      "description": "Mélanie vous fait découvrir son métier de programmeuse informatique, une journée type.",
+      "duration_seconds": 364,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_177.svg",
+      "published_at": "2026-07-21"
+    },
+    {
+      "id": "vid_178",
+      "title": "Développeuse IOT : les débuts dans le métier",
+      "description": "Découvrez le quotidien de Léa, développeuse IOT.",
+      "duration_seconds": 359,
+      "jobs": [
+        "M1805"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_178.svg",
+      "published_at": "2025-11-15"
+    },
+    {
+      "id": "vid_179",
+      "title": "Gestionnaire de système informatique : les gestes du métier",
+      "description": "Immersion aux côtés de Sophie : les outils du quotidien.",
+      "duration_seconds": 431,
+      "jobs": [
+        "M1801"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_179.svg",
+      "published_at": "2026-01-20"
+    },
+    {
+      "id": "vid_180",
+      "title": "Devenir gestionnaire de système informatique",
+      "description": "Laura vous fait découvrir son métier de gestionnaire de système informatique, les gestes du métier.",
+      "duration_seconds": 441,
+      "jobs": [
+        "M1801"
+      ],
+      "audiences": [
+        "college",
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_180.svg",
+      "published_at": "2026-04-14"
+    },
+    {
+      "id": "vid_181",
+      "title": "Préparateur de commandes : une journée type",
+      "description": "Découvrez le quotidien de Lucas, préparateur de commandes.",
+      "duration_seconds": 360,
+      "jobs": [
+        "N1103"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_181.svg",
+      "published_at": "2025-05-24"
+    },
+    {
+      "id": "vid_182",
+      "title": "Agente de préparation de commandes : les outils du quotidien",
+      "description": "Découvrez le quotidien d'Aïcha, agente de préparation de commandes.",
+      "duration_seconds": 304,
+      "jobs": [
+        "N1103",
+        "N1101"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_182.svg",
+      "published_at": "2025-12-16"
+    },
+    {
+      "id": "vid_183",
+      "title": "Devenir agente de préparation de commandes",
+      "description": "Découvrez le quotidien de Manon, agente de préparation de commandes.",
+      "duration_seconds": 401,
+      "jobs": [
+        "N1103"
+      ],
+      "audiences": [
+        "lycee",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_183.svg",
+      "published_at": "2023-09-09"
+    },
+    {
+      "id": "vid_184",
+      "title": "Devenir préparatrice de commandes",
+      "description": "Découvrez le quotidien d'Aïcha, préparatrice de commandes.",
+      "duration_seconds": 253,
+      "jobs": [
+        "N1103"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_184.svg",
+      "published_at": "2026-03-08"
+    },
+    {
+      "id": "vid_185",
+      "title": "Mehdi, agent de préparation de commandes en Bretagne",
+      "description": "Immersion aux côtés de Mehdi : ce qu'on ne voit pas.",
+      "duration_seconds": 158,
+      "jobs": [
+        "N1103"
+      ],
+      "audiences": [
+        "lycee",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_185.svg",
+      "published_at": "2023-08-07"
+    },
+    {
+      "id": "vid_186",
+      "title": "Agent de préparation de commandes : les débuts dans le métier",
+      "description": "Samuel vous fait découvrir son métier d'agent de préparation de commandes, les outils du quotidien.",
+      "duration_seconds": 744,
+      "jobs": [
+        "N1103"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_186.svg",
+      "published_at": "2023-10-10"
+    },
+    {
+      "id": "vid_187",
+      "title": "Une journée avec Karim, conducteur de nacelle",
+      "description": "Découvrez le quotidien de Karim, conducteur de nacelle.",
+      "duration_seconds": 209,
+      "jobs": [
+        "N1101"
+      ],
+      "audiences": [
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_187.svg",
+      "published_at": "2024-08-13"
+    },
+    {
+      "id": "vid_188",
+      "title": "Devenir conductrice de nacelle",
+      "description": "Jeanne vous fait découvrir son métier de conductrice de nacelle, dans les coulisses.",
+      "duration_seconds": 188,
+      "jobs": [
+        "N1101"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "jeunes-insertion"
+      ],
+      "compatible_headsets": [
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_188.svg",
+      "published_at": "2025-12-26"
+    },
+    {
+      "id": "vid_189",
+      "title": "Transporteur routier : la sécurité avant tout",
+      "description": "Immersion aux côtés de Lucas : la sécurité avant tout.",
+      "duration_seconds": 969,
+      "jobs": [
+        "N4101",
+        "N4103"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_189.svg",
+      "published_at": "2025-10-30"
+    },
+    {
+      "id": "vid_190",
+      "title": "Antoine, camionneur à Lyon",
+      "description": "Immersion aux côtés d'Antoine : une journée type.",
+      "duration_seconds": 407,
+      "jobs": [
+        "N4101"
+      ],
+      "audiences": [
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_190.svg",
+      "published_at": "2025-03-09"
+    },
+    {
+      "id": "vid_191",
+      "title": "Devenir chauffeur routier",
+      "description": "Yanis vous fait découvrir son métier de chauffeur routier, une journée type.",
+      "duration_seconds": 344,
+      "jobs": [
+        "N4101"
+      ],
+      "audiences": [
+        "tout-public",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_191.svg",
+      "published_at": "2025-12-11"
+    },
+    {
+      "id": "vid_192",
+      "title": "Transporteur routier : les débuts dans le métier",
+      "description": "Découvrez le quotidien de Nicolas, transporteur routier.",
+      "duration_seconds": 446,
+      "jobs": [
+        "N4101",
+        "N4105"
+      ],
+      "audiences": [
+        "lycee",
+        "jeunes-insertion",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_192.svg",
+      "published_at": "2024-08-07"
+    },
+    {
+      "id": "vid_193",
+      "title": "Chauffeuse-livreuse : la sécurité avant tout",
+      "description": "Manon vous fait découvrir son métier de chauffeuse-livreuse, les outils du quotidien.",
+      "duration_seconds": 256,
+      "jobs": [
+        "N4105"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_193.svg",
+      "published_at": "2024-02-12"
+    },
+    {
+      "id": "vid_194",
+      "title": "Devenir livreur de plats cuisinés",
+      "description": "Découvrez le quotidien de Thomas, livreur de plats cuisinés.",
+      "duration_seconds": 390,
+      "jobs": [
+        "N4105"
+      ],
+      "audiences": [
+        "tout-public",
+        "college",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_194.svg",
+      "published_at": "2024-09-24"
+    },
+    {
+      "id": "vid_195",
+      "title": "Antoine, conducteur-livreur dans un grand groupe",
+      "description": "Immersion aux côtés d'Antoine : les débuts dans le métier.",
+      "duration_seconds": 189,
+      "jobs": [
+        "N4105"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_195.svg",
+      "published_at": "2023-11-30"
+    },
+    {
+      "id": "vid_196",
+      "title": "Devenir machiniste-receveur",
+      "description": "Découvrez le quotidien d'Antoine, machiniste-receveur.",
+      "duration_seconds": 354,
+      "jobs": [
+        "N4103",
+        "N4105"
+      ],
+      "audiences": [
+        "jeunes-insertion",
+        "adultes-reconversion",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_196.svg",
+      "published_at": "2024-09-25"
+    },
+    {
+      "id": "vid_197",
+      "title": "Une journée avec Lucas, conducteur-receveur",
+      "description": "Découvrez le quotidien de Lucas, conducteur-receveur.",
+      "duration_seconds": 181,
+      "jobs": [
+        "N4103",
+        "N4105"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_197.svg",
+      "published_at": "2024-04-23"
+    },
+    {
+      "id": "vid_198",
+      "title": "Devenir conductrice machiniste",
+      "description": "Découvrez le quotidien de Fatou, conductrice machiniste.",
+      "duration_seconds": 385,
+      "jobs": [
+        "N4103"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_198.svg",
+      "published_at": "2026-02-05"
+    },
+    {
+      "id": "vid_199",
+      "title": "Conducteur machiniste : la sécurité avant tout",
+      "description": "Yanis vous fait découvrir son métier de conducteur machiniste, le travail en équipe.",
+      "duration_seconds": 424,
+      "jobs": [
+        "N4103"
+      ],
+      "audiences": [
+        "tout-public"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_199.svg",
+      "published_at": "2025-10-03"
+    },
+    {
+      "id": "vid_200",
+      "title": "Devenir infographiste",
+      "description": "Découvrez le quotidien de Léa, infographiste.",
+      "duration_seconds": 413,
+      "jobs": [
+        "E1205"
+      ],
+      "audiences": [
+        "college"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_200.svg",
+      "published_at": "2024-03-25"
+    },
+    {
+      "id": "vid_201",
+      "title": "Graphiste 2 D : les outils du quotidien",
+      "description": "Immersion aux côtés de Lucas : les outils du quotidien.",
+      "duration_seconds": 886,
+      "jobs": [
+        "E1205"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_201.svg",
+      "published_at": "2026-01-06"
+    },
+    {
+      "id": "vid_202",
+      "title": "Devenir stéréographe 3D",
+      "description": "Élodie vous fait découvrir son métier de stéréographe 3D, les gestes du métier.",
+      "duration_seconds": 264,
+      "jobs": [
+        "E1205"
+      ],
+      "audiences": [
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_202.svg",
+      "published_at": "2026-02-17"
+    },
+    {
+      "id": "vid_203",
+      "title": "Affichiste : une journée type",
+      "description": "Découvrez le quotidien de Sophie, affichiste.",
+      "duration_seconds": 320,
+      "jobs": [
+        "E1205"
+      ],
+      "audiences": [
+        "adultes-reconversion",
+        "college",
+        "lycee"
+      ],
+      "compatible_headsets": [
+        "pico-g2-4k",
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_203.svg",
+      "published_at": "2023-12-11"
+    },
+    {
+      "id": "vid_204",
+      "title": "Devenir graphiste 2 D",
+      "description": "Omar vous fait découvrir son métier de graphiste 2 D, une journée type.",
+      "duration_seconds": 637,
+      "jobs": [
+        "E1205"
+      ],
+      "audiences": [
+        "lycee",
+        "adultes-reconversion"
+      ],
+      "compatible_headsets": [
+        "pico-4",
+        "meta-quest-2",
+        "meta-quest-3"
+      ],
+      "thumbnail_url": "/thumbnails/vid_204.svg",
+      "published_at": "2024-10-06"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "ses_001",
+      "name": "Découverte des métiers — 3e B",
+      "video_ids": [
+        "vid_013",
+        "vid_041",
+        "vid_078"
+      ],
+      "headset_id": "pico-g2-4k",
+      "created_at": "2026-09-22T08:12:00Z"
+    },
+    {
+      "id": "ses_002",
+      "name": "Atelier métiers de bouche",
+      "video_ids": [
+        "vid_013",
+        "vid_014",
+        "vid_015",
+        "vid_016",
+        "vid_017"
+      ],
+      "headset_id": "meta-quest-3",
+      "created_at": "2026-10-01T13:40:00Z"
+    },
+    {
+      "id": "ses_003",
+      "name": "Groupe Garantie jeunes — logistique",
+      "video_ids": [
+        "vid_181",
+        "vid_182",
+        "vid_183",
+        "vid_184"
+      ],
+      "headset_id": null,
+      "created_at": "2026-10-08T09:05:00Z"
+    }
+  ]
+}
