@@ -28,7 +28,13 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: thin same-origin Astro endpoints expose the supported catalogue, reference, session and thumbnail operations without modifying or duplicating the supplied mock API.
   - Evidence: the focused red-green cycle produced 20 boundary tests; final `npm run verify` passed formatting, linting, strict checks with zero diagnostics, all 24 tests and the production build.
   - Evidence: two-process smoke checks confirmed a filtered video response, same-origin thumbnail rewrite/proxy, reference data, preserved upstream 400 and 500 responses, and a successful `201` session creation on a distinct manual retry.
-- [ ] **Task 4:** Implement catalogue discovery.
+- [x] **Task 4:** Implement catalogue discovery.
+  - Evidence: the server-rendered initial catalogue hydrates into one cohesive React surface using TanStack Query; browser responses are runtime-validated against the same-origin BFF contract.
+  - Evidence: search, job, headset and audience filters plus server pagination write only supported state to the URL, reset page on criteria changes and restore predictably through back/forward navigation.
+  - Evidence: responsive cards expose result count, loading, empty, recoverable-error, missing-thumbnail, contextual compatibility and explicit add/remove states with labelled native controls and visible focus.
+  - Evidence: 13 focused query/API/component tests passed; the URL page-reset mutation was caught by its regression test; final full-suite evidence is recorded in the Task 4 handoff documents.
+  - Evidence: the same-origin thumbnail endpoint adds a light browser-facing `public, max-age=86400, stale-while-revalidate=604800` cache policy without changing the supplied API; a focused endpoint test protects the exact header.
+  - Evidence: browser checks covered 320, 390, 834, 1024 and 1440 CSS pixels, mobile filter focus restoration, empty search, retry recovery, pagination, history and zero horizontal overflow.
 - [ ] **Task 5:** Implement contextual video details.
 - [ ] **Checkpoint B:** Catalogue search, filtering, pagination, details and failure states are browser-verified.
 
@@ -59,6 +65,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 3 — Establish runtime contracts and the BFF boundary — is complete.
+**Awaiting review:** Task 4 — Implement catalogue discovery — is complete.
 
-The next implementation slice is Task 4 — Implement catalogue discovery. Do not begin it without a new user instruction.
+The next implementation slice is Task 5 — Implement contextual video details. Do not begin it without a new user instruction.

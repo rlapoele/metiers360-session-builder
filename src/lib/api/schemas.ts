@@ -26,6 +26,18 @@ export const VideoListSchema = z.object({
   meta: PaginationMetaSchema,
 });
 
+export const BffVideoSchema = VideoSchema.extend({
+  thumbnail_url: z
+    .string()
+    .startsWith('/api/thumbnails/')
+    .endsWith('.svg')
+    .nullable(),
+});
+
+export const BffVideoListSchema = VideoListSchema.extend({
+  data: z.array(BffVideoSchema),
+});
+
 const JobDomainSchema = z.object({
   code: IdentifierSchema,
   label: z.string(),
@@ -122,6 +134,7 @@ export const ServerEnvSchema = z.object({
 export type PaginationMeta = z.infer<typeof PaginationMetaSchema>;
 export type Video = z.infer<typeof VideoSchema>;
 export type VideoList = z.infer<typeof VideoListSchema>;
+export type BffVideoList = z.infer<typeof BffVideoListSchema>;
 export type Job = z.infer<typeof JobSchema>;
 export type JobList = z.infer<typeof JobListSchema>;
 export type Audience = z.infer<typeof AudienceSchema>;

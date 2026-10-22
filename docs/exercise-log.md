@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, and authorisation of the Task 3 runtime-contract/BFF slice | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, and authorisation of the Task 3 runtime-contract/BFF and Task 4 catalogue-discovery slices | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
 
 Running total: **unknown pending candidate input**.
 
@@ -36,6 +36,7 @@ AI assistance has been used for:
 - implementing and verifying the shared Astro shell, route-aware navigation, two foundation routes, accessible focus baseline and light-theme token mappings as the authorised Task 2 slice.
 - reviewing shell contrast against WCAG AA and AAA thresholds, then implementing and verifying the candidate-approved current-navigation token and square focus-outline refinement.
 - implementing and verifying central runtime schemas, a typed server-only catalogue client and thin same-origin Astro BFF routes without changing the supplied mock API.
+- implementing and verifying the URL-owned searchable/filterable paginated catalogue, server-rendered initial data, TanStack Query client transitions, responsive cards and recoverable UI states.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -120,3 +121,9 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-22 | Agent | Task 3 focused schema/client/BFF red-green cycles | Twenty boundary tests passed for accepted and rejected schemas, query allow-listing, French session-input errors, thumbnail rewriting/proxying, upstream details, invalid responses, transport failures and timeouts |
 | 2026-10-22 | Agent | Combined `npm run dev` Task 3 BFF smoke checks | Filtered videos, reference data and SVG proxy returned through Astro; upstream 400 and deliberate 500 bodies/statuses were preserved; one distinct manual POST retry returned 201 with ordered video IDs |
 | 2026-10-22 | Agent | Final Task 3 `npm run verify` and `git diff --check` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, 24 Vitest tests, the production server build and diff hygiene passed |
+| 2026-10-22 | Agent | Task 4 focused red-green tests and mutation check | Thirteen focused URL-state, browser-BFF and React component tests passed; changing page-reset behavior made the intended regression test fail before restoration |
+| 2026-10-22 | Agent | Task 4 real-browser inspection at 320, 390, 834, 1024 and 1440 CSS pixels | Verified responsive 1/2/3-column layouts, staged mobile filters, Escape/focus restoration, missing-thumbnail fallback, add/remove state and zero horizontal overflow |
+| 2026-10-22 | Agent | Task 4 browser flows for URL state and remote failures | Verified empty search, applied filters, pagination, back-navigation restoration and a deterministic one-request 503 followed by successful retry without losing URL criteria |
+| 2026-10-22 | Agent | Final Task 4 `npm run verify` and `git diff --check` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 37 Vitest tests, the production server build and diff hygiene passed |
+| 2026-10-22 | Agent | Task 4 thumbnail-cache focused red-green cycle | The endpoint-level test first failed because `Cache-Control` was absent, then passed after the Astro BFF added the approved browser-facing policy; the supplied API was unchanged |
+| 2026-10-22 | Agent | Task 4 thumbnail-cache follow-up `npm run verify` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 38 Vitest tests and the production server build passed |

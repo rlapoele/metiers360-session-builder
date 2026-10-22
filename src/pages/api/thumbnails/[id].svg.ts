@@ -14,6 +14,7 @@ export const GET: APIRoute = async ({ params }) => {
     const thumbnail = await getCatalogueClient().getThumbnail(params.id);
     return new Response(thumbnail.body, {
       headers: {
+        'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
         'Content-Type': thumbnail.contentType,
         'Content-Security-Policy':
           "default-src 'none'; style-src 'unsafe-inline'; sandbox",

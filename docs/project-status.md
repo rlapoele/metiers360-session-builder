@@ -19,11 +19,13 @@ This file records transient project state that does not belong in the stable arc
 - Task 2 and Checkpoint A are complete: `/` and `/sessions` now share a responsive Astro shell with the official 192 × 192 Métiers360 WebP logo, semantic navigation, route-aware current state, a keyboard skip link and page-specific French metadata and headings.
 - The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
 - Task 3 is complete: shared Zod runtime contracts, a server-only catalogue client and thin same-origin Astro BFF endpoints now cover supported catalogue, reference, session and thumbnail operations with consistent failure normalisation.
-- Catalogue presentation, draft behavior, filters, sheets and saved-session content remain deliberately unimplemented future slices.
+- Task 4 is complete: the catalogue now renders server-provided initial data and hydrates into one React/TanStack Query surface with URL-owned search, job/headset/audience filters, server pagination, responsive cards and recoverable loading, empty and error states.
+- Card add/remove state is deliberately local to the catalogue island in this slice. Durable cross-route ownership, validation and browser persistence remain Task 6; the header draft trigger and draft composition surfaces therefore remain disabled until that model exists.
+- Video details, durable draft behavior and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 3 and wait for the user's explicit instruction before starting Task 4 from the accepted [project plan](../tasks/plan.md). Task 4 will implement catalogue discovery using the established contracts and BFF. Do not skip ahead to video details, draft composition or other feature implementation.
+Review Task 4 and wait for the user's explicit instruction before starting Task 5 from the accepted [project plan](../tasks/plan.md). Task 5 will implement contextual video details without changing the catalogue URL or scroll context. Do not skip ahead to the persisted draft model, draft composition or other feature implementation.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -44,6 +46,8 @@ Before the first release, define and document the exact commands used to preserv
 ## Repository-state handoff
 
 The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`). Task 2 was accepted and pushed to `dev` in commit `61da47d` (`feat: build responsive application shell`), followed by the accepted accessibility refinement in `2ddf704` (`fix: strengthen current navigation accessibility`).
+
+Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -103,6 +107,20 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - A post-review accessibility refinement introduced a dedicated blue-800 current-navigation token, raising selected-link contrast on white from 5.20:1 to 9.17:1, and removed rounding from navigation-link focus outlines. `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, four tests and the production build; browser checks at 320, 768, 1024 and 1440 CSS pixels confirmed the semantic token, square outline, clean console and zero horizontal overflow.
 - The Task 2 baseline is committed as `61da47d`; its accessibility refinement was accepted and committed as `2ddf704`.
 
+## Task 4 verification handoff
+
+- `src/pages/index.astro` resolves the initial URL state and uses the shared server-only client for first-render videos and reference data; `CatalogueApp` hydrates the workflow without requesting the Astro service from itself.
+- `src/features/catalogue/` owns URL parsing/serialization, browser BFF calls and display formatting. Criteria changes reset pagination; default values are omitted from shareable URLs; `popstate` restores search and results.
+- `src/components/catalogue/` contains focused search, filter, applied-filter, result/card and pagination components. Mobile/tablet filters use a staged native modal dialog; desktop filters stay inline.
+- A distinct BFF video schema validates same-origin thumbnail paths while the upstream video schema continues to require absolute URLs. A browser-discovered regression test protects this boundary.
+- The same-origin thumbnail endpoint now adds `Cache-Control: public, max-age=86400, stale-while-revalidate=604800`, enabling light browser reuse without modifying the supplied API or incorrectly treating ID-based URLs as immutable. A focused route test protects the exact policy.
+- `@tanstack/react-query` manages remote catalogue/reference state, `@heroicons/react` supplies the agreed outline icons, and Testing Library/jsdom support behavior-focused React tests. No shadcn component or Nano Store was installed prematurely.
+- Card selection is intentionally in-memory inside `CatalogueApp`. It demonstrates accessible add/remove state for Task 4 without pre-empting Task 6's validated Nano Stores persistence model.
+- Browser checks covered success, missing thumbnail fallback, empty search, a deterministic single-request failure followed by successful retry, pagination, applied filters, back navigation, staged-filter cancellation and focus restoration at 320, 390, 834, 1024 and 1440 CSS pixels. No horizontal overflow or unexpected console warning/error was present; the injected 503 produced only its expected failed-request console entry.
+- Focused tests cover query state, BFF browser parsing and the core catalogue component. A mutation that disabled page reset made the focused test fail as expected.
+- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 38 tests and the production server build; `git diff --check` passed at handoff.
+- Task 4 is intentionally uncommitted for user review. Task 5 has not started.
+
 ## Task 3 verification handoff
 
 - `zod` 4.6 was added as the runtime-validation dependency. `src/lib/api/schemas.ts` is the single schema/type source for upstream responses, application-owned session input, persisted draft data and server configuration.
@@ -111,7 +129,7 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - Internal errors distinguish configuration, transport, timeout, upstream and invalid-response failures. Raw Zod diagnostics remain server-side while BFF responses use concise recoverable French messages.
 - Focused red-green tests passed for 20 schema/client/BFF cases. Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 24 tests and the production build; `git diff --check` is part of the final handoff check.
 - Combined `npm run dev` smoke checks returned a validated filtered video list with a same-origin thumbnail URL, an SVG thumbnail with `nosniff`, reference data, the upstream 400 body for invalid pagination and the upstream deliberate 500 body for the first session POST. No automatic POST retry was added; one distinct manual retry verified the `201` path and ordered IDs.
-- Task 3 is intentionally uncommitted for user review. Task 4 has not started.
+- Task 3 is committed as `6f4a56b`. Task 4 was implemented only after a new explicit instruction.
 
 ## Task 1 verification handoff
 
