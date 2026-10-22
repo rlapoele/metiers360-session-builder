@@ -23,11 +23,12 @@ This file records transient project state that does not belong in the stable arc
 - Task 5 and Checkpoint B are complete: cards open complete video metadata in a contextual native modal that becomes a full-screen mobile surface or a right-hand tablet/desktop sheet without changing the catalogue URL or position. Loading, missing-thumbnail, recoverable-error and add/remove states are covered.
 - Task 6 is complete: a versioned Zod-validated Nano Stores model owns the draft name, optional headset and unique ordered video IDs; catalogue add/remove actions and the header count now observe the same persisted state across islands, navigation and reloads.
 - Count, known duration and headset compatibility are derived from the canonical draft plus registered video data. Invalid or duplicate persisted IDs are discarded, and server output shows a loading placeholder instead of a misleading zero before browser restoration.
-- The responsive draft panel/sheet, ordering controls and saved-session content remain deliberately unimplemented future slices.
+- Task 7 is complete: `Ma séance` is a persistent sticky catalogue rail from the desktop breakpoint and a full-height modal sheet with a sticky summary on mobile/tablet. Numbered items have explicit move and remove controls, textual duration/compatibility status and retryable metadata failures without draft loss.
+- Finalisation/saving, saved-session content and the representative visual-system refinement remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 6 and wait for the user's explicit instruction before starting Task 7 from the accepted [project plan](../tasks/plan.md). Task 7 will expose the existing draft model through the responsive `Ma séance` panel/sheet and explicit ordering controls. Do not skip ahead to the visual-system review or save workflow.
+Review Task 7 and wait for the user's explicit instruction before starting Task 7A from the accepted [project plan](../tasks/plan.md). Task 7A will review and refine the now-representative shell, catalogue, video-details and draft-composition surfaces. Do not skip ahead to the save workflow.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -51,7 +52,7 @@ The initial context baseline was accepted and pushed to `dev` in commit `6ed929a
 
 Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
 
-Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 is intentionally uncommitted for review.
+Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 was accepted and pushed in `c3e3d7e` (`feat: persist shared session draft state`). Task 7 is intentionally uncommitted for review.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -144,7 +145,17 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `CatalogueApp` now replaces temporary local selection with the shared store. It waits until its first client effect before observing restored state so the server-rendered catalogue hydrates without cross-island markup mismatches.
 - Focused failing-first coverage verifies valid and invalid restoration, duplicate rejection, persistence, ordering, clear-after-save, name/headset constraints, derived duration/compatibility, the header hydration state and catalogue persistence.
 - The browser flow added a video, navigated to `/sessions`, reloaded and returned to `/`; the header retained `1 vidéo dans ma séance`, the originating card retained `Dans ma séance`/`Retirer de ma séance`, and the corrected run had zero console errors or warnings.
-- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 56 tests and the production server build; `git diff --check` passed, and `npm audit --omit=dev` reported zero known production vulnerabilities. Task 6 remains intentionally uncommitted for user review, and Task 7 has not started.
+- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 56 tests and the production server build; `git diff --check` passed, and `npm audit --omit=dev` reported zero known production vulnerabilities. Task 6 was accepted and committed as `c3e3d7e`; Task 7 began only after the user's explicit instruction.
+
+## Task 7 verification handoff
+
+- `SessionDraftComposition.tsx` resolves draft metadata through the existing validated per-video BFF query, registers successful responses for derived state and leaves failed IDs ordered, persisted and individually retryable.
+- `SessionDraftContent.tsx` renders the shared numbered list, durations, textual headset compatibility and labelled move/remove controls. No drag-only behavior, dead finalisation action, new dependency or supplied-API change was introduced.
+- The catalogue uses a sticky three-column desktop composition from 1280px. Smaller viewports retain the full-width catalogue, receive bottom padding for a fixed draft summary and open a native full-height modal with initial close focus, explicit Tab containment, Escape handling, scroll locking and trigger-focus restoration.
+- The shared header count is now an accessible action: it opens the modal below 1280px and focuses the persistent rail at desktop widths. Draft display is gated behind the catalogue's first client effect to avoid the cross-island hydration mismatch discovered with a persisted draft during browser testing.
+- Focused component coverage verifies desktop ordering/removal/persistence, mobile focus behavior, textual compatibility, retryable metadata failure, header event dispatch and the cross-route hash entry flow. The final suite contains 63 passing tests.
+- Browser checks at 320, 390, 834, 1024 and 1280 CSS pixels verified sheet/rail placement, two-video ordering, reload persistence, header and bottom-summary triggers, Escape focus restoration, zero horizontal overflow and zero console warnings/errors after the hydration fix.
+- Task 7 is intentionally uncommitted for user review. Task 7A has not started.
 
 ## Task 3 verification handoff
 

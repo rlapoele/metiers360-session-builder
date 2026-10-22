@@ -15,8 +15,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { CatalogueReferences } from '../../features/catalogue/api';
 import type { CatalogueQuery } from '../../features/catalogue/query-params';
 import {
+  addVideoToDraft,
   clearDraftAfterSave,
   SESSION_DRAFT_STORAGE_KEY,
+  setDraftHeadset,
 } from '../../features/sessions/session-draft.store';
 import type { VideoList } from '../../lib/api/schemas';
 import { CatalogueApp } from './CatalogueApp';
@@ -44,6 +46,24 @@ const initialVideos: VideoList = {
     },
   ],
   meta: { page: 1, per_page: 24, total: 1, total_pages: 1 },
+};
+
+const compositionVideos: VideoList = {
+  data: [
+    initialVideos.data[0],
+    {
+      id: 'vid_002',
+      title: 'Découvrir le métier de pâtissière',
+      description: 'Une immersion dans un laboratoire de pâtisserie.',
+      duration_seconds: 305,
+      jobs: ['A1203'],
+      audiences: ['adultes-reconversion'],
+      compatible_headsets: [],
+      thumbnail_url: null,
+      published_at: '2024-05-03',
+    },
+  ],
+  meta: { page: 1, per_page: 24, total: 2, total_pages: 1 },
 };
 
 const initialReferences: CatalogueReferences = {
@@ -138,6 +158,186 @@ describe('CatalogueApp', () => {
     expect(
       JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
     ).toMatchObject({ video_ids: ['vid_001'] });
+  });
+
+  it('renders, reorders and removes the persisted draft in its desktop panel', async () => {
+    const user = userEvent.setup();
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={compositionVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    const addButtons = screen.getAllByRole('button', {
+      name: 'Ajouter à ma séance',
+    });
+    await user.click(addButtons[0]);
+    await user.click(addButtons[1]);
+
+    const panel = screen.getByRole('complementary', { name: 'Ma séance' });
+    expect(
+      within(panel).getByText('2 vidéos · 12 min 40 s'),
+    ).toBeInTheDocument();
+    expect(
+      within(panel).getByText('Casque à choisir lors de la finalisation.'),
+    ).toBeInTheDocument();
+    expect(
+      within(panel)
+        .getAllByRole('listitem')
+        .map((item) => item.textContent),
+    ).toEqual([
+      expect.stringContaining('1Une journée avec Omar'),
+      expect.stringContaining('2Découvrir le métier de pâtissière'),
+    ]);
+
+    await user.click(
+      within(panel).getByRole('button', {
+        name: 'Monter Découvrir le métier de pâtissière',
+      }),
+    );
+
+    expect(
+      within(panel)
+        .getAllByRole('listitem')
+        .map((item) => item.textContent),
+    ).toEqual([
+      expect.stringContaining('1Découvrir le métier de pâtissière'),
+      expect.stringContaining('2Une journée avec Omar'),
+    ]);
+    expect(
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+    ).toMatchObject({ video_ids: ['vid_002', 'vid_001'] });
+
+    await user.click(
+      within(panel).getByRole('button', {
+        name: 'Retirer Découvrir le métier de pâtissière',
+      }),
+    );
+    expect(within(panel).getByText('1 vidéo · 7 min 35 s')).toBeInTheDocument();
+  });
+
+  it('opens the mobile draft sheet, traps focus and restores it on close', async () => {
+    const user = userEvent.setup();
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'Ajouter à ma séance' }),
+    );
+    const trigger = screen.getByRole('button', {
+      name: 'Consulter ma séance, 1 vidéo, 7 min 35 s',
+    });
+
+    await user.click(trigger);
+
+    const dialog = screen.getByRole('dialog', { name: 'Ma séance' });
+    const closeButton = within(dialog).getByRole('button', { name: 'Fermer' });
+    expect(dialog).toHaveAttribute('open');
+    expect(closeButton).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(
+      within(dialog).getByRole('button', {
+        name: 'Retirer Une journée avec Omar, jardinier municipal',
+      }),
+    ).toHaveFocus();
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.click(closeButton);
+    expect(dialog).not.toHaveAttribute('open');
+    expect(trigger).toHaveFocus();
+  });
+
+  it('opens a linked draft surface and restores focus after cross-route navigation', async () => {
+    const user = userEvent.setup();
+    const headerTrigger = document.createElement('button');
+    headerTrigger.dataset.sessionDraftTrigger = '';
+    document.body.append(headerTrigger);
+    window.history.replaceState({}, '', '/#ma-seance');
+
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    const dialog = await screen.findByRole('dialog', { name: 'Ma séance' });
+    await user.click(within(dialog).getByRole('button', { name: 'Fermer' }));
+
+    expect(window.location.hash).toBe('');
+    expect(headerTrigger).toHaveFocus();
+    headerTrigger.remove();
+  });
+
+  it('keeps an unresolved draft item when its metadata request fails', async () => {
+    const unavailableVideo = {
+      ...initialVideos.data[0],
+      id: 'vid_unavailable',
+      title: 'Vidéo temporairement indisponible',
+    };
+    addVideoToDraft(unavailableVideo);
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          error: 'upstream_error',
+          message: 'An unexpected error occurred.',
+        }),
+        { status: 503 },
+      ),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    const panel = screen.getByRole('complementary', { name: 'Ma séance' });
+    expect(
+      await within(panel).findByText(
+        'Les informations de cette vidéo sont indisponibles.',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(panel).getByRole('button', { name: 'Réessayer' }),
+    ).toBeInTheDocument();
+    expect(
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+    ).toMatchObject({ video_ids: ['vid_unavailable'] });
+  });
+
+  it('states headset compatibility in text for every resolved draft item', () => {
+    addVideoToDraft(compositionVideos.data[0]);
+    addVideoToDraft(compositionVideos.data[1]);
+    setDraftHeadset('pico-4');
+
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={compositionVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    const panel = screen.getByRole('complementary', { name: 'Ma séance' });
+    expect(
+      within(panel).getByText('Compatible avec Pico 4'),
+    ).toBeInTheDocument();
+    expect(
+      within(panel).getByText('Non compatible avec Pico 4'),
+    ).toBeInTheDocument();
   });
 
   it('opens complete contextual details and restores focus without changing the URL', async () => {

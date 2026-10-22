@@ -3,6 +3,7 @@
 import '@testing-library/jest-dom/vitest';
 
 import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const STORAGE_KEY = 'metiers360.session-draft.v1';
@@ -32,7 +33,7 @@ describe('SessionDraftButton', () => {
     render(<SessionDraftButton />);
 
     expect(
-      await screen.findByRole('status', { name: '2 vidéos dans ma séance' }),
+      await screen.findByRole('button', { name: '2 vidéos dans ma séance' }),
     ).toHaveTextContent('2');
   });
 
@@ -43,10 +44,38 @@ describe('SessionDraftButton', () => {
     render(<SessionDraftButton />);
 
     expect(
-      await screen.findByRole('status', {
+      await screen.findByRole('button', {
         name: 'aucune vidéo dans ma séance',
       }),
     ).toHaveTextContent('0');
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+  });
+
+  it('requests the catalogue draft surface from an accessible button', async () => {
+    const user = userEvent.setup();
+    const openListener = vi.fn();
+    document.addEventListener('metiers360:open-session-draft', openListener);
+    const { SessionDraftButton } = await import('./SessionDraftButton');
+
+    render(<SessionDraftButton />);
+    const button = await screen.findByRole('button', {
+      name: 'aucune vidéo dans ma séance',
+    });
+    await user.click(button);
+
+    expect(openListener).toHaveBeenCalledOnce();
+    document.removeEventListener('metiers360:open-session-draft', openListener);
+  });
+
+  it('links back to the catalogue draft surface from another route', async () => {
+    const { SessionDraftButton } = await import('./SessionDraftButton');
+
+    render(<SessionDraftButton currentPath="/sessions" />);
+
+    expect(
+      await screen.findByRole('link', {
+        name: 'aucune vidéo dans ma séance, ouvrir dans le catalogue',
+      }),
+    ).toHaveAttribute('href', '/#ma-seance');
   });
 });

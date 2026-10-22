@@ -6,6 +6,7 @@ import {
   $sessionDraftHydrated,
   hydrateSessionDraft,
 } from '../../features/sessions/session-draft.store';
+import { requestSessionDraftOpen } from '../../features/sessions/session-draft.events';
 
 function countLabel(count: number) {
   if (count === 0) return 'aucune vidéo dans ma séance';
@@ -13,7 +14,11 @@ function countLabel(count: number) {
   return `${count} vidéos dans ma séance`;
 }
 
-export function SessionDraftButton() {
+export function SessionDraftButton({
+  currentPath = '/',
+}: {
+  currentPath?: string;
+}) {
   const isHydrated = useStore($sessionDraftHydrated);
   const count = useStore($sessionDraftCount);
 
@@ -21,13 +26,9 @@ export function SessionDraftButton() {
     hydrateSessionDraft();
   }, []);
 
-  return (
-    <div
-      role="status"
-      aria-live="polite"
-      aria-label={isHydrated ? countLabel(count) : 'Chargement de ma séance'}
-      className="border-border text-muted-foreground order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium sm:order-3"
-    >
+  const label = isHydrated ? countLabel(count) : 'Chargement de ma séance';
+  const content = (
+    <>
       Ma séance
       {isHydrated ? (
         <span
@@ -42,6 +43,33 @@ export function SessionDraftButton() {
           className="bg-muted inline-flex size-6 animate-pulse rounded-full"
         />
       )}
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      {currentPath === '/' ? (
+        <button
+          type="button"
+          data-session-draft-trigger
+          aria-label={label}
+          onClick={(event) => requestSessionDraftOpen(event.currentTarget)}
+          className="border-border text-muted-foreground hover:bg-muted focus-visible:outline-ring order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 sm:order-3"
+        >
+          {content}
+        </button>
+      ) : (
+        <a
+          href="/#ma-seance"
+          aria-label={`${label}, ouvrir dans le catalogue`}
+          className="border-border text-muted-foreground hover:bg-muted focus-visible:outline-ring order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 sm:order-3"
+        >
+          {content}
+        </a>
+      )}
+      <span role="status" aria-live="polite" className="sr-only">
+        {label}
+      </span>
+    </>
   );
 }

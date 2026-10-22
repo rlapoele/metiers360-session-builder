@@ -38,6 +38,7 @@ import { AppliedFilters, type AppliedFilter } from './AppliedFilters';
 import { CatalogueFilters } from './CatalogueFilters';
 import { CatalogueResults } from './CatalogueResults';
 import { CatalogueSearch } from './CatalogueSearch';
+import { SessionDraftComposition } from './SessionDraftComposition';
 import { VideoDetailsSheet } from './VideoDetailsSheet';
 
 interface CatalogueAppProps {
@@ -213,73 +214,85 @@ function CatalogueContent({
   );
 
   return (
-    <div className="space-y-8">
-      <CatalogueSearch
-        value={searchValue}
-        onChange={setSearchValue}
-        onSubmit={submitSearch}
-      />
+    <div className="grid gap-8 xl:grid-cols-3 xl:items-start">
+      <div className="space-y-8 pb-24 xl:col-span-2 xl:pb-0">
+        <CatalogueSearch
+          value={searchValue}
+          onChange={setSearchValue}
+          onSubmit={submitSearch}
+        />
 
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <CatalogueFilters
-            query={query}
-            references={references}
-            disabled={referencesQuery.isPending}
-            onChange={navigate}
-          />
-          {videosQuery.data && (
-            <p role="status" aria-live="polite" className="text-sm font-medium">
-              {formatResultCount(videosQuery.data.meta.total)}
-            </p>
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <CatalogueFilters
+              query={query}
+              references={references}
+              disabled={referencesQuery.isPending}
+              onChange={navigate}
+            />
+            {videosQuery.data && (
+              <p
+                role="status"
+                aria-live="polite"
+                className="text-sm font-medium"
+              >
+                {formatResultCount(videosQuery.data.meta.total)}
+              </p>
+            )}
+          </div>
+
+          {referencesQuery.isError && (
+            <div
+              role="alert"
+              className="border-border rounded-md border p-4 text-sm"
+            >
+              <p>Les filtres ne peuvent pas être chargés.</p>
+              <button
+                type="button"
+                onClick={() => void referencesQuery.refetch()}
+                className="text-navigation-current focus-visible:outline-ring mt-2 min-h-11 font-semibold underline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                Réessayer de charger les filtres
+              </button>
+            </div>
           )}
+
+          <AppliedFilters
+            filters={activeFilters}
+            onRemove={(key) => navigate({ [key]: '' })}
+            onClear={clearCriteria}
+          />
         </div>
 
-        {referencesQuery.isError && (
-          <div
-            role="alert"
-            className="border-border rounded-md border p-4 text-sm"
-          >
-            <p>Les filtres ne peuvent pas être chargés.</p>
-            <button
-              type="button"
-              onClick={() => void referencesQuery.refetch()}
-              className="text-navigation-current focus-visible:outline-ring mt-2 min-h-11 font-semibold underline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              Réessayer de charger les filtres
-            </button>
-          </div>
-        )}
-
-        <AppliedFilters
-          filters={activeFilters}
-          onRemove={(key) => navigate({ [key]: '' })}
+        <CatalogueResults
+          data={videosQuery.data}
+          errorMessage={
+            videosQuery.isError ? videosQuery.error.message : undefined
+          }
+          isPending={videosQuery.isPending}
+          isPlaceholderData={videosQuery.isPlaceholderData}
+          isFetching={videosQuery.isFetching}
+          query={query}
+          hasCriteria={hasCriteria}
+          selectedIds={selectedIds}
+          jobLabelFor={(video) =>
+            jobLabels.get(video.jobs[0] ?? '') ??
+            video.jobs[0] ??
+            'Métier non renseigné'
+          }
+          compatibilityLabelFor={compatibilityLabel}
+          onRetry={() => void videosQuery.refetch()}
           onClear={clearCriteria}
+          onPageChange={(page) => navigate({ page })}
+          onOpenDetails={openDetails}
+          onToggle={toggleSelection}
         />
       </div>
 
-      <CatalogueResults
-        data={videosQuery.data}
-        errorMessage={
-          videosQuery.isError ? videosQuery.error.message : undefined
-        }
-        isPending={videosQuery.isPending}
-        isPlaceholderData={videosQuery.isPlaceholderData}
-        isFetching={videosQuery.isFetching}
-        query={query}
-        hasCriteria={hasCriteria}
-        selectedIds={selectedIds}
-        jobLabelFor={(video) =>
-          jobLabels.get(video.jobs[0] ?? '') ??
-          video.jobs[0] ??
-          'Métier non renseigné'
-        }
-        compatibilityLabelFor={compatibilityLabel}
-        onRetry={() => void videosQuery.refetch()}
-        onClear={clearCriteria}
-        onPageChange={(page) => navigate({ page })}
-        onOpenDetails={openDetails}
-        onToggle={toggleSelection}
+      <SessionDraftComposition
+        canObserveDraft={canObserveDraft}
+        references={references}
+        initialVideos={videosQuery.data?.data ?? []}
       />
 
       <VideoDetailsSheet

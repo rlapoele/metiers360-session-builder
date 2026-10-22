@@ -45,7 +45,7 @@ const navigationItems = getNavigationItems(currentPath);
       ))}
     </nav>
 
-    <SessionDraftButton client:only="react">
+    <SessionDraftButton client:only="react" currentPath={currentPath}>
       <div
         slot="fallback"
         role="status"

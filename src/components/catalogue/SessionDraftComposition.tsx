@@ -1,0 +1,261 @@
+import { useStore } from '@nanostores/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useQueries } from '@tanstack/react-query';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+
+import {
+  fetchVideo,
+  type CatalogueReferences,
+} from '../../features/catalogue/api';
+import { formatDuration } from '../../features/catalogue/format';
+import {
+  OPEN_SESSION_DRAFT_EVENT,
+  type OpenSessionDraftDetail,
+} from '../../features/sessions/session-draft.events';
+import {
+  $sessionDraft,
+  $sessionDraftHydrated,
+  $sessionDraftTotalDurationSeconds,
+  moveDraftVideoDown,
+  moveDraftVideoUp,
+  registerDraftVideos,
+  removeVideoFromDraft,
+} from '../../features/sessions/session-draft.store';
+import type { Video } from '../../lib/api/schemas';
+import {
+  SessionDraftContent,
+  type DraftVideoItem,
+} from './SessionDraftContent';
+
+interface SessionDraftCompositionProps {
+  canObserveDraft: boolean;
+  references?: CatalogueReferences;
+  initialVideos: Video[];
+}
+
+const focusableSelector =
+  'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function countLabel(count: number) {
+  if (count === 0) return 'Aucune vidéo';
+  return `${count} ${count === 1 ? 'vidéo' : 'vidéos'}`;
+}
+
+export function SessionDraftComposition({
+  canObserveDraft,
+  references,
+  initialVideos,
+}: SessionDraftCompositionProps) {
+  const storedDraft = useStore($sessionDraft);
+  const isHydrated = useStore($sessionDraftHydrated);
+  const storedTotalDuration = useStore($sessionDraftTotalDurationSeconds);
+  const draft = canObserveDraft
+    ? storedDraft
+    : { version: 1 as const, name: '', video_ids: [], headset_id: null };
+  const totalDuration = canObserveDraft ? storedTotalDuration : 0;
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const panelHeadingRef = useRef<HTMLHeadingElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const initialVideosById = new Map(
+    initialVideos.map((video) => [video.id, video]),
+  );
+  const videoQueries = useQueries({
+    queries: draft.video_ids.map((videoId) => ({
+      queryKey: ['video-details', videoId],
+      queryFn: async ({ signal }: { signal: AbortSignal }) => {
+        const video = await fetchVideo(videoId, signal);
+        registerDraftVideos([video]);
+        return video;
+      },
+      initialData: initialVideosById.get(videoId),
+    })),
+  });
+  const items: DraftVideoItem[] = draft.video_ids.map((id, index) => ({
+    id,
+    video: videoQueries[index]?.data,
+    isPending: videoQueries[index]?.isPending ?? true,
+    isError: videoQueries[index]?.isError ?? false,
+    retry: () => void videoQueries[index]?.refetch(),
+  }));
+  const headsetName = references?.headsets.data.find(
+    (headset) => headset.id === draft.headset_id,
+  )?.name;
+  const durationLabel =
+    items.some((item) => !item.video && !item.isError) && items.length > 0
+      ? 'durée en cours de calcul'
+      : formatDuration(totalDuration);
+  const summary = `${countLabel(draft.video_ids.length)} · ${durationLabel}`;
+
+  useEffect(() => {
+    function revealDraft(trigger: HTMLElement | null) {
+      triggerRef.current = trigger;
+      if (window.matchMedia?.('(min-width: 80rem)').matches) {
+        panelHeadingRef.current?.focus();
+      } else {
+        setIsOpen(true);
+      }
+    }
+
+    function openFromHeader(event: Event) {
+      const { trigger } = (event as CustomEvent<OpenSessionDraftDetail>).detail;
+      revealDraft(trigger);
+    }
+
+    document.addEventListener(OPEN_SESSION_DRAFT_EVENT, openFromHeader);
+    if (window.location.hash === '#ma-seance') {
+      revealDraft(
+        document.querySelector<HTMLElement>('[data-session-draft-trigger]'),
+      );
+    }
+    return () =>
+      document.removeEventListener(OPEN_SESSION_DRAFT_EVENT, openFromHeader);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen || !dialogRef.current) return;
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    dialogRef.current.showModal();
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.documentElement.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  function openSheet(trigger: HTMLButtonElement) {
+    triggerRef.current = trigger;
+    setIsOpen(true);
+  }
+
+  function closeSheet() {
+    setIsOpen(false);
+    if (window.location.hash === '#ma-seance') {
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}${window.location.search}`,
+      );
+    }
+    const trigger =
+      triggerRef.current ??
+      document.querySelector<HTMLElement>('[data-session-draft-trigger]');
+    trigger?.focus();
+  }
+
+  function keepFocusInside(event: KeyboardEvent<HTMLDialogElement>) {
+    if (event.key !== 'Tab') return;
+    const elements = Array.from(
+      event.currentTarget.querySelectorAll<HTMLElement>(focusableSelector),
+    );
+    const first = elements.at(0);
+    const last = elements.at(-1);
+    if (!first || !last) return;
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  const contentProps = {
+    items,
+    headsetId: draft.headset_id,
+    headsetName,
+    onMoveUp: moveDraftVideoUp,
+    onMoveDown: moveDraftVideoDown,
+    onRemove: removeVideoFromDraft,
+  };
+
+  return (
+    <>
+      <aside
+        id="ma-seance"
+        aria-labelledby="session-draft-panel-title"
+        className="border-border bg-card sticky top-6 hidden rounded-lg border xl:block"
+      >
+        <header className="border-border border-b p-5">
+          <h2
+            ref={panelHeadingRef}
+            id="session-draft-panel-title"
+            tabIndex={-1}
+            className="text-xl font-semibold"
+          >
+            Ma séance
+          </h2>
+          <p
+            role="status"
+            aria-live="polite"
+            className="text-muted-foreground mt-1 text-sm"
+          >
+            {canObserveDraft && isHydrated
+              ? summary
+              : 'Chargement de la séance…'}
+          </p>
+        </header>
+        <div className="p-5">
+          <SessionDraftContent idPrefix="panel-draft" {...contentProps} />
+        </div>
+      </aside>
+
+      <div className="border-border bg-background fixed inset-x-0 bottom-0 z-20 border-t p-3 xl:hidden">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="font-semibold">Ma séance</p>
+            <p className="text-muted-foreground truncate text-sm">
+              {canObserveDraft && isHydrated ? summary : 'Chargement…'}
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-label={`Consulter ma séance, ${countLabel(draft.video_ids.length).toLowerCase()}, ${durationLabel}`}
+            onClick={(event) => openSheet(event.currentTarget)}
+            className="bg-primary text-primary-foreground hover:bg-action-hover focus-visible:outline-ring min-h-11 shrink-0 rounded-md px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Consulter
+          </button>
+        </div>
+      </div>
+
+      {isOpen && (
+        <dialog
+          ref={dialogRef}
+          aria-labelledby="session-draft-dialog-title"
+          onClose={closeSheet}
+          onKeyDown={keepFocusInside}
+          className="bg-background text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden backdrop:bg-foreground/40 xl:hidden"
+        >
+          <div className="flex h-full flex-col">
+            <header className="border-border bg-background shrink-0 border-b px-4 py-3 sm:px-6">
+              <div className="flex min-h-11 items-center justify-between gap-4">
+                <h2
+                  id="session-draft-dialog-title"
+                  className="text-xl font-semibold"
+                >
+                  Ma séance
+                </h2>
+                <button
+                  ref={closeButtonRef}
+                  type="button"
+                  onClick={() => dialogRef.current?.close()}
+                  className="focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 px-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  <XMarkIcon aria-hidden="true" className="size-5" />
+                  Fermer
+                </button>
+              </div>
+              <p className="text-muted-foreground text-sm">{summary}</p>
+            </header>
+            <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6">
+              <SessionDraftContent idPrefix="dialog-draft" {...contentProps} />
+            </div>
+          </div>
+        </dialog>
+      )}
+    </>
+  );
+}

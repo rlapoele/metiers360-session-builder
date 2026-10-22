@@ -49,7 +49,10 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: Nano Stores owns the validated versioned draft, with name, optional headset and unique ordered video IDs persisted to browser storage; count, known duration and explicit compatibility/unresolved states are derived rather than duplicated.
   - Evidence: failing-first unit coverage verifies valid restoration, invalid JSON/schema/duplicate rejection, add/remove, bounded move-up/move-down, name/headset validation, clear-after-save and derived data; the catalogue integration persists selection and the header avoids a misleading server-rendered zero.
   - Evidence: a browser-discovered cross-island hydration race was corrected by deferring catalogue observation until its first client effect. The final add → `/sessions` → reload → catalogue flow retained the count and selected card with zero console errors or warnings.
-- [ ] **Task 7:** Implement responsive `Ma séance` composition.
+- [x] **Task 7:** Implement responsive `Ma séance` composition.
+  - Evidence: the catalogue exposes the canonical draft as a sticky desktop rail from 1280px and as a full-height modal sheet plus sticky summary through mobile/tablet widths; the shared header control opens the sheet or focuses the rail according to the viewport.
+  - Evidence: numbered items expose explicit touch/keyboard move-up, move-down and remove actions; count, resolved duration and headset compatibility remain textual, while unavailable per-video metadata is retained and retryable rather than removed from the draft.
+  - Evidence: focused component tests cover ordering, persistence, removal, compatibility, remote failure, focus containment and restoration; browser checks at 320, 390, 834, 1024 and 1280 CSS pixels verified responsive placement, reload persistence, Escape handling, clean console output and zero horizontal overflow.
 - [ ] **Task 7A:** Review and refine the representative UI across the shell, catalogue, video details and draft composition.
 - [ ] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
 
@@ -75,6 +78,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 6 — Implement the persisted draft model — is complete.
+**Awaiting review:** Task 7 — Implement responsive `Ma séance` composition — is complete.
 
-The next implementation slice is Task 7 — Implement responsive `Ma séance` composition. Do not begin it without a new user instruction.
+The next implementation slice is Task 7A — Review and refine the representative UI. Do not begin it without a new user instruction.
