@@ -13,6 +13,8 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 - [x] **Task 2:** Build the responsive application shell.
   - Evidence: `/` and `/sessions` share an Astro layout and responsive header with semantic landmarks, one page heading, a skip link, the official logo and route-aware `aria-current` navigation.
   - Evidence: the light theme defines neutral and logo-derived blue primitives, maps shadcn-compatible semantic tokens through Tailwind `@theme inline`, and uses named utilities without arbitrary values or direct custom-property expressions in component markup.
+  - Evidence: the current-navigation semantic token uses blue 800 for a 9.17:1 contrast ratio on white; navigation focus outlines remain blue, visible and square rather than rounded.
+  - Evidence: the post-review accessibility refinement passed `npm run verify`, including formatting, linting, strict Astro/TypeScript checks, four tests and the production build.
   - Evidence: focused Vitest coverage passed for navigation state and rendered header semantics; `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, four tests and the production build.
 - [x] **Checkpoint A:** Frontend and API run together; routes, verification commands and responsive shell are reviewed.
   - Evidence: `/`, `/sessions` and the API health endpoint returned HTTP 200 from the combined development process; browser checks at 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels found no horizontal overflow.

@@ -17,7 +17,7 @@ This file records transient project state that does not belong in the stable arc
 - Task 1 is complete: the repository now has a minimal Astro 7 server application with the Node adapter, React 18, strict TypeScript and Tailwind CSS 4.
 - The root scripts run and verify the web application; `server/package.json` keeps the supplied mock API independently runnable. The original API-only root Dockerfile is preserved at `archives/Dockerfile.api-original`.
 - Task 2 and Checkpoint A are complete: `/` and `/sessions` now share a responsive Astro shell with the official 192 × 192 Métiers360 WebP logo, semantic navigation, route-aware current state, a keyboard skip link and page-specific French metadata and headings.
-- The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`.
+- The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
 - Catalogue data, API contracts, draft behavior, filters, sheets and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
@@ -42,7 +42,7 @@ Before the first release, define and document the exact commands used to preserv
 
 ## Repository-state handoff
 
-The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`).
+The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`). Task 2 was accepted and pushed to `dev` in commit `61da47d` (`feat: build responsive application shell`).
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -73,7 +73,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 These are known implementation choices, not missing conversational context:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
-- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications; review its rendered contrast and visual balance with the representative slice. Typographic treatment remains open.
+- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications. The shell contrast review established blue 800 as the current-navigation text colour; broader visual balance and typographic treatment remain open as representative content is added.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
@@ -99,7 +99,8 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `vitest.config.ts` loads the Astro Vite configuration so native Astro component tests can render through the Astro Container API.
 - `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, four Vitest tests and the production build.
 - The combined development process returned HTTP 200 for `/`, `/sessions` and `/health`. Browser inspection covered 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels with no horizontal overflow, a clean console, correct current navigation, visible keyboard focus and 44–48px header targets.
-- Task 2 is intentionally uncommitted for user review.
+- A post-review accessibility refinement introduced a dedicated blue-800 current-navigation token, raising selected-link contrast on white from 5.20:1 to 9.17:1, and removed rounding from navigation-link focus outlines. `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, four tests and the production build; browser checks at 320, 768, 1024 and 1440 CSS pixels confirmed the semantic token, square outline, clean console and zero horizontal overflow.
+- The Task 2 baseline is committed as `61da47d`; the accessibility refinement is intentionally uncommitted for user review.
 
 ## Task 1 verification handoff
 

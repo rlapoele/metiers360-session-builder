@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction of the UI-foundation conventions, and review request for the Task 2 responsive shell and light theme | To be supplied by the candidate |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction of the UI-foundation conventions, review of the Task 2 responsive shell and light theme, and direction of the selected-navigation contrast refinement | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
 
 Running total: **unknown pending candidate input**.
 
@@ -34,6 +34,7 @@ AI assistance has been used for:
 - downloading and validating the supplied official Métiers360 logo for later use in the application shell.
 - evaluating a logo-derived blue accent and recording the agreed primitive-to-semantic token structure, responsive-query ownership and Tailwind utility discipline for future UI slices.
 - implementing and verifying the shared Astro shell, route-aware navigation, two foundation routes, accessible focus baseline and light-theme token mappings as the authorised Task 2 slice.
+- reviewing shell contrast against WCAG AA and AAA thresholds, then implementing and verifying the candidate-approved current-navigation token and square focus-outline refinement.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -41,7 +42,7 @@ The candidate has actively shaped the direction by selecting Astro, React 18, st
 
 Record only checks the candidate personally performed or explicitly reviewed. Do not turn agent-run checks into candidate verification.
 
-- Pending.
+- The candidate ran the Axe Firefox extension against the shell and reported its `color-contrast-enhanced` finding for the selected navigation link. This identified an optional WCAG AAA gap in the original 5.20:1 primary-blue treatment while the WCAG AA threshold was already met.
 
 ## Candidate assumptions for the final README
 
@@ -112,3 +113,6 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-22 | Agent | Focused Task 2 Vitest red-green cycle and final `npm run verify` | Navigation-state and Astro header tests passed: 2 files and 4 tests; formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics and the production build also passed |
 | 2026-10-22 | Agent | Combined `npm run dev` smoke check of `/`, `/sessions` and API `/health` | All three endpoints returned HTTP 200; one interrupt stopped both child processes cleanly |
 | 2026-10-22 | Agent | Real-browser Task 2 inspection at 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels | Both routes navigated correctly; current-page semantics, one h1, visible skip-link/navigation focus, 44–48px targets, responsive header progression and zero horizontal overflow were verified; console errors/warnings: zero |
+| 2026-10-22 | Agent | Selected-navigation accessibility review and focused Vitest red-green cycle | Confirmed the original primary blue passed AA at 5.20:1 but failed AAA; the approved blue-800 semantic token reaches 9.17:1 on white, and component coverage now protects both the token utility and absence of rounded navigation-focus classes |
+| 2026-10-22 | Agent | Real-browser contrast and focus verification at 320, 768, 1024 and 1440 CSS pixels | The current link rendered as `rgb(8, 74, 126)`, the focused link had a square 2px solid primary-blue outline with a 2px offset, no viewport had horizontal overflow and browser warnings/errors were zero |
+| 2026-10-22 | Agent | `npm run verify` and `git diff --check` after the selected-navigation accessibility refinement | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, four Vitest tests, the production build and diff hygiene passed |

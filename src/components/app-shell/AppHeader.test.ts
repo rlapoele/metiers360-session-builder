@@ -12,6 +12,8 @@ describe('AppHeader', () => {
 
     expect(html).toContain('aria-label="Navigation principale"');
     expect(html).toMatch(/<a[^>]*href="\/sessions"[^>]*aria-current="page"/);
+    expect(html).toContain('text-navigation-current');
+    expect(html).not.toMatch(/focus-visible:rounded-(?:xs|sm|md|lg|xl|full)/);
     expect(html).toContain('alt="Métiers360"');
   });
 

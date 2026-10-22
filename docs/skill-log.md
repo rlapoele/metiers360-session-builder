@@ -28,6 +28,7 @@ This document records the distinct agent skills actually applied while deliverin
 | `agent-skills:browser-testing-with-devtools` | 2026-10-21 | Applied the browser-verification workflow to the Task 1 placeholder and the Task 2 shell. Chrome DevTools MCP was unavailable, so the isolated in-app browser was used to inspect responsive screenshots, accessibility state, keyboard focus, overflow and console output. | Browser checks recorded in `docs/exercise-log.md` |
 | `agent-skills:frontend-ui-engineering` | 2026-10-22 | Implemented the semantic, accessible, mobile-first Task 2 shell with route-aware navigation, touch targets and page-specific hierarchy. | `src/layouts/AppLayout.astro`, `src/components/app-shell/`, `src/pages/` and browser-verification evidence |
 | `design-ui-with-restraint` | 2026-10-22 | Kept the foundation content-first, using the supplied logo, neutral structure and a restrained accessible blue accent without fabricated brand elements, decorative effects or premature feature UI. | `src/styles/global.css` and the rendered Task 2 shell |
+| `product-design:audit` | 2026-10-22 | Audited the rendered shell's information hierarchy, responsive behavior, keyboard focus and colour contrast, distinguishing the selected link's WCAG AA pass from its optional AAA enhanced-contrast finding. | Accessibility review evidence and the approved current-navigation contrast refinement recorded in `docs/exercise-log.md` |
 
 ## Explicit exclusions
 
