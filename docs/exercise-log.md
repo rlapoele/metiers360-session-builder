@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration and correction of stale Task 1 handoff documentation | To be supplied by the candidate |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation and provision of the official Métiers360 logo | To be supplied by the candidate |
 
 Running total: **unknown pending candidate input**.
 
@@ -31,6 +31,7 @@ AI assistance has been used for:
 - assisting with repository initialization, branch/upstream verification and ignore rules.
 - bootstrapping and verifying the minimal Astro/React/Tailwind frontend foundation while keeping the supplied mock API independently runnable.
 - restoring the project context from repository sources and reconciling stale Task 1 documentation with the verified Git state.
+- downloading and validating the supplied official Métiers360 logo for later use in the application shell.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
