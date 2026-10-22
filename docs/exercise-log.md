@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, authorisation of the Task 3 runtime-contract/BFF, Task 4 catalogue-discovery, Task 5 contextual-details, Task 6 persisted-draft and Task 7 responsive-composition slices, and direction to schedule explicit visual-system and application-copy reviews | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; tested and accepted Task 6; further personal verification remains to be supplied |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, authorisation of the Task 3 runtime-contract/BFF, Task 4 catalogue-discovery, Task 5 contextual-details, Task 6 persisted-draft and Task 7 responsive-composition slices, acceptance of Task 7, and direction to schedule explicit visual-system and application-copy reviews | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; tested and accepted Task 6; confirmed Task 7 was tested and accepted without supplying additional personal-check details; further personal verification remains to be supplied |
 
 Running total: **unknown pending candidate input**.
 
@@ -39,6 +39,7 @@ AI assistance has been used for:
 - implementing and verifying the URL-owned searchable/filterable paginated catalogue, server-rendered initial data, TanStack Query client transitions, responsive cards and recoverable UI states.
 - implementing and verifying contextual video details with complete metadata, responsive modal geometry, accessible keyboard/focus behavior, synchronised selection, missing-media handling and recoverable errors.
 - implementing and verifying the validated Nano Stores draft model, guarded browser persistence, derived count/duration/compatibility, cross-island header count and catalogue selection restoration.
+- implementing and verifying responsive draft composition with a persistent desktop rail, mobile/tablet sheet, explicit ordering controls, textual compatibility states, retryable metadata failures and cross-route focus restoration.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -47,6 +48,7 @@ The candidate has actively shaped the direction by selecting Astro, React 18, st
 Record only checks the candidate personally performed or explicitly reviewed. Do not turn agent-run checks into candidate verification.
 
 - The candidate ran the Axe Firefox extension against the shell and reported its `color-contrast-enhanced` finding for the selected navigation link. This identified an optional WCAG AAA gap in the original 5.20:1 primary-blue treatment while the WCAG AA threshold was already met.
+- The candidate confirmed that Task 7 was tested and accepted. No additional candidate-run check details or attention duration were supplied, so the agent-run Task 7 evidence remains recorded separately below.
 
 ## Candidate assumptions for the final README
 

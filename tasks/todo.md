@@ -78,6 +78,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 7 — Implement responsive `Ma séance` composition — is complete.
+**Awaiting explicit instruction:** Task 7A — Review and refine the representative UI.
 
-The next implementation slice is Task 7A — Review and refine the representative UI. Do not begin it without a new user instruction.
+Task 7 is complete, accepted and committed on `dev` as `963db80`. Do not begin Task 7A without a new user instruction.

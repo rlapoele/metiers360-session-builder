@@ -28,7 +28,7 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
-Review Task 7 and wait for the user's explicit instruction before starting Task 7A from the accepted [project plan](../tasks/plan.md). Task 7A will review and refine the now-representative shell, catalogue, video-details and draft-composition surfaces. Do not skip ahead to the save workflow.
+Wait for the user's explicit instruction before starting Task 7A from the accepted [project plan](../tasks/plan.md). Task 7A will review and refine the now-representative shell, catalogue, video-details and draft-composition surfaces. Do not skip ahead to the save workflow.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -52,7 +52,7 @@ The initial context baseline was accepted and pushed to `dev` in commit `6ed929a
 
 Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
 
-Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 was accepted and pushed in `c3e3d7e` (`feat: persist shared session draft state`). Task 7 is intentionally uncommitted for review.
+Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 was accepted and pushed in `c3e3d7e` (`feat: persist shared session draft state`). Task 7 was accepted, committed and pushed in `963db80` (`feat: add responsive session draft composition`).
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -155,7 +155,7 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - The shared header count is now an accessible action: it opens the modal below 1280px and focuses the persistent rail at desktop widths. Draft display is gated behind the catalogue's first client effect to avoid the cross-island hydration mismatch discovered with a persisted draft during browser testing.
 - Focused component coverage verifies desktop ordering/removal/persistence, mobile focus behavior, textual compatibility, retryable metadata failure, header event dispatch and the cross-route hash entry flow. The final suite contains 63 passing tests.
 - Browser checks at 320, 390, 834, 1024 and 1280 CSS pixels verified sheet/rail placement, two-video ordering, reload persistence, header and bottom-summary triggers, Escape focus restoration, zero horizontal overflow and zero console warnings/errors after the hydration fix.
-- Task 7 is intentionally uncommitted for user review. Task 7A has not started.
+- Task 7 was accepted, committed and pushed as `963db80` (`feat: add responsive session draft composition`). Task 7A has not started and still requires an explicit user instruction.
 
 ## Task 3 verification handoff
 
