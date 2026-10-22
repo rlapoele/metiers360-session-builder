@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-10-21
+Last reviewed: 2026-10-22
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -93,4 +93,4 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `npm start` and `npm run start:api`: the built Astro service and mock API were smoke-tested independently.
 - A real browser at 390 × 844 CSS pixels rendered the placeholder with the expected title, heading and content hierarchy.
 - `npm audit`: zero known vulnerabilities after avoiding an incompatible/vulnerable Astro ESLint parser chain; ESLint covers JavaScript/TypeScript and `astro check` validates Astro files.
-- The working tree is intentionally uncommitted pending user review.
+- Task 1 was committed and pushed to `dev` as `7763d60` (`chore: bootstrap Astro frontend toolchain`). At the 2026-10-22 context-restoration handoff, `dev` matched `origin/dev` and the working tree was clean.

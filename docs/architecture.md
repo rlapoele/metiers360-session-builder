@@ -1,8 +1,8 @@
 # Intended frontend architecture
 
-Status: proposed implementation baseline, agreed before frontend bootstrap.
+Status: implementation baseline, agreed before frontend bootstrap and updated as delivery progresses.
 
-The repository currently contains the supplied Node mock API only. This document records the intended architecture so implementation can begin consistently. Update it when an implemented decision supersedes this proposal; do not let it silently drift away from the code.
+The repository contains the supplied Node mock API and the completed minimal Astro frontend foundation from Task 1. This document records the intended architecture for the remaining implementation. Update it when an implemented decision supersedes the baseline; do not let it silently drift away from the code.
 
 ## Goals
 
