@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction of the UI-foundation conventions, review of the Task 2 responsive shell and light theme, and direction of the selected-navigation contrast refinement | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, and authorisation of the Task 3 runtime-contract/BFF slice | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
 
 Running total: **unknown pending candidate input**.
 
@@ -35,6 +35,7 @@ AI assistance has been used for:
 - evaluating a logo-derived blue accent and recording the agreed primitive-to-semantic token structure, responsive-query ownership and Tailwind utility discipline for future UI slices.
 - implementing and verifying the shared Astro shell, route-aware navigation, two foundation routes, accessible focus baseline and light-theme token mappings as the authorised Task 2 slice.
 - reviewing shell contrast against WCAG AA and AAA thresholds, then implementing and verifying the candidate-approved current-navigation token and square focus-outline refinement.
+- implementing and verifying central runtime schemas, a typed server-only catalogue client and thin same-origin Astro BFF routes without changing the supplied mock API.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -116,3 +117,6 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-22 | Agent | Selected-navigation accessibility review and focused Vitest red-green cycle | Confirmed the original primary blue passed AA at 5.20:1 but failed AAA; the approved blue-800 semantic token reaches 9.17:1 on white, and component coverage now protects both the token utility and absence of rounded navigation-focus classes |
 | 2026-10-22 | Agent | Real-browser contrast and focus verification at 320, 768, 1024 and 1440 CSS pixels | The current link rendered as `rgb(8, 74, 126)`, the focused link had a square 2px solid primary-blue outline with a 2px offset, no viewport had horizontal overflow and browser warnings/errors were zero |
 | 2026-10-22 | Agent | `npm run verify` and `git diff --check` after the selected-navigation accessibility refinement | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, four Vitest tests, the production build and diff hygiene passed |
+| 2026-10-22 | Agent | Task 3 focused schema/client/BFF red-green cycles | Twenty boundary tests passed for accepted and rejected schemas, query allow-listing, French session-input errors, thumbnail rewriting/proxying, upstream details, invalid responses, transport failures and timeouts |
+| 2026-10-22 | Agent | Combined `npm run dev` Task 3 BFF smoke checks | Filtered videos, reference data and SVG proxy returned through Astro; upstream 400 and deliberate 500 bodies/statuses were preserved; one distinct manual POST retry returned 201 with ordered video IDs |
+| 2026-10-22 | Agent | Final Task 3 `npm run verify` and `git diff --check` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, 24 Vitest tests, the production server build and diff hygiene passed |

@@ -22,7 +22,12 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 2 — Contracts and catalogue
 
-- [ ] **Task 3:** Establish runtime contracts and the BFF boundary.
+- [x] **Task 3:** Establish runtime contracts and the BFF boundary.
+  - Evidence: central Zod schemas and inferred types cover videos, pagination, reference data, sessions, creation input, API errors, persisted drafts and server configuration; application-owned inputs are strict while additive upstream fields remain compatible.
+  - Evidence: the shared server-only client validates untrusted JSON, applies a seven-second timeout, rewrites thumbnail URLs, proxies SVG bodies and normalises configuration, transport, timeout, upstream and invalid-response failures.
+  - Evidence: thin same-origin Astro endpoints expose the supported catalogue, reference, session and thumbnail operations without modifying or duplicating the supplied mock API.
+  - Evidence: the focused red-green cycle produced 20 boundary tests; final `npm run verify` passed formatting, linting, strict checks with zero diagnostics, all 24 tests and the production build.
+  - Evidence: two-process smoke checks confirmed a filtered video response, same-origin thumbnail rewrite/proxy, reference data, preserved upstream 400 and 500 responses, and a successful `201` session creation on a distinct manual retry.
 - [ ] **Task 4:** Implement catalogue discovery.
 - [ ] **Task 5:** Implement contextual video details.
 - [ ] **Checkpoint B:** Catalogue search, filtering, pagination, details and failure states are browser-verified.
@@ -54,6 +59,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 2 — Build the responsive application shell — is complete.
+**Awaiting review:** Task 3 — Establish runtime contracts and the BFF boundary — is complete.
 
-The next implementation slice is Task 3 — Establish runtime contracts and the BFF boundary. Do not begin it without a new user instruction.
+The next implementation slice is Task 4 — Implement catalogue discovery. Do not begin it without a new user instruction.

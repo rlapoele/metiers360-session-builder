@@ -18,11 +18,12 @@ This file records transient project state that does not belong in the stable arc
 - The root scripts run and verify the web application; `server/package.json` keeps the supplied mock API independently runnable. The original API-only root Dockerfile is preserved at `archives/Dockerfile.api-original`.
 - Task 2 and Checkpoint A are complete: `/` and `/sessions` now share a responsive Astro shell with the official 192 × 192 Métiers360 WebP logo, semantic navigation, route-aware current state, a keyboard skip link and page-specific French metadata and headings.
 - The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
-- Catalogue data, API contracts, draft behavior, filters, sheets and saved-session content remain deliberately unimplemented future slices.
+- Task 3 is complete: shared Zod runtime contracts, a server-only catalogue client and thin same-origin Astro BFF endpoints now cover supported catalogue, reference, session and thumbnail operations with consistent failure normalisation.
+- Catalogue presentation, draft behavior, filters, sheets and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 2 and wait for the user's explicit instruction before starting Task 3 from the accepted [project plan](../tasks/plan.md). Task 3 will establish runtime contracts and the thin BFF boundary. Do not skip ahead to catalogue discovery or other feature implementation.
+Review Task 3 and wait for the user's explicit instruction before starting Task 4 from the accepted [project plan](../tasks/plan.md). Task 4 will implement catalogue discovery using the established contracts and BFF. Do not skip ahead to video details, draft composition or other feature implementation.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -42,7 +43,7 @@ Before the first release, define and document the exact commands used to preserv
 
 ## Repository-state handoff
 
-The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`). Task 2 was accepted and pushed to `dev` in commit `61da47d` (`feat: build responsive application shell`).
+The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`). Task 2 was accepted and pushed to `dev` in commit `61da47d` (`feat: build responsive application shell`), followed by the accepted accessibility refinement in `2ddf704` (`fix: strengthen current navigation accessibility`).
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -100,7 +101,17 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, four Vitest tests and the production build.
 - The combined development process returned HTTP 200 for `/`, `/sessions` and `/health`. Browser inspection covered 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels with no horizontal overflow, a clean console, correct current navigation, visible keyboard focus and 44–48px header targets.
 - A post-review accessibility refinement introduced a dedicated blue-800 current-navigation token, raising selected-link contrast on white from 5.20:1 to 9.17:1, and removed rounding from navigation-link focus outlines. `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, four tests and the production build; browser checks at 320, 768, 1024 and 1440 CSS pixels confirmed the semantic token, square outline, clean console and zero horizontal overflow.
-- The Task 2 baseline is committed as `61da47d`; the accessibility refinement is intentionally uncommitted for user review.
+- The Task 2 baseline is committed as `61da47d`; its accessibility refinement was accepted and committed as `2ddf704`.
+
+## Task 3 verification handoff
+
+- `zod` 4.6 was added as the runtime-validation dependency. `src/lib/api/schemas.ts` is the single schema/type source for upstream responses, application-owned session input, persisted draft data and server configuration.
+- `src/lib/api/catalogue-client.server.ts` is the shared server-only client for Astro loaders and BFF routes. It validates JSON once, rewrites non-null thumbnail URLs to `/api/thumbnails/{id}.svg`, applies a seven-second timeout and exposes typed catalogue, reference and session operations.
+- `src/pages/api/` contains thin same-origin endpoints for videos, jobs, audiences, headsets, sessions and thumbnails. Supported video query parameters are allow-listed; session bodies are validated before forwarding; meaningful upstream status/details are preserved.
+- Internal errors distinguish configuration, transport, timeout, upstream and invalid-response failures. Raw Zod diagnostics remain server-side while BFF responses use concise recoverable French messages.
+- Focused red-green tests passed for 20 schema/client/BFF cases. Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 24 tests and the production build; `git diff --check` is part of the final handoff check.
+- Combined `npm run dev` smoke checks returned a validated filtered video list with a same-origin thumbnail URL, an SVG thumbnail with `nosniff`, reference data, the upstream 400 body for invalid pagination and the upstream deliberate 500 body for the first session POST. No automatic POST retry was added; one distinct manual retry verified the `201` path and ordered IDs.
+- Task 3 is intentionally uncommitted for user review. Task 4 has not started.
 
 ## Task 1 verification handoff
 
