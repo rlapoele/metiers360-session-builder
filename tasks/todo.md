@@ -35,8 +35,13 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: 13 focused query/API/component tests passed; the URL page-reset mutation was caught by its regression test; final full-suite evidence is recorded in the Task 4 handoff documents.
   - Evidence: the same-origin thumbnail endpoint adds a light browser-facing `public, max-age=86400, stale-while-revalidate=604800` cache policy without changing the supplied API; a focused endpoint test protects the exact header.
   - Evidence: browser checks covered 320, 390, 834, 1024 and 1440 CSS pixels, mobile filter focus restoration, empty search, retry recovery, pagination, history and zero horizontal overflow.
-- [ ] **Task 5:** Implement contextual video details.
-- [ ] **Checkpoint B:** Catalogue search, filtering, pagination, details and failure states are browser-verified.
+- [x] **Task 5:** Implement contextual video details.
+  - Evidence: a contextual native modal keeps the catalogue mounted and unchanged, uses a full-screen mobile treatment and a 512px right-hand tablet/desktop sheet, and exposes complete metadata plus a deliberate 16:9 missing-thumbnail fallback.
+  - Evidence: the surface has an accessible name, initial close-button focus, an explicit forward/backward focus loop, Escape handling, scroll locking and trigger-focus restoration; add/remove state stays synchronised with the originating card.
+  - Evidence: focused red-green tests cover the details BFF contract, French date formatting, complete content, selection synchronisation, missing thumbnails, retry and focus restoration; all 43 tests pass in the final suite.
+  - Evidence: browser checks at 390, 834 and 1440 CSS pixels confirmed the responsive sheet geometry, zero horizontal overflow, keyboard focus containment, Escape restoration and successful recovery from an actual transient API failure without changing the catalogue URL.
+- [x] **Checkpoint B:** Catalogue search, filtering, pagination, details and failure states are browser-verified.
+  - Evidence: Tasks 4 and 5 collectively cover the complete catalogue flow across target viewport families, including keyboard-only overlays, loading/empty/error/success states, URL preservation, missing media and retry recovery.
 
 ## Phase 3 — Draft composition
 
@@ -67,6 +72,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 4 — Implement catalogue discovery — is complete.
+**Awaiting review:** Task 5 — Implement contextual video details — is complete.
 
-The next implementation slice is Task 5 — Implement contextual video details. Do not begin it without a new user instruction.
+The next implementation slice is Task 6 — Implement the persisted draft model. Do not begin it without a new user instruction.

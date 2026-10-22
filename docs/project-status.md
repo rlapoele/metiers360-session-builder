@@ -20,12 +20,13 @@ This file records transient project state that does not belong in the stable arc
 - The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
 - Task 3 is complete: shared Zod runtime contracts, a server-only catalogue client and thin same-origin Astro BFF endpoints now cover supported catalogue, reference, session and thumbnail operations with consistent failure normalisation.
 - Task 4 is complete: the catalogue now renders server-provided initial data and hydrates into one React/TanStack Query surface with URL-owned search, job/headset/audience filters, server pagination, responsive cards and recoverable loading, empty and error states.
+- Task 5 and Checkpoint B are complete: cards open complete video metadata in a contextual native modal that becomes a full-screen mobile surface or a right-hand tablet/desktop sheet without changing the catalogue URL or position. Loading, missing-thumbnail, recoverable-error and add/remove states are covered.
 - Card add/remove state is deliberately local to the catalogue island in this slice. Durable cross-route ownership, validation and browser persistence remain Task 6; the header draft trigger and draft composition surfaces therefore remain disabled until that model exists.
-- Video details, durable draft behavior and saved-session content remain deliberately unimplemented future slices.
+- Durable draft behavior and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 4 and wait for the user's explicit instruction before starting Task 5 from the accepted [project plan](../tasks/plan.md). Task 5 will implement contextual video details without changing the catalogue URL or scroll context. Do not skip ahead to the persisted draft model, draft composition or other feature implementation.
+Review Task 5 and wait for the user's explicit instruction before starting Task 6 from the accepted [project plan](../tasks/plan.md). Task 6 will replace the catalogue island's temporary selection state with the validated, persisted Nano Stores draft model. Do not skip ahead to draft composition or another feature slice.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -48,6 +49,8 @@ Before the first release, define and document the exact commands used to preserv
 The initial context baseline was accepted and pushed to `dev` in commit `6ed929a` (`docs: preserve project context and exercise evidence. Establish durable project memory mechanism`). Task 2 was accepted and pushed to `dev` in commit `61da47d` (`feat: build responsive application shell`), followed by the accepted accessibility refinement in `2ddf704` (`fix: strengthen current navigation accessibility`).
 
 Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
+
+Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 is intentionally uncommitted for review.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -120,7 +123,17 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - Browser checks covered success, missing thumbnail fallback, empty search, a deterministic single-request failure followed by successful retry, pagination, applied filters, back navigation, staged-filter cancellation and focus restoration at 320, 390, 834, 1024 and 1440 CSS pixels. No horizontal overflow or unexpected console warning/error was present; the injected 503 produced only its expected failed-request console entry.
 - Focused tests cover query state, BFF browser parsing and the core catalogue component. A mutation that disabled page reset made the focused test fail as expected.
 - Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 38 tests and the production server build; `git diff --check` passed at handoff.
-- Task 4 is intentionally uncommitted for user review. Task 5 has not started.
+- Task 4 is committed as `937a7ec`. Its follow-up visual/copy planning update is committed as `54b4610`; both were present on `origin/dev` before Task 5 began.
+
+## Task 5 verification handoff
+
+- `src/components/catalogue/VideoDetailsSheet.tsx` owns a native modal surface with a named header, initial close-button focus, explicit Tab/Shift+Tab containment, Escape close behavior, document scroll locking and trigger-focus restoration. It is full-screen below the small breakpoint and a 512px right-hand sheet from tablet widths upward.
+- `VideoDetailsContent.tsx` presents the thumbnail or 16:9 fallback, title, duration, description, every associated job and ROME code, audiences, compatible headsets and the publication date. It omits the future draft-headset compatibility callout until Task 6 establishes that state.
+- The existing `CatalogueApp` owns the contextual open/close state so the catalogue, URL, scroll position and temporary card selection remain mounted and synchronised. No video-details route or new dependency was added.
+- Focused failing-first coverage protects the browser details request, French date presentation, complete content, selection synchronisation, retry, missing thumbnails, focus containment and focus restoration.
+- Browser verification covered 390 × 844, 834 × 1112 and 1440 × 900 CSS pixels. The sheet measured 390px full-width on mobile and 512px right-aligned at tablet/desktop, with no horizontal overflow; keyboard focus stayed inside, Escape restored the originating button and page scrolling, and a real transient API failure recovered through `Réessayer` without changing `/`.
+- Final `npm run verify` passes formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 43 tests and the production server build; `git diff --check` passes at handoff.
+- Task 5 is intentionally uncommitted for user review. Task 6 has not started.
 
 ## Task 3 verification handoff
 

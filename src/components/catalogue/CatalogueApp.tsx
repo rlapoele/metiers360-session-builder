@@ -7,6 +7,7 @@ import {
 import {
   useEffect,
   useMemo,
+  useRef,
   useState,
   type FormEvent,
   type ReactNode,
@@ -29,6 +30,7 @@ import { AppliedFilters, type AppliedFilter } from './AppliedFilters';
 import { CatalogueFilters } from './CatalogueFilters';
 import { CatalogueResults } from './CatalogueResults';
 import { CatalogueSearch } from './CatalogueSearch';
+import { VideoDetailsSheet } from './VideoDetailsSheet';
 
 interface CatalogueAppProps {
   initialQuery: CatalogueQuery;
@@ -71,6 +73,8 @@ function CatalogueContent({
   const [query, setQuery] = useState(initialQuery);
   const [searchValue, setSearchValue] = useState(initialQuery.q);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+  const [detailsVideoId, setDetailsVideoId] = useState<string>();
+  const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const initialQueryKey = useMemo(
     () => catalogueQueryToSearchParams(initialQuery).toString(),
     [initialQuery],
@@ -127,6 +131,16 @@ function CatalogueContent({
       else next.add(videoId);
       return next;
     });
+  }
+
+  function openDetails(videoId: string, trigger: HTMLButtonElement) {
+    detailsTriggerRef.current = trigger;
+    setDetailsVideoId(videoId);
+  }
+
+  function closeDetails() {
+    setDetailsVideoId(undefined);
+    detailsTriggerRef.current?.focus();
   }
 
   const references = referencesQuery.data;
@@ -241,6 +255,15 @@ function CatalogueContent({
         onRetry={() => void videosQuery.refetch()}
         onClear={clearCriteria}
         onPageChange={(page) => navigate({ page })}
+        onOpenDetails={openDetails}
+        onToggle={toggleSelection}
+      />
+
+      <VideoDetailsSheet
+        videoId={detailsVideoId}
+        references={references}
+        isSelected={detailsVideoId ? selectedIds.has(detailsVideoId) : false}
+        onClose={closeDetails}
         onToggle={toggleSelection}
       />
     </div>

@@ -1,12 +1,14 @@
 import {
   ApiErrorSchema,
   AudienceListSchema,
+  BffVideoSchema,
   BffVideoListSchema,
   HeadsetListSchema,
   JobListSchema,
   type AudienceList,
   type HeadsetList,
   type JobList,
+  type Video,
   type VideoList,
 } from '../../lib/api/schemas';
 import {
@@ -51,6 +53,21 @@ export async function fetchVideos(
 
   if (!result.success) {
     throw new Error('La réponse du catalogue est invalide.');
+  }
+
+  return result.data;
+}
+
+export async function fetchVideo(
+  videoId: string,
+  signal?: AbortSignal,
+): Promise<Video> {
+  const result = BffVideoSchema.safeParse(
+    await fetchJson(`/api/videos/${encodeURIComponent(videoId)}`, signal),
+  );
+
+  if (!result.success) {
+    throw new Error('La réponse des détails de la vidéo est invalide.');
   }
 
   return result.data;

@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 4 are complete; Task 5 awaits review and explicit instruction.
+Status: accepted on 2026-10-21. Tasks 1 through 5 and Checkpoint B are complete; Task 6 awaits review and explicit instruction.
 
 ## Purpose
 

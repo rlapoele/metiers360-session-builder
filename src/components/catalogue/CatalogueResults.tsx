@@ -18,6 +18,7 @@ interface CatalogueResultsProps {
   onRetry: () => void;
   onClear: () => void;
   onPageChange: (page: number) => void;
+  onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
 }
 
@@ -91,6 +92,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
     onRetry,
     onClear,
     onPageChange,
+    onOpenDetails,
     onToggle,
   } = props;
 
@@ -133,6 +135,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
             jobLabel={jobLabelFor(video)}
             compatibilityLabel={compatibilityLabelFor(video)}
             isSelected={selectedIds.has(video.id)}
+            onOpenDetails={onOpenDetails}
             onToggle={onToggle}
           />
         ))}

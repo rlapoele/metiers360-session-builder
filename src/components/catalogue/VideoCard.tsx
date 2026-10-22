@@ -1,4 +1,9 @@
-import { CheckIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  CheckIcon,
+  EyeIcon,
+  PlusIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 
 import { formatDuration } from '../../features/catalogue/format';
 import type { Video } from '../../lib/api/schemas';
@@ -8,6 +13,7 @@ interface VideoCardProps {
   jobLabel: string;
   compatibilityLabel: string;
   isSelected: boolean;
+  onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
 }
 
@@ -16,6 +22,7 @@ export function VideoCard({
   jobLabel,
   compatibilityLabel,
   isSelected,
+  onOpenDetails,
   onToggle,
 }: VideoCardProps) {
   const titleId = `video-${video.id}-title`;
@@ -65,6 +72,15 @@ export function VideoCard({
                 Dans ma séance
               </p>
             )}
+            <button
+              type="button"
+              aria-label={`Voir les détails de ${video.title}`}
+              onClick={(event) => onOpenDetails(video.id, event.currentTarget)}
+              className="border-input text-foreground hover:bg-muted focus-visible:outline-ring inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              <EyeIcon aria-hidden="true" className="size-5" />
+              Voir les détails
+            </button>
             <button
               type="button"
               aria-pressed={isSelected}

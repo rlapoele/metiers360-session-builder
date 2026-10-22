@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, authorisation of the Task 3 runtime-contract/BFF and Task 4 catalogue-discovery slices, and direction to schedule explicit visual-system and application-copy reviews | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, direction and review of the Task 2 shell/light theme and selected-navigation contrast refinement, authorisation of the Task 3 runtime-contract/BFF, Task 4 catalogue-discovery and Task 5 contextual-details slices, and direction to schedule explicit visual-system and application-copy reviews | Ran Axe in Firefox and reported the selected navigation link's WCAG AAA enhanced-contrast finding; further personal verification remains to be supplied |
 
 Running total: **unknown pending candidate input**.
 
@@ -37,6 +37,7 @@ AI assistance has been used for:
 - reviewing shell contrast against WCAG AA and AAA thresholds, then implementing and verifying the candidate-approved current-navigation token and square focus-outline refinement.
 - implementing and verifying central runtime schemas, a typed server-only catalogue client and thin same-origin Astro BFF routes without changing the supplied mock API.
 - implementing and verifying the URL-owned searchable/filterable paginated catalogue, server-rendered initial data, TanStack Query client transitions, responsive cards and recoverable UI states.
+- implementing and verifying contextual video details with complete metadata, responsive modal geometry, accessible keyboard/focus behavior, synchronised selection, missing-media handling and recoverable errors.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -127,3 +128,7 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-22 | Agent | Final Task 4 `npm run verify` and `git diff --check` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 37 Vitest tests, the production server build and diff hygiene passed |
 | 2026-10-22 | Agent | Task 4 thumbnail-cache focused red-green cycle | The endpoint-level test first failed because `Cache-Control` was absent, then passed after the Astro BFF added the approved browser-facing policy; the supplied API was unchanged |
 | 2026-10-22 | Agent | Task 4 thumbnail-cache follow-up `npm run verify` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 38 Vitest tests and the production server build passed |
+| 2026-10-22 | Agent | Task 5 focused red-green tests and review | Details fetching/date formatting, complete metadata, selection synchronisation, retry, missing-thumbnail and focus-loop tests failed before their implementations and passed afterward; the final suite contains 43 passing tests |
+| 2026-10-22 | Agent | Task 5 real-browser inspection at 390 × 844, 834 × 1112 and 1440 × 900 CSS pixels | Verified full-screen mobile and 512px right-hand tablet/desktop geometry, zero horizontal overflow, initial focus, forward/backward focus containment, Escape/focus/scroll restoration, unchanged catalogue URL, selection synchronisation and the no-thumbnail fallback |
+| 2026-10-22 | Agent | Task 5 live failure and retry check | The mock API produced a transient details `500`; the sheet exposed its recoverable error state and `Réessayer` then loaded the complete video without losing catalogue context |
+| 2026-10-22 | Agent | Final Task 5 `npm run verify` and `git diff --check` | Formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 43 Vitest tests, the production server build and diff hygiene passed |

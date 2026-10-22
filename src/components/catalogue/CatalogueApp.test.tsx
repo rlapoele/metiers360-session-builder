@@ -63,6 +63,13 @@ const initialReferences: CatalogueReferences = {
 
 beforeEach(() => {
   window.history.replaceState({}, '', '/');
+  HTMLDialogElement.prototype.showModal = function showModal() {
+    this.open = true;
+  };
+  HTMLDialogElement.prototype.close = function close() {
+    this.open = false;
+    this.dispatchEvent(new Event('close'));
+  };
 });
 
 afterEach(() => {
@@ -89,6 +96,7 @@ describe('CatalogueApp', () => {
     expect(screen.getByText('7 min 35 s')).toBeInTheDocument();
     const card = screen
       .getByRole('heading', {
+        level: 2,
         name: 'Une journée avec Omar, jardinier municipal',
       })
       .closest('article');
@@ -121,6 +129,171 @@ describe('CatalogueApp', () => {
       screen.getByRole('button', { name: 'Retirer de ma séance' }),
     ).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByText('Dans ma séance')).toBeInTheDocument();
+  });
+
+  it('opens complete contextual details and restores focus without changing the URL', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(JSON.stringify(initialVideos.data[0]), { status: 200 }),
+        ),
+    );
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+    const initialUrl = window.location.href;
+    const detailsTrigger = screen.getByRole('button', {
+      name: 'Voir les détails de Une journée avec Omar, jardinier municipal',
+    });
+
+    await user.click(detailsTrigger);
+
+    const dialog = await screen.findByRole('dialog', {
+      name: 'Détails de la vidéo',
+    });
+    expect(dialog).toHaveAttribute('open');
+    expect(
+      within(dialog).getByRole('heading', {
+        name: 'Une journée avec Omar, jardinier municipal',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByText("Immersion aux côtés d'Omar."),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByText('Adultes en reconversion'),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText('Pico 4')).toBeInTheDocument();
+    expect(within(dialog).getByText('ROME A1203')).toBeInTheDocument();
+    expect(
+      within(dialog).getByText('Publiée le 11 avril 2024'),
+    ).toBeInTheDocument();
+
+    const closeButton = within(dialog).getByRole('button', { name: 'Fermer' });
+    closeButton.focus();
+    await user.tab({ shift: true });
+    expect(
+      within(dialog).getByRole('button', { name: 'Ajouter à ma séance' }),
+    ).toHaveFocus();
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.click(closeButton);
+
+    expect(dialog).not.toHaveAttribute('open');
+    expect(detailsTrigger).toHaveFocus();
+    expect(window.location.href).toBe(initialUrl);
+  });
+
+  it('keeps card and details selection actions in sync', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(JSON.stringify(initialVideos.data[0]), { status: 200 }),
+        ),
+    );
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Voir les détails de Une journée avec Omar, jardinier municipal',
+      }),
+    );
+    const dialog = await screen.findByRole('dialog', {
+      name: 'Détails de la vidéo',
+    });
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Ajouter à ma séance' }),
+    );
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Retirer de ma séance' }),
+    ).toHaveAttribute('aria-pressed', 'true');
+    const card = screen
+      .getByRole('heading', {
+        level: 2,
+        name: 'Une journée avec Omar, jardinier municipal',
+      })
+      .closest('article');
+    expect(card).not.toBeNull();
+    expect(
+      within(card as HTMLElement).getByRole('button', {
+        name: 'Retirer de ma séance',
+      }),
+    ).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('shows a recoverable details error and a missing-thumbnail fallback', async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            error: 'upstream_error',
+            message: 'An unexpected error occurred.',
+          }),
+          { status: 503 },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ ...initialVideos.data[0], thumbnail_url: null }),
+          { status: 200 },
+        ),
+      );
+    vi.stubGlobal('fetch', fetchMock);
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={initialVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Voir les détails de Une journée avec Omar, jardinier municipal',
+      }),
+    );
+    const dialog = await screen.findByRole('dialog', {
+      name: 'Détails de la vidéo',
+    });
+    expect(
+      within(dialog).getByRole('heading', {
+        name: 'Impossible de charger les détails',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByText(
+        'Les détails de cette vidéo n’ont pas pu être chargés. Réessayez.',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).queryByText('An unexpected error occurred.'),
+    ).not.toBeInTheDocument();
+
+    await user.click(within(dialog).getByRole('button', { name: 'Réessayer' }));
+
+    expect(
+      await within(dialog).findByText('Aperçu indisponible'),
+    ).toBeInTheDocument();
   });
 
   it('writes submitted search state to the URL and resets the page', async () => {

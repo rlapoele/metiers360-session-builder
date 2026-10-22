@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { fetchCatalogueReferences, fetchVideos } from './api';
+import { fetchCatalogueReferences, fetchVideo, fetchVideos } from './api';
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -68,6 +68,34 @@ describe('catalogue browser API', () => {
     });
 
     expect(result.data[0]?.thumbnail_url).toBe('/api/thumbnails/vid_001.svg');
+  });
+
+  it('loads and validates one video for the contextual details surface', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          id: 'vid_001',
+          title: 'Une journée avec Omar',
+          description: 'Immersion.',
+          duration_seconds: 455,
+          jobs: ['A1203'],
+          audiences: ['adultes-reconversion'],
+          compatible_headsets: ['pico-4'],
+          thumbnail_url: '/api/thumbnails/vid_001.svg',
+          published_at: '2024-04-11',
+        }),
+        { status: 200 },
+      ),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchVideo('vid_001');
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/videos/vid_001',
+      expect.objectContaining({ signal: undefined }),
+    );
+    expect(result.title).toBe('Une journée avec Omar');
   });
 
   it('turns a failed response into a concise recoverable error', async () => {
