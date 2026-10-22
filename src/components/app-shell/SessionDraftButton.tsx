@@ -1,6 +1,9 @@
 import { useStore } from '@nanostores/react';
 import { useEffect } from 'react';
 
+import { Button, buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
 import {
   $sessionDraftCount,
   $sessionDraftHydrated,
@@ -49,20 +52,24 @@ export function SessionDraftButton({
   return (
     <>
       {currentPath === '/' ? (
-        <button
+        <Button
           type="button"
+          variant="outline"
           data-session-draft-trigger
           aria-label={label}
           onClick={(event) => requestSessionDraftOpen(event.currentTarget)}
-          className="border-border text-muted-foreground hover:bg-muted focus-visible:outline-ring order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 sm:order-3"
+          className="text-muted-foreground order-2 ml-auto px-3 font-medium sm:order-3"
         >
           {content}
-        </button>
+        </Button>
       ) : (
         <a
           href="/#ma-seance"
           aria-label={`${label}, ouvrir dans le catalogue`}
-          className="border-border text-muted-foreground hover:bg-muted focus-visible:outline-ring order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 sm:order-3"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            'text-muted-foreground order-2 ml-auto px-3 font-medium sm:order-3',
+          )}
         >
           {content}
         </a>

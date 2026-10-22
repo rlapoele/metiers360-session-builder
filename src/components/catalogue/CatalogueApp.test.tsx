@@ -181,7 +181,9 @@ describe('CatalogueApp', () => {
       within(panel).getByText('2 vidéos · 12 min 40 s'),
     ).toBeInTheDocument();
     expect(
-      within(panel).getByText('Casque à choisir lors de la finalisation.'),
+      within(panel).getByText(
+        'Vous choisirez le casque au moment d’enregistrer la séance.',
+      ),
     ).toBeInTheDocument();
     expect(
       within(panel)
@@ -216,6 +218,35 @@ describe('CatalogueApp', () => {
       }),
     );
     expect(within(panel).getByText('1 vidéo · 7 min 35 s')).toBeInTheDocument();
+  });
+
+  it('keeps the desktop draft summary visible while its content scrolls', () => {
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialVideos={compositionVideos}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    const panel = screen.getByRole('complementary', { name: 'Ma séance' });
+    const summary = panel.querySelector('[data-slot="session-draft-summary"]');
+    const scrollRegion = panel.querySelector(
+      '[data-slot="session-draft-scroll-region"]',
+    );
+
+    expect(panel).toHaveClass(
+      'max-h-draft-panel',
+      'overflow-hidden',
+      'xl:flex',
+    );
+    expect(summary).toHaveClass('shrink-0');
+    expect(scrollRegion).toHaveClass(
+      'min-h-0',
+      'flex-1',
+      'overflow-y-auto',
+      'overscroll-contain',
+    );
   });
 
   it('opens the mobile draft sheet, traps focus and restores it on close', async () => {
@@ -531,7 +562,9 @@ describe('CatalogueApp', () => {
     );
 
     await user.type(
-      screen.getByRole('searchbox', { name: 'Rechercher une vidéo' }),
+      screen.getByRole('searchbox', {
+        name: 'Rechercher une vidéo par titre',
+      }),
       'santé',
     );
     await user.click(screen.getByRole('button', { name: 'Rechercher' }));

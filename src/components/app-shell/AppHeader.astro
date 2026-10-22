@@ -10,7 +10,7 @@ const { currentPath } = Astro.props;
 const navigationItems = getNavigationItems(currentPath);
 ---
 
-<header class="border-border bg-background border-b">
+<header class="border-border bg-card border-b">
   <div class="mx-auto flex max-w-7xl flex-wrap items-center px-4 sm:min-h-20 sm:flex-nowrap sm:gap-8 sm:px-6 lg:px-8">
     <a
       href="/"
@@ -21,7 +21,7 @@ const navigationItems = getNavigationItems(currentPath);
         width="192"
         height="192"
         alt="Métiers360"
-        class="size-11"
+        class="size-12"
       />
     </a>
 
@@ -37,7 +37,7 @@ const navigationItems = getNavigationItems(currentPath);
             'focus-visible:outline-ring relative flex min-h-12 items-center px-3 text-sm font-medium focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-20 sm:px-2',
             item.isCurrent
               ? 'text-navigation-current after:bg-primary after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 sm:after:inset-x-2'
-              : 'text-muted-foreground hover:text-foreground',
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted',
           ]}
         >
           {item.label}

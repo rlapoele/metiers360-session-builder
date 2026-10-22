@@ -3,25 +3,27 @@
 :root {
   color-scheme: light;
 
-  --neutral-0: #ffffff;
-  --neutral-50: #fafafa;
-  --neutral-100: #f5f5f5;
-  --neutral-200: #e5e5e5;
-  --neutral-400: #a3a3a3;
-  --neutral-500: #737373;
-  --neutral-700: #404040;
-  --neutral-900: #171717;
+  --neutral-0: oklch(100% 0 0);
+  --neutral-50: oklch(98.51% 0 0);
+  --neutral-100: oklch(97.015% 0 0);
+  --neutral-200: oklch(92.191% 0 0);
+  --neutral-300: oklch(88.191% 0 0);
+  --neutral-400: oklch(71.547% 0 0);
+  --neutral-450: oklch(65.004% 0 0);
+  --neutral-500: oklch(55.553% 0 0);
+  --neutral-700: oklch(37.149% 0 0);
+  --neutral-900: oklch(20.463% 0 0);
 
-  --blue-50: #eff7ff;
-  --blue-100: #dceeff;
-  --blue-400: #4ea8f7;
-  --blue-600: #0b6fbf;
-  --blue-700: #095b9d;
-  --blue-800: #084a7e;
+  --blue-50: oklch(97.244% 0.01369 247.968);
+  --blue-100: oklch(94.092% 0.02998 246.59);
+  --blue-400: oklch(71.169% 0.14424 247.918);
+  --blue-600: oklch(53.411% 0.14905 250.513);
+  --blue-700: oklch(46.399% 0.12784 250.291);
+  --blue-800: oklch(40.091% 0.10613 249.247);
 
-  --red-600: #dc2626;
+  --red-600: oklch(57.71% 0.21516 27.325);
 
-  --background: var(--neutral-0);
+  --background: var(--neutral-50);
   --foreground: var(--neutral-900);
   --card: var(--neutral-0);
   --card-foreground: var(--neutral-900);
@@ -37,13 +39,24 @@
   --accent-foreground: var(--blue-800);
   --destructive: var(--red-600);
   --destructive-foreground: var(--neutral-0);
-  --border: var(--neutral-200);
-  --input: var(--neutral-500);
+  --border: var(--neutral-300); /* var(--neutral-200); */
+  --input: var(--neutral-450);
   --ring: var(--blue-600);
   --navigation-current: var(--blue-800);
   --action-hover: var(--blue-700);
   --action-active: var(--blue-800);
   --radius: 0.625rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @theme inline {
@@ -72,4 +85,5 @@
   --radius-sm: calc(var(--radius) - 0.125rem);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 0.125rem);
+  --spacing-draft-panel: calc(100dvh - 3rem);
 }

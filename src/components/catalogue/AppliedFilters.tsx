@@ -1,5 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
+import { Button } from '@/components/ui/button';
+
 export interface AppliedFilter {
   key: 'job' | 'headset' | 'audience';
   label: string;
@@ -24,24 +26,21 @@ export function AppliedFilters({
       aria-label="Filtres appliqués"
     >
       {filters.map((filter) => (
-        <button
+        <Button
           key={filter.key}
           type="button"
           onClick={() => onRemove(filter.key)}
-          className="border-border bg-secondary focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 rounded-full border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2"
+          variant="secondary"
+          className="rounded-full border px-3 font-medium"
         >
           {filter.label}
           <XMarkIcon aria-hidden="true" className="size-4" />
           <span className="sr-only">Retirer ce filtre</span>
-        </button>
+        </Button>
       ))}
-      <button
-        type="button"
-        onClick={onClear}
-        className="text-navigation-current focus-visible:outline-ring min-h-11 px-2 text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-      >
+      <Button type="button" variant="link" onClick={onClear} className="px-2">
         Tout effacer
-      </button>
+      </Button>
     </div>
   );
 }

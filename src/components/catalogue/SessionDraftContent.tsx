@@ -6,6 +6,8 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 
+import { Button } from '@/components/ui/button';
+
 import { formatDuration } from '../../features/catalogue/format';
 import type { Video } from '../../lib/api/schemas';
 
@@ -52,11 +54,11 @@ export function SessionDraftContent({
 }: SessionDraftContentProps) {
   if (items.length === 0) {
     return (
-      <div className="px-5 py-10 text-center">
+      <div className="px-4 py-10 text-center">
         <h3 className="text-base font-semibold">Votre séance est vide</h3>
         <p className="text-muted-foreground mt-2 text-sm leading-6">
-          Ajoutez des vidéos depuis le catalogue pour préparer leur ordre de
-          lecture.
+          Ajoutez une première vidéo depuis le catalogue. Vous pourrez ensuite
+          modifier l’ordre de lecture.
         </p>
       </div>
     );
@@ -67,7 +69,7 @@ export function SessionDraftContent({
       <p className="text-muted-foreground text-sm leading-6">
         {headsetId
           ? `Compatibilité vérifiée pour ${headsetName}.`
-          : 'Casque à choisir lors de la finalisation.'}
+          : 'Vous choisirez le casque au moment d’enregistrer la séance.'}
       </p>
 
       <ol className="space-y-3">
@@ -80,7 +82,10 @@ export function SessionDraftContent({
               : undefined;
 
           return (
-            <li key={item.id} className="border-border rounded-md border p-4">
+            <li
+              key={item.id}
+              className="border-border bg-background @container rounded-md border p-4"
+            >
               <article aria-labelledby={titleId} className="space-y-3">
                 <div className="flex items-start gap-3">
                   <span
@@ -128,46 +133,50 @@ export function SessionDraftContent({
                 {item.isError && (
                   <div role="alert" className="text-sm leading-5">
                     <p>Les informations de cette vidéo sont indisponibles.</p>
-                    <button
+                    <Button
                       type="button"
+                      variant="link"
                       onClick={item.retry}
-                      className="text-navigation-current focus-visible:outline-ring mt-1 min-h-11 font-semibold underline focus-visible:outline-2 focus-visible:outline-offset-2"
+                      className="mt-1"
                     >
                       Réessayer
-                    </button>
+                    </Button>
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-2">
-                  <button
+                <div className="grid grid-cols-2 gap-2 @sm:flex @sm:flex-wrap">
+                  <Button
                     type="button"
+                    variant="outline"
                     disabled={index === 0}
                     aria-label={`Monter ${title}`}
                     onClick={() => onMoveUp(item.id)}
-                    className="border-input focus-visible:outline-ring inline-flex min-h-11 items-center gap-1 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="px-3 disabled:opacity-40"
                   >
                     <ArrowUpIcon aria-hidden="true" className="size-4" />
                     Monter
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    variant="outline"
                     disabled={index === items.length - 1}
                     aria-label={`Descendre ${title}`}
                     onClick={() => onMoveDown(item.id)}
-                    className="border-input focus-visible:outline-ring inline-flex min-h-11 items-center gap-1 rounded-md border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="px-3 disabled:opacity-40"
                   >
                     <ArrowDownIcon aria-hidden="true" className="size-4" />
                     Descendre
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    variant="destructive"
                     aria-label={`Retirer ${title}`}
                     onClick={() => onRemove(item.id)}
-                    className="text-destructive focus-visible:outline-ring ml-auto inline-flex min-h-11 items-center gap-1 px-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                    className="col-span-2 justify-self-end px-2 @sm:ml-auto"
                   >
                     <TrashIcon aria-hidden="true" className="size-4" />
                     Retirer
-                  </button>
+                  </Button>
                 </div>
               </article>
             </li>

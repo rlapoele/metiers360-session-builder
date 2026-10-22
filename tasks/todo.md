@@ -53,8 +53,14 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: the catalogue exposes the canonical draft as a sticky desktop rail from 1280px and as a full-height modal sheet plus sticky summary through mobile/tablet widths; the shared header control opens the sheet or focuses the rail according to the viewport.
   - Evidence: numbered items expose explicit touch/keyboard move-up, move-down and remove actions; count, resolved duration and headset compatibility remain textual, while unavailable per-video metadata is retained and retryable rather than removed from the draft.
   - Evidence: focused component tests cover ordering, persistence, removal, compatibility, remote failure, focus containment and restoration; browser checks at 320, 390, 834, 1024 and 1280 CSS pixels verified responsive placement, reload persistence, Escape handling, clean console output and zero horizontal overflow.
-- [ ] **Task 7A:** Review and refine the representative UI across the shell, catalogue, video details and draft composition.
-- [ ] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
+- [x] **Task 7A:** Review and refine the representative UI across the shell, catalogue, video details and draft composition.
+  - Evidence: before/after browser captures at 390, 834 and 1280 CSS pixels guided a restrained hierarchy pass across the shell, search/filter workspace, catalogue cards, contextual details and draft composition without changing accepted information architecture or behavior.
+  - Evidence: neutral page/card separation, tighter vertical rhythm, clearer selected-card treatment, less awkward draft controls and contextual French copy now support scanning while preserving semantic tokens, named utilities, touch targets and Heroicons outline.
+  - Evidence: an owned shadcn/Base UI primitive layer now centralises `Button`, `Input` and native `Select` presentation across the catalogue and draft controls. Native dialogs remain in place, generated Geist/Lucide/theme expansion was rejected, and React 18 ref forwarding is covered by focused tests.
+  - Evidence: the populated desktop draft rail is bounded to the viewport once sticky; its summary remains visible while the video list scrolls independently through later items without moving the catalogue page.
+  - Evidence: contrast checks passed from 4.83:1 to 17.18:1 for representative text/action pairs; keyboard focus, Escape restoration, reduced motion, clean console output and zero horizontal overflow were verified in the browser.
+- [x] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
+  - Evidence: Tasks 6, 7 and 7A collectively cover persisted ordering, responsive sheet/rail composition and the representative visual system at 320, 390, 834, 1024 and 1280 CSS pixels; final `npm run verify` passed 13 test files, 67 tests, strict checks with zero diagnostics and the production build.
 
 ## Phase 4 — Save workflow
 
@@ -78,6 +84,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting explicit instruction:** Task 7A — Review and refine the representative UI.
+**Awaiting explicit instruction:** Task 8 — Implement finalisation and session saving.
 
-Task 7 is complete, accepted and committed on `dev` as `963db80`. Do not begin Task 7A without a new user instruction.
+Task 7A and Checkpoint C are complete and intentionally uncommitted for review. Do not begin Task 8 without a new user instruction.

@@ -3,6 +3,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useQueries } from '@tanstack/react-query';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import {
   fetchVideo,
   type CatalogueReferences,
@@ -176,9 +178,12 @@ export function SessionDraftComposition({
       <aside
         id="ma-seance"
         aria-labelledby="session-draft-panel-title"
-        className="border-border bg-card sticky top-6 hidden rounded-lg border xl:block"
+        className="border-border bg-card sticky top-6 hidden max-h-draft-panel flex-col overflow-hidden rounded-lg border shadow-sm xl:flex"
       >
-        <header className="border-border border-b p-5">
+        <header
+          data-slot="session-draft-summary"
+          className="border-border shrink-0 border-b p-5"
+        >
           <h2
             ref={panelHeadingRef}
             id="session-draft-panel-title"
@@ -197,12 +202,15 @@ export function SessionDraftComposition({
               : 'Chargement de la séance…'}
           </p>
         </header>
-        <div className="p-5">
+        <div
+          data-slot="session-draft-scroll-region"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5"
+        >
           <SessionDraftContent idPrefix="panel-draft" {...contentProps} />
         </div>
       </aside>
 
-      <div className="border-border bg-background fixed inset-x-0 bottom-0 z-20 border-t p-3 xl:hidden">
+      <div className="border-border bg-card fixed inset-x-0 bottom-0 z-20 border-t p-3 shadow-lg xl:hidden">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
           <div className="min-w-0">
             <p className="font-semibold">Ma séance</p>
@@ -210,14 +218,13 @@ export function SessionDraftComposition({
               {canObserveDraft && isHydrated ? summary : 'Chargement…'}
             </p>
           </div>
-          <button
+          <Button
             type="button"
             aria-label={`Consulter ma séance, ${countLabel(draft.video_ids.length).toLowerCase()}, ${durationLabel}`}
             onClick={(event) => openSheet(event.currentTarget)}
-            className="bg-primary text-primary-foreground hover:bg-action-hover focus-visible:outline-ring min-h-11 shrink-0 rounded-md px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             Consulter
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -227,10 +234,10 @@ export function SessionDraftComposition({
           aria-labelledby="session-draft-dialog-title"
           onClose={closeSheet}
           onKeyDown={keepFocusInside}
-          className="bg-background text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden backdrop:bg-foreground/40 xl:hidden"
+          className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 xl:hidden"
         >
           <div className="flex h-full flex-col">
-            <header className="border-border bg-background shrink-0 border-b px-4 py-3 sm:px-6">
+            <header className="border-border bg-card shrink-0 border-b px-4 py-3 sm:px-6">
               <div className="flex min-h-11 items-center justify-between gap-4">
                 <h2
                   id="session-draft-dialog-title"
@@ -238,15 +245,16 @@ export function SessionDraftComposition({
                 >
                   Ma séance
                 </h2>
-                <button
+                <Button
                   ref={closeButtonRef}
                   type="button"
+                  variant="ghost"
                   onClick={() => dialogRef.current?.close()}
-                  className="focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 px-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="px-2"
                 >
                   <XMarkIcon aria-hidden="true" className="size-5" />
                   Fermer
-                </button>
+                </Button>
               </div>
               <p className="text-muted-foreground text-sm">{summary}</p>
             </header>

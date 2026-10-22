@@ -2,6 +2,8 @@ import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, type KeyboardEvent } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import {
   fetchVideo,
   type CatalogueReferences,
@@ -80,22 +82,23 @@ export function VideoDetailsSheet({
       aria-labelledby="video-details-dialog-title"
       onClose={onClose}
       onKeyDown={keepFocusInside}
-      className="bg-background text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden backdrop:bg-foreground/40 sm:inset-y-0 sm:right-0 sm:left-auto sm:max-w-lg sm:border-l"
+      className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 sm:inset-y-0 sm:right-0 sm:left-auto sm:max-w-lg sm:border-l"
     >
       <div className="flex h-full flex-col">
-        <header className="border-border bg-background flex min-h-16 shrink-0 items-center justify-between border-b px-4 sm:px-6">
+        <header className="border-border bg-card flex min-h-16 shrink-0 items-center justify-between border-b px-4 sm:px-6">
           <h2 id="video-details-dialog-title" className="text-xl font-semibold">
             Détails de la vidéo
           </h2>
-          <button
+          <Button
             type="button"
+            variant="ghost"
             autoFocus
             onClick={() => dialogRef.current?.close()}
-            className="focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 px-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="px-2"
           >
             <XMarkIcon aria-hidden="true" className="size-5" />
             Fermer
-          </button>
+          </Button>
         </header>
 
         <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6">
@@ -109,11 +112,11 @@ export function VideoDetailsSheet({
               <p className="text-muted-foreground text-sm">
                 Chargement des détails…
               </p>
-              <div className="bg-muted aspect-video animate-pulse rounded-md" />
+              <div className="bg-muted aspect-video animate-pulse rounded-md motion-reduce:animate-none" />
               <div className="space-y-3" aria-hidden="true">
-                <div className="bg-muted h-6 w-3/4 animate-pulse rounded-sm" />
-                <div className="bg-muted h-4 w-1/3 animate-pulse rounded-sm" />
-                <div className="bg-muted h-20 animate-pulse rounded-sm" />
+                <div className="bg-muted h-6 w-3/4 animate-pulse rounded-sm motion-reduce:animate-none" />
+                <div className="bg-muted h-4 w-1/3 animate-pulse rounded-sm motion-reduce:animate-none" />
+                <div className="bg-muted h-20 animate-pulse rounded-sm motion-reduce:animate-none" />
               </div>
             </div>
           )}
@@ -129,13 +132,9 @@ export function VideoDetailsSheet({
                   Réessayez.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => void videoQuery.refetch()}
-                className="bg-primary text-primary-foreground hover:bg-action-hover focus-visible:outline-ring min-h-11 rounded-md px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
+              <Button type="button" onClick={() => void videoQuery.refetch()}>
                 Réessayer
-              </button>
+              </Button>
             </div>
           )}
 
@@ -148,15 +147,16 @@ export function VideoDetailsSheet({
         </div>
 
         {videoQuery.data && videoId && (
-          <footer className="border-border bg-background shrink-0 border-t p-4 sm:p-6">
-            <button
+          <footer className="border-border bg-card shrink-0 border-t p-4 sm:p-6">
+            <Button
               type="button"
+              variant={isSelected ? 'outline' : 'default'}
               aria-pressed={isSelected}
               onClick={() => onToggle(videoId)}
               className={
                 isSelected
-                  ? 'border-primary text-accent-foreground focus-visible:outline-ring inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md border px-4 font-semibold hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2'
-                  : 'bg-primary text-primary-foreground hover:bg-action-hover active:bg-action-active focus-visible:outline-ring inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md px-4 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2'
+                  ? 'border-primary bg-accent text-accent-foreground min-h-12 w-full'
+                  : 'min-h-12 w-full'
               }
             >
               {isSelected ? (
@@ -165,7 +165,7 @@ export function VideoDetailsSheet({
                 <PlusIcon aria-hidden="true" className="size-5" />
               )}
               {isSelected ? 'Retirer de ma séance' : 'Ajouter à ma séance'}
-            </button>
+            </Button>
           </footer>
         )}
       </div>

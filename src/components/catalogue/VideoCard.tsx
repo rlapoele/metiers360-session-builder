@@ -5,6 +5,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
+import { Button } from '@/components/ui/button';
+
 import { formatDuration } from '../../features/catalogue/format';
 import type { Video } from '../../lib/api/schemas';
 
@@ -28,7 +30,9 @@ export function VideoCard({
   const titleId = `video-${video.id}-title`;
 
   return (
-    <li className="border-border bg-card @container overflow-hidden rounded-lg border">
+    <li
+      className={`bg-card @container overflow-hidden rounded-lg border shadow-sm ${isSelected ? 'border-primary' : 'border-border'}`}
+    >
       <article aria-labelledby={titleId} className="flex h-full flex-col">
         <div className="bg-muted relative aspect-video overflow-hidden">
           {video.thumbnail_url ? (
@@ -48,7 +52,7 @@ export function VideoCard({
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col gap-4 p-4 @sm:p-5">
+        <div className="flex flex-1 flex-col gap-3 p-4 @sm:p-5">
           <div className="space-y-3">
             <h2 id={titleId} className="text-lg leading-6 font-semibold">
               {video.title}
@@ -65,30 +69,32 @@ export function VideoCard({
             </p>
           </div>
 
-          <div className="mt-auto space-y-2">
+          <div className="mt-auto space-y-2 pt-1">
             {isSelected && (
               <p className="text-accent-foreground flex items-center gap-2 text-sm font-semibold">
                 <CheckIcon aria-hidden="true" className="size-4" />
                 Dans ma séance
               </p>
             )}
-            <button
+            <Button
               type="button"
+              variant="outline"
               aria-label={`Voir les détails de ${video.title}`}
               onClick={(event) => onOpenDetails(video.id, event.currentTarget)}
-              className="border-input text-foreground hover:bg-muted focus-visible:outline-ring inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="w-full"
             >
               <EyeIcon aria-hidden="true" className="size-5" />
               Voir les détails
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant={isSelected ? 'outline' : 'default'}
               aria-pressed={isSelected}
               onClick={() => onToggle(video.id)}
               className={
                 isSelected
-                  ? 'border-primary text-accent-foreground focus-visible:outline-ring inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-semibold hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2'
-                  : 'bg-primary text-primary-foreground hover:bg-action-hover active:bg-action-active focus-visible:outline-ring inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2'
+                  ? 'border-primary bg-accent text-accent-foreground w-full'
+                  : 'w-full'
               }
             >
               {isSelected ? (
@@ -97,7 +103,7 @@ export function VideoCard({
                 <PlusIcon aria-hidden="true" className="size-5" />
               )}
               {isSelected ? 'Retirer de ma séance' : 'Ajouter à ma séance'}
-            </button>
+            </Button>
           </div>
         </div>
       </article>

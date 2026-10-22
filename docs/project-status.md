@@ -17,18 +17,19 @@ This file records transient project state that does not belong in the stable arc
 - Task 1 is complete: the repository now has a minimal Astro 7 server application with the Node adapter, React 18, strict TypeScript and Tailwind CSS 4.
 - The root scripts run and verify the web application; `server/package.json` keeps the supplied mock API independently runnable. The original API-only root Dockerfile is preserved at `archives/Dockerfile.api-original`.
 - Task 2 and Checkpoint A are complete: `/` and `/sessions` now share a responsive Astro shell with the official 192 × 192 Métiers360 WebP logo, semantic navigation, route-aware current state, a keyboard skip link and page-specific French metadata and headings.
-- The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
+- The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive colors are expressed in OKLCH and map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`. A dedicated current-navigation token uses blue 800 so selected-link text reaches a 9.17:1 contrast ratio on white, while focus outlines remain square and use the primary blue.
 - Task 3 is complete: shared Zod runtime contracts, a server-only catalogue client and thin same-origin Astro BFF endpoints now cover supported catalogue, reference, session and thumbnail operations with consistent failure normalisation.
 - Task 4 is complete: the catalogue now renders server-provided initial data and hydrates into one React/TanStack Query surface with URL-owned search, job/headset/audience filters, server pagination, responsive cards and recoverable loading, empty and error states.
 - Task 5 and Checkpoint B are complete: cards open complete video metadata in a contextual native modal that becomes a full-screen mobile surface or a right-hand tablet/desktop sheet without changing the catalogue URL or position. Loading, missing-thumbnail, recoverable-error and add/remove states are covered.
 - Task 6 is complete: a versioned Zod-validated Nano Stores model owns the draft name, optional headset and unique ordered video IDs; catalogue add/remove actions and the header count now observe the same persisted state across islands, navigation and reloads.
 - Count, known duration and headset compatibility are derived from the canonical draft plus registered video data. Invalid or duplicate persisted IDs are discarded, and server output shows a loading placeholder instead of a misleading zero before browser restoration.
 - Task 7 is complete: `Ma séance` is a persistent sticky catalogue rail from the desktop breakpoint and a full-height modal sheet with a sticky summary on mobile/tablet. Numbered items have explicit move and remove controls, textual duration/compatibility status and retryable metadata failures without draft loss.
-- Finalisation/saving, saved-session content and the representative visual-system refinement remain deliberately unimplemented future slices.
+- Task 7A and Checkpoint C are complete: the representative shell, catalogue, details and draft surfaces now share clearer neutral surface separation, tighter spacing and hierarchy, restrained selected states, more stable draft controls, contextual French copy and a small owned shadcn/Base UI control layer without changing accepted behavior.
+- Finalisation/saving and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Wait for the user's explicit instruction before starting Task 7A from the accepted [project plan](../tasks/plan.md). Task 7A will review and refine the now-representative shell, catalogue, video-details and draft-composition surfaces. Do not skip ahead to the save workflow.
+Wait for the user's explicit instruction before starting Task 8 from the accepted [project plan](../tasks/plan.md). Task 8 will add finalisation and session saving. Do not skip ahead to saved-session review.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -53,6 +54,8 @@ The initial context baseline was accepted and pushed to `dev` in commit `6ed929a
 Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
 
 Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 was accepted and pushed in `c3e3d7e` (`feat: persist shared session draft state`). Task 7 was accepted, committed and pushed in `963db80` (`feat: add responsive session draft composition`).
+
+Task 7A and Checkpoint C are complete and intentionally uncommitted for review. No Task 8 work has started.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -84,7 +87,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 These are known implementation choices, not missing conversational context:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
-- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications. The shell contrast review established blue 800 as the current-navigation text colour; broader visual balance and typographic treatment will be reviewed explicitly in Task 7A after the representative draft-composition surface exists.
+- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The blue ramp remains a deliberate derivation from the supplied asset rather than a claim about official brand specifications. Task 7A confirmed the restrained neutral/blue direction and improved the representative surfaces; the application-wide copy audit remains scheduled for Task 9A.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
@@ -155,7 +158,19 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - The shared header count is now an accessible action: it opens the modal below 1280px and focuses the persistent rail at desktop widths. Draft display is gated behind the catalogue's first client effect to avoid the cross-island hydration mismatch discovered with a persisted draft during browser testing.
 - Focused component coverage verifies desktop ordering/removal/persistence, mobile focus behavior, textual compatibility, retryable metadata failure, header event dispatch and the cross-route hash entry flow. The final suite contains 63 passing tests.
 - Browser checks at 320, 390, 834, 1024 and 1280 CSS pixels verified sheet/rail placement, two-video ordering, reload persistence, header and bottom-summary triggers, Escape focus restoration, zero horizontal overflow and zero console warnings/errors after the hydration fix.
-- Task 7 was accepted, committed and pushed as `963db80` (`feat: add responsive session draft composition`). Task 7A has not started and still requires an explicit user instruction.
+- Task 7 was accepted, committed and pushed as `963db80` (`feat: add responsive session draft composition`).
+
+## Task 7A verification handoff
+
+- The page background now separates white content surfaces without adding decorative brand claims; the header and overlays remain neutral, while the existing blue ramp continues to carry action, focus and selected-state meaning.
+- Search and filters read as one catalogue workspace. Cards use restrained elevation, secondary details actions and an explicit selected border/state; the desktop draft rail uses stable two-column move controls, a separately aligned remove action and a viewport-bounded list that scrolls independently while its summary remains visible.
+- `Button`, `Input` and `NativeSelect` are now owned primitives composed from the official shadcn/Base UI direction. All catalogue/draft controls use those variants, native select semantics and mobile pickers are preserved, the caret has dedicated spacing, and native dialogs remain unchanged.
+- The CLI output was treated as scaffolding rather than a theme decision: Geist, Lucide, dark/chart/sidebar tokens and animation helpers were removed; Heroicons outline and the existing neutral/blue product tokens remain authoritative. React 18 ref forwarding and the shared touch/focus treatment have focused regression coverage.
+- Contextual copy now states that catalogue search is by title and that headset choice happens when saving. No Task 8 finalisation action or behavior was introduced.
+- Before/after captures covered 390 × 844, 834 × 1112 and 1280 × 900 CSS pixels, with additional details/draft-sheet captures at tablet width. The final control pass rechecked the filter sheet, selected cards, draft ordering controls and desktop rail; browser checks confirmed focus restoration, a visible 2px logo-blue keyboard ring, reduced-motion handling, zero errors/warnings and no horizontal overflow at 320, 390, 834, 1024 and 1280 CSS pixels.
+- A seven-video desktop draft was rechecked at 1374 × 1502 CSS pixels after bounding the sticky rail: its list had 223px of independent overflow, scrolled through the final item without changing the page scroll position, kept the summary visible and produced no console warnings or errors.
+- Representative contrast ratios range from 4.83:1 for destructive text on white to 17.18:1 for foreground text on the page background. A search-label mutation made the focused component test fail before restoration.
+- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 13 Vitest files and 67 tests, and the production server build. `npm audit --omit=dev` reported zero known production vulnerabilities. Task 7A and Checkpoint C are intentionally uncommitted for review; Task 8 has not started.
 
 ## Task 3 verification handoff
 

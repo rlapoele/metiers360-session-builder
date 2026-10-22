@@ -1,6 +1,12 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
+import { Button } from '@/components/ui/button';
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from '@/components/ui/native-select';
+
 import type { CatalogueReferences } from '../../features/catalogue/api';
 import type { CatalogueQuery } from '../../features/catalogue/query-params';
 
@@ -52,26 +58,25 @@ function FilterSelects({
       <label htmlFor={`${idPrefix}-${key}`} className="text-sm font-semibold">
         {label}
       </label>
-      <select
+      <NativeSelect
         id={`${idPrefix}-${key}`}
         value={values[key]}
         disabled={disabled}
         onChange={(event) => onChange(key, event.currentTarget.value)}
-        className="border-input bg-background focus-visible:outline-ring min-h-11 w-full rounded-md border px-3 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <option value="">
+        <NativeSelectOption value="">
           {key === 'job'
             ? 'Tous les métiers'
             : key === 'headset'
               ? 'Tous les casques'
               : 'Tous les publics'}
-        </option>
+        </NativeSelectOption>
         {options[key]?.map((option) => (
-          <option key={option.value} value={option.value}>
+          <NativeSelectOption key={option.value} value={option.value}>
             {option.label}
-          </option>
+          </NativeSelectOption>
         ))}
-      </select>
+      </NativeSelect>
     </div>
   ));
 }
@@ -117,15 +122,16 @@ export function CatalogueFilters({
 
   return (
     <>
-      <button
+      <Button
         type="button"
+        variant="outline"
         onClick={openDialog}
         disabled={disabled}
-        className="border-input bg-background focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 rounded-md border px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 lg:hidden"
+        className="lg:hidden"
       >
         <FunnelIcon aria-hidden="true" className="size-5" />
         Filtres{activeCount > 0 ? ` (${activeCount})` : ''}
-      </button>
+      </Button>
 
       <div className="hidden grid-cols-3 gap-4 lg:grid">
         <FilterSelects
@@ -140,21 +146,22 @@ export function CatalogueFilters({
       <dialog
         ref={dialogRef}
         aria-labelledby="filter-dialog-title"
-        className="bg-background text-foreground fixed inset-0 m-0 ml-auto h-dvh max-h-none w-full max-w-none backdrop:bg-foreground/40 sm:max-w-md lg:hidden"
+        className="bg-card text-foreground fixed inset-0 m-0 ml-auto h-dvh max-h-none w-full max-w-none shadow-xl backdrop:bg-foreground/40 sm:max-w-md lg:hidden"
       >
         <form onSubmit={applyFilters} className="flex min-h-full flex-col">
-          <header className="border-border flex min-h-16 items-center justify-between border-b px-4 sm:px-6">
+          <header className="border-border bg-card flex min-h-16 items-center justify-between border-b px-4 sm:px-6">
             <h2 id="filter-dialog-title" className="text-xl font-semibold">
               Filtres
             </h2>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => dialogRef.current?.close()}
-              className="focus-visible:outline-ring inline-flex min-h-11 items-center gap-2 px-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="px-2"
             >
               <XMarkIcon aria-hidden="true" className="size-5" />
               Fermer
-            </button>
+            </Button>
           </header>
 
           <div className="flex-1 space-y-6 overflow-y-auto px-4 py-6 sm:px-6">
@@ -167,22 +174,20 @@ export function CatalogueFilters({
                 setStaged((current) => ({ ...current, [key]: value }))
               }
             />
-            <button
+            <Button
               type="button"
+              variant="link"
               onClick={() => setStaged({ job: '', headset: '', audience: '' })}
-              className="text-navigation-current focus-visible:outline-ring min-h-11 px-1 text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="px-1"
             >
               Réinitialiser les filtres
-            </button>
+            </Button>
           </div>
 
-          <footer className="border-border bg-background sticky bottom-0 border-t p-4 sm:p-6">
-            <button
-              type="submit"
-              className="bg-primary text-primary-foreground hover:bg-action-hover focus-visible:outline-ring min-h-12 w-full rounded-md px-4 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
+          <footer className="border-border bg-card sticky bottom-0 border-t p-4 sm:p-6">
+            <Button type="submit" className="min-h-12 w-full">
               Afficher les vidéos
-            </button>
+            </Button>
           </footer>
         </form>
       </dialog>
