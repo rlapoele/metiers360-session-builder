@@ -68,6 +68,7 @@ The accepted product and architecture decisions live in `AGENTS.md`, `docs/archi
 - Heroicons outline as the sole application icon family;
 - no global or project-local shadcn agent skill;
 - the supplied `server/server.mjs` remains a separate, unchanged mock backend;
+- French interface copy is reviewed within each user-facing slice, receives an interim contextual pass during Task 7A, an application-wide audit in Task 9A and a final accessibility-focused recheck in Task 10;
 - optional Railway deployment is the final step only if time remains, using a public Astro service and a private mock-API service;
 - no Remix.
 
@@ -78,7 +79,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 These are known implementation choices, not missing conversational context:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
-- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications. The shell contrast review established blue 800 as the current-navigation text colour; broader visual balance and typographic treatment remain open as representative content is added.
+- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications. The shell contrast review established blue 800 as the current-navigation text colour; broader visual balance and typographic treatment will be reviewed explicitly in Task 7A after the representative draft-composition surface exists.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.

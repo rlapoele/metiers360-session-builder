@@ -12,9 +12,16 @@ The live completion state belongs in [todo.md](todo.md). This file records the s
 
 1. **Core delivery:** find videos, inspect them, compose and order a draft, validate it, and save it reliably.
 2. **Agreed supporting workflow:** list saved sessions and inspect a saved session.
-3. **Delivery quality:** accessibility, responsive behaviour, failure recovery, verified commands and a concise candidate-facing README.
+3. **Delivery quality:** a cohesive contemporary visual system, accessibility, responsive behaviour, failure recovery, verified commands and a concise candidate-facing README.
 
-If scope must be reduced, protect the verified core delivery first. Record saved-session review or non-essential polish as deliberate omissions rather than shipping incomplete behaviour.
+If scope must be reduced, protect the verified core delivery first. Preserve the visual review's hierarchy, consistency and accessibility work; record optional decorative refinements or saved-session review as deliberate omissions rather than shipping incomplete behaviour.
+
+## Copy verification cadence
+
+- Review new or changed French interface copy within every user-facing task before marking that slice complete. Check headings, labels, calls to action, helper text, validation, loading, empty, error, retry, warning, success and confirmation states in their rendered context rather than as an isolated string list.
+- Keep terminology, tone, capitalisation and action patterns consistent with the product language in `AGENTS.md`. Prefer direct, practical wording for rushed or less digitally confident users; preserve authored/API values and avoid clever, decorative or technical phrasing.
+- Task 7A includes an interim cross-surface copy check so visual hierarchy and control treatments are refined around representative wording rather than placeholders.
+- Task 9A performs the dedicated application-wide French copy audit after every workflow exists. Task 10 then rechecks accessible names, instructions, validation and live status messages as part of final accessibility verification.
 
 ## Dependency flow
 
@@ -26,9 +33,11 @@ Toolchain and scripts
         -> video details
           -> persisted draft model
             -> responsive draft composition
-              -> validation and save
-                -> saved-session review
-                  -> final accessibility, responsive and delivery review
+              -> representative visual-system review
+                -> validation and save
+                  -> saved-session review
+                    -> application-wide French copy audit
+                      -> final accessibility, responsive and delivery review
 ```
 
 ## Tasks
@@ -142,14 +151,29 @@ Users can find and inspect videos across target viewports, including loading, em
 - Items are numbered and can be reordered with keyboard/touch-accessible move controls; drag and drop is not required.
 - Count, total duration and explicit headset compatibility statuses remain understandable without relying on colour.
 - Remote errors or surface transitions do not discard draft content.
+- The completed surface supplies the final representative layout needed for the dedicated visual-system review; broad aesthetic rework remains outside this functional task.
 
 **Verification:** Component tests and mobile/tablet/desktop browser checks for add, remove, reorder, focus and persistence.
 
 **Dependencies:** Tasks 4 and 6.
 
-## Checkpoint C — Composition
+### Task 7A — Review and refine the representative UI
 
-A user can build and reorder a persistent draft from the catalogue without data loss, pointer-only interaction or viewport overflow.
+**Outcome:** The shell, catalogue, video details and draft composition share a cohesive, contemporary visual language before save and saved-session screens extend it.
+
+**Acceptance criteria:**
+
+- Review the implemented mobile, tablet and desktop surfaces together, including their representative headings, labels and actions, then refine typography, spacing rhythm, density, hierarchy, cards, controls, surface separation and restrained interaction feedback where evidence supports a change.
+- Prefer shared semantic tokens and reusable component treatments over page-specific decoration. Keep surfaces, borders and shadows predominantly neutral, retain the accessible logo-derived blue for action/focus and continue to defer pink unless the representative review establishes a clear semantic role.
+- Preserve the accepted information architecture, user-facing behaviour, content clarity, touch targets, keyboard focus, colour contrast and reduced-motion behavior; visual modernisation must not obscure system status or increase interaction cost.
+
+**Verification:** Compare before/after screenshots at mobile, tablet and desktop widths; repeat contrast, keyboard-focus, reduced-motion and overflow checks; run the full repository verification suite.
+
+**Dependencies:** Tasks 5 and 7.
+
+## Checkpoint C — Composition and visual direction
+
+A user can build and reorder a persistent draft from the catalogue without data loss, pointer-only interaction or viewport overflow, and the representative surfaces share an approved visual direction that later workflows can reuse.
 
 ### Task 8 — Implement finalisation and session saving
 
@@ -164,7 +188,7 @@ A user can build and reorder a persistent draft from the catalogue without data 
 
 **Verification:** Validation/save tests and browser flows for success, validation failure, upstream failure and retry.
 
-**Dependencies:** Tasks 3 and 7.
+**Dependencies:** Tasks 3 and 7A.
 
 ## Checkpoint D — Core delivery
 
@@ -185,6 +209,20 @@ The complete required exercise flow—find, compose, order, name and save—work
 
 **Dependencies:** Tasks 3 and 8.
 
+### Task 9A — Complete the application-wide French copy audit
+
+**Outcome:** Every implemented workflow uses clear, consistent and practical French copy suited to counsellors, teachers and educators who may be rushed or less comfortable with digital tools.
+
+**Acceptance criteria:**
+
+- Inventory and review visible copy across every route, overlay and remote/form state, including headings, labels, calls to action, helper text, validation, loading, empty, error, retry, warning, success and confirmation messages.
+- Use the agreed domain vocabulary consistently—particularly `Catalogue`, `Mes séances`, `Ma séance`, videos, headsets and save/add/remove actions—and align tone, capitalisation and CTA patterns without rewriting authored/API content.
+- Verify that accessible names, instructions, validation and status announcements remain understandable outside their visual context; update tests where wording is an intentional interface contract without making incidental prose unnecessarily brittle.
+
+**Verification:** Walk through every implemented route and critical state in a real browser at mobile and desktop widths, inspect accessible names and announcements, run focused tests for intentional copy contracts, then run the full repository verification suite.
+
+**Dependencies:** Tasks 8 and 9.
+
 ### Task 10 — Complete delivery verification and documentation
 
 **Outcome:** The submitted repository is reproducible, candid about scope and reviewable in five minutes.
@@ -192,6 +230,7 @@ The complete required exercise flow—find, compose, order, name and save—work
 **Acceptance criteria:**
 
 - Keyboard, focus, announcements, contrast, reduced motion and overflow are reviewed across affected surfaces and target widths.
+- Accessible names, instructions, validation and live status copy receive a final contextual check after the Task 9A audit.
 - Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup.
 - The supplied exercise brief is preserved verbatim at `docs/source/exercise-brief.md`; it remains an authoritative source document rather than being treated as obsolete archive material.
 - The root README is replaced with the required candidate-facing README using verified claims and commands, links to `docs/skill-log.md` from its AI-use section, and `AGENTS.md` plus internal links are updated to point to the preserved brief.
@@ -211,7 +250,7 @@ Keep the README readable in roughly five minutes. Detailed architecture, wirefra
 
 **Verification:** Clean-install/full-suite rehearsal and final working-tree/diff review.
 
-**Dependencies:** All delivered feature tasks.
+**Dependencies:** All delivered feature tasks and Task 9A.
 
 ## Checkpoint E — Submission readiness
 

@@ -42,7 +42,8 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [ ] **Task 6:** Implement the persisted draft model.
 - [ ] **Task 7:** Implement responsive `Ma séance` composition.
-- [ ] **Checkpoint C:** Draft composition, ordering and persistence are browser-verified across viewport families.
+- [ ] **Task 7A:** Review and refine the representative UI across the shell, catalogue, video details and draft composition.
+- [ ] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
 
 ## Phase 4 — Save workflow
 
@@ -52,6 +53,7 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 ## Phase 5 — Saved-session review
 
 - [ ] **Task 9:** Implement saved-session list and read-only details.
+- [ ] **Task 9A:** Complete the application-wide French copy audit across every route, overlay and UI state.
 
 ## Phase 6 — Delivery
 

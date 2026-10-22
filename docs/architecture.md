@@ -297,7 +297,7 @@ Start with a calm, neutral, content-first interface. The catalogue thumbnails al
 - Use moderate rounding, minimal elevation and touch-friendly control sizes.
 - Keep surfaces, borders and shadows neutral. Use a blue ramp derived from the supplied logo for primary actions, selection and keyboard focus, with a darker accessible action value rather than the logo's brighter cyan used indiscriminately. Keep the logo's pink out of the initial application palette; revisit it only after a representative slice provides evidence that it has a useful semantic role.
 - Reserve other non-neutral colour for compatibility and system feedback. Neutral does not mean that success, warning, incompatibility and error states become indistinguishable.
-- Treat this baseline as a hypothesis to review after the first representative slice renders a header, search/filter controls, a video card and the draft summary at mobile, tablet and desktop widths.
+- Treat this baseline as a hypothesis. After Task 7 renders the header, search/filter controls, video cards, video details and draft composition at mobile, tablet and desktop widths, complete the dedicated Task 7A visual-system review before extending the refined direction to save and saved-session screens.
 
 ### Theme-token contract
 
@@ -417,8 +417,9 @@ Browser coverage should prioritise:
 4. Implement catalogue search, filters, pagination and concise cards.
 5. Implement video details and missing-thumbnail handling.
 6. Implement the persisted ordered draft and responsive `Ma séance` surfaces.
-7. Implement finalisation/save with validation and failure recovery.
-8. Implement saved-session list and read-only details.
-9. Complete browser accessibility/responsive verification and write the final candidate-facing README.
+7. Review the representative UI and refine its visual system without changing the accepted information architecture or interaction model.
+8. Implement finalisation/save with validation and failure recovery.
+9. Implement saved-session list and read-only details.
+10. Complete browser accessibility/responsive verification and write the final candidate-facing README.
 
 Keep each step independently reviewable and working. The exercise explicitly values stopping deliberately and explaining omissions over presenting an unverified exhaustive build.
