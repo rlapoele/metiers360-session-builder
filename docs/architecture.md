@@ -292,22 +292,27 @@ The server validates only known IDs, length and the optional headset ID. The UI 
 
 Start with a calm, neutral, content-first interface. The catalogue thumbnails already provide substantial colour, so application chrome should favour clear hierarchy, borders and spacing over decorative colour or shadow.
 
-- Use the default neutral shadcn theme as the initial foundation, configured with Base UI and CSS variables.
+- Use a neutral shadcn-compatible theme as the initial foundation, configured with Base UI and CSS variables.
 - Begin with the light theme. Dark-mode tokens may remain structurally available, but a user-facing theme switch is not part of the initial scope.
 - Use moderate rounding, minimal elevation and touch-friendly control sizes.
-- Reserve non-neutral colour for primary actions, selection, keyboard focus, compatibility and system feedback. Neutral does not mean that success, warning, incompatibility and error states become indistinguishable.
+- Keep surfaces, borders and shadows neutral. Use a blue ramp derived from the supplied logo for primary actions, selection and keyboard focus, with a darker accessible action value rather than the logo's brighter cyan used indiscriminately. Keep the logo's pink out of the initial application palette; revisit it only after a representative slice provides evidence that it has a useful semantic role.
+- Reserve other non-neutral colour for compatibility and system feedback. Neutral does not mean that success, warning, incompatibility and error states become indistinguishable.
 - Treat this baseline as a hypothesis to review after the first representative slice renders a header, search/filter controls, a video card and the draft summary at mobile, tablet and desktop widths.
 
 ### Theme-token contract
 
-Keep shadcn CSS custom properties as the single authored theme source under `:root`, with optional `.dark` overrides. Expose each token to Tailwind CSS v4 through the appropriate `@theme inline` namespace so application utilities and shadcn components resolve the same values.
+Author a small primitive layer for the neutral and blue ramps, then map shadcn's semantic CSS custom properties to those primitives under `:root`, with optional `.dark` overrides. Expose the semantic tokens to Tailwind CSS v4 through the appropriate `@theme inline` namespace so application utilities and shadcn components resolve the same values. Components consume semantic utilities rather than primitive colours directly.
 
 For example:
 
 ```css
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --neutral-0: oklch(1 0 0);
+  --neutral-900: oklch(0.145 0 0);
+  --blue-600: oklch(0.52 0.15 245);
+  --background: var(--neutral-0);
+  --foreground: var(--neutral-900);
+  --primary: var(--blue-600);
   --warning: oklch(0.84 0.16 84);
   --warning-foreground: oklch(0.28 0.07 46);
 }
@@ -315,12 +320,15 @@ For example:
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
 }
 ```
 
-This mapping produces semantic utilities such as `bg-background`, `text-foreground`, `bg-warning` and `text-warning-foreground`. A custom property is not automatically available as a Tailwind utility: add an explicit `--color-*`, `--radius-*`, `--font-*` or other appropriate namespaced entry in `@theme inline`. Do not maintain a second hard-coded Tailwind palette or scatter raw colour utilities through components.
+This mapping produces semantic utilities such as `bg-background`, `text-foreground`, `bg-primary`, `bg-warning` and `text-warning-foreground`. A custom property is not automatically available as a Tailwind utility: add an explicit `--color-*`, `--radius-*`, `--font-*` or other appropriate namespaced entry in `@theme inline`. Do not maintain a second hard-coded Tailwind palette or scatter raw colour utilities through components.
+
+In Astro templates and JSX, use Tailwind's standard utilities or the named project utilities exposed by the theme. Avoid bracket-based arbitrary-value utilities and direct custom-property expressions when an existing utility expresses the intent. If a recurring non-standard colour, dimension, radius or other value represents a real design-system decision, define a suitably named token and expose it through the relevant Tailwind namespace. Do not create a token merely to disguise a one-off number: first prefer a close standard value, and keep a truly exceptional arbitrary value local and justified.
 
 Use the initial shadcn token set for background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and radius. Add project-specific compatibility/status pairs only when a real UI state requires them, and verify their contrast in context.
 
@@ -343,6 +351,8 @@ Responsive progression:
 - Desktop: three-column catalogue; inline filter toolbar; sticky 320–400px draft panel; compact horizontal saved-session/video rows.
 
 Use content-driven breakpoints and verify around 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels. Avoid hiding information solely because the viewport is smaller; move secondary information into the relevant details surface.
+
+Use media queries for page-level composition that is inherently tied to the viewport: application navigation, shell columns, catalogue/draft placement and the change from a modal sheet to a persistent desktop panel. Use container queries for a reusable component's internal structure when its available space, rather than the viewport itself, should determine the layout. Cards, draft rows, filter groups and panel contents are likely candidates. For a sheet, the outer full-screen-versus-side presentation may remain viewport-driven while its contents respond to the sheet container. Prefer ordinary flexible layout when it already handles the available space; do not add containment or nested container queries without a concrete component need.
 
 ## Accessibility and failure handling
 

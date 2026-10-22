@@ -56,7 +56,9 @@ The accepted product and architecture decisions live in `AGENTS.md`, `docs/archi
 - URL-owned catalogue state, TanStack Query remote state, and a persisted Nano Stores draft;
 - strict TypeScript plus Zod validation at runtime boundaries;
 - Tailwind and selectively installed shadcn/ui components configured with Base UI;
-- a neutral, content-first initial theme whose semantic CSS variables are mapped into Tailwind's `@theme inline` namespaces;
+- a neutral, content-first light theme with neutral surfaces, borders and shadows; a logo-derived blue ramp supplies accessible action and focus colour, while pink is deferred;
+- primitive colour ramps map to shadcn semantic CSS variables, which are exposed as named Tailwind utilities through `@theme inline`; component markup avoids arbitrary values and direct variable expressions when a named utility can express the design;
+- media queries own viewport-level shell composition, while container queries are used selectively for reusable component internals that depend on allocated space;
 - Heroicons outline as the sole application icon family;
 - no global or project-local shadcn agent skill;
 - the supplied `server/server.mjs` remains a separate, unchanged mock backend;
@@ -70,7 +72,7 @@ Do not reopen these decisions without new evidence or an implementation conflict
 These are known implementation choices, not missing conversational context:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
-- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. Begin with the agreed neutral theme, then review the rendered representative slice before refining its accent and typographic treatment.
+- The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The initial blue ramp is a deliberate derivation from the supplied asset rather than a claim about official brand specifications; review its rendered contrast and visual balance with the representative slice. Typographic treatment remains open.
 - The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
@@ -86,6 +88,13 @@ At the end of each meaningful slice, update this file with:
 - whether the working tree is intentionally uncommitted.
 
 Record candidate-attention and AI-use evidence separately in `docs/exercise-log.md`.
+
+## Pre-Task 2 UI-foundation conventions handoff
+
+- The light-theme direction, responsive-query ownership and Tailwind utility discipline agreed on 2026-10-22 are now durable rules in `AGENTS.md` and `docs/architecture.md`.
+- No Task 2 implementation was started. The next action remains explicit user authorisation of that single slice.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks, the configured Vitest runner and the production build after the documentation was adjusted to avoid Tailwind treating a pseudo-class in Markdown as source input.
+- The convention documentation is intentionally uncommitted for user review.
 
 ## Task 1 verification handoff
 

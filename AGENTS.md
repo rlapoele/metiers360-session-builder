@@ -145,6 +145,9 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 - Keep user-facing copy in French. Code identifiers may be English but must be consistent.
 - Preserve authored/API values; format dates, durations and labels only in presentation helpers.
 - Start from a neutral, content-first shadcn theme and use Heroicons outline as the sole application icon family. Map semantic CSS custom properties into Tailwind's `@theme inline` namespaces so utilities and component styles share one token source.
+- Keep surfaces, borders and shadows neutral in the initial light theme. Use the logo-derived blue ramp for primary actions and focus treatment; do not introduce the logo's pink as an application accent without an explicit later decision.
+- Use media queries for viewport-level page and shell composition. Use container queries when a reusable component's internal layout should respond to its allocated space; a sheet or panel may use a viewport query for its outer presentation and container queries for its contents.
+- In templates and JSX, prefer standard or project-defined Tailwind utilities. Do not reach for arbitrary-value utilities or direct CSS-variable expressions when a named utility can express the design; when a non-standard value represents a reusable design decision, define a token and expose it through the appropriate Tailwind theme namespace first.
 - Do not install the shadcn agent skill globally or in this project unless the user explicitly revisits that decision. Use official documentation and inspect CLI-generated changes directly.
 - Do not claim a command exists until it is present in `package.json`.
 - Update `docs/project-status.md` at meaningful handoff points and `docs/exercise-log.md` after each attention session; do not reconstruct either from memory at the end.

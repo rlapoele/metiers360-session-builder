@@ -11,7 +11,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
 | 2026-10-21 | To be supplied by the candidate | Requirements, API behavior, UX direction, architecture, wireframes, Git setup and documentation | To be supplied by the candidate |
-| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation and provision of the official Métiers360 logo | To be supplied by the candidate |
+| 2026-10-22 | To be supplied by the candidate | Project-context restoration, correction of stale Task 1 handoff documentation, provision of the official Métiers360 logo, and direction of the light-theme, responsive-query and Tailwind-utility conventions for Task 2 | To be supplied by the candidate |
 
 Running total: **unknown pending candidate input**.
 
@@ -32,6 +32,7 @@ AI assistance has been used for:
 - bootstrapping and verifying the minimal Astro/React/Tailwind frontend foundation while keeping the supplied mock API independently runnable.
 - restoring the project context from repository sources and reconciling stale Task 1 documentation with the verified Git state.
 - downloading and validating the supplied official Métiers360 logo for later use in the application shell.
+- evaluating a logo-derived blue accent and recording the agreed primitive-to-semantic token structure, responsive-query ownership and Tailwind utility discipline for future UI slices.
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
@@ -60,6 +61,7 @@ Candidate choices currently documented:
 - Keep catalogue cards concise and move complete metadata into a contextual details sheet so the user retains catalogue position.
 - Keep the draft persistently visible on desktop and available as a full-height sheet on smaller viewports, with explicit ordering and compatibility controls.
 - Begin with a neutral, content-first shadcn theme, share its semantic CSS custom properties with Tailwind utilities through `@theme inline`, and use Heroicons outline consistently rather than mixing icon families.
+- Keep page composition viewport-driven while allowing reusable components to adapt to their allocated space through container queries; consume the resulting design system through named Tailwind utilities instead of scattered arbitrary values.
 
 Final wording should state which target users benefit from each choice and should be checked against the implemented interface.
 
@@ -105,3 +107,4 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-21 | Agent | Independent production smoke checks for `npm start` and `npm run start:api` | Built Astro page, API health and a one-item catalogue response succeeded |
 | 2026-10-21 | Agent | `npm run dev`, followed by local requests to `/`, `/health` and `/videos?per_page=1` | Both services ran together on ports 4321 and 4000, returned expected responses and stopped together on interrupt |
 | 2026-10-21 | Agent | Real-browser inspection at 390 × 844 CSS pixels | Placeholder title, heading and supporting text rendered with the expected accessible hierarchy; Chrome DevTools MCP was unavailable, so the in-app browser was used |
+| 2026-10-22 | Agent | `npm run verify` and `git diff --check` after recording the agreed UI-foundation conventions | Full repository gate and diff hygiene passed; an initial Tailwind warning caused by a pseudo-class written in Markdown was removed before the final run |
