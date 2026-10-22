@@ -150,17 +150,17 @@ export function VideoDetailsSheet({
           <footer className="border-border bg-card shrink-0 border-t p-4 sm:p-6">
             <Button
               type="button"
-              variant={isSelected ? 'outline' : 'default'}
+              variant={isSelected ? 'secondary' : 'default'}
               aria-pressed={isSelected}
               onClick={() => onToggle(videoId)}
-              className={
-                isSelected
-                  ? 'border-primary bg-accent text-accent-foreground min-h-12 w-full'
-                  : 'min-h-12 w-full'
-              }
+              className="min-h-12 w-full"
             >
               {isSelected ? (
-                <XMarkIcon aria-hidden="true" className="size-5" />
+                <XMarkIcon
+                  aria-hidden="true"
+                  data-remove-from-draft-icon
+                  className="size-5"
+                />
               ) : (
                 <PlusIcon aria-hidden="true" className="size-5" />
               )}

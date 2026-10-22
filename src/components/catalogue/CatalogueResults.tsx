@@ -16,7 +16,7 @@ interface CatalogueResultsProps {
   hasCriteria: boolean;
   selectedIds: Set<string>;
   jobLabelFor: (video: Video) => string;
-  compatibilityLabelFor: (video: Video) => string;
+  compatibleHeadsetLabelsFor: (video: Video) => string[];
   onRetry: () => void;
   onClear: () => void;
   onPageChange: (page: number) => void;
@@ -89,7 +89,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
     hasCriteria,
     selectedIds,
     jobLabelFor,
-    compatibilityLabelFor,
+    compatibleHeadsetLabelsFor,
     onRetry,
     onClear,
     onPageChange,
@@ -130,7 +130,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
             key={video.id}
             video={video}
             jobLabel={jobLabelFor(video)}
-            compatibilityLabel={compatibilityLabelFor(video)}
+            compatibleHeadsetLabels={compatibleHeadsetLabelsFor(video)}
             isSelected={selectedIds.has(video.id)}
             onOpenDetails={onOpenDetails}
             onToggle={onToggle}

@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom/vitest';
 
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -32,9 +32,14 @@ describe('SessionDraftButton', () => {
 
     render(<SessionDraftButton />);
 
-    expect(
-      await screen.findByRole('button', { name: '2 vidéos dans ma séance' }),
-    ).toHaveTextContent('2');
+    const button = await screen.findByRole('button', {
+      name: '2 vidéos dans ma séance',
+    });
+    expect(button).toHaveTextContent('2');
+    expect(within(button).getByText('2')).toHaveClass(
+      'bg-primary',
+      'text-primary-foreground',
+    );
   });
 
   it('shows an accurate empty count after invalid persistence is discarded', async () => {

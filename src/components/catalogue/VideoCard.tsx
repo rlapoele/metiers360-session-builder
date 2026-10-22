@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 import { formatDuration } from '../../features/catalogue/format';
 import type { Video } from '../../lib/api/schemas';
@@ -13,7 +14,7 @@ import type { Video } from '../../lib/api/schemas';
 interface VideoCardProps {
   video: Video;
   jobLabel: string;
-  compatibilityLabel: string;
+  compatibleHeadsetLabels: string[];
   isSelected: boolean;
   onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
@@ -22,7 +23,7 @@ interface VideoCardProps {
 export function VideoCard({
   video,
   jobLabel,
-  compatibilityLabel,
+  compatibleHeadsetLabels,
   isSelected,
   onOpenDetails,
   onToggle,
@@ -60,18 +61,27 @@ export function VideoCard({
             <p className="text-muted-foreground text-sm leading-5">
               {jobLabel}
             </p>
-            <p className="text-muted-foreground flex items-start gap-2 text-sm leading-5">
-              <CheckIcon
-                aria-hidden="true"
-                className="mt-0.5 size-4 shrink-0"
-              />
-              <span>{compatibilityLabel}</span>
-            </p>
+            {compatibleHeadsetLabels.length > 0 ? (
+              <ul
+                aria-label="Casques compatibles"
+                className="flex flex-wrap gap-1.5"
+              >
+                {compatibleHeadsetLabels.map((label) => (
+                  <li key={label}>
+                    <Badge variant="secondary">{label}</Badge>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted-foreground text-sm leading-5">
+                Aucun casque compatible renseigné
+              </p>
+            )}
           </div>
 
           <div className="mt-auto space-y-2 pt-1">
             {isSelected && (
-              <p className="text-accent-foreground flex items-center gap-2 text-sm font-semibold">
+              <p className="text-success flex items-center gap-2 text-sm font-semibold">
                 <CheckIcon aria-hidden="true" className="size-4" />
                 Dans ma séance
               </p>
@@ -88,17 +98,17 @@ export function VideoCard({
             </Button>
             <Button
               type="button"
-              variant={isSelected ? 'outline' : 'default'}
+              variant={isSelected ? 'secondary' : 'default'}
               aria-pressed={isSelected}
               onClick={() => onToggle(video.id)}
-              className={
-                isSelected
-                  ? 'border-primary bg-accent text-accent-foreground w-full'
-                  : 'w-full'
-              }
+              className="w-full"
             >
               {isSelected ? (
-                <XMarkIcon aria-hidden="true" className="size-5" />
+                <XMarkIcon
+                  aria-hidden="true"
+                  data-remove-from-draft-icon
+                  className="size-5"
+                />
               ) : (
                 <PlusIcon aria-hidden="true" className="size-5" />
               )}

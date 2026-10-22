@@ -57,6 +57,9 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: before/after browser captures at 390, 834 and 1280 CSS pixels guided a restrained hierarchy pass across the shell, search/filter workspace, catalogue cards, contextual details and draft composition without changing accepted information architecture or behavior.
   - Evidence: neutral page/card separation, tighter vertical rhythm, clearer selected-card treatment, less awkward draft controls and contextual French copy now support scanning while preserving semantic tokens, named utilities, touch targets and Heroicons outline.
   - Evidence: an owned shadcn/Base UI primitive layer now centralises `Button`, `Input` and native `Select` presentation across the catalogue and draft controls. Native dialogs remain in place, generated Geist/Lucide/theme expansion was rejected, and React 18 ref forwarding is covered by focused tests.
+  - Evidence: a shared `Badge` primitive gives the header draft count and ordered-session positions sufficient primary contrast, while catalogue headset support is presented as compact neutral metadata pills without an ambiguous validation checkmark.
+  - Evidence: the confirmed `Dans ma séance` state retains its textual label and checkmark but now uses a dedicated semantic success color backed by an OKLCH green primitive with 4.94:1 contrast on white; blue remains reserved for selection and primary action treatment.
+  - Evidence: removing a video from the reversible draft now uses the same neutral secondary treatment and X icon in catalogue cards, video details and the draft rail/sheet; destructive red and the trash icon are reserved for genuinely destructive actions.
   - Evidence: the populated desktop draft rail is bounded to the viewport once sticky; its summary remains visible while the video list scrolls independently through later items without moving the catalogue page.
   - Evidence: contrast checks passed from 4.83:1 to 17.18:1 for representative text/action pairs; keyboard focus, Escape restoration, reduced motion, clean console output and zero horizontal overflow were verified in the browser.
 - [x] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
@@ -86,4 +89,4 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 **Awaiting explicit instruction:** Task 8 — Implement finalisation and session saving.
 
-Task 7A and Checkpoint C are complete and intentionally uncommitted for review. Do not begin Task 8 without a new user instruction.
+Task 7A and Checkpoint C are complete and committed in `cbc2399`. The post-commit visual follow-up remains uncommitted for review. Do not begin Task 8 without a new user instruction.

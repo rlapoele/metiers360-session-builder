@@ -197,18 +197,14 @@ function CatalogueContent({
       : undefined,
   ].filter((filter): filter is AppliedFilter => filter !== undefined);
 
-  function compatibilityLabel(video: Video): string {
+  function compatibleHeadsetLabels(video: Video): string[] {
     if (query.headset) {
-      return `Compatible avec ${headsetLabels.get(query.headset) ?? query.headset}`;
-    }
-    if (video.compatible_headsets.length === 0) {
-      return 'Aucun casque compatible renseigné';
+      return [headsetLabels.get(query.headset) ?? query.headset];
     }
 
     return video.compatible_headsets
       .slice(0, 2)
-      .map((id) => headsetLabels.get(id) ?? id)
-      .join(' · ');
+      .map((id) => headsetLabels.get(id) ?? id);
   }
 
   const hasCriteria = Boolean(
@@ -285,7 +281,7 @@ function CatalogueContent({
             video.jobs[0] ??
             'Métier non renseigné'
           }
-          compatibilityLabelFor={compatibilityLabel}
+          compatibleHeadsetLabelsFor={compatibleHeadsetLabels}
           onRetry={() => void videosQuery.refetch()}
           onClear={clearCriteria}
           onPageChange={(page) => navigate({ page })}

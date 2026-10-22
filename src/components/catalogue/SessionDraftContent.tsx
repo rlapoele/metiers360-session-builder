@@ -3,10 +3,11 @@ import {
   ArrowUpIcon,
   CheckCircleIcon,
   ExclamationTriangleIcon,
-  TrashIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 import { formatDuration } from '../../features/catalogue/format';
 import type { Video } from '../../lib/api/schemas';
@@ -88,12 +89,13 @@ export function SessionDraftContent({
             >
               <article aria-labelledby={titleId} className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <span
+                  <Badge
                     aria-hidden="true"
-                    className="bg-muted inline-flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold"
+                    data-draft-position={index + 1}
+                    className="size-8 p-0 text-sm"
                   >
                     {index + 1}
-                  </span>
+                  </Badge>
                   <div className="min-w-0 flex-1">
                     <h3
                       id={titleId}
@@ -169,12 +171,16 @@ export function SessionDraftContent({
                   </Button>
                   <Button
                     type="button"
-                    variant="destructive"
+                    variant="secondary"
                     aria-label={`Retirer ${title}`}
                     onClick={() => onRemove(item.id)}
                     className="col-span-2 justify-self-end px-2 @sm:ml-auto"
                   >
-                    <TrashIcon aria-hidden="true" className="size-4" />
+                    <XMarkIcon
+                      aria-hidden="true"
+                      data-remove-from-draft-icon
+                      className="size-4"
+                    />
                     Retirer
                   </Button>
                 </div>

@@ -2,6 +2,7 @@ import { useStore } from '@nanostores/react';
 import { useEffect } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 import {
@@ -34,12 +35,9 @@ export function SessionDraftButton({
     <>
       Ma séance
       {isHydrated ? (
-        <span
-          aria-hidden="true"
-          className="bg-muted text-muted-foreground inline-flex size-6 items-center justify-center rounded-full text-xs font-semibold"
-        >
+        <Badge aria-hidden="true" className="size-6 p-0">
           {count}
-        </span>
+        </Badge>
       ) : (
         <span
           aria-hidden="true"
