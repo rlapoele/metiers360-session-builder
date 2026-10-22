@@ -1,3 +1,4 @@
+import { useStore } from '@nanostores/react';
 import {
   keepPreviousData,
   QueryClient,
@@ -25,6 +26,13 @@ import {
   updateCatalogueQuery,
   type CatalogueQuery,
 } from '../../features/catalogue/query-params';
+import {
+  $sessionDraft,
+  addVideoToDraft,
+  hydrateSessionDraft,
+  registerDraftVideos,
+  removeVideoFromDraft,
+} from '../../features/sessions/session-draft.store';
 import type { Video, VideoList } from '../../lib/api/schemas';
 import { AppliedFilters, type AppliedFilter } from './AppliedFilters';
 import { CatalogueFilters } from './CatalogueFilters';
@@ -72,7 +80,8 @@ function CatalogueContent({
 }: CatalogueAppProps) {
   const [query, setQuery] = useState(initialQuery);
   const [searchValue, setSearchValue] = useState(initialQuery.q);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+  const [canObserveDraft, setCanObserveDraft] = useState(false);
+  const draft = useStore($sessionDraft);
   const [detailsVideoId, setDetailsVideoId] = useState<string>();
   const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const initialQueryKey = useMemo(
@@ -92,6 +101,19 @@ function CatalogueContent({
       currentQueryKey === initialQueryKey ? initialVideos : undefined,
     placeholderData: keepPreviousData,
   });
+  const selectedIds = useMemo(
+    () => new Set(canObserveDraft ? draft.video_ids : []),
+    [canObserveDraft, draft.video_ids],
+  );
+
+  useEffect(() => {
+    hydrateSessionDraft();
+    setCanObserveDraft(true);
+  }, []);
+
+  useEffect(() => {
+    if (videosQuery.data) registerDraftVideos(videosQuery.data.data);
+  }, [videosQuery.data]);
 
   useEffect(() => {
     function readLocation() {
@@ -125,12 +147,13 @@ function CatalogueContent({
   }
 
   function toggleSelection(videoId: string) {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      if (next.has(videoId)) next.delete(videoId);
-      else next.add(videoId);
-      return next;
-    });
+    if (selectedIds.has(videoId)) {
+      removeVideoFromDraft(videoId);
+      return;
+    }
+
+    const video = videosQuery.data?.data.find((item) => item.id === videoId);
+    if (video) addVideoToDraft(video);
   }
 
   function openDetails(videoId: string, trigger: HTMLButtonElement) {

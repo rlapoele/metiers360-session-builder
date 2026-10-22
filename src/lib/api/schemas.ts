@@ -106,7 +106,10 @@ export const SessionDraftSchema = z
   .object({
     version: z.literal(1),
     name: z.string().max(120),
-    video_ids: z.array(IdentifierSchema).max(30),
+    video_ids: z
+      .array(IdentifierSchema)
+      .max(30)
+      .refine((videoIds) => new Set(videoIds).size === videoIds.length),
     headset_id: IdentifierSchema.nullable(),
   })
   .strict();

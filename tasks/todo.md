@@ -45,7 +45,10 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 3 — Draft composition
 
-- [ ] **Task 6:** Implement the persisted draft model.
+- [x] **Task 6:** Implement the persisted draft model.
+  - Evidence: Nano Stores owns the validated versioned draft, with name, optional headset and unique ordered video IDs persisted to browser storage; count, known duration and explicit compatibility/unresolved states are derived rather than duplicated.
+  - Evidence: failing-first unit coverage verifies valid restoration, invalid JSON/schema/duplicate rejection, add/remove, bounded move-up/move-down, name/headset validation, clear-after-save and derived data; the catalogue integration persists selection and the header avoids a misleading server-rendered zero.
+  - Evidence: a browser-discovered cross-island hydration race was corrected by deferring catalogue observation until its first client effect. The final add → `/sessions` → reload → catalogue flow retained the count and selected card with zero console errors or warnings.
 - [ ] **Task 7:** Implement responsive `Ma séance` composition.
 - [ ] **Task 7A:** Review and refine the representative UI across the shell, catalogue, video details and draft composition.
 - [ ] **Checkpoint C:** Draft composition, ordering, persistence and the refined visual direction are browser-verified across viewport families.
@@ -72,6 +75,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 5 — Implement contextual video details — is complete.
+**Awaiting review:** Task 6 — Implement the persisted draft model — is complete.
 
-The next implementation slice is Task 6 — Implement the persisted draft model. Do not begin it without a new user instruction.
+The next implementation slice is Task 7 — Implement responsive `Ma séance` composition. Do not begin it without a new user instruction.

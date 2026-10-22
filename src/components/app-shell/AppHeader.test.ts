@@ -1,3 +1,5 @@
+import { getContainerRenderer } from '@astrojs/react/container-renderer';
+import { loadRenderers } from 'astro:container';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 
@@ -5,7 +7,8 @@ import AppHeader from './AppHeader.astro';
 
 describe('AppHeader', () => {
   it('renders the shared navigation with the current destination', async () => {
-    const container = await AstroContainer.create();
+    const renderers = await loadRenderers([getContainerRenderer()]);
+    const container = await AstroContainer.create({ renderers });
     const html = await container.renderToString(AppHeader, {
       props: { currentPath: '/sessions' },
     });
@@ -17,12 +20,16 @@ describe('AppHeader', () => {
     expect(html).toContain('alt="Métiers360"');
   });
 
-  it('does not expose the future draft control as an available action', async () => {
-    const container = await AstroContainer.create();
+  it('renders a non-numeric draft placeholder before browser hydration', async () => {
+    const renderers = await loadRenderers([getContainerRenderer()]);
+    const container = await AstroContainer.create({ renderers });
     const html = await container.renderToString(AppHeader, {
       props: { currentPath: '/' },
     });
 
-    expect(html).toMatch(/<button[^>]*disabled[^>]*>.*Ma séance/s);
+    expect(html).toContain('Ma séance');
+    expect(html).toContain('Chargement de ma séance');
+    expect(html).not.toContain('aria-label="aucune vidéo"');
+    expect(html).not.toMatch(/>\s*0\s*</);
   });
 });

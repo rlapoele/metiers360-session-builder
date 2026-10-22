@@ -14,6 +14,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { CatalogueReferences } from '../../features/catalogue/api';
 import type { CatalogueQuery } from '../../features/catalogue/query-params';
+import {
+  clearDraftAfterSave,
+  SESSION_DRAFT_STORAGE_KEY,
+} from '../../features/sessions/session-draft.store';
 import type { VideoList } from '../../lib/api/schemas';
 import { CatalogueApp } from './CatalogueApp';
 
@@ -62,6 +66,8 @@ const initialReferences: CatalogueReferences = {
 };
 
 beforeEach(() => {
+  clearDraftAfterSave();
+  localStorage.clear();
   window.history.replaceState({}, '', '/');
   HTMLDialogElement.prototype.showModal = function showModal() {
     this.open = true;
@@ -129,6 +135,9 @@ describe('CatalogueApp', () => {
       screen.getByRole('button', { name: 'Retirer de ma séance' }),
     ).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByText('Dans ma séance')).toBeInTheDocument();
+    expect(
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+    ).toMatchObject({ video_ids: ['vid_001'] });
   });
 
   it('opens complete contextual details and restores focus without changing the URL', async () => {

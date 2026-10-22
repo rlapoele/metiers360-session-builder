@@ -21,12 +21,13 @@ This file records transient project state that does not belong in the stable arc
 - Task 3 is complete: shared Zod runtime contracts, a server-only catalogue client and thin same-origin Astro BFF endpoints now cover supported catalogue, reference, session and thumbnail operations with consistent failure normalisation.
 - Task 4 is complete: the catalogue now renders server-provided initial data and hydrates into one React/TanStack Query surface with URL-owned search, job/headset/audience filters, server pagination, responsive cards and recoverable loading, empty and error states.
 - Task 5 and Checkpoint B are complete: cards open complete video metadata in a contextual native modal that becomes a full-screen mobile surface or a right-hand tablet/desktop sheet without changing the catalogue URL or position. Loading, missing-thumbnail, recoverable-error and add/remove states are covered.
-- Card add/remove state is deliberately local to the catalogue island in this slice. Durable cross-route ownership, validation and browser persistence remain Task 6; the header draft trigger and draft composition surfaces therefore remain disabled until that model exists.
-- Durable draft behavior and saved-session content remain deliberately unimplemented future slices.
+- Task 6 is complete: a versioned Zod-validated Nano Stores model owns the draft name, optional headset and unique ordered video IDs; catalogue add/remove actions and the header count now observe the same persisted state across islands, navigation and reloads.
+- Count, known duration and headset compatibility are derived from the canonical draft plus registered video data. Invalid or duplicate persisted IDs are discarded, and server output shows a loading placeholder instead of a misleading zero before browser restoration.
+- The responsive draft panel/sheet, ordering controls and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 5 and wait for the user's explicit instruction before starting Task 6 from the accepted [project plan](../tasks/plan.md). Task 6 will replace the catalogue island's temporary selection state with the validated, persisted Nano Stores draft model. Do not skip ahead to draft composition or another feature slice.
+Review Task 6 and wait for the user's explicit instruction before starting Task 7 from the accepted [project plan](../tasks/plan.md). Task 7 will expose the existing draft model through the responsive `Ma séance` panel/sheet and explicit ordering controls. Do not skip ahead to the visual-system review or save workflow.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -50,7 +51,7 @@ The initial context baseline was accepted and pushed to `dev` in commit `6ed929a
 
 Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish runtime contracts and BFF boundary`).
 
-Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 is intentionally uncommitted for review.
+Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 is intentionally uncommitted for review.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -133,7 +134,17 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - Focused failing-first coverage protects the browser details request, French date presentation, complete content, selection synchronisation, retry, missing thumbnails, focus containment and focus restoration.
 - Browser verification covered 390 × 844, 834 × 1112 and 1440 × 900 CSS pixels. The sheet measured 390px full-width on mobile and 512px right-aligned at tablet/desktop, with no horizontal overflow; keyboard focus stayed inside, Escape restored the originating button and page scrolling, and a real transient API failure recovered through `Réessayer` without changing `/`.
 - Final `npm run verify` passes formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 43 tests and the production server build; `git diff --check` passes at handoff.
-- Task 5 is intentionally uncommitted for user review. Task 6 has not started.
+- Task 5 is committed as `f5cb6f9`. Task 6 began only after the user's explicit instruction.
+
+## Task 6 verification handoff
+
+- `nanostores` and `@nanostores/react` provide the agreed framework-independent store and React subscriptions; no persistence helper package was added because the versioned Zod boundary and SSR timing are application-specific.
+- `src/features/sessions/session-draft.store.ts` owns the canonical draft, guarded browser hydration, persistence and actions for add, remove, bounded move-up/move-down, name, headset and clear-after-save. Video metadata remains an unpersisted lookup used only for derived duration and compatibility.
+- `SessionDraftButton` is a separate header island that announces the validated count on both routes. Its server fallback contains no numeric count, avoiding a false zero while browser storage is unresolved.
+- `CatalogueApp` now replaces temporary local selection with the shared store. It waits until its first client effect before observing restored state so the server-rendered catalogue hydrates without cross-island markup mismatches.
+- Focused failing-first coverage verifies valid and invalid restoration, duplicate rejection, persistence, ordering, clear-after-save, name/headset constraints, derived duration/compatibility, the header hydration state and catalogue persistence.
+- The browser flow added a video, navigated to `/sessions`, reloaded and returned to `/`; the header retained `1 vidéo dans ma séance`, the originating card retained `Dans ma séance`/`Retirer de ma séance`, and the corrected run had zero console errors or warnings.
+- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 56 tests and the production server build; `git diff --check` passed, and `npm audit --omit=dev` reported zero known production vulnerabilities. Task 6 remains intentionally uncommitted for user review, and Task 7 has not started.
 
 ## Task 3 verification handoff
 

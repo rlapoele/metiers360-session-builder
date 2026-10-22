@@ -1,5 +1,6 @@
 ---
 import { getNavigationItems } from './navigation';
+import { SessionDraftButton } from './SessionDraftButton';
 
 interface Props {
   currentPath: string;
@@ -44,19 +45,19 @@ const navigationItems = getNavigationItems(currentPath);
       ))}
     </nav>
 
-    <button
-      type="button"
-      disabled
-      title="Ajoutez une vidéo pour commencer votre séance"
-      class="border-border text-muted-foreground order-2 ml-auto inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-md border px-3 text-sm font-medium sm:order-3"
-    >
-      Ma séance
-      <span
-        aria-label="aucune vidéo"
-        class="bg-muted text-muted-foreground inline-flex size-6 items-center justify-center rounded-full text-xs font-semibold"
+    <SessionDraftButton client:only="react">
+      <div
+        slot="fallback"
+        role="status"
+        aria-label="Chargement de ma séance"
+        class="border-border text-muted-foreground order-2 ml-auto inline-flex min-h-11 items-center gap-2 rounded-md border px-3 text-sm font-medium sm:order-3"
       >
-        0
-      </span>
-    </button>
+        Ma séance
+        <span
+          aria-hidden="true"
+          class="bg-muted inline-flex size-6 animate-pulse rounded-full"
+        ></span>
+      </div>
+    </SessionDraftButton>
   </div>
 </header>
