@@ -16,12 +16,13 @@ This file records transient project state that does not belong in the stable arc
 - Product structure, responsive behavior and intended frontend architecture have been agreed and documented.
 - Task 1 is complete: the repository now has a minimal Astro 7 server application with the Node adapter, React 18, strict TypeScript and Tailwind CSS 4.
 - The root scripts run and verify the web application; `server/package.json` keeps the supplied mock API independently runnable. The original API-only root Dockerfile is preserved at `archives/Dockerfile.api-original`.
-- The official 192 × 192 Métiers360 WebP logo supplied from `https://www.metiers360.com/logos/m360-logo.webp` is available at `public/images/m360-logo.webp` for the Task 2 application header; it has not yet been integrated into the UI.
-- The only frontend content is a deliberately minimal French placeholder proving the toolchain. The shared application shell, routes, theme tokens and product UI remain Task 2 work.
+- Task 2 and Checkpoint A are complete: `/` and `/sessions` now share a responsive Astro shell with the official 192 × 192 Métiers360 WebP logo, semantic navigation, route-aware current state, a keyboard skip link and page-specific French metadata and headings.
+- The initial light theme uses neutral surfaces, borders and shadows plus a logo-derived blue ramp for action and focus semantics. Primitive variables map to shadcn-compatible semantic variables and named Tailwind utilities through `@theme inline`.
+- Catalogue data, API contracts, draft behavior, filters, sheets and saved-session content remain deliberately unimplemented future slices.
 
 ## Next action
 
-Review Task 1 and wait for the user's explicit instruction before starting Task 2 from the accepted [project plan](../tasks/plan.md). Task 2 will introduce the `Catalogue` and `Mes séances` routes, shared responsive shell and neutral semantic theme. Do not skip ahead to API contracts, broad component installation or feature implementation.
+Review Task 2 and wait for the user's explicit instruction before starting Task 3 from the accepted [project plan](../tasks/plan.md). Task 3 will establish runtime contracts and the thin BFF boundary. Do not skip ahead to catalogue discovery or other feature implementation.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -89,12 +90,16 @@ At the end of each meaningful slice, update this file with:
 
 Record candidate-attention and AI-use evidence separately in `docs/exercise-log.md`.
 
-## Pre-Task 2 UI-foundation conventions handoff
+## Task 2 verification handoff
 
-- The light-theme direction, responsive-query ownership and Tailwind utility discipline agreed on 2026-10-22 are now durable rules in `AGENTS.md` and `docs/architecture.md`.
-- No Task 2 implementation was started. The next action remains explicit user authorisation of that single slice.
-- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks, the configured Vitest runner and the production build after the documentation was adjusted to avoid Tailwind treating a pseudo-class in Markdown as source input.
-- The convention documentation is intentionally uncommitted for user review.
+- Shared shell files: `src/layouts/AppLayout.astro`, `src/components/app-shell/AppHeader.astro` and `src/components/app-shell/navigation.ts`.
+- Route files: `src/pages/index.astro` and `src/pages/sessions/index.astro`; the official logo is rendered from `public/images/m360-logo.webp`.
+- Theme source: `src/styles/global.css`, with primitive neutral/blue values, shadcn semantic mappings and Tailwind `@theme inline` exposure. No pink application accent or dark theme was introduced.
+- No application icon was required in this slice, so no unused icon dependency was installed; Heroicons outline remains the sole allowed family when an icon is first needed.
+- `vitest.config.ts` loads the Astro Vite configuration so native Astro component tests can render through the Astro Container API.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, four Vitest tests and the production build.
+- The combined development process returned HTTP 200 for `/`, `/sessions` and `/health`. Browser inspection covered 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels with no horizontal overflow, a clean console, correct current navigation, visible keyboard focus and 44–48px header targets.
+- Task 2 is intentionally uncommitted for user review.
 
 ## Task 1 verification handoff
 

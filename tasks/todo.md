@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-10-21
+Last updated: 2026-10-22
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -10,8 +10,13 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, the configured test runner and the production build.
   - Evidence: `npm run dev` served the mock API on port 4000 and the Astro placeholder on port 4321; `/health`, a one-item catalogue request and the rendered page all responded successfully, and one interrupt stopped both processes.
   - Evidence: the production web server and mock API were also smoke-tested independently; the placeholder was inspected in a real mobile-width browser; `npm audit` reported zero known vulnerabilities.
-- [ ] **Task 2:** Build the responsive application shell.
-- [ ] **Checkpoint A:** Frontend and API run together; routes, verification commands and responsive shell are reviewed.
+- [x] **Task 2:** Build the responsive application shell.
+  - Evidence: `/` and `/sessions` share an Astro layout and responsive header with semantic landmarks, one page heading, a skip link, the official logo and route-aware `aria-current` navigation.
+  - Evidence: the light theme defines neutral and logo-derived blue primitives, maps shadcn-compatible semantic tokens through Tailwind `@theme inline`, and uses named utilities without arbitrary values or direct custom-property expressions in component markup.
+  - Evidence: focused Vitest coverage passed for navigation state and rendered header semantics; `npm run verify` passed formatting, linting, strict Astro/TypeScript checks, four tests and the production build.
+- [x] **Checkpoint A:** Frontend and API run together; routes, verification commands and responsive shell are reviewed.
+  - Evidence: `/`, `/sessions` and the API health endpoint returned HTTP 200 from the combined development process; browser checks at 320, 390, 768, 834, 1024, 1280 and 1440 CSS pixels found no horizontal overflow.
+  - Evidence: mobile, tablet and desktop screenshots confirmed the intended header progression; the skip link and navigation focus treatment were visible, 44–48px touch targets were measured, route state was correct and the browser console stayed clean.
 
 ## Phase 2 — Contracts and catalogue
 
@@ -47,6 +52,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting review:** Task 1 — Bootstrap the frontend toolchain — is complete.
+**Awaiting review:** Task 2 — Build the responsive application shell — is complete.
 
-The next implementation slice is Task 2 — Build the responsive application shell. Do not begin it without a new user instruction.
+The next implementation slice is Task 3 — Establish runtime contracts and the BFF boundary. Do not begin it without a new user instruction.

@@ -1,0 +1,62 @@
+---
+import { getNavigationItems } from './navigation';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const navigationItems = getNavigationItems(currentPath);
+---
+
+<header class="border-border bg-background border-b">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center px-4 sm:min-h-20 sm:flex-nowrap sm:gap-8 sm:px-6 lg:px-8">
+    <a
+      href="/"
+      class="focus-visible:outline-ring order-1 flex min-h-16 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-0"
+    >
+      <img
+        src="/images/m360-logo.webp"
+        width="192"
+        height="192"
+        alt="Métiers360"
+        class="size-11"
+      />
+    </a>
+
+    <nav
+      aria-label="Navigation principale"
+      class="border-border order-3 flex basis-full border-t sm:order-2 sm:basis-auto sm:border-t-0"
+    >
+      {navigationItems.map((item) => (
+        <a
+          href={item.href}
+          aria-current={item.isCurrent ? 'page' : undefined}
+          class:list={[
+            'focus-visible:outline-ring relative flex min-h-12 items-center px-3 text-sm font-medium focus-visible:z-10 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-20 sm:px-2',
+            item.isCurrent
+              ? 'text-primary after:bg-primary after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 sm:after:inset-x-2'
+              : 'text-muted-foreground hover:text-foreground',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <button
+      type="button"
+      disabled
+      title="Ajoutez une vidéo pour commencer votre séance"
+      class="border-border text-muted-foreground order-2 ml-auto inline-flex min-h-11 cursor-not-allowed items-center gap-2 rounded-md border px-3 text-sm font-medium sm:order-3"
+    >
+      Ma séance
+      <span
+        aria-label="aucune vidéo"
+        class="bg-muted text-muted-foreground inline-flex size-6 items-center justify-center rounded-full text-xs font-semibold"
+      >
+        0
+      </span>
+    </button>
+  </div>
+</header>

@@ -1,0 +1,38 @@
+---
+import AppHeader from '../components/app-shell/AppHeader.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/webp" href="/images/m360-logo.webp" />
+    <title>{title} — Métiers360</title>
+  </head>
+  <body class="bg-background text-foreground min-h-dvh font-sans antialiased">
+    <a
+      href="#contenu-principal"
+      class="bg-primary text-primary-foreground focus-visible:outline-ring fixed top-3 left-3 z-50 -translate-y-20 rounded-md px-4 py-3 text-sm font-semibold focus:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      Aller au contenu principal
+    </a>
+    <AppHeader currentPath={Astro.url.pathname} />
+    <main
+      id="contenu-principal"
+      tabindex="-1"
+      class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16"
+    >
+      <slot />
+    </main>
+  </body>
+</html>
