@@ -174,7 +174,7 @@ export function SessionDraftContent({
                     variant="secondary"
                     aria-label={`Retirer ${title}`}
                     onClick={() => onRemove(item.id)}
-                    className="col-span-2 justify-self-end px-2 @sm:ml-auto"
+                    className="col-span-2 justify-self-end px-4 @sm:ml-auto"
                   >
                     <XMarkIcon
                       aria-hidden="true"
