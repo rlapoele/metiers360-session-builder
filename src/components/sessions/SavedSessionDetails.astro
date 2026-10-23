@@ -1,0 +1,159 @@
+---
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
+import { formatDuration } from '../../features/catalogue/format';
+import {
+  formatSessionDate,
+  formatVideoCount,
+} from '../../features/sessions/format';
+import type { ResolvedSessionVideo } from '../../features/sessions/resolve-session-videos.server';
+import type { HeadsetList, JobList, Session } from '../../lib/api/schemas';
+
+interface Props {
+  session: Session;
+  programme: ResolvedSessionVideo[];
+  jobs: JobList;
+  headsets: HeadsetList;
+}
+
+const { session, programme, jobs, headsets } = Astro.props;
+const jobNames = new Map(jobs.data.map((job) => [job.code, job.label]));
+const headsetNames = new Map(
+  headsets.data.map((headset) => [headset.id, headset.name]),
+);
+const selectedHeadsetName = session.headset_id
+  ? (headsetNames.get(session.headset_id) ?? 'Casque inconnu')
+  : 'Casque non renseigné';
+---
+
+<a
+  href="/sessions"
+  class="text-navigation-current focus-visible:ring-ring focus-visible:ring-offset-background inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-semibold underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+>
+  <ArrowLeftIcon aria-hidden="true" className="size-5" />
+  Retour à mes séances
+</a>
+
+<header class="mt-5">
+  <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
+    {session.name}
+  </h1>
+  <p class="text-muted-foreground mt-2">
+    Créée le {formatSessionDate(session.created_at)}
+  </p>
+</header>
+
+<div class="mt-8 grid gap-6 lg:grid-cols-3 lg:items-start lg:gap-8">
+  <section
+    aria-labelledby="programme-title"
+    class="border-border bg-card rounded-lg border p-4 shadow-sm sm:p-6 lg:col-span-2"
+  >
+    <h2 id="programme-title" class="text-xl font-semibold">
+      Programme de la séance
+    </h2>
+    <p class="text-muted-foreground mt-2 text-sm leading-6">
+      Les vidéos seront présentées dans cet ordre.
+    </p>
+
+    <ol class="mt-5 space-y-3">
+      {programme.map((item, index) => (
+        <li class="border-border bg-background rounded-lg border p-4">
+          <article class="flex items-start gap-3 sm:gap-4">
+            <span
+              aria-label={`Position ${index + 1}`}
+              class="bg-primary text-primary-foreground inline-flex size-8 items-center justify-center rounded-full text-sm font-semibold"
+            >
+              {index + 1}
+            </span>
+
+            {item.video ? (
+              <div class="min-w-0 flex-1 sm:flex sm:items-center sm:gap-4">
+                <div class="bg-muted aspect-video w-full overflow-hidden rounded-md sm:w-40 sm:shrink-0">
+                  {item.video.thumbnail_url ? (
+                    <img
+                      src={item.video.thumbnail_url}
+                      alt=""
+                      loading="lazy"
+                      class="size-full object-cover"
+                    />
+                  ) : (
+                    <div class="text-muted-foreground flex size-full items-center justify-center px-4 text-center text-sm">
+                      Aperçu indisponible
+                    </div>
+                  )}
+                </div>
+                <div class="mt-3 min-w-0 sm:mt-0">
+                  <h3 class="font-semibold leading-6">{item.video.title}</h3>
+                  <p class="text-muted-foreground mt-1 text-sm">
+                    {formatDuration(item.video.duration_seconds)}
+                  </p>
+                  <p class="text-muted-foreground mt-2 text-sm">
+                    {jobNames.get(item.video.jobs[0] ?? '') ??
+                      item.video.jobs[0] ??
+                      'Métier non renseigné'}
+                  </p>
+                  {item.video.compatible_headsets.length > 0 ? (
+                    <ul
+                      aria-label="Casques compatibles"
+                      class="mt-2 flex flex-wrap gap-1.5"
+                    >
+                      {item.video.compatible_headsets.map((headsetId) => (
+                        <li class="bg-secondary text-secondary-foreground rounded-full px-3 py-1 text-xs font-semibold">
+                          {headsetNames.get(headsetId) ?? headsetId}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="text-muted-foreground mt-2 text-sm">
+                      Aucun casque compatible renseigné
+                    </p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div class="min-w-0 flex-1">
+                <h3 class="font-semibold">Vidéo indisponible</h3>
+                <p class="text-muted-foreground mt-1 text-sm">
+                  Identifiant : {item.id}
+                </p>
+              </div>
+            )}
+          </article>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <aside
+    aria-labelledby="summary-title"
+    class="border-border bg-card rounded-lg border p-5 shadow-sm lg:sticky lg:top-6"
+  >
+    <h2 id="summary-title" class="text-xl font-semibold">
+      Résumé de la séance
+    </h2>
+    <dl class="mt-5 space-y-5">
+      <div>
+        <dt class="text-muted-foreground text-sm">Nombre de vidéos</dt>
+        <dd class="mt-1 font-semibold">
+          {formatVideoCount(session.video_ids.length)}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-muted-foreground text-sm">Durée totale</dt>
+        <dd class="mt-1 font-semibold">
+          {formatDuration(session.total_duration_seconds)}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-muted-foreground text-sm">Casque sélectionné</dt>
+        <dd class="mt-1 font-semibold">{selectedHeadsetName}</dd>
+      </div>
+      <div>
+        <dt class="text-muted-foreground text-sm">Créée le</dt>
+        <dd class="mt-1 font-semibold">
+          {formatSessionDate(session.created_at)}
+        </dd>
+      </div>
+    </dl>
+  </aside>
+</div>

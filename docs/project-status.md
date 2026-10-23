@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-10-23
+Last reviewed: 2026-10-24
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -26,11 +26,11 @@ This file records transient project state that does not belong in the stable arc
 - Task 7 is complete: `Ma séance` is a persistent sticky catalogue rail from the desktop breakpoint and a full-height modal sheet with a sticky summary on mobile/tablet. Numbered items have explicit move and remove controls, textual duration/compatibility status and retryable metadata failures without draft loss.
 - Task 7A and Checkpoint C are complete: the representative shell, catalogue, details and draft surfaces now share clearer neutral surface separation, tighter spacing and hierarchy, restrained selected states, more stable draft controls, contextual French copy and a small owned shadcn/Base UI control layer without changing accepted behavior.
 - Task 8 and Checkpoint D are complete: a responsive finalisation dialog collects the required session name and optional headset, states compatibility, preserves the canonical ordered draft through validation/upstream failures, saves through the existing BFF and clears only after a confirmed `201`.
-- Saved-session list and read-only details content remain deliberately unimplemented for Task 9. The current `/sessions?created={id}` state is a focused post-save confirmation, not a substitute for that slice.
+- Task 9 is complete: `/sessions` distinguishes the persisted current draft from saved sessions and covers loading, empty, retryable error and success states; `/sessions/[id]` provides an ordered, read-only programme with not-found and retryable service-error handling.
 
 ## Next action
 
-Wait for the user's explicit instruction before starting Task 9 from the accepted [project plan](../tasks/plan.md). Task 9 will add the saved-session list and read-only details. Do not skip ahead to Task 9A or delivery work.
+Wait for the user's explicit instruction before starting Task 9A from the accepted [project plan](../tasks/plan.md). Task 9A will perform the application-wide French copy audit. Do not skip ahead to Task 10 or delivery work.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -58,7 +58,7 @@ Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7
 
 Task 7A and Checkpoint C were accepted, committed and pushed in `cbc2399` (`feat: refine session builder interface`). Its post-commit visual refinements were subsequently committed and pushed in `7804efd` (`feat: refine visual details`) and `9334307` (`feat: increased Retirer button horizontal padding to px-4`).
 
-Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`), followed by the required/optional field cues in `8cee9e8` (`fix: clarify session form field requirements`). The block-level visible-label spacing refinement is complete and intentionally uncommitted for review. No Task 9 work has started.
+Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`), followed by the required/optional field cues in `8cee9e8` (`fix: clarify session form field requirements`). The subsequent label-spacing and visual refinements are committed and pushed through `c797443` (`fix: corrected dialog border and used badges consistently in video card and details`). Task 9 is complete and intentionally uncommitted for review.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -91,7 +91,7 @@ These are known implementation choices, not missing conversational context:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
 - The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The blue ramp remains a deliberate derivation from the supplied asset rather than a claim about official brand specifications. Task 7A confirmed the restrained neutral/blue direction and improved the representative surfaces; the application-wide copy audit remains scheduled for Task 9A.
-- The most efficient saved-session video-resolution strategy remains provisional because the API has no batch-by-ID endpoint. Follow the bounded/cached approach in the architecture document and record a better strategy if implementation evidence supports one.
+- Because the API has no batch-by-ID endpoint, Task 9 resolves saved-session videos through bounded sequential catalogue-page requests with `per_page=100`, stops as soon as all requested IDs are found and restores the saved ID order. This avoids a request per video while respecting the existing API contract.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
 
@@ -187,7 +187,16 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `SessionDraftComposition.tsx` exposes `Finaliser ma séance` in both the desktop rail and smaller-viewport sheet. A confirmed `201` invokes `clearDraftAfterSave()` and navigates to the focused `/sessions?created={id}` success state; validation and failed requests leave the draft untouched.
 - Failing-first unit/component tests protect ordered request payloads, invalid success responses, server validation details, accessible empty-name handling, compatibility warnings, duplicate-submit prevention, retained values and retry recovery.
 - Real-browser checks covered the populated 1362px desktop rail, a 480 × 844 mobile full-screen dialog and an 834 × 1112 tablet dialog. They verified initial name-field focus, Escape return to the draft sheet, no horizontal overflow, explicit incompatible-video copy, success and cleared header count, two real seeded upstream failures, retained name/video content and a successful later retry. Final console warnings/errors were zero.
-- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 Vitest files and 75 tests, and the production server build. `git diff --check` passed. The previously isolated `button.tsx` Prettier failure is resolved. The Task 8 baseline and field-cue refinement are committed in `f22dc0d` and `8cee9e8`; the block-level label-spacing refinement remains uncommitted for review, and Task 9 has not started.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 Vitest files and 75 tests, and the production server build. `git diff --check` passed. The previously isolated `button.tsx` Prettier failure is resolved. The Task 8 baseline and field-cue refinement are committed in `f22dc0d` and `8cee9e8`; subsequent label-spacing and visual refinements are committed through `c797443`.
+
+## Task 9 verification handoff
+
+- `src/pages/sessions/index.astro` now supplies server-validated initial session/headset data to one React sessions surface. The current draft remains visibly separate from saved sessions, while TanStack Query owns list loading, retry and recovered data in the browser.
+- `src/pages/sessions/[id].astro` and `SavedSessionDetails.astro` render saved sessions as read-only ordered programmes with saved name/date/duration/headset metadata, intentional missing-video fallbacks, a 404 state and a retryable 503 state. No edit or delete actions were added.
+- `resolve-session-videos.server.ts` scans catalogue pages sequentially with `per_page=100`, stops once all requested IDs are resolved or the catalogue is exhausted and reconstructs the result in `video_ids` order. Focused tests protect request bounds, ordering and unavailable positions.
+- Real-browser checks covered 480px mobile, 834px tablet and 1440px desktop layouts with no horizontal overflow. Not-found and transient service-error states were exercised, the desktop summary remained sticky, smaller layouts remained linear and the final browser console had no errors or warnings.
+- A real save created `Vérification Task 9`, returned to `/sessions?created=ses_004`, exposed the confirmation and saved-list entry, cleared the draft and linked to details preserving the selected Omar → Hugo playback order. The mock API remains memory-only, so this verification record disappears when its process restarts.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 18 Vitest files and 84 tests, and the production server build. Task 9 is intentionally uncommitted for review; Task 9A has not started.
 
 ## Task 3 verification handoff
 

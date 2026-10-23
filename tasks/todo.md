@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-10-23
+Last updated: 2026-10-24
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -78,7 +78,12 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 5 — Saved-session review
 
-- [ ] **Task 9:** Implement saved-session list and read-only details.
+- [x] **Task 9:** Implement saved-session list and read-only details.
+  - Evidence: `/sessions` presents the persisted current draft separately from a TanStack Query-backed saved-session list with loading, empty, recoverable-error and retry states; the post-save confirmation links directly to the newly created session.
+  - Evidence: `/sessions/[id]` renders a dedicated read-only ordered programme with saved metadata, intentional unavailable-video fallbacks, not-found handling and a retryable service-error state without unsupported edit or delete controls.
+  - Evidence: saved-session video metadata is resolved through bounded catalogue-page requests of 100 items, stops when all requested IDs are found and restores the exact saved playback order without a request per video.
+  - Evidence: focused tests cover overview validation, bounded ordered resolution, list states and details rendering; the final suite contains 18 passing test files and 84 passing tests.
+  - Evidence: browser checks at 480, 834 and 1440 CSS pixels verified responsive list/details layouts, not-found and transient-service-error recovery, zero horizontal overflow and a complete save → list → details flow preserving two-video order with no final console diagnostics.
 - [ ] **Task 9A:** Complete the application-wide French copy audit across every route, overlay and UI state.
 
 ## Phase 6 — Delivery
@@ -93,6 +98,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting explicit instruction:** Task 9 — Implement saved-session list and read-only details.
+**Awaiting explicit instruction:** Task 9A — Complete the application-wide French copy audit across every route, overlay and UI state.
 
-Task 8 and Checkpoint D are complete and committed in `f22dc0d`; the required/optional field cues are committed and pushed in `8cee9e8`, while the block-level visible-label spacing refinement remains intentionally uncommitted for review. Task 7A's post-commit refinements are committed and pushed in `7804efd` and `9334307`. Do not begin Task 9 without a new user instruction.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is complete and intentionally uncommitted for review. Do not begin Task 9A without a new user instruction.

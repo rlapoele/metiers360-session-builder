@@ -1,11 +1,20 @@
 import {
   ApiErrorSchema,
+  HeadsetListSchema,
+  SessionListSchema,
   SessionSchema,
   ValidationErrorSchema,
   type CreateSession,
+  type HeadsetList,
   type Session,
+  type SessionList,
   type ValidationError,
 } from '../../lib/api/schemas';
+
+export interface SessionsOverview {
+  sessions: SessionList;
+  headsets: HeadsetList;
+}
 
 export class SessionSaveError extends Error {
   readonly fieldErrors: ValidationError['details'];
@@ -23,6 +32,43 @@ async function readJson(response: Response): Promise<unknown> {
   } catch {
     return undefined;
   }
+}
+
+async function fetchJson(input: string, signal?: AbortSignal) {
+  let response: Response;
+
+  try {
+    response = await fetch(input, { signal });
+  } catch {
+    throw new Error('Les séances enregistrées ne peuvent pas être chargées.');
+  }
+
+  const body = await readJson(response);
+  if (!response.ok) {
+    throw new Error('Les séances enregistrées ne peuvent pas être chargées.');
+  }
+
+  return body;
+}
+
+export async function fetchSessionsOverview(
+  signal?: AbortSignal,
+): Promise<SessionsOverview> {
+  const [sessionsBody, headsetsBody] = await Promise.all([
+    fetchJson('/api/sessions', signal),
+    fetchJson('/api/headsets', signal),
+  ]);
+  const sessions = SessionListSchema.safeParse(sessionsBody);
+  const headsets = HeadsetListSchema.safeParse(headsetsBody);
+
+  if (!sessions.success) {
+    throw new Error('La réponse des séances enregistrées est invalide.');
+  }
+  if (!headsets.success) {
+    throw new Error('La réponse des casques VR est invalide.');
+  }
+
+  return { sessions: sessions.data, headsets: headsets.data };
 }
 
 export async function createSession(

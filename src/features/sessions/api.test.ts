@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { CreateSession } from '../../lib/api/schemas';
-import { createSession, SessionSaveError } from './api';
+import { createSession, fetchSessionsOverview, SessionSaveError } from './api';
 
 const request: CreateSession = {
   name: 'Découvrir les métiers du paysage',
@@ -78,6 +78,54 @@ describe('createSession', () => {
 
     await expect(createSession(request)).rejects.toThrow(
       'La confirmation de l’enregistrement est invalide.',
+    );
+  });
+});
+
+describe('fetchSessionsOverview', () => {
+  it('loads and validates saved sessions with headset labels', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({
+          data: [
+            {
+              id: 'ses_001',
+              ...request,
+              created_at: '2026-10-23T18:20:00.000Z',
+              total_duration_seconds: 760,
+            },
+          ],
+        }),
+      )
+      .mockResolvedValueOnce(
+        Response.json({ data: [{ id: 'pico-4', name: 'Pico 4' }] }),
+      );
+    vi.stubGlobal('fetch', fetchMock);
+
+    await expect(fetchSessionsOverview()).resolves.toMatchObject({
+      sessions: { data: [{ id: 'ses_001' }] },
+      headsets: { data: [{ name: 'Pico 4' }] },
+    });
+    expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/sessions', {
+      signal: undefined,
+    });
+    expect(fetchMock).toHaveBeenNthCalledWith(2, '/api/headsets', {
+      signal: undefined,
+    });
+  });
+
+  it('rejects an invalid saved-session response', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValueOnce(Response.json({ data: [{ id: 'broken' }] }))
+        .mockResolvedValueOnce(Response.json({ data: [] })),
+    );
+
+    await expect(fetchSessionsOverview()).rejects.toThrow(
+      'La réponse des séances enregistrées est invalide.',
     );
   });
 });

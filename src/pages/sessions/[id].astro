@@ -1,0 +1,93 @@
+---
+import SavedSessionDetails from '../../components/sessions/SavedSessionDetails.astro';
+import type { ResolvedSessionVideo } from '../../features/sessions/resolve-session-videos.server';
+import { resolveSessionVideos } from '../../features/sessions/resolve-session-videos.server';
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getCatalogueClient } from '../../lib/api/catalogue-client-instance.server';
+import { CatalogueClientError } from '../../lib/api/errors';
+import type { HeadsetList, JobList, Session } from '../../lib/api/schemas';
+
+interface SessionDetailsData {
+  session: Session;
+  programme: ResolvedSessionVideo[];
+  jobs: JobList;
+  headsets: HeadsetList;
+}
+
+const sessionId = Astro.params.id ?? '';
+const client = getCatalogueClient();
+let details: SessionDetailsData | undefined;
+let state: 'not-found' | 'error' | undefined;
+
+try {
+  const session = await client.getSession(sessionId);
+  const [programme, jobs, headsets] = await Promise.all([
+    resolveSessionVideos(session, (params) => client.listVideos(params)),
+    client.listJobs(),
+    client.listHeadsets(),
+  ]);
+  details = { session, programme, jobs, headsets };
+} catch (error) {
+  if (error instanceof CatalogueClientError && error.status === 404) {
+    state = 'not-found';
+    Astro.response.status = 404;
+  } else {
+    state = 'error';
+    Astro.response.status = 503;
+  }
+}
+
+const title = details?.session.name ?? 'Détails de la séance';
+---
+
+<AppLayout
+  title={title}
+  description="Consultez le programme et le résumé de cette séance enregistrée."
+>
+  {details ? (
+    <SavedSessionDetails
+      session={details.session}
+      programme={details.programme}
+      jobs={details.jobs}
+      headsets={details.headsets}
+    />
+  ) : state === 'not-found' ? (
+    <section aria-labelledby="not-found-title" class="max-w-2xl">
+      <h1
+        id="not-found-title"
+        class="text-3xl font-semibold tracking-tight sm:text-4xl"
+      >
+        Séance introuvable
+      </h1>
+      <p class="text-muted-foreground mt-4 leading-7">
+        Cette séance n’existe pas ou n’est plus disponible depuis le redémarrage
+        du service.
+      </p>
+      <a
+        href="/sessions"
+        class="text-navigation-current focus-visible:ring-ring focus-visible:ring-offset-background mt-5 inline-flex min-h-11 items-center rounded-md font-semibold underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        Retour à mes séances
+      </a>
+    </section>
+  ) : (
+    <section aria-labelledby="service-error-title" class="max-w-2xl">
+      <h1
+        id="service-error-title"
+        class="text-3xl font-semibold tracking-tight sm:text-4xl"
+      >
+        La séance ne peut pas être chargée
+      </h1>
+      <p class="text-muted-foreground mt-4 leading-7">
+        Le service est temporairement indisponible. Réessayez sans quitter cette
+        page.
+      </p>
+      <a
+        href={Astro.url.pathname}
+        class="border-border bg-card text-foreground hover:bg-muted focus-visible:ring-ring focus-visible:ring-offset-background mt-5 inline-flex min-h-11 items-center justify-center rounded-md border px-4 py-2 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        Réessayer
+      </a>
+    </section>
+  )}
+</AppLayout>

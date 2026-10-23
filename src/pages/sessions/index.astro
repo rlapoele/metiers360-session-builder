@@ -1,41 +1,48 @@
 ---
+import { SessionsApp } from '../../components/sessions/SessionsApp';
+import type { SessionsOverview } from '../../features/sessions/api';
 import AppLayout from '../../layouts/AppLayout.astro';
+import { getCatalogueClient } from '../../lib/api/catalogue-client-instance.server';
 
 const createdSessionId = Astro.url.searchParams.get('created');
-const showCreatedConfirmation =
+const safeCreatedSessionId =
   createdSessionId !== null && /^[A-Za-z0-9_-]+$/.test(createdSessionId);
+const client = getCatalogueClient();
+const overviewResult = await Promise.allSettled([
+  client.listSessions(),
+  client.listHeadsets(),
+]);
+const initialOverview: SessionsOverview | undefined =
+  overviewResult[0].status === 'fulfilled' &&
+  overviewResult[1].status === 'fulfilled'
+    ? {
+        sessions: overviewResult[0].value,
+        headsets: overviewResult[1].value,
+      }
+    : undefined;
 ---
 
 <AppLayout
   title="Mes séances"
   description="Retrouvez votre séance en préparation et les séances déjà enregistrées."
 >
-  <section aria-labelledby="sessions-title" class="max-w-2xl">
+  <section aria-labelledby="sessions-title" class="max-w-3xl">
     <h1
       id="sessions-title"
       class="text-3xl font-semibold tracking-tight sm:text-4xl"
     >
       Mes séances
     </h1>
-    <p class="text-muted-foreground mt-4 text-base leading-7 sm:text-lg">
+    <p class="text-muted-foreground mt-3 text-base leading-7 sm:text-lg">
       Retrouvez votre séance en préparation et les séances déjà enregistrées.
     </p>
-    {showCreatedConfirmation && (
-      <div
-        role="status"
-        class="border-border bg-card mt-8 rounded-lg border p-5 shadow-sm"
-      >
-        <h2 class="text-lg font-semibold">Séance enregistrée</h2>
-        <p class="text-muted-foreground mt-2 leading-6">
-          Votre séance a bien été enregistrée.
-        </p>
-        <a
-          href="/"
-          class="text-navigation-current focus-visible:ring-ring focus-visible:ring-offset-background mt-4 inline-flex min-h-11 items-center rounded-md font-semibold underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-        >
-          Préparer une autre séance
-        </a>
-      </div>
-    )}
+  </section>
+
+  <section aria-label="Séances" class="mt-6 sm:mt-8">
+    <SessionsApp
+      client:load
+      initialOverview={initialOverview}
+      createdSessionId={safeCreatedSessionId ? createdSessionId : undefined}
+    />
   </section>
 </AppLayout>
