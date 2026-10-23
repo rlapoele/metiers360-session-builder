@@ -206,7 +206,10 @@ export function SessionFinalisationDialog({
         <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain p-4 sm:p-6">
           <div className="space-y-2">
             <label htmlFor="session-name" className="text-sm font-semibold">
-              Nom de la séance
+              Nom de la séance{' '}
+              <span className="text-muted-foreground font-normal">
+                (obligatoire)
+              </span>
             </label>
             <Input
               ref={nameInputRef}
@@ -249,7 +252,10 @@ export function SessionFinalisationDialog({
 
           <div className="space-y-2">
             <label htmlFor="session-headset" className="text-sm font-semibold">
-              Casque VR
+              Casque VR{' '}
+              <span className="text-muted-foreground font-normal">
+                (facultatif)
+              </span>
             </label>
             <NativeSelect
               id="session-headset"
@@ -282,7 +288,7 @@ export function SessionFinalisationDialog({
               id="session-headset-help"
               className="text-muted-foreground text-sm"
             >
-              Facultatif. Le choix permet de vérifier la compatibilité avant
+              Le choix permet de vérifier la compatibilité avant
               l’enregistrement.
             </p>
             {visibleFieldErrors.headset_id && (

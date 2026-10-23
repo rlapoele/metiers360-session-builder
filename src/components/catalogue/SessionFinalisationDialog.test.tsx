@@ -113,6 +113,19 @@ afterEach(() => {
 });
 
 describe('SessionFinalisationDialog', () => {
+  it('identifies the required and optional fields before submission', () => {
+    renderDialog();
+
+    expect(
+      screen.getByRole('textbox', {
+        name: 'Nom de la séance (obligatoire)',
+      }),
+    ).toBeRequired();
+    expect(
+      screen.getByRole('combobox', { name: 'Casque VR (facultatif)' }),
+    ).not.toBeRequired();
+  });
+
   it('announces a missing name and does not submit', async () => {
     const user = userEvent.setup();
     const fetchMock = vi.fn();
@@ -123,7 +136,9 @@ describe('SessionFinalisationDialog', () => {
       screen.getByRole('button', { name: 'Enregistrer la séance' }),
     );
 
-    const input = screen.getByRole('textbox', { name: 'Nom de la séance' });
+    const input = screen.getByRole('textbox', {
+      name: 'Nom de la séance (obligatoire)',
+    });
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByText('Le nom est obligatoire.')).toHaveAttribute(
       'role',
@@ -197,9 +212,9 @@ describe('SessionFinalisationDialog', () => {
       ),
     ).toHaveAttribute('role', 'alert');
     expect(screen.getByDisplayValue('Métiers du paysage')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Casque VR' })).toHaveValue(
-      'pico-4',
-    );
+    expect(
+      screen.getByRole('combobox', { name: 'Casque VR (facultatif)' }),
+    ).toHaveValue('pico-4');
     expect(
       screen.getByText('Une journée avec Omar, jardinier municipal'),
     ).toBeInTheDocument();
