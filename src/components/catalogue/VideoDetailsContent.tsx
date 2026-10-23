@@ -5,6 +5,7 @@ import {
 import type { CatalogueReferences } from '../../features/catalogue/api';
 import type { Video } from '../../lib/api/schemas';
 import type { ReactNode } from 'react';
+import { Badge } from '@/components/ui/badge.tsx';
 
 interface VideoDetailsContentProps {
   video: Video;
@@ -80,11 +81,10 @@ export function VideoDetailsContent({
       <DetailSection title="Publics conseillés">
         <ul className="flex flex-wrap gap-2">
           {video.audiences.map((audienceId) => (
-            <li
-              key={audienceId}
-              className="bg-muted rounded-sm px-2.5 py-1 text-sm"
-            >
-              {audienceLabels.get(audienceId) ?? audienceId}
+            <li key={audienceId}>
+              <Badge variant="secondary">
+                {audienceLabels.get(audienceId) ?? audienceId}
+              </Badge>
             </li>
           ))}
         </ul>
@@ -94,11 +94,10 @@ export function VideoDetailsContent({
         {video.compatible_headsets.length > 0 ? (
           <ul className="flex flex-wrap gap-2">
             {video.compatible_headsets.map((headsetId) => (
-              <li
-                key={headsetId}
-                className="border-border rounded-sm border px-2.5 py-1 text-sm"
-              >
-                {headsetLabels.get(headsetId) ?? headsetId}
+              <li key={headsetId}>
+                <Badge variant="secondary">
+                  {headsetLabels.get(headsetId) ?? headsetId}
+                </Badge>
               </li>
             ))}
           </ul>

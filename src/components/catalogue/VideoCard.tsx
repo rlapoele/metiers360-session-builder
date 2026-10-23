@@ -32,7 +32,7 @@ export function VideoCard({
 
   return (
     <li
-      className={`bg-card @container overflow-hidden rounded-lg border shadow-sm ${isSelected ? 'border-primary' : 'border-border'}`}
+      className={`bg-card @container overflow-hidden rounded-lg border shadow-sm ${isSelected ? 'border-2 border-primary' : 'border-border'}`}
     >
       <article aria-labelledby={titleId} className="flex h-full flex-col">
         <div className="bg-muted relative aspect-video overflow-hidden">

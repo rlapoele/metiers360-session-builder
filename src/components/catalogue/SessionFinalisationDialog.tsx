@@ -174,7 +174,7 @@ export function SessionFinalisationDialog({
         if (isPending) event.preventDefault();
       }}
       onKeyDown={keepFocusInside}
-      className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 sm:inset-y-6 sm:mx-auto sm:h-auto sm:max-h-draft-panel sm:max-w-2xl sm:rounded-lg sm:border"
+      className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 sm:inset-y-6 sm:mx-auto sm:h-auto sm:max-h-draft-panel sm:max-w-2xl sm:rounded-lg sm:border border-dialog"
     >
       <form noValidate onSubmit={submit} className="flex h-full flex-col">
         <header className="border-border shrink-0 border-b px-4 py-3 sm:px-6">

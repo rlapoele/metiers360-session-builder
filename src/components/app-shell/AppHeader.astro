@@ -34,9 +34,9 @@ const navigationItems = getNavigationItems(currentPath);
           href={item.href}
           aria-current={item.isCurrent ? 'page' : undefined}
           class:list={[
-            'focus-visible:outline-ring relative flex min-h-12 items-center px-3 text-sm font-medium focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-20 sm:px-2',
+            'focus-visible:outline-ring relative flex min-h-12 items-center px-3 text-base font-medium focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 sm:min-h-20 sm:px-2',
             item.isCurrent
-              ? 'text-navigation-current after:bg-primary after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 sm:after:inset-x-2'
+              ? 'text-navigation-current after:bg-primary after:absolute after:inset-x-3 after:bottom-0 after:h-1 sm:after:inset-x-2'
               : 'text-muted-foreground hover:text-foreground hover:bg-muted',
           ]}
         >

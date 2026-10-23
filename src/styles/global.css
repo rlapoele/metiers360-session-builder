@@ -11,6 +11,7 @@
   --neutral-400: oklch(71.547% 0 0);
   --neutral-450: oklch(65.004% 0 0);
   --neutral-500: oklch(55.553% 0 0);
+  --neutral-600: oklch(45.25% 0 0);
   --neutral-700: oklch(37.149% 0 0);
   --neutral-900: oklch(20.463% 0 0);
 
@@ -44,6 +45,7 @@
   --destructive: var(--red-600);
   --destructive-foreground: var(--neutral-0);
   --border: var(--neutral-300); /* var(--neutral-200); */
+  --border-dialog: var(--neutral-500); /* for dialog border only */
   --input: var(--neutral-450);
   --ring: var(--blue-600);
   --navigation-current: var(--blue-800);
@@ -83,6 +85,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-dialog: var(--border-dialog);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-navigation-current: var(--navigation-current);
