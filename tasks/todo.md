@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-10-22
+Last updated: 2026-10-23
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -67,8 +67,14 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 4 — Save workflow
 
-- [ ] **Task 8:** Implement finalisation and session saving.
-- [ ] **Checkpoint D:** The complete required exercise flow works against the supplied API and passes verification.
+- [x] **Task 8:** Implement finalisation and session saving.
+  - Evidence: the responsive finalisation dialog persists the trimmed required name and optional known headset in the canonical draft, repeats the ordered video summary, exposes explicit compatible/incompatible/unresolved states and keeps its primary controls available around an independently scrolling body.
+  - Evidence: client and server validation errors are announced and mapped to their fields where possible; one in-flight mutation disables the form and duplicate submission, while transport/upstream failures retain every draft value and expose a manual retry without automatic POST replay.
+  - Evidence: a confirmed `201` clears the draft only in the success callback and navigates to `/sessions?created={id}`, where a clear saved-session confirmation is rendered without pre-empting Task 9's list implementation.
+  - Evidence: failing-first save-client and dialog tests cover ordered payloads, response validation, accessible required-name handling, incompatibility details, pending state, retained values and retry; the final suite contains 74 passing tests.
+- [x] **Checkpoint D:** The complete required exercise flow works against the supplied API and passes verification.
+  - Evidence: browser checks covered the populated 1362px desktop rail, a 480 × 844 mobile full-screen form and an 834 × 1112 tablet dialog, including initial focus, Escape return, validation, compatibility, success/clear, two actual upstream failures and eventual retry recovery with no final console diagnostics or horizontal overflow.
+  - Evidence: `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 test files and 74 tests, and the production server build; `git diff --check` passed.
 
 ## Phase 5 — Saved-session review
 
@@ -87,6 +93,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Awaiting explicit instruction:** Task 8 — Implement finalisation and session saving.
+**Awaiting explicit instruction:** Task 9 — Implement saved-session list and read-only details.
 
-Task 7A and Checkpoint C are complete and committed in `cbc2399`. The post-commit visual follow-up remains uncommitted for review. Do not begin Task 8 without a new user instruction.
+Task 8 and Checkpoint D are complete and intentionally uncommitted for review. Task 7A's post-commit refinements are committed and pushed in `7804efd` and `9334307`. Do not begin Task 9 without a new user instruction.

@@ -304,9 +304,7 @@ describe('CatalogueApp', () => {
 
     await user.tab({ shift: true });
     expect(
-      within(dialog).getByRole('button', {
-        name: 'Retirer Une journée avec Omar, jardinier municipal',
-      }),
+      within(dialog).getByRole('button', { name: 'Finaliser ma séance' }),
     ).toHaveFocus();
     await user.tab();
     expect(closeButton).toHaveFocus();

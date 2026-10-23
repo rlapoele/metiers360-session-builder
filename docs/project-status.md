@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-10-22
+Last reviewed: 2026-10-23
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -25,11 +25,12 @@ This file records transient project state that does not belong in the stable arc
 - Count, known duration and headset compatibility are derived from the canonical draft plus registered video data. Invalid or duplicate persisted IDs are discarded, and server output shows a loading placeholder instead of a misleading zero before browser restoration.
 - Task 7 is complete: `Ma séance` is a persistent sticky catalogue rail from the desktop breakpoint and a full-height modal sheet with a sticky summary on mobile/tablet. Numbered items have explicit move and remove controls, textual duration/compatibility status and retryable metadata failures without draft loss.
 - Task 7A and Checkpoint C are complete: the representative shell, catalogue, details and draft surfaces now share clearer neutral surface separation, tighter spacing and hierarchy, restrained selected states, more stable draft controls, contextual French copy and a small owned shadcn/Base UI control layer without changing accepted behavior.
-- Finalisation/saving and saved-session content remain deliberately unimplemented future slices.
+- Task 8 and Checkpoint D are complete: a responsive finalisation dialog collects the required session name and optional headset, states compatibility, preserves the canonical ordered draft through validation/upstream failures, saves through the existing BFF and clears only after a confirmed `201`.
+- Saved-session list and read-only details content remain deliberately unimplemented for Task 9. The current `/sessions?created={id}` state is a focused post-save confirmation, not a substitute for that slice.
 
 ## Next action
 
-Wait for the user's explicit instruction before starting Task 8 from the accepted [project plan](../tasks/plan.md). Task 8 will add finalisation and session saving. Do not skip ahead to saved-session review.
+Wait for the user's explicit instruction before starting Task 9 from the accepted [project plan](../tasks/plan.md). Task 9 will add the saved-session list and read-only details. Do not skip ahead to Task 9A or delivery work.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -55,7 +56,9 @@ Task 3 was accepted and pushed to `dev` in commit `6f4a56b` (`feat: establish ru
 
 Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7ec` (`feat: implement catalogue discovery and thumbnail caching`). The follow-up planning update is committed in `54b4610` (`docs: schedule visual and copy refinement`). Task 5 was accepted and pushed in `f5cb6f9` (`feat: add contextual video details`). Task 6 was accepted and pushed in `c3e3d7e` (`feat: persist shared session draft state`). Task 7 was accepted, committed and pushed in `963db80` (`feat: add responsive session draft composition`).
 
-Task 7A and Checkpoint C were accepted, committed and pushed in `cbc2399` (`feat: refine session builder interface`). The post-commit visual follow-up remains uncommitted for review. No Task 8 work has started.
+Task 7A and Checkpoint C were accepted, committed and pushed in `cbc2399` (`feat: refine session builder interface`). Its post-commit visual refinements were subsequently committed and pushed in `7804efd` (`feat: refine visual details`) and `9334307` (`feat: increased Retirer button horizontal padding to px-4`).
+
+Task 8 and Checkpoint D are complete and intentionally uncommitted for review. No Task 9 work has started.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -175,7 +178,16 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - The same populated desktop state was rechecked after the badge refinement: both numeric badge roles rendered with the primary blue and white text, headset metadata rendered as icon-free neutral pills, horizontal overflow remained absent and the console stayed clean.
 - The semantic success follow-up was browser-checked in the same desktop state: `Dans ma séance` resolved to the new OKLCH green token, retained its checkmark, left the selected border blue and introduced no horizontal overflow or console diagnostics.
 - Representative contrast ratios range from 4.83:1 for destructive text on white to 17.18:1 for foreground text on the page background. A search-label mutation made the focused component test fail before restoration.
-- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 13 Vitest files and 67 tests, and the production server build. `npm audit --omit=dev` reported zero known production vulnerabilities. Task 7A and Checkpoint C were committed in `cbc2399`; the post-commit visual follow-up remains uncommitted for review, and Task 8 has not started.
+- Final `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 13 Vitest files and 67 tests, and the production server build. `npm audit --omit=dev` reported zero known production vulnerabilities. Task 7A and Checkpoint C were committed in `cbc2399`; its later visual follow-ups are committed in `7804efd` and `9334307`.
+
+## Task 8 verification handoff
+
+- `src/features/sessions/api.ts` is the browser-side save boundary. It posts the ordered validated payload once, parses every response as untrusted data and exposes validation details or a stable recoverable French error without automatically replaying a write.
+- `SessionFinalisationDialog.tsx` provides the responsive final step with a required 1–120 character name, optional known headset, explicit compatibility summary, ordered video confirmation, accessible field/general errors, pending lockout and manual retry. Name and headset edits continue to write to the persisted canonical draft.
+- `SessionDraftComposition.tsx` exposes `Finaliser ma séance` in both the desktop rail and smaller-viewport sheet. A confirmed `201` invokes `clearDraftAfterSave()` and navigates to the focused `/sessions?created={id}` success state; validation and failed requests leave the draft untouched.
+- Failing-first unit/component tests protect ordered request payloads, invalid success responses, server validation details, accessible empty-name handling, compatibility warnings, duplicate-submit prevention, retained values and retry recovery.
+- Real-browser checks covered the populated 1362px desktop rail, a 480 × 844 mobile full-screen dialog and an 834 × 1112 tablet dialog. They verified initial name-field focus, Escape return to the draft sheet, no horizontal overflow, explicit incompatible-video copy, success and cleared header count, two real seeded upstream failures, retained name/video content and a successful later retry. Final console warnings/errors were zero.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 Vitest files and 74 tests, and the production server build. `git diff --check` passed. The previously isolated `button.tsx` Prettier failure is resolved. Task 8 is intentionally uncommitted for review; Task 9 has not started.
 
 ## Task 3 verification handoff
 

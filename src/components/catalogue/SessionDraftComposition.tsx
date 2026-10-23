@@ -18,16 +18,20 @@ import {
   $sessionDraft,
   $sessionDraftHydrated,
   $sessionDraftTotalDurationSeconds,
+  clearDraftAfterSave,
   moveDraftVideoDown,
   moveDraftVideoUp,
   registerDraftVideos,
   removeVideoFromDraft,
+  setDraftHeadset,
+  setDraftName,
 } from '../../features/sessions/session-draft.store';
-import type { Video } from '../../lib/api/schemas';
+import type { Session, Video } from '../../lib/api/schemas';
 import {
   SessionDraftContent,
   type DraftVideoItem,
 } from './SessionDraftContent';
+import { SessionFinalisationDialog } from './SessionFinalisationDialog';
 
 interface SessionDraftCompositionProps {
   canObserveDraft: boolean;
@@ -56,10 +60,13 @@ export function SessionDraftComposition({
     : { version: 1 as const, name: '', video_ids: [], headset_id: null };
   const totalDuration = canObserveDraft ? storedTotalDuration : 0;
   const [isOpen, setIsOpen] = useState(false);
+  const [isFinalising, setIsFinalising] = useState(false);
+  const [returnToDraftSheet, setReturnToDraftSheet] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const panelHeadingRef = useRef<HTMLHeadingElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const finalisationTriggerRef = useRef<HTMLButtonElement | null>(null);
   const initialVideosById = new Map(
     initialVideos.map((video) => [video.id, video]),
   );
@@ -164,6 +171,38 @@ export function SessionDraftComposition({
     }
   }
 
+  function openFinalisation(
+    trigger: HTMLButtonElement,
+    fromDraftSheet: boolean,
+  ) {
+    finalisationTriggerRef.current = trigger;
+    setReturnToDraftSheet(fromDraftSheet);
+    if (fromDraftSheet) setIsOpen(false);
+    setIsFinalising(true);
+  }
+
+  function closeFinalisation() {
+    setIsFinalising(false);
+    if (returnToDraftSheet) {
+      setIsOpen(true);
+    } else {
+      requestAnimationFrame(() => finalisationTriggerRef.current?.focus());
+    }
+  }
+
+  function completeSave(session: Session) {
+    clearDraftAfterSave();
+    window.location.assign(
+      `/sessions?created=${encodeURIComponent(session.id)}`,
+    );
+  }
+
+  const canFinalise =
+    canObserveDraft &&
+    isHydrated &&
+    draft.video_ids.length >= 1 &&
+    draft.video_ids.length <= 30;
+
   const contentProps = {
     items,
     headsetId: draft.headset_id,
@@ -208,6 +247,21 @@ export function SessionDraftComposition({
         >
           <SessionDraftContent idPrefix="panel-draft" {...contentProps} />
         </div>
+        <footer className="border-border bg-card shrink-0 border-t p-5">
+          <Button
+            type="button"
+            disabled={!canFinalise}
+            onClick={(event) => openFinalisation(event.currentTarget, false)}
+            className="w-full"
+          >
+            Finaliser ma séance
+          </Button>
+          {draft.video_ids.length === 0 && (
+            <p className="text-muted-foreground mt-2 text-center text-sm">
+              Ajoutez une vidéo pour continuer.
+            </p>
+          )}
+        </footer>
       </aside>
 
       <div className="border-border bg-card fixed inset-x-0 bottom-0 z-20 border-t p-3 shadow-lg xl:hidden">
@@ -261,8 +315,35 @@ export function SessionDraftComposition({
             <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6">
               <SessionDraftContent idPrefix="dialog-draft" {...contentProps} />
             </div>
+            <footer className="border-border bg-card shrink-0 border-t p-4 sm:px-6">
+              <Button
+                type="button"
+                disabled={!canFinalise}
+                onClick={(event) => openFinalisation(event.currentTarget, true)}
+                className="w-full"
+              >
+                Finaliser ma séance
+              </Button>
+              {draft.video_ids.length === 0 && (
+                <p className="text-muted-foreground mt-2 text-center text-sm">
+                  Ajoutez une vidéo pour continuer.
+                </p>
+              )}
+            </footer>
           </div>
         </dialog>
+      )}
+
+      {isFinalising && (
+        <SessionFinalisationDialog
+          draft={draft}
+          items={items}
+          headsets={references?.headsets.data ?? []}
+          onNameChange={setDraftName}
+          onHeadsetChange={setDraftHeadset}
+          onClose={closeFinalisation}
+          onSaved={completeSave}
+        />
       )}
     </>
   );
