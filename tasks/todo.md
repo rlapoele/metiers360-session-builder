@@ -95,4 +95,4 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 **Awaiting explicit instruction:** Task 9 — Implement saved-session list and read-only details.
 
-Task 8 and Checkpoint D are complete, committed and pushed in `f22dc0d`; the required/optional field-cue refinement remains intentionally uncommitted for review. Task 7A's post-commit refinements are committed and pushed in `7804efd` and `9334307`. Do not begin Task 9 without a new user instruction.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; the required/optional field cues are committed and pushed in `8cee9e8`, while the block-level visible-label spacing refinement remains intentionally uncommitted for review. Task 7A's post-commit refinements are committed and pushed in `7804efd` and `9334307`. Do not begin Task 9 without a new user instruction.

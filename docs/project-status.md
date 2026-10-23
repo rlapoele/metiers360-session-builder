@@ -58,7 +58,7 @@ Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7
 
 Task 7A and Checkpoint C were accepted, committed and pushed in `cbc2399` (`feat: refine session builder interface`). Its post-commit visual refinements were subsequently committed and pushed in `7804efd` (`feat: refine visual details`) and `9334307` (`feat: increased Retirer button horizontal padding to px-4`).
 
-Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`). The required/optional field-cue refinement is complete and intentionally uncommitted for review. No Task 9 work has started.
+Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`), followed by the required/optional field cues in `8cee9e8` (`fix: clarify session form field requirements`). The block-level visible-label spacing refinement is complete and intentionally uncommitted for review. No Task 9 work has started.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
@@ -183,11 +183,11 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 ## Task 8 verification handoff
 
 - `src/features/sessions/api.ts` is the browser-side save boundary. It posts the ordered validated payload once, parses every response as untrusted data and exposes validation details or a stable recoverable French error without automatically replaying a write.
-- `SessionFinalisationDialog.tsx` provides the responsive final step with a required 1–120 character name and optional known headset that are explicitly identified in their visible and accessible labels, plus an explicit compatibility summary, ordered video confirmation, accessible field/general errors, pending lockout and manual retry. Name and headset edits continue to write to the persisted canonical draft.
+- `SessionFinalisationDialog.tsx` provides the responsive final step with a required 1–120 character name and optional known headset that are explicitly identified in their visible and accessible labels, plus an explicit compatibility summary, ordered video confirmation, accessible field/general errors, pending lockout and manual retry. Visible filter and finalisation labels are block-level so their shared vertical-spacing utilities reliably separate them from their controls. Name and headset edits continue to write to the persisted canonical draft.
 - `SessionDraftComposition.tsx` exposes `Finaliser ma séance` in both the desktop rail and smaller-viewport sheet. A confirmed `201` invokes `clearDraftAfterSave()` and navigates to the focused `/sessions?created={id}` success state; validation and failed requests leave the draft untouched.
 - Failing-first unit/component tests protect ordered request payloads, invalid success responses, server validation details, accessible empty-name handling, compatibility warnings, duplicate-submit prevention, retained values and retry recovery.
 - Real-browser checks covered the populated 1362px desktop rail, a 480 × 844 mobile full-screen dialog and an 834 × 1112 tablet dialog. They verified initial name-field focus, Escape return to the draft sheet, no horizontal overflow, explicit incompatible-video copy, success and cleared header count, two real seeded upstream failures, retained name/video content and a successful later retry. Final console warnings/errors were zero.
-- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 Vitest files and 75 tests, and the production server build. `git diff --check` passed. The previously isolated `button.tsx` Prettier failure is resolved. The Task 8 baseline is committed in `f22dc0d`; the required/optional field-cue refinement remains uncommitted for review, and Task 9 has not started.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 15 Vitest files and 75 tests, and the production server build. `git diff --check` passed. The previously isolated `button.tsx` Prettier failure is resolved. The Task 8 baseline and field-cue refinement are committed in `f22dc0d` and `8cee9e8`; the block-level label-spacing refinement remains uncommitted for review, and Task 9 has not started.
 
 ## Task 3 verification handoff
 

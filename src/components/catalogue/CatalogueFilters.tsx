@@ -55,7 +55,10 @@ function FilterSelects({
 
   return filterFields.map(({ key, label }) => (
     <div key={key} className="space-y-2">
-      <label htmlFor={`${idPrefix}-${key}`} className="text-sm font-semibold">
+      <label
+        htmlFor={`${idPrefix}-${key}`}
+        className="block text-sm font-semibold"
+      >
         {label}
       </label>
       <NativeSelect

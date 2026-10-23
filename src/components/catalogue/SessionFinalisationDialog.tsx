@@ -205,7 +205,10 @@ export function SessionFinalisationDialog({
 
         <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain p-4 sm:p-6">
           <div className="space-y-2">
-            <label htmlFor="session-name" className="text-sm font-semibold">
+            <label
+              htmlFor="session-name"
+              className="block text-sm font-semibold"
+            >
               Nom de la séance{' '}
               <span className="text-muted-foreground font-normal">
                 (obligatoire)
@@ -251,7 +254,10 @@ export function SessionFinalisationDialog({
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="session-headset" className="text-sm font-semibold">
+            <label
+              htmlFor="session-headset"
+              className="block text-sm font-semibold"
+            >
               Casque VR{' '}
               <span className="text-muted-foreground font-normal">
                 (facultatif)
