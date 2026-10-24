@@ -100,4 +100,4 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 **Awaiting explicit instruction:** Task 9A — Complete the application-wide French copy audit across every route, overlay and UI state.
 
-Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is complete and intentionally uncommitted for review. Do not begin Task 9A without a new user instruction.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669` (`feat: add saved session review`). The subsequent global muted-foreground adjustment is committed and pushed in `e8a8e02` (`fix: used lighter gray color for muted-foreground`). The candidate confirmed additional successful Firefox testing and a successful retest after the color change; exact check details were not supplied. Do not begin Task 9A without a new user instruction.

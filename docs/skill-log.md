@@ -1,6 +1,6 @@
 # Agent skill registry
 
-Last reviewed: 2026-10-22
+Last reviewed: 2026-10-24
 
 This document records the distinct agent skills actually applied while delivering the Métiers360 session builder. It supports the exercise's AI-use disclosure by making the working methods visible without turning the exercise log into a tool transcript.
 
@@ -38,6 +38,8 @@ This document records the distinct agent skills actually applied while deliverin
 | `app-696e890a45388191b24c4a36d2177201:generate-design-tokens` | 2026-10-22 | Preserved the established primitive/semantic token layers while converting every hexadecimal primitive palette value to a numerically equivalent OKLCH representation. | `src/styles/global.css` and the OKLCH conversion verification in `docs/exercise-log.md` |
 
 ## Explicit exclusions
+
+The Task 8/9 evidence records implementation and verification outcomes but does not establish a newly applied distinct skill. Existing contribution summaries describe their recorded uses and are not an exhaustive task-by-task ledger. No new skill row is inferred from the work's subject matter. The October 24 documentation reconciliation reapplied the already registered context-engineering and documentation-and-adrs workflows.
 
 - The external shadcn skill was evaluated but deliberately not installed or used. Official shadcn/Base UI documentation informed the architecture instead.
 - Skills that become relevant later are not part of the registry until they are actually applied; shipping remains a future workflow.

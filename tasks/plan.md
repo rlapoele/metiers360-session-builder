@@ -66,7 +66,7 @@ Toolchain and scripts
 
 - `/` and `/sessions` render with semantic landmarks, headings and current-navigation state.
 - The neutral shadcn-compatible CSS variables are exposed through Tailwind `@theme inline`; Heroicons outline is the only icon source.
-- The shell follows the mobile, tablet and desktop wireframe hierarchy without fabricating brand assets or settings.
+- The shell draws on the original mobile, tablet and desktop wireframes for hierarchy and responsive intent, following the accepted product and architecture requirements without treating diagram details as a complete UI specification or fabricating brand assets or settings.
 - Focus visibility, touch target sizing and overflow are checked at representative viewport widths.
 
 **Verification:** Strict check, tests, production build and real-browser inspection at mobile, tablet and desktop widths.
@@ -231,7 +231,7 @@ The complete required exercise flow—find, compose, order, name and save—work
 
 - Keyboard, focus, announcements, contrast, reduced motion and overflow are reviewed across affected surfaces and target widths.
 - Accessible names, instructions, validation and live status copy receive a final contextual check after the Task 9A audit.
-- Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup.
+- Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup. No `test:browser` package script currently exists; Task 10 must establish and document the reproducible browser-test method and record its actual outcomes without claiming an absent command ran.
 - The supplied exercise brief is preserved verbatim at `docs/source/exercise-brief.md`; it remains an authoritative source document rather than being treated as obsolete archive material.
 - The root README is replaced with the required candidate-facing README using verified claims and commands, links to `docs/skill-log.md` from its AI-use section, and `AGENTS.md` plus internal links are updated to point to the preserved brief.
 - The exercise log records actual AI use, candidate verification, attention time, deliberate omissions and one genuine decision made against an AI proposal.

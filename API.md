@@ -8,19 +8,23 @@ publics conseillés, et enregistrement des séances.
 Avec Node.js 20 ou plus, sans dépendance à installer :
 
 ```bash
-npm start
+npm run start:api
 curl 'http://localhost:4000/videos?per_page=2'
 ```
 
 Ou avec Docker :
 
 ```bash
-docker build -t catalogue-api .
+docker build -f archives/Dockerfile.api-original -t catalogue-api .
 docker run --rm -p 4000:4000 catalogue-api
 ```
 
 L'API écoute sur `http://localhost:4000` (variable `PORT` pour changer de port). Les en-têtes CORS
 autorisent les appels depuis n'importe quelle origine, par exemple un serveur de développement Vite.
+
+Ces commandes se lancent depuis la racine du dépôt. `npm start` lance désormais le frontend Astro
+compilé ; `npm run dev` lance le frontend et l'API ensemble. Le Dockerfile d'origine de l'API est
+conservé dans `archives/`.
 
 Les séances enregistrées sont conservées en mémoire : elles sont perdues au redémarrage du serveur.
 
@@ -52,6 +56,10 @@ Liste paginée des vidéos, par identifiant croissant.
 | `headset` | Identifiant de casque : vidéos compatibles avec ce modèle. |
 | `audience` | Identifiant de public : vidéos conseillées pour ce public. |
 | `page`, `per_page` | Pagination. |
+
+`q` est nettoyé des espaces en début et fin, puis recherché comme une sous-chaîne contiguë du
+titre, sans distinction de casse. Les mots ne sont ni réordonnés ni recherchés séparément ; la
+recherche ne porte pas sur les descriptions ou les intitulés du référentiel métier.
 
 ```json
 {

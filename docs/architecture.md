@@ -2,7 +2,7 @@
 
 Status: implementation baseline, agreed before frontend bootstrap and updated as delivery progresses.
 
-The repository contains the supplied Node mock API and the completed minimal Astro frontend foundation from Task 1. This document records the intended architecture for the remaining implementation. Update it when an implemented decision supersedes the baseline; do not let it silently drift away from the code.
+The repository contains the supplied Node mock API and the implemented Astro/React frontend through Task 9, including Task 7A. This document records the accepted architecture and remaining delivery direction. The task plan and checklist own completion status; update this document when an implemented decision supersedes the baseline.
 
 ## Goals
 
@@ -117,10 +117,12 @@ Official references: [Railway monorepo deployments](https://docs.railway.com/dep
 
 ## Routes and responsive surfaces
 
+The viewport wireframes in `docs/wireframes/` are the original pre-implementation design references. They inspire hierarchy and responsive composition; they are preserved as design history rather than maintained as a current UI specification. Requirements belong in `AGENTS.md` and this architecture document, with current behaviour evidenced by source, tests and verification records.
+
 | Route/surface | Purpose | Rendering direction |
 |---|---|---|
 | `/` | Catalogue and session-building workspace | Astro page containing one cohesive `CatalogueApp` React island |
-| `/sessions` | Current draft summary and saved-session list | Server-rendered initial content; interactive retry/navigation as needed |
+| `/sessions` | Current draft summary and saved-session list | Astro loads initial session/headset data; one server-rendered `SessionsApp` React island hydrates for persisted draft state and list retry |
 | `/sessions/[id]` | Read-only saved-session details | Dedicated server-rendered page |
 | Video details | Inspect one video without losing catalogue context | React sheet inside `CatalogueApp`; full-screen on mobile |
 | `Ma séance` | Edit the current unsaved session | Persistent panel on desktop catalogue; sheet on tablet/mobile |
@@ -213,7 +215,7 @@ Recommended interactive boundaries:
 
 - `CatalogueApp`: search, filters, pagination, card selection, video-details sheet and desktop draft panel. Keeping these together avoids dozens of card islands and duplicated query providers.
 - `SessionDraftButton`: header count/trigger shared across routes through Nano Stores.
-- `SessionsList`: only if client-side retry/refetch needs justify hydration; otherwise render the list in Astro.
+- `SessionsApp`: one React island for the persisted current draft and saved-session list. Astro supplies initial remote data when available; TanStack Query owns browser loading/error/retry state independently of the local draft.
 - `SessionFinalisation`: may live inside `CatalogueApp` initially. Extract only if reuse or complexity earns it.
 
 Static logo, primary navigation, headings and page shells should remain Astro/HTML. React Context may be used inside a single island, but it cannot coordinate separate islands; shared draft state belongs in Nano Stores.
@@ -260,11 +262,11 @@ The list response also needs typed pagination metadata. Arrays remain arrays eve
 
 Zod complements strict TypeScript rather than replacing it: TypeScript protects compile-time usage, while Zod verifies data that crosses a runtime boundary. Official references: [Zod schemas and type inference](https://zod.dev/) and [`safeParse`](https://zod.dev/basics).
 
-For saved-session details, resolve `video_ids` against catalogue data without issuing an avoidable request per video. The supplied API has no batch-by-ID endpoint, so reuse cached catalogue items where possible and fetch a bounded catalogue set when necessary. Record a clearer strategy if implementation reveals a better option.
+Saved-session details use `resolve-session-videos.server.ts` because the supplied API has no batch-by-ID endpoint. It scans catalogue pages sequentially at `per_page=100`, stops when all requested IDs are found or the catalogue is exhausted, then maps metadata back to the saved `video_ids` order. Missing metadata retains its programme position with an unavailable-video fallback. This server loader does not depend on the browser's query cache.
 
 ## Catalogue behaviour
 
-- Search queries only titles because that is what the supplied API supports.
+- Search queries only titles because that is what the supplied API supports. The trimmed query matches a case-insensitive contiguous substring; it does not tokenize or reorder words.
 - Initial filters: job, headset and audience.
 - Use API pagination and display total results/pages.
 - Reset page to 1 when the query or a filter changes.
@@ -385,7 +387,7 @@ npm run build        # production build
 npm run verify       # formatting, lint, strict checks, tests and build
 ```
 
-`npm run test:browser` will be introduced when an interaction slice has browser flows to automate. Until then, browser checks are performed directly and recorded in the exercise log.
+There is currently no `npm run test:browser` script. Interaction slices have been verified directly in real browsers, with automation where available, and evidence is recorded in the exercise log. Task 10 must reconcile final browser verification with the documented commands; it must not claim an absent script ran.
 
 ## Verification strategy
 
@@ -420,6 +422,8 @@ Browser coverage should prioritise:
 7. Review the representative UI and refine its visual system without changing the accepted information architecture or interaction model.
 8. Implement finalisation/save with validation and failure recovery.
 9. Implement saved-session list and read-only details.
-10. Complete browser accessibility/responsive verification and write the final candidate-facing README.
+10. Complete the application-wide French copy audit (Task 9A) after explicit user instruction.
+11. Complete browser accessibility/responsive verification and write the final candidate-facing README (Task 10).
+12. If time remains after submission readiness, optionally deploy to Railway (Task 11).
 
 Keep each step independently reviewable and working. The exercise explicitly values stopping deliberately and explaining omissions over presenting an unverified exhaustive build.

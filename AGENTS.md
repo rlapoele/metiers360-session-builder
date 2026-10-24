@@ -1,6 +1,6 @@
 # Métiers360 session builder
 
-This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied code currently consists of the mock API and its catalogue. The frontend architecture described below is the agreed implementation direction, not existing code.
+This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 9, including Task 7A, and Checkpoints A through D are complete. The architecture below is the implementation baseline; consult the live task records for progress and obtain explicit instruction before starting the next slice.
 
 ## Read before changing the project
 
@@ -10,7 +10,7 @@ Use these sources in this order:
 2. [API.md](API.md) and [server/server.mjs](server/server.mjs) — authoritative API behaviour.
 3. [docs/architecture.md](docs/architecture.md) — intended frontend architecture and ownership boundaries.
 4. [tasks/plan.md](tasks/plan.md) and [tasks/todo.md](tasks/todo.md) — accepted delivery plan and live progress checklist.
-5. The viewport references in [docs/wireframes](docs/wireframes) — agreed information hierarchy and responsive behaviour.
+5. The viewport references in [docs/wireframes](docs/wireframes) — original design inspiration for information hierarchy and responsive behaviour, created before implementation.
 6. [docs/project-status.md](docs/project-status.md) — current phase, next action, delivery date, Git workflow and open choices.
 7. [docs/exercise-log.md](docs/exercise-log.md) — evidence for the final exercise report, including attention time and AI use.
 8. [docs/skill-log.md](docs/skill-log.md) — distinct agent skills actually applied during the project.
@@ -74,7 +74,7 @@ Viewport references:
 - [Tablet wireframes](docs/wireframes/tablet.md)
 - [Desktop wireframes](docs/wireframes/desktop.md)
 
-The wireframes define hierarchy and behaviour, not pixel-perfect styling. Preserve their intent while improving spacing, typography and visual polish in implementation.
+The wireframes preserve the original design exploration and inspiration for hierarchy and responsive behaviour. They are not a complete or current specification of page content, controls, copy or styling. Consult the accepted product and architecture decisions for requirements and the source and tests for current implementation; differences from a diagram do not by themselves indicate a defect. Preserve the wireframes as design history rather than updating them retrospectively to match implemented pages. Record subsequent accepted decisions in the architecture and project records.
 
 ## Technical direction
 

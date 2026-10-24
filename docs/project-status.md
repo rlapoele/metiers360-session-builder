@@ -58,13 +58,15 @@ Task 4 and its thumbnail browser-cache policy were accepted and pushed in `937a7
 
 Task 7A and Checkpoint C were accepted, committed and pushed in `cbc2399` (`feat: refine session builder interface`). Its post-commit visual refinements were subsequently committed and pushed in `7804efd` (`feat: refine visual details`) and `9334307` (`feat: increased Retirer button horizontal padding to px-4`).
 
-Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`), followed by the required/optional field cues in `8cee9e8` (`fix: clarify session form field requirements`). The subsequent label-spacing and visual refinements are committed and pushed through `c797443` (`fix: corrected dialog border and used badges consistently in video card and details`). Task 9 is complete and intentionally uncommitted for review.
+Task 8 and Checkpoint D were committed and pushed in `f22dc0d` (`feat: add session finalisation and saving`), followed by the required/optional field cues in `8cee9e8` (`fix: clarify session form field requirements`). The subsequent label-spacing and visual refinements are committed and pushed through `c797443` (`fix: corrected dialog border and used badges consistently in video card and details`). Task 9 is committed and pushed in `8ead669` (`feat: add saved session review`). The follow-up `e8a8e02` (`fix: used lighter gray color for muted-foreground`) changes the shared muted-foreground token from neutral 700 to neutral 600, affecting all consumers, including subtitles beneath page headings. The candidate confirmed successful additional Firefox testing and a successful retest after this adjustment; the exact checks were not supplied.
 
 Do not record a supposedly permanent clean/dirty working-tree snapshot here: the act of updating this file changes that state. At every handoff, inspect `git status --short --branch` and report uncommitted files in the current task's final response. Record a commit here only when it is a meaningful baseline future work may need to identify.
 
+The 2026-10-24 documentation reconciliation corrected the stale uncommitted-Task-9 statements, recorded candidate-reported testing and aligned the architecture, API instructions and delivery plan. Its `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, all 18 test files and 84 tests, and the production build on the `e8a8e02` application baseline; `git diff --check` passed. The candidate subsequently clarified that wireframes should remain original design inspiration: the reconciliation's wireframe edits were reverted and their role clarified in the project references. No new browser verification was performed. Task 9A and later tasks remain pending explicit instruction.
+
 ## Settled decisions
 
-The accepted product and architecture decisions live in `AGENTS.md`, `docs/architecture.md` and the viewport wireframes. In particular:
+The accepted product and architecture decisions live in `AGENTS.md` and `docs/architecture.md`. The viewport wireframes preserve the original pre-implementation design inspiration for hierarchy and responsive intent; they are not maintained as a complete or current UI specification. In particular:
 
 - two top-level pages: `Catalogue` and `Mes séances`;
 - contextual video details rather than a video-details route;
@@ -85,15 +87,17 @@ The accepted product and architecture decisions live in `AGENTS.md`, `docs/archi
 
 Do not reopen these decisions without new evidence or an implementation conflict. Record an intentional change in the architecture document rather than silently diverging.
 
-## Intentionally open choices
+## Remaining choices and delivery records
 
-These are known implementation choices, not missing conversational context:
+The following constraints and remaining choices should guide later work:
 
 - Task 1 selected Astro 7.4, the Astro Node and React integrations, React 18.3, TypeScript 6, Tailwind CSS 4 and their compatible verification tooling. Review dependency updates deliberately rather than allowing them to redefine the accepted architecture.
 - The official Métiers360 logo is available at `public/images/m360-logo.webp`, but no official typeface or broader brand system has been supplied. Use the logo without fabricating the rest of the identity. The blue ramp remains a deliberate derivation from the supplied asset rather than a claim about official brand specifications. Task 7A confirmed the restrained neutral/blue direction and improved the representative surfaces; the application-wide copy audit remains scheduled for Task 9A.
 - Because the API has no batch-by-ID endpoint, Task 9 resolves saved-session videos through bounded sequential catalogue-page requests with `per_page=100`, stops as soon as all requested IDs are found and restores the saved ID order. This avoids a request per video while respecting the existing API contract.
 - The final candidate-facing README will replace the original brief only during the final delivery phase, after its claims and commands can be verified.
 - Railway deployment is optional. Do not trade core verification or submission-readiness work for it; if attempted, follow the explicit two-service topology in `docs/architecture.md` rather than relying on automatic service discovery.
+- Candidate attention durations and the running total remain unknown. The final three assumptions, two or three interface choices, deliberate omissions, one-more-day priorities and one genuine decision against an AI proposal still need candidate confirmation for Task 10. Do not invent these records.
+- The exact guarded release/backup promotion procedure remains to be defined before any intentional release.
 
 ## Handoff checklist
 
@@ -196,7 +200,7 @@ Record candidate-attention and AI-use evidence separately in `docs/exercise-log.
 - `resolve-session-videos.server.ts` scans catalogue pages sequentially with `per_page=100`, stops once all requested IDs are resolved or the catalogue is exhausted and reconstructs the result in `video_ids` order. Focused tests protect request bounds, ordering and unavailable positions.
 - Real-browser checks covered 480px mobile, 834px tablet and 1440px desktop layouts with no horizontal overflow. Not-found and transient service-error states were exercised, the desktop summary remained sticky, smaller layouts remained linear and the final browser console had no errors or warnings.
 - A real save created `Vérification Task 9`, returned to `/sessions?created=ses_004`, exposed the confirmation and saved-list entry, cleared the draft and linked to details preserving the selected Omar → Hugo playback order. The mock API remains memory-only, so this verification record disappears when its process restarts.
-- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 18 Vitest files and 84 tests, and the production server build. Task 9 is intentionally uncommitted for review; Task 9A has not started.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 18 Vitest files and 84 tests, and the production server build. `git diff --check` passed. This recorded agent verification belongs to the Task 9 implementation; the later candidate-reported retest is recorded separately and does not establish that the full suite was rerun after `e8a8e02`. Task 9 is committed and pushed in `8ead669`; Task 9A has not started.
 
 ## Task 3 verification handoff
 
