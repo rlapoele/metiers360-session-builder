@@ -490,6 +490,17 @@ describe('CatalogueApp', () => {
     await user.tab();
     expect(closeButton).toHaveFocus();
 
+    const scrollRegion = within(dialog).getByRole('region', {
+      name: 'Contenu de la vidéo',
+    });
+    expect(scrollRegion).toHaveAttribute('tabindex', '0');
+    await user.tab();
+    expect(scrollRegion).toHaveFocus();
+    await user.tab();
+    expect(
+      within(dialog).getByRole('button', { name: /^Ajouter à ma séance/ }),
+    ).toHaveFocus();
+
     await user.click(closeButton);
 
     expect(dialog).not.toHaveAttribute('open');

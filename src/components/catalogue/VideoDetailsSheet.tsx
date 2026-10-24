@@ -101,7 +101,12 @@ export function VideoDetailsSheet({
           </Button>
         </header>
 
-        <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6">
+        <div
+          role="region"
+          aria-label="Contenu de la vidéo"
+          tabIndex={0}
+          className="focus-visible:outline-ring flex-1 overflow-y-auto overscroll-contain px-4 py-6 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:px-6"
+        >
           {videoQuery.isPending && videoId && (
             <div
               role="status"

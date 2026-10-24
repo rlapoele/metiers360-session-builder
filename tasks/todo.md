@@ -88,11 +88,13 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Evidence: [copy-audit.md](../docs/copy-audit.md) inventories shell, catalogue, filters, cards/details, draft, save, confirmation, saved-list and saved-details copy, including loading/empty/error/retry, validation, compatibility and unavailable-data states. Authored/API values and original wireframes are preserved.
   - Evidence: consistent saved-session terminology, contextual accessible action names, explicit clear-search/filter wording, cautious compatibility/duration summaries and actionable French failures replace ambiguous or technical wording. Lost/invalid save responses advise checking `Mes séances` before retrying.
   - Evidence: real-browser copy and accessibility-tree checks covered catalogue/list/details states at 390 and 1440 CSS pixels and complete validation, compatibility, pending, failure/retry, save-confirmation and saved-details flows at 390, 834 and 1440 pixels. Deterministic local response overrides exercised rare states without modifying the supplied API; final save flows reported zero runtime exceptions and no horizontal overflow.
-  - Evidence: focused copy-contract tests passed, then `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 18 test files and 86 tests, and the production server build. `git diff --check` passed. The candidate has authorised committing and pushing this slice; Task 10 has not started.
+  - Evidence: focused copy-contract tests passed, then `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks with zero diagnostics, all 18 test files and 86 tests, and the production server build. `git diff --check` passed. Task 9A is committed and pushed in `3870b3b` (`fix: clarify French interface copy and accessible labels`).
 
 ## Phase 6 — Delivery
 
 - [ ] **Task 10:** Complete accessibility/responsive verification and final documentation.
+  - Completed partial scope, pending candidate review: the explicitly authorised accessibility remediation corrects the draft control's label order, input/select boundary contrast, video-details keyboard scrolling and saved-position badge semantics. [Accessibility evidence](../docs/accessibility-audit.md) records axe results, responsive and Firefox keyboard checks, manual contrast review and remaining audit limits.
+  - Evidence: `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, all 18 test files and 89 tests, and the production build. The remaining delivery review, clean-install rehearsal and final README are pending a new instruction.
 - [ ] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
 
 ## Phase 7 — Optional hosted demo
@@ -102,6 +104,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Next action:** Task 9A is implemented and verified, and the candidate has authorised its commit and push. Task 10 — delivery verification and final documentation — requires a new explicit instruction.
+**Next action:** Review the focused accessibility remediation and its evidence. Stop before the rest of Task 10; do not begin the clean-install rehearsal, final README or later tasks without a new instruction.
 
-Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A was explicitly authorised on 2026-10-24; the candidate subsequently authorised its commit and push. Do not begin Task 10 without a new user instruction.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A is committed and pushed in `3870b3b`. The candidate subsequently authorised only the accessibility audit, identified fixes, repeat checks and related records within Task 10; this remediation is left uncommitted for review.

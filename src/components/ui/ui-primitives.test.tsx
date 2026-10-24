@@ -53,7 +53,7 @@ describe('UI primitives', () => {
     );
 
     const select = screen.getByRole('combobox', { name: 'Casque VR' });
-    expect(select).toHaveClass('appearance-none', 'pr-10', 'border-border');
+    expect(select).toHaveClass('appearance-none', 'pr-10', 'border-input');
     expect(screen.getByRole('option', { name: 'Pico 4' })).toHaveValue(
       'pico-4',
     );
@@ -73,6 +73,7 @@ describe('UI primitives', () => {
     );
 
     expect(inputRef.current).toBe(screen.getByRole('textbox'));
+    expect(inputRef.current).toHaveClass('border-input');
     expect(selectRef.current).toBe(screen.getByRole('combobox'));
   });
 });

@@ -18,6 +18,37 @@ afterEach(() => {
 });
 
 describe('SessionDraftButton', () => {
+  it.each([0, 1, 2])(
+    'keeps the visible label/count order for %i videos on every route',
+    async (count) => {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          version: 1,
+          name: '',
+          headset_id: null,
+          video_ids: ['vid_001', 'vid_002'].slice(0, count),
+        }),
+      );
+      const { SessionDraftButton } = await import('./SessionDraftButton');
+      for (const currentPath of ['/', '/sessions', '/sessions/ses_001']) {
+        render(<SessionDraftButton currentPath={currentPath} />);
+        const label = `Ma séance, ${count} ${count > 1 ? 'vidéos' : 'vidéo'}`;
+        const control = await screen.findByRole(
+          currentPath === '/' ? 'button' : 'link',
+          {
+            name:
+              currentPath === '/'
+                ? label
+                : `${label}, ouvrir dans le catalogue`,
+          },
+        );
+        expect(control).toHaveTextContent(`Ma séance ${count}`);
+        cleanup();
+      }
+    },
+  );
+
   it('shows the validated persisted count after browser hydration', async () => {
     localStorage.setItem(
       STORAGE_KEY,
@@ -33,7 +64,7 @@ describe('SessionDraftButton', () => {
     render(<SessionDraftButton />);
 
     const button = await screen.findByRole('button', {
-      name: '2 vidéos dans ma séance',
+      name: 'Ma séance, 2 vidéos',
     });
     expect(button).toHaveTextContent('2');
     expect(within(button).getByText('2')).toHaveClass(
@@ -50,7 +81,7 @@ describe('SessionDraftButton', () => {
 
     expect(
       await screen.findByRole('button', {
-        name: 'aucune vidéo dans ma séance',
+        name: 'Ma séance, 0 vidéo',
       }),
     ).toHaveTextContent('0');
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
@@ -64,7 +95,7 @@ describe('SessionDraftButton', () => {
 
     render(<SessionDraftButton />);
     const button = await screen.findByRole('button', {
-      name: 'aucune vidéo dans ma séance',
+      name: 'Ma séance, 0 vidéo',
     });
     await user.click(button);
 
@@ -79,7 +110,7 @@ describe('SessionDraftButton', () => {
 
     expect(
       await screen.findByRole('link', {
-        name: 'aucune vidéo dans ma séance, ouvrir dans le catalogue',
+        name: 'Ma séance, 0 vidéo, ouvrir dans le catalogue',
       }),
     ).toHaveAttribute('href', '/#ma-seance');
   });

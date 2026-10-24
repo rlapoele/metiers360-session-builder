@@ -13,9 +13,7 @@ import {
 import { requestSessionDraftOpen } from '../../features/sessions/session-draft.events';
 
 function countLabel(count: number) {
-  if (count === 0) return 'aucune vidéo dans ma séance';
-  if (count === 1) return '1 vidéo dans ma séance';
-  return `${count} vidéos dans ma séance`;
+  return `Ma séance, ${count} ${count > 1 ? 'vidéos' : 'vidéo'}`;
 }
 
 export function SessionDraftButton({
@@ -30,10 +28,10 @@ export function SessionDraftButton({
     hydrateSessionDraft();
   }, []);
 
-  const label = isHydrated ? countLabel(count) : 'Chargement de ma séance';
+  const label = isHydrated ? countLabel(count) : 'Ma séance, chargement…';
   const content = (
     <>
-      Ma séance
+      Ma séance{' '}
       {isHydrated ? (
         <Badge aria-hidden="true" className="size-6 p-0">
           {count}

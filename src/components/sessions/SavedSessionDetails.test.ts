@@ -73,6 +73,9 @@ describe('SavedSessionDetails', () => {
     expect(html).toContain('Résumé de la séance');
     expect(html).toContain('Pico 4');
     expect(html).not.toMatch(/Modifier|Supprimer/);
+    expect(html).toContain('<ol ');
+    expect(html).not.toMatch(/aria-label="Position \d+"/);
+    expect(html.match(/<span\s+aria-hidden="true"/g)).toHaveLength(2);
   });
 
   it('preserves the position of unavailable catalogue metadata', async () => {
