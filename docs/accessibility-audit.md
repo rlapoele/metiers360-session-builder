@@ -16,7 +16,7 @@ The initial audit covered the Task 9A application (then uncommitted on `e569c57`
 
 No project dependency, API/catalogue source, original wireframe or unrelated delivery feature was changed.
 
-## Repeat axe method and results
+## Initial remediation: repeat axe method and results
 
 The final recorded run uses the production build, axe-core **4.14.0**, and isolated **Chrome 155** on macOS. Development-toolbar overlays and intermediate transition colors were excluded by using production and waiting for fonts and transitions to settle, not by excluding application nodes.
 
@@ -80,13 +80,55 @@ All 20 node occurrences were within the tested viewport; their center-point hit 
 
 Temporary raw results and screenshots are under `/private/tmp/metiers360-a11y-remediation.QN7tVg/`; they are local evidence, not committed deliverables. The durable outcomes are recorded here. No `test:browser` script was added; establishing the final reproducible browser-test setup remains part of the rest of Task 10.
 
+## Bottom-edge follow-up after candidate visual review
+
+The initial remediation above was committed and pushed in `63730ba` (`fix: address accessibility audit findings`). The candidate then changed the shared input/select fill to `bg-background` (RGB 250/250/250) and lightened `--input` to neutral 300 (RGB 216/216/216). A desktop-only recheck found zero axe violations but manual boundary contrast remained 1.43:1 against white; the fill alone was 1.04:1. These are separate candidate-authored changes, not part of the agent's initial remediation.
+
+The candidate explicitly authorised trying a contrasting bottom edge while retaining this lighter styling. Input and NativeSelect now add a **2px bottom edge** using the new semantic `input-boundary` token (existing neutral 450, RGB 143/143/143), exposed through Tailwind as `border-b-input-boundary`. The other borders remain 1px neutral 300; fill, native semantics and the existing blue keyboard-focus ring are retained.
+
+### Current contrast measurements
+
+Measured on the desktop catalogue search and all three filter selects, mobile/tablet filter sheets, and session-name/headset controls in finalisation:
+
+| Visual information | Colors | Ratio | Assessment |
+|---|---|---:|---|
+| Bottom edge against surrounding surface | RGB 143/143/143 on white | **3.234:1** | Passes the 3:1 non-text contrast requirement |
+| Bottom edge against internal fill | RGB 143/143/143 on RGB 250/250/250 | **3.098:1** | Passes 3:1 |
+| Entered/selected text against fill | RGB 23/23/23 on RGB 250/250/250 | 17.18:1 | Passes AA text contrast |
+| Search placeholder against fill | RGB 86/86/86 on RGB 250/250/250 | 7.03:1 | Passes AA text contrast |
+
+The light perimeter is decorative; the contrasting bottom edge supplies the identifying boundary. W3C's [minimal text-input example](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html#user-interface-component-examples) permits a bottom border as the indicator when it meets 3:1. This establishes the tested boundary treatment, not whole-application WCAG conformance.
+
+### Follow-up verification
+
+Production Chrome 155 with axe-core 4.14.0 used the same tags and no exclusions as the initial remediation. **Eight follow-up scans have zero automated violations.** Three scans retain incomplete modal contrast checks (six node occurrences); all were manually reviewed without disabling the rule.
+
+| State | Width (CSS px) | Axe violations | Incomplete rules |
+|---|---:|---:|---|
+| catalogue-desktop | 1440 | 0 | None |
+| save-desktop | 1440 | 0 | color-contrast |
+| catalogue-390 | 390 | 0 | None |
+| filters-390 | 390 | 0 | None |
+| save-390 | 390 | 0 | color-contrast |
+| catalogue-834 | 834 | 0 | None |
+| filters-834 | 834 | 0 | color-contrast |
+| save-834 | 834 | 0 | None |
+
+- Incomplete helper/counter text measured 7.34:1 on white; programme text measured 17.93:1; the tablet filter's white `Afficher les vidéos` text measured 5.20:1 on its blue button. All six node occurrences were inside the viewport and their center hit resolved to the element or its descendant. Reviewed screenshots confirmed the presentation.
+- Keyboard Tab/Shift+Tab checks confirmed that search and all three desktop selects retain their visible blue focus ring. Initial name-field focus remained visible in finalisation.
+- Reviewed catalogue/filter/finalisation screenshots at 390 × 844, 834 × 1112 and 1440 × 900. Page and open dialogs had no horizontal overflow. The shared primitive change warranted this limited responsive check; the rest of Task 10 remains pending.
+- `npm run verify` passed format/lint, strict checks with zero diagnostics, 18 test files / 89 tests and the production build. No new dependency or application behavior was introduced.
+- Follow-up raw results and screenshots are local evidence under `/private/tmp/metiers360-input-edge.8ckgAj/`, including `controls-desktop.png`. The durable outcomes are recorded here. Native Firefox and screen readers were not rerun for this styling-only follow-up; earlier Firefox evidence remains attributed to the initial remediation.
+
+The bottom-edge refinement remains uncommitted for candidate review.
+
 ## Limits and remaining delivery work
 
 At the time of the official-source check, **RGAA 4.1.2** was the published reference and **RGAA 5** was announced for late 2026 with WCAG 2.2 coverage. This work does not claim RGAA 5 conformance, a percentage score or a formal accessibility declaration.
 
 Axe cannot establish full WCAG 2.2 AA conformance. No dedicated VoiceOver/NVDA or voice-control session, full RGAA criterion-by-criterion audit, exhaustive focus-obscuring/target-size matrix, high-contrast-mode evaluation or complete zoom/resize-text assessment was performed. Saved-list numbering is retained semantically but its spoken presentation still needs real screen-reader review. Representative checks do not prove every remote state or browser/assistive-technology combination.
 
-The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. This remediation remains uncommitted for candidate review.
+The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. The initial remediation is committed in `63730ba`; the bottom-edge follow-up remains uncommitted for candidate review.
 
 ## References
 

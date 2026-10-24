@@ -45,8 +45,10 @@
   --destructive: var(--red-600);
   --destructive-foreground: var(--neutral-0);
   --border: var(--neutral-300); /* var(--neutral-200); */
+  --border-badge: var(--neutral-400);
   --border-dialog: var(--neutral-500); /* for dialog border only */
-  --input: var(--neutral-450);
+  --input: var(--neutral-300);
+  --input-boundary: var(--neutral-450);
   --ring: var(--blue-600);
   --navigation-current: var(--blue-800);
   --action-hover: var(--blue-700);
@@ -85,8 +87,10 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-badge: var(--border-badge);
   --color-dialog: var(--border-dialog);
   --color-input: var(--input);
+  --color-input-boundary: var(--input-boundary);
   --color-ring: var(--ring);
   --color-navigation-current: var(--navigation-current);
   --color-action-hover: var(--action-hover);

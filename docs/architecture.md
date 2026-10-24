@@ -334,6 +334,8 @@ In Astro templates and JSX, use Tailwind's standard utilities or the named proje
 
 Use the initial shadcn token set for background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and radius. Add project-specific compatibility/status pairs only when a real UI state requires them, and verify their contrast in context.
 
+Input and native-select controls retain the light `bg-background` fill and `border-input` perimeter selected during candidate review. A separate semantic `input-boundary` token, exposed as `border-b-input-boundary`, supplies a two-pixel contrasting bottom edge. This edge identifies the editable area while the remaining borders stay light; verify it against both the control fill and surrounding surface. Keyboard focus continues to use the blue ring independently of this normal-state boundary.
+
 Official reference: [shadcn/ui theming](https://ui.shadcn.com/docs/theming).
 
 ### Icon contract

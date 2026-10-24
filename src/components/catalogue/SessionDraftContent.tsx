@@ -151,6 +151,7 @@ export function SessionDraftContent({
                   <Button
                     type="button"
                     variant="outline"
+                    size="compact"
                     disabled={index === 0}
                     aria-label={`Monter ${title}`}
                     onClick={() => onMoveUp(item.id)}
@@ -162,6 +163,7 @@ export function SessionDraftContent({
                   <Button
                     type="button"
                     variant="outline"
+                    size="compact"
                     disabled={index === items.length - 1}
                     aria-label={`Descendre ${title}`}
                     onClick={() => onMoveDown(item.id)}
@@ -173,6 +175,7 @@ export function SessionDraftContent({
                   <Button
                     type="button"
                     variant="secondary"
+                    size="compact"
                     aria-label={`Retirer ${title} de ma séance`}
                     onClick={() => onRemove(item.id)}
                     className="col-span-2 justify-self-end px-4 @sm:ml-auto"

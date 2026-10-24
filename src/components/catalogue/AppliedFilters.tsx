@@ -31,6 +31,7 @@ export function AppliedFilters({
           type="button"
           onClick={() => onRemove(filter.key)}
           variant="secondary"
+          size="compact"
           aria-label={`Retirer le filtre ${filter.label}`}
           className="rounded-full border px-3 font-medium"
         >

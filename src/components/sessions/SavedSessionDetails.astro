@@ -8,6 +8,7 @@ import {
 } from '../../features/sessions/format';
 import type { ResolvedSessionVideo } from '../../features/sessions/resolve-session-videos.server';
 import type { HeadsetList, JobList, Session } from '../../lib/api/schemas';
+import { Badge } from '../ui/badge';
 
 interface Props {
   session: Session;
@@ -98,9 +99,14 @@ const selectedHeadsetName = session.headset_id
                       class="mt-2 flex flex-wrap gap-1.5"
                     >
                       {item.video.compatible_headsets.map((headsetId) => (
+                          <li>
+                            <Badge variant="secondary">{headsetNames.get(headsetId) ?? headsetId}</Badge>
+                          </li>
+                        /*
                         <li class="bg-secondary text-secondary-foreground rounded-full px-3 py-1 text-xs font-semibold">
                           {headsetNames.get(headsetId) ?? headsetId}
                         </li>
+                        */
                       ))}
                     </ul>
                   ) : (

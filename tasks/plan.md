@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete; Task 9A is committed and pushed in `3870b3b`. On 2026-10-24 the candidate authorised a focused accessibility audit and remediation within Task 10. Stop for review before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
+Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete; Task 9A is committed and pushed in `3870b3b`. The focused accessibility remediation is committed and pushed in `63730ba`. On 2026-10-24 the candidate additionally authorised contrasting input/select bottom edges after reviewing a lighter control treatment. Stop for review before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
 
 ## Purpose
 
@@ -228,6 +228,8 @@ The complete required exercise flow—find, compose, order, name and save—work
 **Outcome:** The submitted repository is reproducible, candid about scope and reviewable in five minutes.
 
 **Authorised partial scope, 2026-10-24:** Audit and fix the identified accessibility issues, repeat axe and browser checks, and update project records. Evidence is recorded in [accessibility-audit.md](../docs/accessibility-audit.md). This review stop precedes the remaining Task 10 work, including the clean-install rehearsal, final README and submission-readiness assessment. No deployment is authorised by this slice.
+
+**Authorised follow-up:** Preserve the candidate's lighter input/select fill and perimeter, add a contrasting bottom edge, repeat the relevant contrast/axe/browser checks and update records. This visual refinement is another review stop within the same partial scope, not authorisation for the remaining Task 10 work.
 
 **Acceptance criteria:**
 

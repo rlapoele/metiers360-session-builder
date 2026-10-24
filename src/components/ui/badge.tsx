@@ -3,12 +3,12 @@ import { cn } from 'cn';
 import type { ComponentProps } from 'react';
 
 const badgeVariants = cva(
-  'inline-flex w-fit shrink-0 items-center justify-center rounded-full px-3 py-1 text-xs font-semibold',
+  'inline-flex w-fit shrink-0 items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold',
   {
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground',
-        secondary: 'bg-secondary text-secondary-foreground',
+        secondary: 'bg-secondary text-secondary-foreground border border-badge',
       },
     },
     defaultVariants: {

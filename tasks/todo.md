@@ -93,8 +93,9 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 ## Phase 6 — Delivery
 
 - [ ] **Task 10:** Complete accessibility/responsive verification and final documentation.
-  - Completed partial scope, pending candidate review: the explicitly authorised accessibility remediation corrects the draft control's label order, input/select boundary contrast, video-details keyboard scrolling and saved-position badge semantics. [Accessibility evidence](../docs/accessibility-audit.md) records axe results, responsive and Firefox keyboard checks, manual contrast review and remaining audit limits.
+  - Completed partial scope, committed and pushed in `63730ba`: the explicitly authorised accessibility remediation corrects the draft control's label order, input/select boundary contrast, video-details keyboard scrolling and saved-position badge semantics. [Accessibility evidence](../docs/accessibility-audit.md) records axe results, responsive and Firefox keyboard checks, manual contrast review and remaining audit limits.
   - Evidence: `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, all 18 test files and 89 tests, and the production build. The remaining delivery review, clean-install rehearsal and final README are pending a new instruction.
+  - Follow-up, pending candidate review: preserved the candidate's lighter control fill/perimeter and added a semantic 2px bottom edge. It measures 3.234:1 against white and 3.098:1 against the fill. Eight production axe scans at 390, 834 and 1440px have zero violations; three modal scans retain six manually reviewed contrast checks. Focus and overflow checks passed, as did `npm run verify` (89 tests, zero diagnostics, production build). The refinement remains uncommitted.
 - [ ] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
 
 ## Phase 7 — Optional hosted demo
@@ -104,6 +105,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Next action:** Review the focused accessibility remediation and its evidence. Stop before the rest of Task 10; do not begin the clean-install rehearsal, final README or later tasks without a new instruction.
+**Next action:** Review the contrasting input/select bottom edge and its evidence. Stop before the rest of Task 10; do not begin the clean-install rehearsal, final README or later tasks without a new instruction.
 
-Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A is committed and pushed in `3870b3b`. The candidate subsequently authorised only the accessibility audit, identified fixes, repeat checks and related records within Task 10; this remediation is left uncommitted for review.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A is committed and pushed in `3870b3b`, and the initial accessibility remediation in `63730ba`. The candidate subsequently authorised only the bottom-edge styling follow-up, repeat checks and related records within Task 10; this refinement is left uncommitted for review.

@@ -14,7 +14,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
         <select
           ref={ref}
           data-slot="native-select"
-          className="border-input bg-card text-foreground focus-visible:ring-ring focus-visible:ring-offset-background min-h-11 w-full min-w-0 appearance-none rounded-md border py-2 pr-10 pl-3 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+          className="cursor-pointer border-input bg-background text-foreground focus-visible:ring-ring focus-visible:ring-offset-background min-h-11 w-full min-w-0 appearance-none rounded-md border-2 py-2 pr-10 pl-3 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           {...props}
         />
         <ChevronDownIcon
