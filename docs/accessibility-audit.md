@@ -120,7 +120,7 @@ Production Chrome 155 with axe-core 4.14.0 used the same tags and no exclusions 
 - `npm run verify` passed format/lint, strict checks with zero diagnostics, 18 test files / 89 tests and the production build. No new dependency or application behavior was introduced.
 - Follow-up raw results and screenshots are local evidence under `/private/tmp/metiers360-input-edge.8ckgAj/`, including `controls-desktop.png`. The durable outcomes are recorded here. Native Firefox and screen readers were not rerun for this styling-only follow-up; earlier Firefox evidence remains attributed to the initial remediation.
 
-The bottom-edge refinement remains uncommitted for candidate review.
+The bottom-edge refinement and this evidence were subsequently committed in `d294030`, together with candidate-authored visual revisions. Those revisions replaced the contrasting bottom edge with a lighter two-pixel perimeter, changed badge borders and reduced draft action sizes. The measurements above remain evidence for the earlier bottom-edge styling; they have not been rerun against the revised treatment. The 2026-10-25 catalogue-headset display checks do not establish current input contrast or compact-target conformance.
 
 ## Limits and remaining delivery work
 
@@ -128,7 +128,7 @@ At the time of the official-source check, **RGAA 4.1.2** was the published refer
 
 Axe cannot establish full WCAG 2.2 AA conformance. No dedicated VoiceOver/NVDA or voice-control session, full RGAA criterion-by-criterion audit, exhaustive focus-obscuring/target-size matrix, high-contrast-mode evaluation or complete zoom/resize-text assessment was performed. Saved-list numbering is retained semantically but its spoken presentation still needs real screen-reader review. Representative checks do not prove every remote state or browser/assistive-technology combination.
 
-The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. The initial remediation is committed in `63730ba`; the bottom-edge follow-up remains uncommitted for candidate review.
+The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. The initial remediation is committed in `63730ba`; the bottom-edge follow-up and later candidate visual changes are committed in `d294030`. Fresh verification of the revised visual treatment remains pending instruction.
 
 ## References
 

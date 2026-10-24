@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete; Task 9A is committed and pushed in `3870b3b`. The focused accessibility remediation is committed and pushed in `63730ba`. On 2026-10-24 the candidate additionally authorised contrasting input/select bottom edges after reviewing a lighter control treatment. Stop for review before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
+Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete; Task 9A is committed and pushed in `3870b3b`. The focused accessibility remediation is committed in `63730ba`; its follow-up records and subsequent candidate visual changes are committed in `d294030`. On 2026-10-25 the candidate authorised showing every compatible headset on unfiltered catalogue cards while retaining the selected-headset display when filtered. Stop for review before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
 
 ## Purpose
 
@@ -102,6 +102,7 @@ The frontend and mock API run together, both routes are navigable, all implement
 - Query, filters and page are preserved in the URL; browser back/forward and reload behave predictably.
 - Results expose loading, result count, empty, recoverable-error and success states.
 - Cards remain concise and express add/remove and contextual compatibility state accessibly.
+- Catalogue cards show all compatible headset names when no headset filter is selected, preserving API order. When filtered by headset, show only that selected headset. This explicit 2026-10-25 requirement supersedes the earlier implementation's two-badge limit.
 
 **Verification:** Query-state unit tests, component tests and browser checks covering success, empty, retry and pagination.
 

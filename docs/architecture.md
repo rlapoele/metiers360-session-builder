@@ -273,6 +273,7 @@ Saved-session details use `resolve-session-videos.server.ts` because the supplie
 - Keep applied filters visible as removable chips on small viewports.
 - Do not group by job or sort only the current page.
 - Cards show decision-critical information; video details show the complete record.
+- With no headset filter, catalogue cards show every ID in the video's `compatible_headsets` array as a resolved name, preserving API order and falling back to the ID if its reference label is unavailable. With a headset filter, cards show only that selected headset; API membership filtering determines which videos are returned. Do not truncate unfiltered compatibility badges or infer a separate "all headsets" category.
 - If a headset is selected for the draft/filter, display explicit compatible/incompatible language.
 - A missing thumbnail gets a stable 16:9 fallback; do not request a made-up thumbnail URL.
 
@@ -334,7 +335,7 @@ In Astro templates and JSX, use Tailwind's standard utilities or the named proje
 
 Use the initial shadcn token set for background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and radius. Add project-specific compatibility/status pairs only when a real UI state requires them, and verify their contrast in context.
 
-Input and native-select controls retain the light `bg-background` fill and `border-input` perimeter selected during candidate review. A separate semantic `input-boundary` token, exposed as `border-b-input-boundary`, supplies a two-pixel contrasting bottom edge. This edge identifies the editable area while the remaining borders stay light; verify it against both the control fill and surrounding surface. Keyboard focus continues to use the blue ring independently of this normal-state boundary.
+Input and native-select controls retain the light `bg-background` fill and `border-input` perimeter selected during candidate review. The initial accessibility follow-up used a separate semantic `input-boundary` token for a contrasting bottom edge. Candidate visual changes committed in `d294030` replaced that edge with a light `border-2` perimeter; the token remains defined but is not consumed by these controls. Earlier bottom-edge contrast measurements therefore describe the earlier treatment and need fresh verification before being applied to the current style. Keyboard focus continues to use the blue ring independently of the normal-state boundary.
 
 Official reference: [shadcn/ui theming](https://ui.shadcn.com/docs/theming).
 

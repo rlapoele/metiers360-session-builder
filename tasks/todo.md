@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-10-24
+Last updated: 2026-10-25
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -95,7 +95,8 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 - [ ] **Task 10:** Complete accessibility/responsive verification and final documentation.
   - Completed partial scope, committed and pushed in `63730ba`: the explicitly authorised accessibility remediation corrects the draft control's label order, input/select boundary contrast, video-details keyboard scrolling and saved-position badge semantics. [Accessibility evidence](../docs/accessibility-audit.md) records axe results, responsive and Firefox keyboard checks, manual contrast review and remaining audit limits.
   - Evidence: `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, all 18 test files and 89 tests, and the production build. The remaining delivery review, clean-install rehearsal and final README are pending a new instruction.
-  - Follow-up, pending candidate review: preserved the candidate's lighter control fill/perimeter and added a semantic 2px bottom edge. It measures 3.234:1 against white and 3.098:1 against the fill. Eight production axe scans at 390, 834 and 1440px have zero violations; three modal scans retain six manually reviewed contrast checks. Focus and overflow checks passed, as did `npm run verify` (89 tests, zero diagnostics, production build). The refinement remains uncommitted.
+  - Historical bottom-edge follow-up, committed in `d294030`: its then-current treatment measured 3.234:1 against white and 3.098:1 against the fill. Eight production axe scans at 390, 834 and 1440px had zero violations; three modal scans retained six manually reviewed contrast checks. Focus/overflow checks and `npm run verify` passed (89 tests, zero diagnostics, production build). The same commit includes later candidate visual revisions; those contrast results must not be carried forward to the revised styling without a fresh check.
+  - Catalogue-card follow-up, pending review: unfiltered cards show every compatible headset in API order; headset-filtered cards retain only the selected headset. A failing-first regression exposed the two-item truncation; both display cases now pass. `npm run verify` passed 18 files / 91 tests, zero diagnostics, lint and production build. Browser checks at 390, 834 and 1440px confirmed four labels on the representative unfiltered card, one selected label on every filtered card, wrapping without overflow and zero runtime exceptions. No new accessibility-conformance audit is claimed.
 - [ ] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
 
 ## Phase 7 — Optional hosted demo
@@ -105,6 +106,6 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Next action:** Review the contrasting input/select bottom edge and its evidence. Stop before the rest of Task 10; do not begin the clean-install rehearsal, final README or later tasks without a new instruction.
+**Next action:** Review the catalogue-card headset display change. Stop before the rest of Task 10; do not begin further accessibility work, the clean-install rehearsal, final README or later tasks without a new instruction.
 
-Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A is committed and pushed in `3870b3b`, and the initial accessibility remediation in `63730ba`. The candidate subsequently authorised only the bottom-edge styling follow-up, repeat checks and related records within Task 10; this refinement is left uncommitted for review.
+Task 8 and Checkpoint D are complete and committed in `f22dc0d`; its subsequent form and visual refinements are committed and pushed through `c797443`. Task 9 is committed and pushed in `8ead669`; the global muted-foreground adjustment is committed and pushed in `e8a8e02`. Documentation reconciliations and candidate-contribution evidence are committed and pushed through `e569c57`. Task 9A is committed and pushed in `3870b3b`, the initial accessibility remediation in `63730ba`, and the bottom-edge follow-up plus candidate visual revisions in `d294030`. Only the explicit catalogue-card headset-display follow-up is currently implemented and left uncommitted for review; the remaining Task 10 work stays pending.

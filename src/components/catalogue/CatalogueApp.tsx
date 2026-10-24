@@ -202,9 +202,7 @@ function CatalogueContent({
       return [headsetLabels.get(query.headset) ?? query.headset];
     }
 
-    return video.compatible_headsets
-      .slice(0, 2)
-      .map((id) => headsetLabels.get(id) ?? id);
+    return video.compatible_headsets.map((id) => headsetLabels.get(id) ?? id);
   }
 
   const hasCriteria = Boolean(

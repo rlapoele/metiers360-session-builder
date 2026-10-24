@@ -104,6 +104,43 @@ afterEach(() => {
 });
 
 describe('CatalogueApp', () => {
+  it.each(['', 'meta-quest-3'])(
+    'shows complete card compatibility unless a headset filter is selected (%s)',
+    (headset) => {
+      const headsets = [
+        { id: 'pico-g2-4k', name: 'Pico G2 4K' },
+        { id: 'pico-4', name: 'Pico 4' },
+        { id: 'meta-quest-2', name: 'Meta Quest 2' },
+        { id: 'meta-quest-3', name: 'Meta Quest 3' },
+      ];
+      render(
+        <CatalogueApp
+          initialQuery={{ ...initialQuery, headset }}
+          initialVideos={{
+            ...initialVideos,
+            data: [
+              {
+                ...initialVideos.data[0],
+                compatible_headsets: headsets.map(({ id }) => id),
+              },
+            ],
+          }}
+          initialReferences={{
+            ...initialReferences,
+            headsets: { data: headsets },
+          }}
+        />,
+      );
+
+      const list = screen.getByRole('list', { name: 'Casques compatibles' });
+      expect(
+        within(list)
+          .getAllByRole('listitem')
+          .map((item) => item.textContent),
+      ).toEqual(headset ? ['Meta Quest 3'] : headsets.map(({ name }) => name));
+    },
+  );
+
   it('renders the result count and decision-critical card content', () => {
     render(
       <CatalogueApp
