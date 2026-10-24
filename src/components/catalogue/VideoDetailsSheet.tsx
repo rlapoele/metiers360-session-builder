@@ -125,11 +125,11 @@ export function VideoDetailsSheet({
             <div role="alert" className="space-y-4">
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold">
-                  Impossible de charger les détails
+                  Les détails de la vidéo ne peuvent pas être chargés
                 </h3>
                 <p className="text-muted-foreground text-sm leading-6">
-                  Les détails de cette vidéo n’ont pas pu être chargés.
-                  Réessayez.
+                  Réessayez dans quelques instants. Votre séance en cours est
+                  conservée.
                 </p>
               </div>
               <Button type="button" onClick={() => void videoQuery.refetch()}>

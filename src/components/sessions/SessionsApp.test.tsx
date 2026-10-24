@@ -67,7 +67,7 @@ describe('SessionsApp', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', {
-        name: 'Consulter Découverte des métiers du paysage',
+        name: 'Consulter la séance : Découverte des métiers du paysage',
       }),
     ).toHaveAttribute('href', '/sessions/ses_001');
     expect(screen.queryByRole('button', { name: /supprimer/i })).toBeNull();
@@ -100,7 +100,9 @@ describe('SessionsApp', () => {
     vi.stubGlobal('fetch', fetchMock);
     render(<SessionsApp />);
 
-    expect(screen.getByText('Chargement des séances…')).toBeInTheDocument();
+    expect(
+      screen.getByText('Chargement des séances enregistrées…'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Aucune séance en cours')).toBeInTheDocument();
     resolveFirstRequest?.(
       Response.json(

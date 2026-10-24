@@ -208,7 +208,7 @@ describe('SessionFinalisationDialog', () => {
 
     expect(
       await screen.findByText(
-        'La séance n’a pas pu être enregistrée. Vérifiez votre connexion puis réessayez.',
+        'La séance n’a pas pu être enregistrée. Votre séance en cours est conservée. Réessayez dans quelques instants.',
       ),
     ).toHaveAttribute('role', 'alert');
     expect(screen.getByDisplayValue('Métiers du paysage')).toBeInTheDocument();

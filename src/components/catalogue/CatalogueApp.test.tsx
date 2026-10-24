@@ -142,6 +142,32 @@ describe('CatalogueApp', () => {
     expect(headsetList.querySelector('svg')).not.toBeInTheDocument();
   });
 
+  it('keeps catalogue failures in French without exposing browser diagnostics', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockRejectedValue(new TypeError('Failed to fetch')),
+    );
+    render(
+      <CatalogueApp
+        initialQuery={initialQuery}
+        initialReferences={initialReferences}
+      />,
+    );
+
+    expect(
+      await screen.findByRole('heading', {
+        name: 'Le catalogue ne peut pas être chargé',
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Votre séance en cours est conservée.',
+    );
+    expect(screen.queryByText('Failed to fetch')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Réessayer' }),
+    ).toBeInTheDocument();
+  });
+
   it('exposes add and remove state without relying on colour alone', async () => {
     const user = userEvent.setup();
     render(
@@ -153,16 +179,22 @@ describe('CatalogueApp', () => {
     );
 
     const addButton = screen.getByRole('button', {
-      name: 'Ajouter à ma séance',
+      name: /^Ajouter à ma séance/,
     });
     expect(addButton).toHaveAttribute('aria-pressed', 'false');
+    expect(addButton).toHaveAccessibleName(
+      'Ajouter à ma séance : Une journée avec Omar, jardinier municipal',
+    );
 
     await user.click(addButton);
 
     const removeButton = screen.getByRole('button', {
-      name: 'Retirer de ma séance',
+      name: /^Retirer de ma séance/,
     });
     expect(removeButton).toHaveAttribute('aria-pressed', 'true');
+    expect(removeButton).toHaveAccessibleName(
+      'Retirer de ma séance : Une journée avec Omar, jardinier municipal',
+    );
     expect(removeButton).toHaveClass(
       'bg-secondary',
       'text-secondary-foreground',
@@ -187,7 +219,7 @@ describe('CatalogueApp', () => {
     );
 
     const addButtons = screen.getAllByRole('button', {
-      name: 'Ajouter à ma séance',
+      name: /^Ajouter à ma séance/,
     });
     await user.click(addButtons[0]);
     await user.click(addButtons[1]);
@@ -202,7 +234,7 @@ describe('CatalogueApp', () => {
     ).toBeInTheDocument();
     expect(
       within(panel).getByText(
-        'Vous choisirez le casque au moment d’enregistrer la séance.',
+        'Vous pourrez choisir un casque au moment d’enregistrer la séance.',
       ),
     ).toBeInTheDocument();
     expect(
@@ -214,7 +246,7 @@ describe('CatalogueApp', () => {
       expect.stringContaining('2Découvrir le métier de pâtissière'),
     ]);
     const panelRemoveButton = within(panel).getByRole('button', {
-      name: 'Retirer Une journée avec Omar, jardinier municipal',
+      name: 'Retirer Une journée avec Omar, jardinier municipal de ma séance',
     });
     expect(panelRemoveButton).toHaveClass(
       'bg-secondary',
@@ -244,7 +276,7 @@ describe('CatalogueApp', () => {
 
     await user.click(
       within(panel).getByRole('button', {
-        name: 'Retirer Découvrir le métier de pâtissière',
+        name: 'Retirer Découvrir le métier de pâtissière de ma séance',
       }),
     );
     expect(within(panel).getByText('1 vidéo · 7 min 35 s')).toBeInTheDocument();
@@ -289,7 +321,7 @@ describe('CatalogueApp', () => {
       />,
     );
     await user.click(
-      screen.getByRole('button', { name: 'Ajouter à ma séance' }),
+      screen.getByRole('button', { name: /^Ajouter à ma séance/ }),
     );
     const trigger = screen.getByRole('button', {
       name: 'Consulter ma séance, 1 vidéo, 7 min 35 s',
@@ -370,8 +402,13 @@ describe('CatalogueApp', () => {
       ),
     ).toBeInTheDocument();
     expect(
-      within(panel).getByRole('button', { name: 'Réessayer' }),
+      within(panel).getByRole('button', {
+        name: /Réessayer de charger les informations de Vidéo/,
+      }),
     ).toBeInTheDocument();
+    expect(within(panel).getByRole('status')).toHaveTextContent(
+      '1 vidéo · durée à confirmer',
+    );
     expect(
       JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
     ).toMatchObject({ video_ids: ['vid_unavailable'] });
@@ -448,7 +485,7 @@ describe('CatalogueApp', () => {
     closeButton.focus();
     await user.tab({ shift: true });
     expect(
-      within(dialog).getByRole('button', { name: 'Ajouter à ma séance' }),
+      within(dialog).getByRole('button', { name: /^Ajouter à ma séance/ }),
     ).toHaveFocus();
     await user.tab();
     expect(closeButton).toHaveFocus();
@@ -487,11 +524,11 @@ describe('CatalogueApp', () => {
       name: 'Détails de la vidéo',
     });
     await user.click(
-      within(dialog).getByRole('button', { name: 'Ajouter à ma séance' }),
+      within(dialog).getByRole('button', { name: /^Ajouter à ma séance/ }),
     );
 
     const dialogRemoveButton = within(dialog).getByRole('button', {
-      name: 'Retirer de ma séance',
+      name: /^Retirer de ma séance/,
     });
     expect(dialogRemoveButton).toHaveAttribute('aria-pressed', 'true');
     expect(dialogRemoveButton).toHaveClass(
@@ -510,7 +547,7 @@ describe('CatalogueApp', () => {
     expect(card).not.toBeNull();
     expect(
       within(card as HTMLElement).getByRole('button', {
-        name: 'Retirer de ma séance',
+        name: /^Retirer de ma séance/,
       }),
     ).toHaveAttribute('aria-pressed', 'true');
   });
@@ -553,12 +590,12 @@ describe('CatalogueApp', () => {
     });
     expect(
       within(dialog).getByRole('heading', {
-        name: 'Impossible de charger les détails',
+        name: 'Les détails de la vidéo ne peuvent pas être chargés',
       }),
     ).toBeInTheDocument();
     expect(
       within(dialog).getByText(
-        'Les détails de cette vidéo n’ont pas pu être chargés. Réessayez.',
+        'Réessayez dans quelques instants. Votre séance en cours est conservée.',
       ),
     ).toBeInTheDocument();
     expect(

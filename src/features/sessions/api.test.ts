@@ -65,6 +65,17 @@ describe('createSession', () => {
     });
   });
 
+  it('asks users to check saved sessions when the save response is lost', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockRejectedValue(new TypeError('Failed to fetch')),
+    );
+
+    await expect(createSession(request)).rejects.toThrow(
+      'L’enregistrement n’a pas pu être confirmé. Votre séance en cours est conservée. Consultez Mes séances avant de réessayer.',
+    );
+  });
+
   it('normalises an invalid success response into a recoverable error', async () => {
     vi.stubGlobal(
       'fetch',
@@ -77,7 +88,7 @@ describe('createSession', () => {
     );
 
     await expect(createSession(request)).rejects.toThrow(
-      'La confirmation de l’enregistrement est invalide.',
+      'L’enregistrement n’a pas pu être confirmé. Votre séance en cours est conservée. Consultez Mes séances avant de réessayer.',
     );
   });
 });

@@ -240,7 +240,7 @@ export function SessionFinalisationDialog({
               className="text-muted-foreground flex justify-between gap-4 text-sm"
             >
               <span>Un nom court permettra de la retrouver facilement.</span>
-              <span>{draft.name.length}/120</span>
+              <span>{draft.name.length}/120 caractères</span>
             </div>
             {visibleFieldErrors.name && (
               <p
@@ -294,7 +294,7 @@ export function SessionFinalisationDialog({
               id="session-headset-help"
               className="text-muted-foreground text-sm"
             >
-              Le choix permet de vérifier la compatibilité avant
+              Choisir un casque permet de vérifier la compatibilité avant
               l’enregistrement.
             </p>
             {visibleFieldErrors.headset_id && (

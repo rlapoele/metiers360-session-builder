@@ -94,7 +94,9 @@ export function SessionDraftComposition({
   const durationLabel =
     items.some((item) => !item.video && !item.isError) && items.length > 0
       ? 'durée en cours de calcul'
-      : formatDuration(totalDuration);
+      : items.some((item) => !item.video)
+        ? 'durée à confirmer'
+        : formatDuration(totalDuration);
   const summary = `${countLabel(draft.video_ids.length)} · ${durationLabel}`;
 
   useEffect(() => {

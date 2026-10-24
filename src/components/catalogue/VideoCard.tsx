@@ -100,6 +100,7 @@ export function VideoCard({
               type="button"
               variant={isSelected ? 'secondary' : 'default'}
               aria-pressed={isSelected}
+              aria-label={`${isSelected ? 'Retirer de ma séance' : 'Ajouter à ma séance'} : ${video.title}`}
               onClick={() => onToggle(video.id)}
               className="w-full"
             >

@@ -69,8 +69,8 @@ export function SessionDraftContent({
     <div className="space-y-5">
       <p className="text-muted-foreground text-sm leading-6">
         {headsetId
-          ? `Compatibilité vérifiée pour ${headsetName}.`
-          : 'Vous choisirez le casque au moment d’enregistrer la séance.'}
+          ? `Compatibilité avec ${headsetName} : consultez le statut de chaque vidéo.`
+          : 'Vous pourrez choisir un casque au moment d’enregistrer la séance.'}
       </p>
 
       <ol className="space-y-3">
@@ -138,6 +138,7 @@ export function SessionDraftContent({
                     <Button
                       type="button"
                       variant="link"
+                      aria-label={`Réessayer de charger les informations de ${title}`}
                       onClick={item.retry}
                       className="mt-1"
                     >
@@ -172,7 +173,7 @@ export function SessionDraftContent({
                   <Button
                     type="button"
                     variant="secondary"
-                    aria-label={`Retirer ${title}`}
+                    aria-label={`Retirer ${title} de ma séance`}
                     onClick={() => onRemove(item.id)}
                     className="col-span-2 justify-self-end px-4 @sm:ml-auto"
                   >

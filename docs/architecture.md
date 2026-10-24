@@ -2,7 +2,7 @@
 
 Status: implementation baseline, agreed before frontend bootstrap and updated as delivery progresses.
 
-The repository contains the supplied Node mock API and the implemented Astro/React frontend through Task 9, including Task 7A. This document records the accepted architecture and remaining delivery direction. The task plan and checklist own completion status; update this document when an implemented decision supersedes the baseline.
+The repository contains the supplied Node mock API and the implemented Astro/React frontend through Task 9A, including Task 7A. The French-copy inventory and audit outcomes are recorded in [copy-audit.md](copy-audit.md). This document records the accepted architecture and remaining delivery direction. The task plan and checklist own completion status; update this document when an implemented decision supersedes the baseline.
 
 ## Goals
 

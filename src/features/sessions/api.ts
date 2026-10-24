@@ -86,7 +86,7 @@ export async function createSession(
     });
   } catch {
     throw new SessionSaveError(
-      'La séance n’a pas pu être enregistrée. Vérifiez votre connexion puis réessayez.',
+      'L’enregistrement n’a pas pu être confirmé. Votre séance en cours est conservée. Consultez Mes séances avant de réessayer.',
     );
   }
 
@@ -105,14 +105,14 @@ export async function createSession(
     throw new SessionSaveError(
       apiError.success && apiError.data.error === 'validation_error'
         ? 'Certaines informations doivent être corrigées avant l’enregistrement.'
-        : 'La séance n’a pas pu être enregistrée. Vérifiez votre connexion puis réessayez.',
+        : 'La séance n’a pas pu être enregistrée. Votre séance en cours est conservée. Réessayez dans quelques instants.',
     );
   }
 
   const session = SessionSchema.safeParse(body);
   if (!session.success) {
     throw new SessionSaveError(
-      'La confirmation de l’enregistrement est invalide.',
+      'L’enregistrement n’a pas pu être confirmé. Votre séance en cours est conservée. Consultez Mes séances avant de réessayer.',
     );
   }
 

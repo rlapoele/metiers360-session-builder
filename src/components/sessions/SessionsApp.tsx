@@ -115,7 +115,9 @@ function SessionsContent({
             aria-busy="true"
             className="border-border bg-card mt-4 rounded-lg border p-6"
           >
-            <p className="font-semibold">Chargement des séances…</p>
+            <p className="font-semibold">
+              Chargement des séances enregistrées…
+            </p>
             <div className="bg-muted mt-4 h-24 animate-pulse rounded-md" />
           </div>
         </section>
@@ -132,7 +134,8 @@ function SessionsContent({
               Les séances enregistrées ne peuvent pas être chargées.
             </p>
             <p className="text-muted-foreground mt-2 leading-6">
-              Vérifiez votre connexion puis réessayez.
+              Réessayez dans quelques instants. Votre séance en cours est
+              conservée.
             </p>
             <Button
               type="button"

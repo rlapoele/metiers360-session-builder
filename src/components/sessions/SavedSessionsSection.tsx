@@ -35,7 +35,7 @@ export function SavedSessionsSection({
         <div className="border-border bg-card mt-4 rounded-lg border p-6 text-center">
           <p className="font-semibold">Aucune séance enregistrée</p>
           <p className="text-muted-foreground mt-2 text-sm leading-6">
-            Les séances finalisées apparaîtront ici.
+            Les séances enregistrées apparaîtront ici.
           </p>
         </div>
       ) : (
@@ -73,7 +73,7 @@ export function SavedSessionsSection({
                 </div>
                 <a
                   href={`/sessions/${encodeURIComponent(session.id)}`}
-                  aria-label={`Consulter ${session.name}`}
+                  aria-label={`Consulter la séance : ${session.name}`}
                   className={cn(
                     buttonVariants({ variant: 'outline' }),
                     'mt-4 w-full sm:mt-0 sm:w-auto',

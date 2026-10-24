@@ -31,6 +31,7 @@ export function AppliedFilters({
           type="button"
           onClick={() => onRemove(filter.key)}
           variant="secondary"
+          aria-label={`Retirer le filtre ${filter.label}`}
           className="rounded-full border px-3 font-medium"
         >
           {filter.label}
@@ -39,7 +40,7 @@ export function AppliedFilters({
         </Button>
       ))}
       <Button type="button" variant="link" onClick={onClear} className="px-2">
-        Tout effacer
+        Effacer la recherche et les filtres
       </Button>
     </div>
   );

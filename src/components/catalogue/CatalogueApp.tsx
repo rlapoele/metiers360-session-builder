@@ -268,7 +268,9 @@ function CatalogueContent({
         <CatalogueResults
           data={videosQuery.data}
           errorMessage={
-            videosQuery.isError ? videosQuery.error.message : undefined
+            videosQuery.isError
+              ? 'Réessayez dans quelques instants. Votre séance en cours est conservée.'
+              : undefined
           }
           isPending={videosQuery.isPending}
           isPlaceholderData={videosQuery.isPlaceholderData}
