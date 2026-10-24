@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete. Follow-ups include the committed catalogue headset display (`e7ea188`) and candidate input-contrast correction (`0a8c14a`). On 2026-10-25 the candidate explicitly authorised fixing draft-removal focus continuity. Stop for review of that change before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
+Status: accepted on 2026-10-21. Tasks 1 through 10 and Checkpoints A through D are technically complete. The candidate manually retested the removal-focus fix and committed/pushed it in `cecaac0`, then explicitly authorised the rest of Task 10 on 2026-10-25. Task 10 verification is recorded in [delivery-verification.md](../docs/delivery-verification.md). Stop for final candidate review at Checkpoint E before optional Task 11; no deployment is authorised.
 
 ## Purpose
 
@@ -238,7 +238,7 @@ The complete required exercise flow—find, compose, order, name and save—work
 
 - Keyboard, focus, announcements, contrast, reduced motion and overflow are reviewed across affected surfaces and target widths.
 - Accessible names, instructions, validation and live status copy receive a final contextual check after the Task 9A audit.
-- Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup. No `test:browser` package script currently exists; Task 10 must establish and document the reproducible browser-test method and record its actual outcomes without claiming an absent command ran.
+- Format/lint, strict check, unit/component tests, browser tests and production build all pass from the documented setup. Task 10 establishes the reproducible `npm run test:browser` command and documents its actual outcomes separately from the unit/component gate.
 - The supplied exercise brief is preserved verbatim at `docs/source/exercise-brief.md`; it remains an authoritative source document rather than being treated as obsolete archive material.
 - The root README is replaced with the required candidate-facing README using verified claims and commands, links to `docs/skill-log.md` from its AI-use section, and `AGENTS.md` plus internal links are updated to point to the preserved brief.
 - The exercise log records actual AI use, candidate verification, attention time, deliberate omissions and one genuine decision made against an AI proposal.

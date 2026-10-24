@@ -1,89 +1,102 @@
-# Exercice technique — développeur·se front-end / UI (React / TypeScript)
+# Métiers360 — préparer une séance de découverte
 
-## Le cadre
+Une application pour les conseillers, enseignants et éducateurs qui préparent une sélection de vidéos métiers à faire découvrir à un groupe, souvent sur tablette et avec peu de temps.
 
-- **Effort : une demi-journée de votre attention, pas plus.** Le temps où un agent travaille seul ne
-  compte pas ; comptez celui que vous passez à lire, cadrer, guider, relire et tester. Nous ne cherchons
-  pas un rendu exhaustif. S'arrêter à temps et expliquer ce qui manque fait partie de l'exercice.
-- **Délai de rendu : 7 jours** après réception du sujet, à organiser comme vous le souhaitez.
-- **La spécification est volontairement incomplète.** C'est notre quotidien : le besoin arrive rarement
-  sous une forme définitive. Vous pouvez nous poser des questions par mail à tout moment
-  (réponse sous une demi-journée ouvrée ; pour les questions posées les 22 et 23 octobre, réponse le
-  lundi 26). Vous pouvez aussi trancher vous-même : notez alors l'hypothèse prise.
-- **Les assistants IA sont autorisés**, et même bienvenus : c'est notre façon de travailler. Dites-nous
-  simplement comment vous les avez utilisés et ce que vous avez vérifié par vous-même.
-- Ce code ne sera jamais utilisé en production. Il sert uniquement de support au débrief.
+## Lancer le projet
 
-## Le contexte
+Node.js **22.23.4 minimum** et npm. Vérification réalisée avec Node 24.14.1 et npm 11.17.0.
 
-Métiers 360 propose un catalogue de vidéos immersives 360° qui présentent des métiers de l'intérieur.
-Chaque vidéo est rattachée à un ou plusieurs métiers du **référentiel ROME 4.0** de France Travail
-(code, intitulé, grand domaine).
+```bash
+npm ci
+npm --prefix server ci
+npm run dev
+```
 
-Les vidéos sont utilisées par des **conseiller·es France Travail, des enseignant·es, des
-éducateur·ices**. Avant une séance avec un groupe, ils et elles choisissent les vidéos à faire
-découvrir, puis les envoient sur les casques de réalité virtuelle. Ils sont souvent pressés, pas
-toujours à l'aise avec le numérique, et préparent parfois la séance quelques minutes avant, sur
-une tablette, devant le groupe.
+Application : [localhost:4321](http://localhost:4321). API simulée : [localhost:4000](http://localhost:4000). Aucun fichier d’environnement n’est nécessaire. Pour une autre adresse d’API, définir la variable serveur `CATALOG_API_URL`.
 
-## Ce que nous vous fournissons
+Pour le serveur de production, démarrer l’API dans un terminal :
 
-Une archive de démarrage, à versionner vous-même dès le début, contenant :
+```bash
+npm run start:api
+```
 
-- un **serveur d'API simulé** (catalogue d'environ 200 vidéos, métiers ROME, modèles de casques) et
-  sa documentation ;
-- les données de chaque vidéo : titre, description, métiers ROME associés, durée, public conseillé,
-  vignette, compatibilité avec les modèles de casques.
+Puis l’application dans un autre :
 
-Le serveur simulé se comporte comme une vraie API : temps de réponse variables et erreurs
-occasionnelles.
+```bash
+npm run build
+npm start
+```
 
-## Ce que nous vous demandons
+## Utiliser l’application
 
-Une petite application qui permet de **préparer une séance** :
+1. Rechercher une vidéo **par titre**, puis filtrer par métier, casque ou public.
+2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
+3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur lors d’un rechargement ou d’un changement de page.
+4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer.
+5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**.
 
-1. **Trouver des vidéos** dans le catalogue (recherche et filtres que vous jugez utiles pour ce public).
-2. **Composer la séance** : sélectionner des vidéos, les ordonner, la nommer.
-3. **Enregistrer la séance** via l'API.
+![Catalogue sur ordinateur avec les filtres visibles et le brouillon à droite](docs/screenshots/desktop-catalogue.png)
+*Le catalogue et la séance restent consultables ensemble sur ordinateur.*
 
-Stack attendue : **React 18 et TypeScript en mode strict, avec Vite.** Le routage, la bibliothèque de
-composants, la gestion d'état et le style sont à votre choix, à condition de l'argumenter. Pour
-information, nos applications utilisent Ant Design et Tailwind selon les projets.
+<details>
+<summary>Voir les vues tablette et mobile</summary>
 
-Si vous connaissez **Remix** (notre application utilisateur est en Remix 2) ou React Router 7, vous
-pouvez l'utiliser : c'est un plus, pas une attente.
+![Détails complets d’une vidéo dans un panneau latéral sur tablette](docs/screenshots/tablet-details.png)
+*Les détails s’ouvrent sans quitter le catalogue.*
 
-Nous attacherons de l'importance :
+![Formulaire d’enregistrement sur mobile avec le nom, le casque et l’ordre de lecture](docs/screenshots/mobile-finalisation.png)
+*La dernière étape regroupe les informations utiles à l’enregistrement.*
 
-- aux **choix d'interface**, justifiés par l'usage plutôt que par le goût ;
-- à l'**accessibilité** (navigation au clavier, focus, contrastes, lecteurs d'écran : référentiels
-  WCAG / RGAA) ;
-- aux **états de l'interface** : chargement, liste vide, erreur ;
-- au rendu sur **tablette** autant que sur ordinateur.
+</details>
 
-Aucune maquette n'est fournie : c'est à vous de proposer. Un croquis ou une capture Figma dans le
-README est bienvenu, sans obligation.
+## Trois hypothèses structurantes
 
-## À rendre
+1. **Un seul brouillon local suffit.** La préparation en cours appartient au navigateur utilisé ; aucun compte ou partage entre appareils n’a été ajouté.
+2. **Reconsulter les séances enregistrées est utile.** L’API expose une collection : une liste et un programme en lecture seule prolongent donc le parcours après l’enregistrement.
+3. **L’utilisateur garde la décision sur le casque.** Le choix reste facultatif comme dans l’API ; une incompatibilité est signalée explicitement, sans supprimer automatiquement des vidéos de la sélection.
 
-- Un lien vers un dépôt Git (GitLab, GitHub) ou une archive, avec l'historique des commits.
-- Un `README` qui remplace celui de l'archive (une copie de ce sujet). Nous le lisons avant le débrief
-  pour préparer nos questions : écrivez-le pour quelqu'un qui le découvre et dispose de cinq minutes.
-  La place est volontairement limitée, à vous de choisir ce qui mérite d'y figurer :
-  - comment lancer le projet (les commandes, sans commentaire) ;
-  - les **trois** hypothèses qui ont le plus pesé, là où la spécification était muette ;
-  - vos **deux ou trois** principaux choix d'interface, et pour qui ils sont faits ;
-  - ce que vous avez volontairement laissé de côté, et pourquoi ;
-  - ce que vous feriez avec une journée de plus ;
-  - comment vous avez utilisé l'IA : ce que vous avez délégué, ce que vous avez vérifié vous-même, et
-    **une** décision prise contre une proposition de l'outil, la plus marquante ;
-  - le temps d'attention que vous y avez consacré, et en combien de sessions.
-- Si vous avez écrit des fichiers de contexte, des spécifications ou des consignes pour un agent IA
-  (`CLAUDE.md`, `AGENTS.md`, prompts…), vous pouvez les joindre. C'est facultatif.
+## Trois choix d’interface
 
-## La suite
+- **Deux destinations, un brouillon transversal.** `Catalogue` et `Mes séances` structurent la navigation. Le panneau sur ordinateur et la feuille sur tablette/mobile gardent la préparation à portée de main.
+- **Des actions explicites.** Les commandes d’ordre fonctionnent au clavier et au toucher. Après un retrait, le focus reste dans la séance, y compris lorsqu’elle devient vide.
+- **Des erreurs récupérables.** Chargement, absence de résultats, données indisponibles et échec d’enregistrement sont distingués. Un échec conserve le brouillon ; les requêtes d’écriture ne sont pas rejouées automatiquement.
 
-Un débrief d'une heure en visio : vous nous présentez vos choix, puis nous faisons évoluer le besoin
-ensemble, en direct, sur votre code. Pas de piège : nous voulons voir comment vous raisonnez sur
-un sujet que vous connaissez déjà bien. Pendant cette partie, vous pouvez utiliser vos outils
-habituels, assistants IA compris, en partageant votre écran.
+## Stack et organisation
+
+**Astro avec son outillage Vite**, React 18 et TypeScript strict : Astro prend en charge les pages et les routes serveur ; React porte les interactions. Une fine couche BFF relaie les appels du navigateur vers l’API fournie et garde son adresse côté serveur.
+
+Zod valide les données externes et persistées. TanStack Query gère les données distantes ; Nano Stores partage le brouillon entre les îlots React. Tailwind, des primitives locales issues de shadcn/Base UI et Heroicons forment la couche d’interface. Les filtres et la pagination restent dans l’URL.
+
+Voir [l’architecture](docs/architecture.md) et [le contrat de l’API](API.md).
+
+## Vérifier
+
+```bash
+npm run verify
+npx playwright install chromium
+npm run test:browser
+```
+
+`verify` regroupe formatage, ESLint, vérification Astro/TypeScript stricte, **95 tests unitaires/composants** et build serveur. La suite navigateur démarre ses propres services sur les ports **4100 et 4323**, couvre ordinateur, tablette et mobile, et conserve les traces en cas d’échec. Le [protocole de vérification](docs/delivery-verification.md) décrit les parcours, les résultats et leurs limites.
+
+L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier, focus, libellés, contraste, réduction des mouvements et débordements. Les contrôles compacts de séance mesurent 36px de haut et satisfont le minimum AA de 24px. Ces vérifications **ne constituent pas une déclaration de conformité WCAG/RGAA** ; aucun audit exhaustif avec lecteur d’écran n’est revendiqué. Voir [le détail des audits](docs/accessibility-audit.md).
+
+## Limites et suite
+
+Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. La recherche suit le contrat fourni : sous-chaîne du titre, sans recherche sémantique.
+
+Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. Aucun déploiement n’est inclus à ce stade.
+
+Avec une journée de plus : tester le parcours avec un professionnel de l’accompagnement, mener une session dédiée avec lecteur d’écran et approfondir les cas de focus/zoom ; ensuite seulement, envisager la persistance serveur et le partage selon le besoin réel.
+
+## IA, travail personnel et attention
+
+J’ai utilisé l’IA pour explorer l’architecture, produire et faire évoluer les composants, écrire des tests, préparer les audits et maintenir les documents. Les méthodes appliquées sont recensées dans [le registre des skills](docs/skill-log.md).
+
+J’ai dirigé les choix, relu chaque étape dans **WebStorm**, testé manuellement dans **Firefox et/ou Chrome**, et apporté des modifications de code et de CSS entre les étapes. Le dernier correctif de focus a également été retesté manuellement avant commit et push. Les commandes automatisées et les mesures consignées dans les rapports ont été exécutées par l’agent.
+
+**Décision principale contre une proposition de l’IA :** l’outil recommandait initialement React 18 et TypeScript seuls, jugeant Astro excessif pour cet exercice. J’ai retenu Astro et les îlots React pour servir le contenu initial côté serveur et limiter l’hydratation aux interactions. L’objectif était un meilleur chargement initial ; aucun benchmark comparatif avec une SPA React n’a été réalisé. J’ai aussi demandé d’afficher tous les casques compatibles au lieu d’en masquer une partie, et de préserver les wireframes originaux plutôt que de les réécrire après l’implémentation.
+
+**Attention estimée : environ 6 h 30, réparties sur 7 à 8 sessions.** Ce total dépasse le budget initial d’une demi-journée ; il exclut l’exécution autonome de l’agent et inclut cadrage, lecture, revue et tests manuels. Voir [le journal de l’exercice](docs/exercise-log.md).
+
+Le [sujet original, conservé à l’identique](docs/source/exercise-brief.md), reste la source des exigences. Les [wireframes initiaux](docs/wireframes) sont conservés comme exploration préalable, pas comme une spécification exhaustive de l’interface livrée.

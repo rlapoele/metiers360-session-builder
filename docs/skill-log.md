@@ -46,4 +46,6 @@ The Task 8/9 evidence records implementation and verification outcomes but does 
 
 ## Maintenance
 
+Task 10 reapplied the registered documentation-and-adrs, git-workflow-and-versioning, test-driven-development, playwright, browser-testing-with-devtools and code-review-and-quality workflows. Concrete evidence includes the preserved brief/README, a failing-first details-retry focus assertion, the browser reflow regression, isolated clean-install verification, reviewed captures and the final dependency/source diff review in [delivery-verification.md](delivery-verification.md). No additional distinct skill is inferred from the new test packages.
+
 At the end of meaningful work, check whether a previously unrecorded skill was applied. If so, add one row with its first-use date, concrete contribution and repository evidence. Repeated use of an existing skill does not require another row.

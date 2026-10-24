@@ -35,6 +35,7 @@ export function VideoDetailsSheet({
   onToggle,
 }: VideoDetailsSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const videoQuery = useQuery({
     queryKey: ['video-details', videoId],
     queryFn: ({ signal }) => {
@@ -102,6 +103,7 @@ export function VideoDetailsSheet({
         </header>
 
         <div
+          ref={contentRef}
           role="region"
           aria-label="Contenu de la vidéo"
           tabIndex={0}
@@ -137,7 +139,13 @@ export function VideoDetailsSheet({
                   conservée.
                 </p>
               </div>
-              <Button type="button" onClick={() => void videoQuery.refetch()}>
+              <Button
+                type="button"
+                onClick={() => {
+                  contentRef.current?.focus();
+                  void videoQuery.refetch();
+                }}
+              >
                 Réessayer
               </Button>
             </div>

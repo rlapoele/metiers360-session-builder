@@ -40,7 +40,12 @@ export function AppliedFilters({
           <span className="sr-only">Retirer ce filtre</span>
         </Button>
       ))}
-      <Button type="button" variant="link" onClick={onClear} className="px-2">
+      <Button
+        type="button"
+        variant="link"
+        onClick={onClear}
+        className="max-w-full px-2 whitespace-normal"
+      >
         Effacer la recherche et les filtres
       </Button>
     </div>

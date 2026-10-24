@@ -111,7 +111,11 @@ export function CatalogueResults(props: CatalogueResultsProps) {
           vidéos.
         </p>
         {hasCriteria && (
-          <Button type="button" onClick={onClear} className="mt-5">
+          <Button
+            type="button"
+            onClick={onClear}
+            className="mt-5 max-w-full whitespace-normal"
+          >
             Effacer la recherche et les filtres
           </Button>
         )}

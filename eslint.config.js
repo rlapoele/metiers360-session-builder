@@ -9,6 +9,8 @@ export default defineConfig([
     'coverage/',
     'dist/',
     'node_modules/',
+    'playwright-report/',
+    'test-results/',
     'server/server.mjs',
   ]),
   js.configs.recommended,

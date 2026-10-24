@@ -78,7 +78,7 @@ All 20 node occurrences were within the tested viewport; their center-point hit 
 - At 320 × 740, increased line height (1.5), letter spacing (0.12em), word spacing (0.16em) and paragraph spacing (2em) left page and open form widths at 320/320px with no horizontal overflow. The form and controls remained readable in the viewport screenshot. Tablet finalisation also remained usable with the spacing overrides.
 - Failing-first regression tests protect header visible/name order, forward/backward video-details focus traversal, shared control-border tokens and saved-position semantics. `npm run verify` passed Prettier, ESLint, strict Astro/TypeScript checks with **zero diagnostics**, **18 test files / 89 tests**, and the production server build. Final diff hygiene is recorded in the handoff.
 
-Temporary raw results and screenshots are under `/private/tmp/metiers360-a11y-remediation.QN7tVg/`; they are local evidence, not committed deliverables. The durable outcomes are recorded here. No `test:browser` script was added; establishing the final reproducible browser-test setup remains part of the rest of Task 10.
+Temporary raw results and screenshots from this initial remediation are under `/private/tmp/metiers360-a11y-remediation.QN7tVg/`. No `test:browser` script existed at that handoff; Task 10 subsequently added the repository-owned method described in [delivery-verification.md](delivery-verification.md).
 
 ## Bottom-edge follow-up after candidate visual review
 
@@ -139,7 +139,15 @@ Five new/extended component regression cases failed before the fix. Final `npm r
 
 Six focused axe scans (after middle removal and focused empty state at each width) had **zero violations**. One mobile empty-state scan retained a `color-contrast` incomplete check for helper text; manual measurement was RGB 86/86/86 on white, **7.34:1**, with an unobscured viewport hit test and screenshot review. No rule or application node was excluded. Current focus evidence is under `/private/tmp/metiers360-removal-focus.KzIgPB/`. Native Firefox and screen readers were not rerun for this follow-up.
 
-The focus fix remains uncommitted for candidate review; the remaining Task 10 work has not started.
+The candidate subsequently manually retested the focus fix and committed/pushed it in `cecaac0`, then authorised the remaining Task 10 work.
+
+## Final Task 10 verification
+
+The final repository-owned Playwright/axe suite passed all six scenarios in both the working copy and an isolated clean installation. Each run includes **30 axe scans**, with **zero violations**, and preserves three incomplete modal contrast checks covering seven node occurrences. ROME/publication, helper and programme-counter text uses RGB 86/86/86 on white (7.34:1); compatibility-success text uses RGB 0/130/54 on RGB 245/245/245 (4.54:1). These pairs received contextual color and screenshot review; the incomplete engine results remain in the report. Explicit browser assertions independently protect input boundary contrast against both adjacent surfaces, at 3.234:1 and 3.098:1.
+
+The final review also fixed focus after a video-details retry by moving it to the persistent content region before the retry button disappears, and allowed the long clear-search/filter action to wrap at 320px with increased text spacing. The component focus assertion and browser reflow check failed before their respective fixes and passed afterward. Keyboard, validation/status semantics, persistence, ordering, full save-to-details flow, read failure recovery, reduced motion and horizontal overflow were checked at mobile/tablet/desktop widths. Strict checks have zero diagnostics; all 95 unit/component tests and the production build pass.
+
+The reproducible commands, versions, viewport matrix, clean-install result and limitations are in [delivery-verification.md](delivery-verification.md). These are representative checks, not a formal conformance declaration. Native Firefox and dedicated screen-reader sessions were not repeated in Task 10.
 
 ## Limits and remaining delivery work
 
@@ -147,7 +155,7 @@ At the time of the official-source check, **RGAA 4.1.2** was the published refer
 
 Axe cannot establish full WCAG 2.2 AA conformance. No dedicated VoiceOver/NVDA or voice-control session, full RGAA criterion-by-criterion audit, exhaustive focus-obscuring/target-size matrix, high-contrast-mode evaluation or complete zoom/resize-text assessment was performed. Saved-list numbering is retained semantically but its spoken presentation still needs real screen-reader review. Representative checks do not prove every remote state or browser/assistive-technology combination.
 
-The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. Earlier fixes and visual revisions are committed through `0a8c14a`; the removal-focus fix is pending review. The targeted checks above do not replace the remaining delivery assessment.
+Task 10 implementation and technical verification are complete, including the clean-install rehearsal and candidate-facing README. Its changes remain uncommitted for review. Checkpoint E awaits the candidate's final review; Task 11 deployment has not started and needs separate explicit authorisation. The checks above do not establish exhaustive WCAG/RGAA conformance.
 
 ## References
 

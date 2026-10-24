@@ -1,12 +1,12 @@
 # Métiers360 session builder
 
-This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 9A, including Task 7A, and Checkpoints A through D are complete. The architecture below is the implementation baseline; consult the live task records for progress and obtain explicit instruction before starting the next slice.
+This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 10, including Tasks 7A and 9A, are technically complete; Checkpoint E awaits final candidate review. Task 11 is not started or authorised. Consult the live task records before further work.
 
 ## Read before changing the project
 
 Use these sources in this order:
 
-1. [README.md](README.md) — original exercise, audience, constraints and expected deliverable.
+1. [docs/source/exercise-brief.md](docs/source/exercise-brief.md) — original exercise, audience, constraints and expected deliverable, preserved verbatim. Then read [README.md](README.md) for the delivered application, verified setup and candidate-facing explanation.
 2. [API.md](API.md) and [server/server.mjs](server/server.mjs) — authoritative API behaviour.
 3. [docs/architecture.md](docs/architecture.md) — intended frontend architecture and ownership boundaries.
 4. [tasks/plan.md](tasks/plan.md) and [tasks/todo.md](tasks/todo.md) — accepted delivery plan and live progress checklist.

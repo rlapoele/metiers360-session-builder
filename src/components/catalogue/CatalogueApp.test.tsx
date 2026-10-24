@@ -719,6 +719,9 @@ describe('CatalogueApp', () => {
     expect(
       await within(dialog).findByText('Aperçu indisponible'),
     ).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole('region', { name: 'Contenu de la vidéo' }),
+    ).toHaveFocus();
   });
 
   it('writes submitted search state to the URL and resets the page', async () => {

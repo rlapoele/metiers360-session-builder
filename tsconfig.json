@@ -7,5 +7,5 @@
     }
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["archives", "dist", "server"]
+  "exclude": ["archives", "dist", "server", "playwright-report", "test-results"]
 }

@@ -6,7 +6,7 @@ Update it after each candidate-attention session. Autonomous agent execution tim
 
 ## Attention sessions
 
-Exact durations have not yet been recorded. Do not estimate or backfill them without the candidate's confirmation.
+On 2026-10-25 the candidate estimated **about 6 h 30 of attention over 7–8 sessions**. Both figures are estimates, exclude autonomous agent execution, and exceed the original half-day budget. Per-date/session durations were not supplied; do not distribute this total retrospectively across the rows below.
 
 | Date | Candidate attention | Work reviewed or directed | Verification performed personally |
 |---|---:|---|---|
@@ -15,7 +15,7 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 | 2026-10-23 | To be supplied by the candidate | Reviewed and directed the remaining Task 7A visual refinements, paused work overnight, reported storm-limited connectivity and authorised the offline-capable Task 8 save-flow slice plus the Prettier correction | To be supplied by the candidate |
 | 2026-10-24 | To be supplied by the candidate | Reported Task 9 committed/pushed, a subsequent muted-text adjustment and retest/recommit/push; requested read-only context restoration followed by documentation reconciliation while retaining the Task 9A approval gate | Confirmed additional successful application testing in Firefox and successful retesting after the muted-text adjustment; exact scenarios, commands and widths were not supplied |
 
-These rows group evidence by date; they do not establish how many separate attention sessions occurred. The candidate must confirm the session count and durations for the final README.
+These rows group evidence by date; they do not establish individual session durations. The final README uses the candidate's confirmed estimates of 6 h 30 and 7–8 sessions rather than inventing a per-date breakdown.
 
 On 2026-10-24, the candidate clarified that after every completed implementation step they reviewed the changes in WebStorm (JetBrains IDE) and manually tested them in Firefox and/or Chrome. They also made manual CSS and code adjustments between some steps using WebStorm. This confirmation applies across the implementation steps above; the browser used for each step, exact test scenarios, individual edit attribution and durations have not been itemised.
 
@@ -23,9 +23,9 @@ On 2026-10-25, the candidate reported committing further visual refinements with
 
 They subsequently confirmed the catalogue change committed/pushed (`e7ea188`), requested a desktop-only accessibility recheck, and corrected the input boundary to a darker one-pixel border (`0a8c14a`). After the agent confirmed that boundary contrast passed, the candidate explicitly requested fixing the observed focus drop after draft removal. This focus follow-up remains a review stop before the remaining Task 10 work. No additional candidate attention duration or personal test details were supplied.
 
-Running total: **unknown pending candidate input**.
+Running total: **approximately 6 h 30 across 7–8 sessions**, estimated and confirmed by the candidate on 2026-10-25.
 
-The candidate explicitly authorised Task 9A only on 2026-10-24 after confirming the documentation changes were committed and pushed. Its implementation and agent verification are recorded below; it was subsequently committed and pushed in `3870b3b` at the candidate's request. The candidate then requested an accessibility audit and authorised fixing its findings, repeating axe/browser checks and updating records, with a review stop before the rest of Task 10. They explicitly permitted a dedicated Firefox test window. These agent-operated Firefox checks are not candidate-personal testing. No additional personal test details or attention duration were supplied; the remaining Task 10 work is pending instruction.
+The candidate explicitly authorised Task 9A on 2026-10-24 after the documentation changes were committed and pushed. It was subsequently committed/pushed in `3870b3b`. They then authorised an accessibility audit and remediation, repeat checks and records, stopping before the rest of Task 10, and explicitly permitted a dedicated Firefox test window. Those agent-operated Firefox checks are not candidate-personal testing. At that handoff, additional personal test details, attention estimates and the remaining Task 10 authorisation were still pending; the later confirmations and completion are recorded below.
 
 The candidate subsequently confirmed committing and pushing that remediation (`63730ba`), then independently lightened the input/select borders and adjusted their background for visual preference. After the requested desktop recheck showed insufficient boundary contrast, they authorised trying a contrasting bottom edge while retaining their lighter styling, repeating checks and updating records. This follow-up also stops for review before the rest of Task 10. Its agent-run checks are recorded separately; candidate attention duration and personal verification of the new treatment remain unreported.
 
@@ -86,7 +86,7 @@ The brief asks for the three assumptions that most affected the solution. The fo
 3. Reviewing multiple previously saved sessions is useful because the supplied API exposes a session collection, even though saved sessions are memory-only and cannot be edited or deleted.
 4. Search and filters should reflect only capabilities the supplied API actually provides; title-only search and server pagination must not be presented as full-catalogue semantic search or client-side global sorting.
 
-These are working candidates, not a claim that the final three have already been chosen.
+The final README selects three assumptions matching the delivered behavior: one local draft per browser, read-only review of saved sessions, and optional headset choice with explicit warnings rather than automatic removal of incompatible videos. The user context and supported search contract remain requirements/constraints, not newly invented assumptions.
 
 ## Main interface choices for the final README
 
@@ -98,7 +98,7 @@ Candidate choices currently documented:
 - Begin with a neutral, content-first shadcn theme, share its semantic CSS custom properties with Tailwind utilities through `@theme inline`, and use Heroicons outline consistently rather than mixing icon families.
 - Keep page composition viewport-driven while allowing reusable components to adapt to their allocated space through container queries; consume the resulting design system through named Tailwind utilities instead of scattered arbitrary values.
 
-Final wording should state which target users benefit from each choice and should be checked against the implemented interface.
+The final README groups the delivered choices into two destinations with a transversal draft, explicit ordering/removal actions, and recoverable states that retain the draft. Each is connected to the educator/counsellor workflow and checked against the implementation.
 
 ### Rationale for the UI foundations
 
@@ -111,24 +111,26 @@ These are implementation principles rather than claims that the resulting interf
 
 ## Decision made against an AI proposal
 
-**Not yet identified.** The final README requires one genuine, significant instance. Do not invent a disagreement or relabel a jointly explored option as a rejected AI recommendation. Record it here when it actually occurs, including:
+The candidate confirmed the primary example on 2026-10-25: the AI initially recommended React 18 and strict TypeScript alone, describing Astro as excessive for the exercise. The candidate chose Astro and React islands instead, aiming to improve initial loading by server-rendering content and hydrating the interactive surfaces selectively. This records the candidate's decision and intended benefit; no comparative benchmark against a React SPA was performed.
 
-- what the tool proposed;
-- why the candidate rejected or changed it;
-- what was implemented instead;
-- what evidence or product principle informed the decision.
+They also confirmed two later examples: rejecting the AI implementation's unexplained two-headset card limit in favor of showing every compatible headset, and reverting the AI's retrospective wireframe updates so those files remain the original design exploration. Both changes are visible in the project history. The README highlights Astro as the main disagreement and briefly names the other two.
 
 ## Deliberate omissions and one-more-day ideas
 
-These must reflect the delivered application, so they remain open until implementation scope is known.
+The following match the delivered application and the Task 10 README.
 
 ### Deliberate omissions
 
-- Pending implementation.
+- No saved-session edit/delete actions: the supplied API does not offer them.
+- No authentication, cross-device draft sharing, real headset delivery or video playback pipeline: outside the exercise's preparation workflow and API.
+- No drag-and-drop: explicit move buttons already support keyboard and touch ordering.
+- No API persistence rewrite or deployment in Task 10: the mock backend remains supplied, and optional hosting is Task 11.
 
 ### With one more day
 
-- Pending implementation.
+- Test the complete workflow with a counsellor or educator and refine it from that evidence.
+- Run a dedicated screen-reader session and deepen focus, zoom and assistive-technology checks.
+- Explore server persistence and sharing only after clarifying the real operational need.
 
 ## Verification evidence
 
@@ -205,3 +207,8 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-25 | Agent; candidate input correction | Desktop catalogue audit and boundary recheck | At 1280/1440px, five axe scans had zero violations/incomplete checks. Compact buttons measured 36px high and passed the tested AA minimum; the pale two-pixel field boundary still measured 1.425:1. The candidate then changed it to a darker one-pixel border, committed in `0a8c14a`; a new desktop scan had zero findings and all four fields measured 3.234:1 against white / 3.098:1 against the fill. These were agent-operated checks, not candidate-personal verification. |
 | 2026-10-25 | Agent, following explicit candidate instruction | Draft-removal focus fix | Five regression cases failed before the fix: first/middle/last-row and only-video removal in the desktop panel, plus the open sheet becoming empty. Surviving remove controls now receive focus before deletion; the final removal focuses the empty-state heading on mount. Focus is owned by the initiating surface. Existing store removal and save behavior remain unchanged. |
 | 2026-10-25 | Agent | Focus-fix verification and review stop | `npm run verify` passed format/lint, strict checks with zero diagnostics, 18 files / 95 tests and the production build. Chrome keyboard checks at 390, 834 and 1440px verified first/middle/last/final removal, visible focus, empty-sheet Tab/Escape behavior and trigger restoration, with zero runtime exceptions. Six axe scans had no violations; one incomplete helper-text contrast check passed manual review at 7.34:1. Screenshots were reviewed. This does not claim a screen-reader or native Firefox rerun. The focus fix is left uncommitted for review before the rest of Task 10. |
+| 2026-10-25 | Candidate (reported) | Removal-focus manual retest and Task 10 direction | Confirmed successful manual retesting, commit and push of `cecaac0`, then explicitly authorised completing Task 10 with a review stop before Task 11. Browser/scenario details of that personal retest were not supplied. |
+| 2026-10-25 | Candidate (reported) | Attention estimate and decisions against AI | Estimated about 6 h 30 across 7–8 sessions, both approximate and excluding agent-only work. Confirmed rejecting the initial React-only recommendation in favor of Astro/islands for intended initial-load performance, and also the two-headset truncation and retrospective wireframe edits. No comparative performance benchmark is claimed. |
+| 2026-10-25 | Agent | Final Task 10 implementation and evidence | Preserved the original brief verbatim, replaced the root README with the candidate delivery summary, captured/reviewed three representative images and added pinned development-only Playwright/axe tooling with a repository-owned browser command. Final checks exposed and fixed focus continuity during details retry and 320px text-spacing overflow in the long clear-filter action. The focus test failed before its fix; the browser reflow test failed before wrapping was allowed. |
+| 2026-10-25 | Agent | Clean-install and final verification | From a fresh source snapshot without dependencies/build output/environment files: root/API `npm ci`, the 76-file zero-diagnostic strict gate, 18 test files / 95 tests, production build and all six browser scenarios passed. The working-copy gates also passed. Each browser run recorded 30 axe scans with zero violations; three scans retained seven incomplete contrast nodes for contextual manual review. Explicit field-boundary checks passed at 3.234:1 / 3.098:1. `npm run dev` and the documented URLs were smoke-tested from the clean install. Full method, evidence and limits are in [delivery-verification.md](delivery-verification.md). |
+| 2026-10-25 | Agent | Task 10 review stop | Records distinguish candidate contributions and estimates from agent verification. No new native Firefox, screen-reader, formal RGAA audit or deployment is claimed. Task 10 is technically complete and uncommitted; Checkpoint E awaits candidate review of the README, screenshots and final polish before any Task 11 instruction. |

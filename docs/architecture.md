@@ -154,6 +154,8 @@ Browser persistence must be guarded for server rendering. Read `localStorage` on
 │   └── Dockerfile.api-original
 ├── docs/
 │   ├── architecture.md
+│   ├── source/exercise-brief.md
+│   ├── screenshots/
 │   └── wireframes/
 │       ├── desktop.md
 │       ├── mobile.md
@@ -363,6 +365,7 @@ Use media queries for page-level composition that is inherently tied to the view
 
 - Prefer native elements and progressive enhancement.
 - Give sheets/dialogs an accessible name, initial focus, focus trap, Escape close and focus restoration.
+- A retry inside video details moves focus to the persistent content region before the temporary retry action disappears. Long clear-search/filter actions may wrap at narrow widths or increased text spacing.
 - Removing an item through the draft's own controls focuses the next remaining item's remove action, or the previous item's action when removing the last row. Removing the only item focuses the empty-state heading with a visible keyboard outline. Each rendered draft surface owns this focus handoff so a hidden desktop panel cannot take focus from the open sheet.
 - Do not make an entire complex card a single nested interactive target. Use a clear details link and a separate add/remove button.
 - Announce result counts and async save outcomes appropriately.
@@ -374,7 +377,7 @@ Use media queries for page-level composition that is inherently tied to the view
 
 ## Implemented foundation scripts
 
-Task 1 implements these root commands:
+The delivered application implements these root commands:
 
 ```text
 npm run dev          # Astro frontend and mock API together
@@ -387,11 +390,12 @@ npm run lint         # source linting
 npm run format       # format supported project files
 npm run format:check # verify formatting
 npm run test         # Vitest unit/component runner
+npm run test:browser # isolated production browser/axe checks at three widths
 npm run build        # production build
 npm run verify       # formatting, lint, strict checks, tests and build
 ```
 
-There is currently no `npm run test:browser` script. Interaction slices have been verified directly in real browsers, with automation where available, and evidence is recorded in the exercise log. Task 10 must reconcile final browser verification with the documented commands; it must not claim an absent script ran.
+Task 10 adds pinned development-only Playwright/axe dependencies, `playwright.config.ts` and `e2e/delivery.spec.ts`. The browser suite builds and starts isolated web/API services, verifies representative workflows and attaches full axe results for manual review of incomplete checks. Vitest continues to own the existing unit/component tests. See [delivery-verification.md](delivery-verification.md) for installation, commands, ports, results and limits.
 
 ## Verification strategy
 
