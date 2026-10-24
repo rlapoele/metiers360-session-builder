@@ -47,8 +47,8 @@
   --border: var(--neutral-300); /* var(--neutral-200); */
   --border-badge: var(--neutral-400);
   --border-dialog: var(--neutral-500); /* for dialog border only */
-  --input: var(--neutral-300);
-  --input-boundary: var(--neutral-450);
+  --input: var(--neutral-450);
+  /*--input-boundary: var(--neutral-450);*/
   --ring: var(--blue-600);
   --navigation-current: var(--blue-800);
   --action-hover: var(--blue-700);
