@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete; Task 9A is committed and pushed in `3870b3b`. The focused accessibility remediation is committed in `63730ba`; its follow-up records and subsequent candidate visual changes are committed in `d294030`. On 2026-10-25 the candidate authorised showing every compatible headset on unfiltered catalogue cards while retaining the selected-headset display when filtered. Stop for review before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
+Status: accepted on 2026-10-21. Tasks 1 through 9A and Checkpoints A through D are complete. Follow-ups include the committed catalogue headset display (`e7ea188`) and candidate input-contrast correction (`0a8c14a`). On 2026-10-25 the candidate explicitly authorised fixing draft-removal focus continuity. Stop for review of that change before the remaining delivery work; Task 10 and Checkpoint E remain incomplete.
 
 ## Purpose
 
@@ -231,6 +231,8 @@ The complete required exercise flow—find, compose, order, name and save—work
 **Authorised partial scope, 2026-10-24:** Audit and fix the identified accessibility issues, repeat axe and browser checks, and update project records. Evidence is recorded in [accessibility-audit.md](../docs/accessibility-audit.md). This review stop precedes the remaining Task 10 work, including the clean-install rehearsal, final README and submission-readiness assessment. No deployment is authorised by this slice.
 
 **Authorised follow-up:** Preserve the candidate's lighter input/select fill and perimeter, add a contrasting bottom edge, repeat the relevant contrast/axe/browser checks and update records. This visual refinement is another review stop within the same partial scope, not authorisation for the remaining Task 10 work.
+
+**Authorised focus follow-up, 2026-10-25:** Preserve a contextual focus destination after draft removal, including the empty draft, verify the shared panel/sheet behavior and update records. This remains a bounded review stop before the rest of Task 10.
 
 **Acceptance criteria:**
 

@@ -5,6 +5,7 @@ import {
   ExclamationTriangleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -53,10 +54,35 @@ export function SessionDraftContent({
   onMoveDown,
   onRemove,
 }: SessionDraftContentProps) {
+  const removeButtonRefs = useRef(new Map<string, HTMLButtonElement>());
+  const focusEmptyState = useRef(false);
+
+  function removeItem(index: number) {
+    const nextItem = items[index + 1] ?? items[index - 1];
+    if (nextItem) {
+      // Keep focus on a surviving action before removing the active button.
+      removeButtonRefs.current.get(nextItem.id)?.focus();
+    } else {
+      focusEmptyState.current = true;
+    }
+    onRemove(items[index].id);
+  }
+
   if (items.length === 0) {
     return (
       <div className="px-4 py-10 text-center">
-        <h3 className="text-base font-semibold">Votre séance est vide</h3>
+        <h3
+          ref={(heading) => {
+            if (heading && focusEmptyState.current) {
+              heading.focus();
+              focusEmptyState.current = false;
+            }
+          }}
+          tabIndex={-1}
+          className="focus-visible:outline-ring rounded-sm text-base font-semibold focus-visible:outline-2 focus-visible:outline-offset-4"
+        >
+          Votre séance est vide
+        </h3>
         <p className="text-muted-foreground mt-2 text-sm leading-6">
           Ajoutez une première vidéo depuis le catalogue. Vous pourrez ensuite
           modifier l’ordre de lecture.
@@ -173,11 +199,15 @@ export function SessionDraftContent({
                     Descendre
                   </Button>
                   <Button
+                    ref={(button) => {
+                      if (button) removeButtonRefs.current.set(item.id, button);
+                      else removeButtonRefs.current.delete(item.id);
+                    }}
                     type="button"
                     variant="secondary"
                     size="compact"
                     aria-label={`Retirer ${title} de ma séance`}
-                    onClick={() => onRemove(item.id)}
+                    onClick={() => removeItem(index)}
                     className="col-span-2 justify-self-end px-4 @sm:ml-auto"
                   >
                     <XMarkIcon

@@ -335,7 +335,7 @@ In Astro templates and JSX, use Tailwind's standard utilities or the named proje
 
 Use the initial shadcn token set for background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and radius. Add project-specific compatibility/status pairs only when a real UI state requires them, and verify their contrast in context.
 
-Input and native-select controls retain the light `bg-background` fill and `border-input` perimeter selected during candidate review. The initial accessibility follow-up used a separate semantic `input-boundary` token for a contrasting bottom edge. Candidate visual changes committed in `d294030` replaced that edge with a light `border-2` perimeter; the token remains defined but is not consumed by these controls. Earlier bottom-edge contrast measurements therefore describe the earlier treatment and need fresh verification before being applied to the current style. Keyboard focus continues to use the blue ring independently of the normal-state boundary.
+Input and native-select controls retain the light `bg-background` fill and `border-input` perimeter selected during candidate review. The initial accessibility follow-up used a contrasting bottom edge; `d294030` replaced it with a light two-pixel perimeter. The candidate's subsequent `0a8c14a` correction uses a one-pixel neutral-450 perimeter, measured at 3.234:1 against white and 3.098:1 against the fill in the desktop catalogue. Keyboard focus continues to use the blue ring independently of the normal-state boundary.
 
 Official reference: [shadcn/ui theming](https://ui.shadcn.com/docs/theming).
 
@@ -363,6 +363,7 @@ Use media queries for page-level composition that is inherently tied to the view
 
 - Prefer native elements and progressive enhancement.
 - Give sheets/dialogs an accessible name, initial focus, focus trap, Escape close and focus restoration.
+- Removing an item through the draft's own controls focuses the next remaining item's remove action, or the previous item's action when removing the last row. Removing the only item focuses the empty-state heading with a visible keyboard outline. Each rendered draft surface owns this focus handoff so a hidden desktop panel cannot take focus from the open sheet.
 - Do not make an entire complex card a single nested interactive target. Use a clear details link and a separate add/remove button.
 - Announce result counts and async save outcomes appropriately.
 - Keep errors near the failed surface and preserve user input.

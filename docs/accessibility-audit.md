@@ -122,13 +122,32 @@ Production Chrome 155 with axe-core 4.14.0 used the same tags and no exclusions 
 
 The bottom-edge refinement and this evidence were subsequently committed in `d294030`, together with candidate-authored visual revisions. Those revisions replaced the contrasting bottom edge with a lighter two-pixel perimeter, changed badge borders and reduced draft action sizes. The measurements above remain evidence for the earlier bottom-edge styling; they have not been rerun against the revised treatment. The 2026-10-25 catalogue-headset display checks do not establish current input contrast or compact-target conformance.
 
+## 2026-10-25 desktop rechecks and removal-focus follow-up
+
+After `e7ea188`, a catalogue-only desktop recheck at 1440 × 900 and 1280 × 900 recorded five axe scans with no violations or incomplete checks. Compact move controls measured 150 × 36px and remove controls approximately 104 × 36px: both exceed the tested WCAG 2.2 AA 24 × 24px minimum, while remaining below the 44px enhanced height. Enabled text and focus contrast passed. The light two-pixel field boundary still measured 1.425:1 against white. Removal left focus on BODY, although the next Tab correctly reached a remaining item; no broken sequential order or keyboard trap was established.
+
+The candidate then corrected the input/select styling in `0a8c14a` to a one-pixel neutral-450 border. A fresh production desktop check measured all four catalogue fields at **3.234:1 against white** and **3.098:1 against the fill**, passing the boundary contrast target. That catalogue scan had zero axe violations and incomplete checks. These results supersede the earlier low-contrast finding for this tested desktop treatment; they do not certify all UI states. Local desktop-audit evidence is under `/private/tmp/metiers360-desktop-a11y.n6NDsr/`.
+
+The candidate separately authorised fixing focus continuity after draft removal. The shared draft content now:
+
+- focuses the next remaining remove action before deleting the active button;
+- uses the previous remove action when deleting the last row;
+- focuses `Votre séance est vide` when removing the only video, with a visible keyboard outline and `tabIndex=-1` so the heading is not a permanent Tab stop;
+- keeps that handoff local to the initiating draft surface, avoiding focus theft by the hidden panel behind an open sheet.
+
+Five new/extended component regression cases failed before the fix. Final `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, **18 test files / 95 tests**, and the production build. Production Chrome checks at 390 × 844, 834 × 1112 and 1440 × 900 verified first, middle, last and final-item removal, visible focus, empty-sheet Tab navigation to Close, Escape handling and restoration to the original trigger. No runtime exceptions occurred. Reviewed screenshots confirmed visible, unclipped empty-state focus.
+
+Six focused axe scans (after middle removal and focused empty state at each width) had **zero violations**. One mobile empty-state scan retained a `color-contrast` incomplete check for helper text; manual measurement was RGB 86/86/86 on white, **7.34:1**, with an unobscured viewport hit test and screenshot review. No rule or application node was excluded. Current focus evidence is under `/private/tmp/metiers360-removal-focus.KzIgPB/`. Native Firefox and screen readers were not rerun for this follow-up.
+
+The focus fix remains uncommitted for candidate review; the remaining Task 10 work has not started.
+
 ## Limits and remaining delivery work
 
 At the time of the official-source check, **RGAA 4.1.2** was the published reference and **RGAA 5** was announced for late 2026 with WCAG 2.2 coverage. This work does not claim RGAA 5 conformance, a percentage score or a formal accessibility declaration.
 
 Axe cannot establish full WCAG 2.2 AA conformance. No dedicated VoiceOver/NVDA or voice-control session, full RGAA criterion-by-criterion audit, exhaustive focus-obscuring/target-size matrix, high-contrast-mode evaluation or complete zoom/resize-text assessment was performed. Saved-list numbering is retained semantically but its spoken presentation still needs real screen-reader review. Representative checks do not prove every remote state or browser/assistive-technology combination.
 
-The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. The initial remediation is committed in `63730ba`; the bottom-edge follow-up and later candidate visual changes are committed in `d294030`. Fresh verification of the revised visual treatment remains pending instruction.
+The remaining Task 10 scope includes the clean-install rehearsal, final delivery review and candidate-facing README. Task 10 and Checkpoint E remain unchecked; deployment is also pending separate authorisation. Earlier fixes and visual revisions are committed through `0a8c14a`; the removal-focus fix is pending review. The targeted checks above do not replace the remaining delivery assessment.
 
 ## References
 

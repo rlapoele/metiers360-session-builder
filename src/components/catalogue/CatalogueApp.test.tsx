@@ -319,6 +319,60 @@ describe('CatalogueApp', () => {
     expect(within(panel).getByText('1 vidéo · 7 min 35 s')).toBeInTheDocument();
   });
 
+  it.each([
+    { count: 3, removedIndex: 0, nextIndex: 1 },
+    { count: 3, removedIndex: 1, nextIndex: 2 },
+    { count: 3, removedIndex: 2, nextIndex: 1 },
+    { count: 1, removedIndex: 0, nextIndex: null },
+  ])(
+    'keeps desktop draft focus after removing item $removedIndex from $count videos',
+    async ({ count, removedIndex, nextIndex }) => {
+      const user = userEvent.setup();
+      const videos = [
+        ...compositionVideos.data,
+        {
+          ...initialVideos.data[0],
+          id: 'vid_003',
+          title: 'Découvrir la menuiserie',
+        },
+      ].slice(0, count);
+      render(
+        <CatalogueApp
+          initialQuery={initialQuery}
+          initialVideos={{
+            data: videos,
+            meta: { page: 1, per_page: 24, total: count, total_pages: 1 },
+          }}
+          initialReferences={initialReferences}
+        />,
+      );
+      for (const button of screen.getAllByRole('button', {
+        name: /^Ajouter à ma séance/,
+      })) {
+        await user.click(button);
+      }
+      const panel = screen.getByRole('complementary', { name: 'Ma séance' });
+      const remove = within(panel).getByRole('button', {
+        name: `Retirer ${videos[removedIndex].title} de ma séance`,
+      });
+      remove.focus();
+      await user.keyboard('{Enter}');
+
+      expect(remove).not.toBeInTheDocument();
+      if (nextIndex === null) {
+        expect(
+          within(panel).getByRole('heading', { name: 'Votre séance est vide' }),
+        ).toHaveFocus();
+      } else {
+        expect(
+          within(panel).getByRole('button', {
+            name: `Retirer ${videos[nextIndex].title} de ma séance`,
+          }),
+        ).toHaveFocus();
+      }
+    },
+  );
+
   it('keeps the desktop draft summary visible while its content scrolls', () => {
     render(
       <CatalogueApp
@@ -377,6 +431,16 @@ describe('CatalogueApp', () => {
     ).toHaveFocus();
     await user.tab();
     expect(closeButton).toHaveFocus();
+
+    await user.click(
+      within(dialog).getByRole('button', {
+        name: 'Retirer Une journée avec Omar, jardinier municipal de ma séance',
+      }),
+    );
+    expect(
+      within(dialog).getByRole('heading', { name: 'Votre séance est vide' }),
+    ).toHaveFocus();
+    expect(dialog).toHaveAttribute('open');
 
     await user.click(closeButton);
     expect(dialog).not.toHaveAttribute('open');
