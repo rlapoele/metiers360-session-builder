@@ -64,6 +64,8 @@ Do not record a supposedly permanent clean/dirty working-tree snapshot here: the
 
 The 2026-10-24 documentation reconciliation corrected the stale uncommitted-Task-9 statements, recorded candidate-reported testing and aligned the architecture, API instructions and delivery plan. Its `npm run verify` passed formatting, ESLint, strict checks with zero diagnostics, all 18 test files and 84 tests, and the production build on the `e8a8e02` application baseline; `git diff --check` passed. The candidate subsequently clarified that wireframes should remain original design inspiration: the reconciliation's wireframe edits were reverted and their role clarified in the project references. No new browser verification was performed. Task 9A and later tasks remain pending explicit instruction.
 
+The documentation reconciliation and wireframe-role clarification are committed and pushed in `78428ca` (`docs: reconcile project records and clarify wireframe role`). After that commit, the candidate confirmed reviewing every implementation step in WebStorm and manually testing it in Firefox and/or Chrome, plus making independent CSS/code adjustments in the IDE between some steps. Preserve this contribution and verification attribution in the final README; detailed evidence and its limits are recorded in `docs/exercise-log.md`.
+
 ## Settled decisions
 
 The accepted product and architecture decisions live in `AGENTS.md` and `docs/architecture.md`. The viewport wireframes preserve the original pre-implementation design inspiration for hierarchy and responsive intent; they are not maintained as a complete or current UI specification. In particular:

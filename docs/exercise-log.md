@@ -17,6 +17,8 @@ Exact durations have not yet been recorded. Do not estimate or backfill them wit
 
 These rows group evidence by date; they do not establish how many separate attention sessions occurred. The candidate must confirm the session count and durations for the final README.
 
+On 2026-10-24, the candidate clarified that after every completed implementation step they reviewed the changes in WebStorm (JetBrains IDE) and manually tested them in Firefox and/or Chrome. They also made manual CSS and code adjustments between some steps using WebStorm. This confirmation applies across the implementation steps above; the browser used for each step, exact test scenarios, individual edit attribution and durations have not been itemised.
+
 Running total: **unknown pending candidate input**.
 
 ## AI use to date
@@ -53,9 +55,13 @@ AI assistance has been used for:
 
 The candidate has actively shaped the direction by selecting Astro, React 18, strict TypeScript and Tailwind; excluding Remix; choosing the two-page structure and catalogue/cart mental model; and requesting successive API and responsive-design checks. This demonstrates direction and review, but it is not a substitute for recording the candidate's own final verification activities below.
 
+Implementation was a collaboration: the candidate reviewed every implementation step in WebStorm, manually tested the resulting application and independently adjusted CSS and code between some steps. Do not attribute every repository change to the agent or describe candidate involvement as limited to prompting. Exact changes should be attributed only where supported by the candidate's report or other evidence.
+
 ## Candidate verification
 
 Record only checks the candidate personally performed or explicitly reviewed. Do not turn agent-run checks into candidate verification.
+
+- The candidate confirmed reviewing every completed implementation step in WebStorm and manually testing each in Firefox and/or Chrome. This confirms recurring personal code review and browser testing; it does not establish that both browsers were used for every step or that every automated or accessibility check was repeated manually.
 
 - The candidate ran the Axe Firefox extension against the shell and reported its `color-contrast-enhanced` finding for the selected navigation link. This identified an optional WCAG AAA gap in the original 5.20:1 primary-blue treatment while the WCAG AA threshold was already met.
 - The candidate confirmed that Task 7 was tested and accepted. No additional candidate-run check details or attention duration were supplied, so the agent-run Task 7 evidence remains recorded separately below.
@@ -173,3 +179,4 @@ Record exact commands, browser widths and outcomes as implementation proceeds. D
 | 2026-10-24 | Candidate (reported) | Additional Firefox application testing and retest after muted-text adjustment | Reported success and commit/push. Git confirms Task 9 in `8ead669` and the shared muted-foreground token change from neutral 700 to neutral 600 in `e8a8e02`; exact personal test details were not supplied. |
 | 2026-10-24 | Agent | Documentation reconciliation, `npm run verify` and `git diff --check` | Updated stale handoff/architecture/plan records and API launch/search documentation. On the `e8a8e02` application baseline, formatting, ESLint, strict checks with zero diagnostics, 18 test files and 84 tests, and the production build passed. Diff hygiene passed. No browser check was rerun, and Task 9A remains pending explicit instruction. |
 | 2026-10-24 | Candidate direction; agent documentation correction | Preserve original wireframes and clarify their role | At the candidate's request, reverted the reconciliation's changes to all three wireframe files and clarified in AGENTS, architecture, status and plan references that they preserve pre-implementation design inspiration rather than a complete current UI specification. Task 9A remains pending. |
+| 2026-10-24 | Candidate (reported) | Review and manual testing throughout implementation | Confirmed that every completed implementation step was reviewed in WebStorm and manually tested in Firefox and/or Chrome, with independent manual CSS/code adjustments between some steps. Individual browser/scenario/edit details and attention durations were not supplied. |
