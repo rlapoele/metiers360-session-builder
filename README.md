@@ -2,6 +2,8 @@
 
 Une application pour les conseillers, enseignants et éducateurs qui préparent une sélection de vidéos métiers à faire découvrir à un groupe, souvent sur tablette et avec peu de temps de préparation.
 
+**[Ouvrir la démonstration en ligne](https://web-production-2e0a66.up.railway.app)** — les séances enregistrées sont partagées entre les visiteurs de cette démonstration et disparaissent au redémarrage de l’API. Le [guide de déploiement](docs/deployment.md) décrit les deux services et la procédure de publication.
+
 ## Lancer le projet
 
 Node.js **22.23.4 minimum** et npm. Vérification réalisée avec Node 24.14.1 et npm 11.17.0.
@@ -85,7 +87,7 @@ L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier
 
 Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. La recherche suit le contrat fourni : sous-chaîne du titre, sans recherche sémantique.
 
-Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. Aucun déploiement n’est inclus à ce stade.
+Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. La démonstration Railway reste un environnement d’exercice.
 
 Avec une journée de plus : tester le parcours avec un professionnel de l’accompagnement, mener une session dédiée avec lecteur d’écran et approfondir les cas de focus/zoom ; ensuite seulement, envisager la persistance serveur et le partage selon le besoin réel.
 

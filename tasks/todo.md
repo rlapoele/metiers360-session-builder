@@ -103,17 +103,17 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Reproducibility: a clean source snapshot passed root/API `npm ci`, `npm run verify` (76 checked files, zero diagnostics, 18 files / 95 tests, production build) and all six repository-owned browser scenarios. The working copy passed the same gates. `npm run dev` and documented web/API URLs were smoke-tested from the clean installation.
   - Final browser evidence: 30 axe scans per suite run, zero violations, three scans retaining seven incomplete contrast-node occurrences for manual review. Explicit field-boundary assertions pass at 3.234:1 / 3.098:1. Full save/review/order, read retry, validation, reduced motion, 320px text spacing and responsive overflow checks passed. Final review fixed details-retry focus and wrapping of long clear-filter actions. See [delivery-verification.md](../docs/delivery-verification.md).
 - [x] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
-  - The candidate confirmed review, commit and push of Task 10 (`3c36990`), then committed and pushed their README edits (`05026e5`). Task 11 has not started and remains unauthorised.
+  - The candidate confirmed review, commit and push of Task 10 (`3c36990`), then committed and pushed their README edits (`05026e5`). Task 11 was subsequently explicitly authorised and verified.
 
 ## Phase 7 — Optional hosted demo
 
-- [ ] **Task 11 (optional, now authorised and in progress):** Deploy the public Astro service and private mock-API service to Railway. Configuration, release and verification procedure: [deployment.md](../docs/deployment.md).
-- [ ] **Checkpoint F (optional):** Smoke-test the public URL and add it to the README only if verified.
+- [x] **Task 11 (optional, explicitly authorised):** Deploy the public Astro service and private mock-API service to Railway. Configuration, guarded release promotion, recovery and evidence: [deployment.md](../docs/deployment.md). Both services are online using Railpack/Node 24.14.1; the API has no public domain or TCP proxy. The hosted web gate passed all 95 tests, zero-diagnostic strict checks and the production build.
+- [x] **Checkpoint F (optional):** The HTTPS public health/catalogue/thumbnail checks and all four desktop/mobile browser cases pass. Twenty axe scans have zero violations with five retained incomplete contrast-node occurrences; no formal conformance claim. The verified public URL is in the README. Stop for candidate review.
 
 ## Current task
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Complete the authorised Task 11 configuration, guarded release promotion and public smoke verification. The alias refactor was candidate-reviewed, retested, committed and pushed in `b405ba1`.
+**Next action:** Candidate review of the deployed demo and Task 11 records. No further task is planned or authorised. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
 
 Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is reviewed, retested, committed and pushed in `b405ba1`. Task 11 is now explicitly authorised.

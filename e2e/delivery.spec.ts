@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import AxeBuilder from '@axe-core/playwright';
 import {
   expect,
@@ -132,6 +133,9 @@ test('prepare, persist, order, save and review a session', async ({
   const runtimeErrors: string[] = [];
   page.on('pageerror', (error) => runtimeErrors.push(error.message));
   await page.goto('/?q=Omar');
+  await expect(
+    page.locator('astro-island[component-export="CatalogueApp"]'),
+  ).not.toHaveAttribute('ssr', '');
   const catalogueReady = page
     .getByRole('article')
     .first()
@@ -227,7 +231,7 @@ test('prepare, persist, order, save and review a session', async ({
     .click();
   await expect(name).toHaveAttribute('aria-invalid', 'true');
   await expect(name).toBeFocused();
-  const sessionName = `Atelier découverte — ${info.project.name}`;
+  const sessionName = `Atelier découverte — ${info.project.name} — ${randomUUID()}`;
   await name.fill(sessionName);
   await form
     .getByRole('combobox', { name: /Casque VR/ })
@@ -282,6 +286,10 @@ test('recover from catalogue failure and keep narrow text readable', async ({
   page,
 }, info) => {
   await page.goto('/');
+  // SSR text can be ready before the client API/error handlers are attached.
+  await expect(
+    page.locator('astro-island[component-export="CatalogueApp"]'),
+  ).not.toHaveAttribute('ssr', '');
   await recoverReads(
     page,
     page

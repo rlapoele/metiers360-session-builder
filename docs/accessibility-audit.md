@@ -155,7 +155,7 @@ At the time of the official-source check, **RGAA 4.1.2** was the published refer
 
 Axe cannot establish full WCAG 2.2 AA conformance. No dedicated VoiceOver/NVDA or voice-control session, full RGAA criterion-by-criterion audit, exhaustive focus-obscuring/target-size matrix, high-contrast-mode evaluation or complete zoom/resize-text assessment was performed. Saved-list numbering is retained semantically but its spoken presentation still needs real screen-reader review. Representative checks do not prove every remote state or browser/assistive-technology combination.
 
-Task 10 implementation and technical verification are complete, including the clean-install rehearsal and candidate-facing README. Its changes remain uncommitted for review. Checkpoint E awaits the candidate's final review; Task 11 deployment has not started and needs separate explicit authorisation. The checks above do not establish exhaustive WCAG/RGAA conformance.
+Task 10 implementation and technical verification were subsequently candidate-reviewed, committed and pushed in `3c36990`, closing Checkpoint E. Task 11 was later explicitly authorised and verified; [deployment.md](deployment.md) records the hosted desktop/mobile checks and their incomplete-result limits. The checks above do not establish exhaustive WCAG/RGAA conformance.
 
 ## References
 

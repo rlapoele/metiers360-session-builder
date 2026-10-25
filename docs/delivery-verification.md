@@ -1,6 +1,6 @@
 # Delivery verification — Task 10
 
-Date: 2026-10-25. Application baseline: `cecaac0` plus the Task 10 changes under review. Task 11 has not started.
+Date: 2026-10-25. Application baseline: `cecaac0` plus the Task 10 changes under review. Task 11 had not started at this Task 10 snapshot; its later authorisation, deployment and public checks are recorded in [deployment.md](deployment.md).
 
 ## Reproduce the checks
 
@@ -78,6 +78,6 @@ This is **not a formal WCAG/RGAA conformance audit**. No dedicated screen-reader
 
 ## Review stop
 
-Task 10 implementation and technical verification are complete. The candidate subsequently confirmed review, commit and push in `3c36990`, followed by their README edits in `05026e5`, closing Checkpoint E. Task 11 deployment remains unauthorised. The separately requested import-alias maintenance does not reopen or expand the delivery/deployment scope.
+Task 10 implementation and technical verification are complete. The candidate subsequently confirmed review, commit and push in `3c36990`, followed by their README edits in `05026e5`, closing Checkpoint E. The separately authorised alias maintenance was subsequently accepted in `b405ba1`; Task 11 was then explicitly authorised and verified. See [deployment.md](deployment.md) for the public demo and its distinct evidence.
 
 References: [Playwright accessibility testing](https://playwright.dev/docs/accessibility-testing), [multiple test web servers](https://playwright.dev/docs/test-webserver), [detailed accessibility history](accessibility-audit.md).
