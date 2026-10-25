@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 10 and Checkpoints A through D are technically complete. The candidate manually retested the removal-focus fix and committed/pushed it in `cecaac0`, then explicitly authorised the rest of Task 10 on 2026-10-25. Task 10 verification is recorded in [delivery-verification.md](../docs/delivery-verification.md). Stop for final candidate review at Checkpoint E before optional Task 11; no deployment is authorised.
+Status: accepted on 2026-10-21. Tasks 1 through 10 and Checkpoints A through E are complete. The candidate reviewed, committed and pushed Task 10 in `3c36990`, followed by their README edits in `05026e5`. Task 10 verification is recorded in [delivery-verification.md](../docs/delivery-verification.md). A separately authorised import-alias refactor follows submission readiness; stop for its review. Optional Task 11 remains unauthorised.
 
 ## Purpose
 

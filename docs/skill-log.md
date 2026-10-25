@@ -1,6 +1,6 @@
 # Agent skill registry
 
-Last reviewed: 2026-10-24
+Last reviewed: 2026-10-25
 
 This document records the distinct agent skills actually applied while delivering the Métiers360 session builder. It supports the exercise's AI-use disclosure by making the working methods visible without turning the exercise log into a tool transcript.
 
@@ -36,6 +36,7 @@ This document records the distinct agent skills actually applied while deliverin
 | `playwright` | 2026-10-22 | Automated Task 4 catalogue, Task 5 details, Task 7 draft composition, Task 7A before/after/control inspection and Task 9A rendered-copy/accessibility-tree checks across target widths, including responsive geometry, native selects, control variants, keyboard focus/restoration, reduced motion, overflow, persistence, ordering, selection, missing media and remote failure/retry flows. The accessibility remediation repeated axe scans against the production build, measured control/text contrast and checked 320px text spacing without installing browser tooling into project dependencies. The bottom-edge follow-up measured both adjacent colors, checked responsive shared controls and manually reviewed retained incomplete axe contrast results. | Responsive and browser-flow evidence recorded in `docs/exercise-log.md` and `docs/accessibility-audit.md` |
 | `write-practical-copy` | 2026-10-22 | Established the staged French-copy review cadence, refined Task 5/7A wording and completed the Task 9A application-wide audit: consistent saved-session vocabulary, contextual action names, explicit recovery and cautious compatibility/duration/save-confirmation copy. | `docs/copy-audit.md`, intentional copy-contract tests and rendered-state verification in `docs/exercise-log.md` |
 | `app-696e890a45388191b24c4a36d2177201:generate-design-tokens` | 2026-10-22 | Preserved the established primitive/semantic token layers while converting every hexadecimal primitive palette value to a numerically equivalent OKLCH representation. | `src/styles/global.css` and the OKLCH conversion verification in `docs/exercise-log.md` |
+| `agent-skills:code-simplification` | 2026-10-25 | Replaced internal relative/root-alias imports with named folder aliases through a mechanical migration, preserving module targets and behavior. | `tsconfig.json`, `components.json`, Astro/React source and colocated tests; verification in `docs/exercise-log.md` |
 
 ## Explicit exclusions
 

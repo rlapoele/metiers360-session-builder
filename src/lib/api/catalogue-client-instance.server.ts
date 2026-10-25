@@ -1,7 +1,7 @@
 import { CATALOG_API_URL } from 'astro:env/server';
 
-import { createCatalogueClient } from './catalogue-client.server';
-import { parseServerEnv } from './server-config';
+import { createCatalogueClient } from '@lib/api/catalogue-client.server';
+import { parseServerEnv } from '@lib/api/server-config';
 
 let client: ReturnType<typeof createCatalogueClient> | undefined;
 

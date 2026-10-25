@@ -1,16 +1,16 @@
 import { useStore } from '@nanostores/react';
 import { useEffect } from 'react';
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@components/ui/button';
+import { Badge } from '@components/ui/badge';
+import { cn } from '@lib/utils';
 
 import {
   $sessionDraftCount,
   $sessionDraftHydrated,
   hydrateSessionDraft,
-} from '../../features/sessions/session-draft.store';
-import { requestSessionDraftOpen } from '../../features/sessions/session-draft.events';
+} from '@features/sessions/session-draft.store';
+import { requestSessionDraftOpen } from '@features/sessions/session-draft.events';
 
 function countLabel(count: number) {
   return `Ma séance, ${count} ${count > 1 ? 'vidéos' : 'vidéo'}`;

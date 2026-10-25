@@ -1,5 +1,5 @@
-import { CatalogueClientError } from './errors';
-import { CreateSessionSchema, type ValidationError } from './schemas';
+import { CatalogueClientError } from '@lib/api/errors';
+import { CreateSessionSchema, type ValidationError } from '@lib/api/schemas';
 
 const VIDEO_SEARCH_PARAMETERS = [
   'q',

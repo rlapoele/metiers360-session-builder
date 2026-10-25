@@ -1,11 +1,11 @@
 import {
   formatDuration,
   formatPublishedDate,
-} from '../../features/catalogue/format';
-import type { CatalogueReferences } from '../../features/catalogue/api';
-import type { Video } from '../../lib/api/schemas';
+} from '@features/catalogue/format';
+import type { CatalogueReferences } from '@features/catalogue/api';
+import type { Video } from '@lib/api/schemas';
 import type { ReactNode } from 'react';
-import { Badge } from '@/components/ui/badge.tsx';
+import { Badge } from '@components/ui/badge.tsx';
 
 interface VideoDetailsContentProps {
   video: Video;

@@ -4,7 +4,7 @@ import {
   catalogueQueryFromSearchParams,
   catalogueQueryToSearchParams,
   updateCatalogueQuery,
-} from './query-params';
+} from '@features/catalogue/query-params';
 
 describe('catalogue query parameters', () => {
   it('reads supported non-empty filters and a valid page', () => {

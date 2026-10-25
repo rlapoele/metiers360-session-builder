@@ -4,7 +4,7 @@ import {
   SessionDraftSchema,
   type SessionDraft,
   type Video,
-} from '../../lib/api/schemas';
+} from '@lib/api/schemas';
 
 export const SESSION_DRAFT_STORAGE_KEY = 'metiers360.session-draft.v1';
 

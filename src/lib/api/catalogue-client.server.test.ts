@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createCatalogueClient } from './catalogue-client.server';
-import { CatalogueClientError } from './errors';
+import { createCatalogueClient } from '@lib/api/catalogue-client.server';
+import { CatalogueClientError } from '@lib/api/errors';
 
 const video = {
   id: 'vid_001',

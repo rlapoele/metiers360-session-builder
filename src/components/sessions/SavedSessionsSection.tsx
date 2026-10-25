@@ -1,14 +1,11 @@
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@components/ui/button';
 
-import { formatDuration } from '../../features/catalogue/format';
-import type { SessionsOverview } from '../../features/sessions/api';
-import {
-  formatSessionDate,
-  formatVideoCount,
-} from '../../features/sessions/format';
-import { cn } from '../../lib/utils';
+import { formatDuration } from '@features/catalogue/format';
+import type { SessionsOverview } from '@features/sessions/api';
+import { formatSessionDate, formatVideoCount } from '@features/sessions/format';
+import { cn } from '@lib/utils';
 
 export function SavedSessionsSection({
   overview,

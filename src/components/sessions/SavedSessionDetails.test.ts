@@ -3,13 +3,8 @@ import { loadRenderers } from 'astro:container';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 
-import type {
-  HeadsetList,
-  JobList,
-  Session,
-  Video,
-} from '../../lib/api/schemas';
-import SavedSessionDetails from './SavedSessionDetails.astro';
+import type { HeadsetList, JobList, Session, Video } from '@lib/api/schemas';
+import SavedSessionDetails from '@components/sessions/SavedSessionDetails.astro';
 
 const session: Session = {
   id: 'ses_001',

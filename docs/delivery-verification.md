@@ -78,6 +78,6 @@ This is **not a formal WCAG/RGAA conformance audit**. No dedicated screen-reader
 
 ## Review stop
 
-Task 10 implementation and technical verification are complete. Checkpoint E still requires the candidate's final review of the README, screenshots and final polish. No commit/push or Task 11 deployment is implied by these results.
+Task 10 implementation and technical verification are complete. The candidate subsequently confirmed review, commit and push in `3c36990`, followed by their README edits in `05026e5`, closing Checkpoint E. Task 11 deployment remains unauthorised. The separately requested import-alias maintenance does not reopen or expand the delivery/deployment scope.
 
 References: [Playwright accessibility testing](https://playwright.dev/docs/accessibility-testing), [multiple test web servers](https://playwright.dev/docs/test-webserver), [detailed accessibility history](accessibility-audit.md).

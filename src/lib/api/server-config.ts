@@ -1,5 +1,5 @@
-import { CatalogueClientError } from './errors';
-import { ServerEnvSchema } from './schemas';
+import { CatalogueClientError } from '@lib/api/errors';
+import { ServerEnvSchema } from '@lib/api/schemas';
 
 export function parseServerEnv(input: unknown) {
   const result = ServerEnvSchema.safeParse(input);

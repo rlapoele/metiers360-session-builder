@@ -9,7 +9,7 @@ import {
   type Session,
   type SessionList,
   type ValidationError,
-} from '../../lib/api/schemas';
+} from '@lib/api/schemas';
 
 export interface SessionsOverview {
   sessions: SessionList;

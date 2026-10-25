@@ -2,13 +2,10 @@ import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, type KeyboardEvent } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 
-import {
-  fetchVideo,
-  type CatalogueReferences,
-} from '../../features/catalogue/api';
-import { VideoDetailsContent } from './VideoDetailsContent';
+import { fetchVideo, type CatalogueReferences } from '@features/catalogue/api';
+import { VideoDetailsContent } from '@components/catalogue/VideoDetailsContent';
 
 interface VideoDetailsSheetProps {
   videoId?: string;

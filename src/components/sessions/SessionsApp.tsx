@@ -7,21 +7,21 @@ import {
 } from '@tanstack/react-query';
 import { useEffect, useState, type ReactNode } from 'react';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@components/ui/button';
 
 import {
   fetchSessionsOverview,
   type SessionsOverview,
-} from '../../features/sessions/api';
+} from '@features/sessions/api';
 import {
   $sessionDraft,
   $sessionDraftHydrated,
   $sessionDraftTotalDurationSeconds,
   hydrateSessionDraft,
-} from '../../features/sessions/session-draft.store';
-import { cn } from '../../lib/utils';
-import { CurrentDraftSection } from './CurrentDraftSection';
-import { SavedSessionsSection } from './SavedSessionsSection';
+} from '@features/sessions/session-draft.store';
+import { cn } from '@lib/utils';
+import { CurrentDraftSection } from '@components/sessions/CurrentDraftSection';
+import { SavedSessionsSection } from '@components/sessions/SavedSessionsSection';
 
 interface SessionsAppProps {
   initialOverview?: SessionsOverview;

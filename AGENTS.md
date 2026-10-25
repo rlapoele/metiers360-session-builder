@@ -1,6 +1,6 @@
 # Métiers360 session builder
 
-This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 10, including Tasks 7A and 9A, are technically complete; Checkpoint E awaits final candidate review. Task 11 is not started or authorised. Consult the live task records before further work.
+This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 10, including Tasks 7A and 9A, and Checkpoint E are complete and candidate-reviewed. Task 11 is not started or authorised. Consult the live task records before further work.
 
 ## Read before changing the project
 
@@ -141,6 +141,7 @@ Target WCAG/RGAA-friendly behaviour from the first component:
 - Add a skill to [docs/skill-log.md](docs/skill-log.md) when it is first applied; do not record merely available, considered or anticipated skills.
 - Read the relevant wireframe and API section before implementing a slice.
 - Prefer straightforward feature modules over speculative generic abstractions.
+- Use the folder aliases defined in `tsconfig.json` for imports within `src/`: `@components`, `@features`, `@layouts`, `@lib`, `@pages` and `@styles`. Apply the same convention to colocated tests, dynamic imports and module mocks. See `docs/architecture.md` for resolution and tooling details.
 - Keep Astro components for mostly static structure and React islands for real interaction. Do not turn every card into its own island.
 - Keep user-facing copy in French. Code identifiers may be English but must be consistent.
 - Preserve authored/API values; format dates, durations and labels only in presentation helpers.

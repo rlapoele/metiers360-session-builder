@@ -1,8 +1,8 @@
 ---
-import { SessionsApp } from '../../components/sessions/SessionsApp';
-import type { SessionsOverview } from '../../features/sessions/api';
-import AppLayout from '../../layouts/AppLayout.astro';
-import { getCatalogueClient } from '../../lib/api/catalogue-client-instance.server';
+import { SessionsApp } from '@components/sessions/SessionsApp';
+import type { SessionsOverview } from '@features/sessions/api';
+import AppLayout from '@layouts/AppLayout.astro';
+import { getCatalogueClient } from '@lib/api/catalogue-client-instance.server';
 
 const createdSessionId = Astro.url.searchParams.get('created');
 const safeCreatedSessionId =

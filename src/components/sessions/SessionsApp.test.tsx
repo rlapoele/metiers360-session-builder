@@ -9,9 +9,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   addVideoToDraft,
   clearDraftAfterSave,
-} from '../../features/sessions/session-draft.store';
-import type { SessionsOverview } from '../../features/sessions/api';
-import { SessionsApp } from './SessionsApp';
+} from '@features/sessions/session-draft.store';
+import type { SessionsOverview } from '@features/sessions/api';
+import { SessionsApp } from '@components/sessions/SessionsApp';
 
 const overview: SessionsOverview = {
   sessions: {

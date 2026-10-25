@@ -12,16 +12,16 @@ import {
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { CatalogueReferences } from '../../features/catalogue/api';
-import type { CatalogueQuery } from '../../features/catalogue/query-params';
+import type { CatalogueReferences } from '@features/catalogue/api';
+import type { CatalogueQuery } from '@features/catalogue/query-params';
 import {
   addVideoToDraft,
   clearDraftAfterSave,
   SESSION_DRAFT_STORAGE_KEY,
   setDraftHeadset,
-} from '../../features/sessions/session-draft.store';
-import type { VideoList } from '../../lib/api/schemas';
-import { CatalogueApp } from './CatalogueApp';
+} from '@features/sessions/session-draft.store';
+import type { VideoList } from '@lib/api/schemas';
+import { CatalogueApp } from '@components/catalogue/CatalogueApp';
 
 const initialQuery: CatalogueQuery = {
   q: '',

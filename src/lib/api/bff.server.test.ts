@@ -4,9 +4,9 @@ import {
   filterVideoSearchParams,
   toBffErrorResponse,
   validateCreateSessionRequest,
-} from './bff.server';
-import { CatalogueClientError } from './errors';
-import { parseServerEnv } from './server-config';
+} from '@lib/api/bff.server';
+import { CatalogueClientError } from '@lib/api/errors';
+import { parseServerEnv } from '@lib/api/server-config';
 
 describe('BFF boundary helpers', () => {
   it('forwards only catalogue query parameters supported by the supplied API', () => {

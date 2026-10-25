@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { CreateSession } from '../../lib/api/schemas';
-import { createSession, fetchSessionsOverview, SessionSaveError } from './api';
+import type { CreateSession } from '@lib/api/schemas';
+import {
+  createSession,
+  fetchSessionsOverview,
+  SessionSaveError,
+} from '@features/sessions/api';
 
 const request: CreateSession = {
   name: 'Découvrir les métiers du paysage',

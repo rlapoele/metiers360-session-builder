@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import type { Video } from '../../lib/api/schemas';
+import type { Video } from '@lib/api/schemas';
 import {
   EMPTY_SESSION_DRAFT,
   SESSION_DRAFT_STORAGE_KEY,
   createSessionDraftStore,
-} from './session-draft.store';
+} from '@features/sessions/session-draft.store';
 
 function createMemoryStorage(initialValue?: string) {
   const values = new Map<string, string>();

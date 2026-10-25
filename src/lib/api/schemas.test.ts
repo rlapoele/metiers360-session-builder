@@ -12,7 +12,7 @@ import {
   ValidationErrorSchema,
   VideoListSchema,
   VideoSchema,
-} from './schemas';
+} from '@lib/api/schemas';
 
 const video = {
   id: 'vid_001',

@@ -1,4 +1,4 @@
-import type { ApiError, ValidationError } from './schemas';
+import type { ApiError, ValidationError } from '@lib/api/schemas';
 
 export type CatalogueClientErrorKind =
   'configuration' | 'invalid-response' | 'timeout' | 'transport' | 'upstream';

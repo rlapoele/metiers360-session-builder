@@ -1,14 +1,11 @@
 ---
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-import { formatDuration } from '../../features/catalogue/format';
-import {
-  formatSessionDate,
-  formatVideoCount,
-} from '../../features/sessions/format';
-import type { ResolvedSessionVideo } from '../../features/sessions/resolve-session-videos.server';
-import type { HeadsetList, JobList, Session } from '../../lib/api/schemas';
-import { Badge } from '../ui/badge';
+import { formatDuration } from '@features/catalogue/format';
+import { formatSessionDate, formatVideoCount } from '@features/sessions/format';
+import type { ResolvedSessionVideo } from '@features/sessions/resolve-session-videos.server';
+import type { HeadsetList, JobList, Session } from '@lib/api/schemas';
+import { Badge } from '@components/ui/badge';
 
 interface Props {
   session: Session;

@@ -12,24 +12,21 @@ import {
   type KeyboardEvent,
 } from 'react';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from '@/components/ui/native-select';
+import { Badge } from '@components/ui/badge';
+import { Button } from '@components/ui/button';
+import { Input } from '@components/ui/input';
+import { NativeSelect, NativeSelectOption } from '@components/ui/native-select';
 
-import { formatDuration } from '../../features/catalogue/format';
-import { createSession, SessionSaveError } from '../../features/sessions/api';
+import { formatDuration } from '@features/catalogue/format';
+import { createSession, SessionSaveError } from '@features/sessions/api';
 import {
   CreateSessionSchema,
   type CreateSession,
   type Headset,
   type Session,
   type SessionDraft,
-} from '../../lib/api/schemas';
-import type { DraftVideoItem } from './SessionDraftContent';
+} from '@lib/api/schemas';
+import type { DraftVideoItem } from '@components/catalogue/SessionDraftContent';
 
 interface SessionFinalisationDialogProps {
   draft: SessionDraft;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getNavigationItems } from './navigation';
+import { getNavigationItems } from '@components/app-shell/navigation';
 
 describe('getNavigationItems', () => {
   it('marks the catalogue as current only on the root route', () => {

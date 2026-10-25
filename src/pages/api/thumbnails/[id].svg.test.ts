@@ -7,11 +7,11 @@ const { getThumbnail } = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('../../../lib/api/catalogue-client-instance.server', () => ({
+vi.mock('@lib/api/catalogue-client-instance.server', () => ({
   getCatalogueClient: () => ({ getThumbnail }),
 }));
 
-import { GET } from './[id].svg';
+import { GET } from '@pages/api/thumbnails/[id].svg';
 
 describe('GET /api/thumbnails/[id].svg', () => {
   it('provides a light browser-facing cache policy', async () => {

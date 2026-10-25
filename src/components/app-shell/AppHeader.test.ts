@@ -3,7 +3,7 @@ import { loadRenderers } from 'astro:container';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { describe, expect, it } from 'vitest';
 
-import AppHeader from './AppHeader.astro';
+import AppHeader from '@components/app-shell/AppHeader.astro';
 
 describe('AppHeader', () => {
   it('renders the shared navigation with the current destination', async () => {

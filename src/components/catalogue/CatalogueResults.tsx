@@ -1,10 +1,10 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 
-import type { CatalogueQuery } from '../../features/catalogue/query-params';
-import type { Video, VideoList } from '../../lib/api/schemas';
-import { VideoCard } from './VideoCard';
+import type { CatalogueQuery } from '@features/catalogue/query-params';
+import type { Video, VideoList } from '@lib/api/schemas';
+import { VideoCard } from '@components/catalogue/VideoCard';
 
 interface CatalogueResultsProps {
   data?: VideoList;

@@ -211,6 +211,16 @@ Browser persistence must be guarded for server rendering. Read `localStorage` on
 
 This is a boundary map, not a requirement to create empty directories. Create folders only when a real slice needs them. Feature-specific types and behaviour stay with their feature; only genuinely shared transport, formatting and test utilities belong under `lib`.
 
+### Import aliases
+
+`tsconfig.json` is the single source for internal module aliases. Use `@components/*`, `@features/*`, `@layouts/*`, `@lib/*`, `@pages/*` and `@styles/*` for their respective top-level `src/` folders, including sibling imports, colocated tests, dynamic imports and Vitest mocks. For example, import `Button` from `@components/ui/button` and API schemas from `@lib/api/schemas`; the layout imports `@styles/global.css`.
+
+This makes the source boundary visible and avoids paths that depend on the importing file's location. Moving the imported module still requires updating its references. Aliases do not change runtime ownership, make server modules safe to import in the browser, or imply public entry points/barrel exports.
+
+Astro resolves these paths directly; Vitest inherits that configuration through the existing `getViteConfig`. Keep aliases out of separate Vite/Vitest resolver maps to avoid drift. `components.json` uses the same component/lib aliases for future shadcn output; exact `@components` and `@lib` directory mappings accompany the wildcard mappings so those generator destinations are explicit. The existing `@/*` root mapping remains as a tooling compatibility fallback, including the unused generator `@/hooks` destination; application imports use the named folder aliases. Do not create an empty hooks folder for that configuration.
+
+Official reference: [Astro import aliases](https://docs.astro.build/en/guides/imports/#aliases).
+
 ## Component/island strategy
 
 Recommended interactive boundaries:

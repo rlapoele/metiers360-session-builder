@@ -10,11 +10,11 @@ import {
   type JobList,
   type Video,
   type VideoList,
-} from '../../lib/api/schemas';
+} from '@lib/api/schemas';
 import {
   catalogueQueryToSearchParams,
   type CatalogueQuery,
-} from './query-params';
+} from '@features/catalogue/query-params';
 
 export interface CatalogueReferences {
   jobs: JobList;

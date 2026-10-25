@@ -14,34 +14,37 @@ import {
   type ReactNode,
 } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 
 import {
   fetchCatalogueReferences,
   fetchVideos,
   type CatalogueReferences,
-} from '../../features/catalogue/api';
-import { formatResultCount } from '../../features/catalogue/format';
+} from '@features/catalogue/api';
+import { formatResultCount } from '@features/catalogue/format';
 import {
   catalogueQueryFromSearchParams,
   catalogueQueryToSearchParams,
   updateCatalogueQuery,
   type CatalogueQuery,
-} from '../../features/catalogue/query-params';
+} from '@features/catalogue/query-params';
 import {
   $sessionDraft,
   addVideoToDraft,
   hydrateSessionDraft,
   registerDraftVideos,
   removeVideoFromDraft,
-} from '../../features/sessions/session-draft.store';
-import type { Video, VideoList } from '../../lib/api/schemas';
-import { AppliedFilters, type AppliedFilter } from './AppliedFilters';
-import { CatalogueFilters } from './CatalogueFilters';
-import { CatalogueResults } from './CatalogueResults';
-import { CatalogueSearch } from './CatalogueSearch';
-import { SessionDraftComposition } from './SessionDraftComposition';
-import { VideoDetailsSheet } from './VideoDetailsSheet';
+} from '@features/sessions/session-draft.store';
+import type { Video, VideoList } from '@lib/api/schemas';
+import {
+  AppliedFilters,
+  type AppliedFilter,
+} from '@components/catalogue/AppliedFilters';
+import { CatalogueFilters } from '@components/catalogue/CatalogueFilters';
+import { CatalogueResults } from '@components/catalogue/CatalogueResults';
+import { CatalogueSearch } from '@components/catalogue/CatalogueSearch';
+import { SessionDraftComposition } from '@components/catalogue/SessionDraftComposition';
+import { VideoDetailsSheet } from '@components/catalogue/VideoDetailsSheet';
 
 interface CatalogueAppProps {
   initialQuery: CatalogueQuery;

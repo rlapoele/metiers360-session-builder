@@ -102,8 +102,8 @@ This is the live progress record for the accepted [implementation plan](plan.md)
   - Final delivery evidence: original brief preserved verbatim, candidate README and three reviewed screenshots added, source links updated. Candidate confirmed an estimated 6 h 30 over 7–8 sessions and the Astro decision against the initial AI recommendation; the README records the budget overrun and avoids a comparative performance claim.
   - Reproducibility: a clean source snapshot passed root/API `npm ci`, `npm run verify` (76 checked files, zero diagnostics, 18 files / 95 tests, production build) and all six repository-owned browser scenarios. The working copy passed the same gates. `npm run dev` and documented web/API URLs were smoke-tested from the clean installation.
   - Final browser evidence: 30 axe scans per suite run, zero violations, three scans retaining seven incomplete contrast-node occurrences for manual review. Explicit field-boundary assertions pass at 3.234:1 / 3.098:1. Full save/review/order, read retry, validation, reduced motion, 320px text spacing and responsive overflow checks passed. Final review fixed details-retry focus and wrapping of long clear-filter actions. See [delivery-verification.md](../docs/delivery-verification.md).
-- [ ] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
-  - Clean-install and technical verification are complete. Final candidate review of the README, images and Task 10 polish is pending; Task 11 has not started.
+- [x] **Checkpoint E:** Clean-install rehearsal, full verification and candidate review are complete.
+  - The candidate confirmed review, commit and push of Task 10 (`3c36990`), then committed and pushed their README edits (`05026e5`). Task 11 has not started and remains unauthorised.
 
 ## Phase 7 — Optional hosted demo
 
@@ -112,6 +112,8 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Current task
 
-**Next action:** Candidate review of Task 10 and Checkpoint E. Do not commit/push or begin Task 11 without explicit instruction.
+- [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Left uncommitted for review.
 
-Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, and removal focus in `cecaac0`. Those baselines are pushed. The remaining Task 10 deliverable is now implemented and verified, left uncommitted for review before Task 11.
+**Next action:** Review the separately authorised folder-alias refactor. Do not commit/push or begin Task 11 without explicit instruction.
+
+Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is left uncommitted for review.

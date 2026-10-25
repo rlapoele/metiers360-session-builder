@@ -1,14 +1,11 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from '@/components/ui/native-select';
+import { Button } from '@components/ui/button';
+import { NativeSelect, NativeSelectOption } from '@components/ui/native-select';
 
-import type { CatalogueReferences } from '../../features/catalogue/api';
-import type { CatalogueQuery } from '../../features/catalogue/query-params';
+import type { CatalogueReferences } from '@features/catalogue/api';
+import type { CatalogueQuery } from '@features/catalogue/query-params';
 
 type FilterValues = Pick<CatalogueQuery, 'job' | 'headset' | 'audience'>;
 

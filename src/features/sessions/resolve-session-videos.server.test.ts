@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import type { Session, VideoList } from '../../lib/api/schemas';
-import { resolveSessionVideos } from './resolve-session-videos.server';
+import type { Session, VideoList } from '@lib/api/schemas';
+import { resolveSessionVideos } from '@features/sessions/resolve-session-videos.server';
 
 const session: Session = {
   id: 'ses_001',

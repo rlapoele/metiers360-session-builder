@@ -3,17 +3,14 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useQueries } from '@tanstack/react-query';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 
-import {
-  fetchVideo,
-  type CatalogueReferences,
-} from '../../features/catalogue/api';
-import { formatDuration } from '../../features/catalogue/format';
+import { fetchVideo, type CatalogueReferences } from '@features/catalogue/api';
+import { formatDuration } from '@features/catalogue/format';
 import {
   OPEN_SESSION_DRAFT_EVENT,
   type OpenSessionDraftDetail,
-} from '../../features/sessions/session-draft.events';
+} from '@features/sessions/session-draft.events';
 import {
   $sessionDraft,
   $sessionDraftHydrated,
@@ -25,13 +22,13 @@ import {
   removeVideoFromDraft,
   setDraftHeadset,
   setDraftName,
-} from '../../features/sessions/session-draft.store';
-import type { Session, Video } from '../../lib/api/schemas';
+} from '@features/sessions/session-draft.store';
+import type { Session, Video } from '@lib/api/schemas';
 import {
   SessionDraftContent,
   type DraftVideoItem,
-} from './SessionDraftContent';
-import { SessionFinalisationDialog } from './SessionFinalisationDialog';
+} from '@components/catalogue/SessionDraftContent';
+import { SessionFinalisationDialog } from '@components/catalogue/SessionFinalisationDialog';
 
 interface SessionDraftCompositionProps {
   canObserveDraft: boolean;

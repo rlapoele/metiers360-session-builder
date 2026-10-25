@@ -6,9 +6,9 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { Button } from './button';
-import { Input } from './input';
-import { NativeSelect, NativeSelectOption } from './native-select';
+import { Button } from '@components/ui/button';
+import { Input } from '@components/ui/input';
+import { NativeSelect, NativeSelectOption } from '@components/ui/native-select';
 
 afterEach(cleanup);
 

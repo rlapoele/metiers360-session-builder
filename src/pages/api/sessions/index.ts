@@ -4,8 +4,8 @@ import {
   jsonResponse,
   toBffErrorResponse,
   validateCreateSessionRequest,
-} from '../../../lib/api/bff.server';
-import { getCatalogueClient } from '../../../lib/api/catalogue-client-instance.server';
+} from '@lib/api/bff.server';
+import { getCatalogueClient } from '@lib/api/catalogue-client-instance.server';
 
 export const GET: APIRoute = async () => {
   try {

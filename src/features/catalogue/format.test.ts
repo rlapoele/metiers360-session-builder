@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatPublishedDate } from './format';
+import { formatPublishedDate } from '@features/catalogue/format';
 
 describe('catalogue presentation formatting', () => {
   it('formats an authored ISO date in French without a timezone shift', () => {

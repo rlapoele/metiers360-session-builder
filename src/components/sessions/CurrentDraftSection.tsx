@@ -1,11 +1,11 @@
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@components/ui/button';
 
-import { formatDuration } from '../../features/catalogue/format';
-import { formatVideoCount } from '../../features/sessions/format';
-import type { SessionDraft } from '../../lib/api/schemas';
-import { cn } from '../../lib/utils';
+import { formatDuration } from '@features/catalogue/format';
+import { formatVideoCount } from '@features/sessions/format';
+import type { SessionDraft } from '@lib/api/schemas';
+import { cn } from '@lib/utils';
 
 interface CurrentDraftSectionProps {
   canObserveDraft: boolean;

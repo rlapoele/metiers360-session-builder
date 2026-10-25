@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { fetchCatalogueReferences, fetchVideo, fetchVideos } from './api';
+import {
+  fetchCatalogueReferences,
+  fetchVideo,
+  fetchVideos,
+} from '@features/catalogue/api';
 
 afterEach(() => {
   vi.unstubAllGlobals();

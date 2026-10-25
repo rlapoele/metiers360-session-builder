@@ -1,4 +1,4 @@
-import type { Session, Video, VideoList } from '../../lib/api/schemas';
+import type { Session, Video, VideoList } from '@lib/api/schemas';
 
 export interface ResolvedSessionVideo {
   id: string;

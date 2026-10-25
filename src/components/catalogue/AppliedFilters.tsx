@@ -1,6 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 
 export interface AppliedFilter {
   key: 'job' | 'headset' | 'audience';

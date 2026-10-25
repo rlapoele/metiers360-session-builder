@@ -13,14 +13,9 @@ import {
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type {
-  Headset,
-  Session,
-  SessionDraft,
-  Video,
-} from '../../lib/api/schemas';
-import type { DraftVideoItem } from './SessionDraftContent';
-import { SessionFinalisationDialog } from './SessionFinalisationDialog';
+import type { Headset, Session, SessionDraft, Video } from '@lib/api/schemas';
+import type { DraftVideoItem } from '@components/catalogue/SessionDraftContent';
+import { SessionFinalisationDialog } from '@components/catalogue/SessionFinalisationDialog';
 
 const headsets: Headset[] = [
   { id: 'pico-4', name: 'Pico 4' },

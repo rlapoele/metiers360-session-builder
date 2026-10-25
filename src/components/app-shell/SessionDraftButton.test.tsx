@@ -30,7 +30,8 @@ describe('SessionDraftButton', () => {
           video_ids: ['vid_001', 'vid_002'].slice(0, count),
         }),
       );
-      const { SessionDraftButton } = await import('./SessionDraftButton');
+      const { SessionDraftButton } =
+        await import('@components/app-shell/SessionDraftButton');
       for (const currentPath of ['/', '/sessions', '/sessions/ses_001']) {
         render(<SessionDraftButton currentPath={currentPath} />);
         const label = `Ma séance, ${count} ${count > 1 ? 'vidéos' : 'vidéo'}`;
@@ -59,7 +60,8 @@ describe('SessionDraftButton', () => {
         headset_id: null,
       }),
     );
-    const { SessionDraftButton } = await import('./SessionDraftButton');
+    const { SessionDraftButton } =
+      await import('@components/app-shell/SessionDraftButton');
 
     render(<SessionDraftButton />);
 
@@ -75,7 +77,8 @@ describe('SessionDraftButton', () => {
 
   it('shows an accurate empty count after invalid persistence is discarded', async () => {
     localStorage.setItem(STORAGE_KEY, '{invalid-json');
-    const { SessionDraftButton } = await import('./SessionDraftButton');
+    const { SessionDraftButton } =
+      await import('@components/app-shell/SessionDraftButton');
 
     render(<SessionDraftButton />);
 
@@ -91,7 +94,8 @@ describe('SessionDraftButton', () => {
     const user = userEvent.setup();
     const openListener = vi.fn();
     document.addEventListener('metiers360:open-session-draft', openListener);
-    const { SessionDraftButton } = await import('./SessionDraftButton');
+    const { SessionDraftButton } =
+      await import('@components/app-shell/SessionDraftButton');
 
     render(<SessionDraftButton />);
     const button = await screen.findByRole('button', {
@@ -104,7 +108,8 @@ describe('SessionDraftButton', () => {
   });
 
   it('links back to the catalogue draft surface from another route', async () => {
-    const { SessionDraftButton } = await import('./SessionDraftButton');
+    const { SessionDraftButton } =
+      await import('@components/app-shell/SessionDraftButton');
 
     render(<SessionDraftButton currentPath="/sessions" />);
 

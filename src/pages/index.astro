@@ -1,12 +1,12 @@
 ---
-import AppLayout from '../layouts/AppLayout.astro';
-import { CatalogueApp } from '../components/catalogue/CatalogueApp';
-import type { CatalogueReferences } from '../features/catalogue/api';
+import AppLayout from '@layouts/AppLayout.astro';
+import { CatalogueApp } from '@components/catalogue/CatalogueApp';
+import type { CatalogueReferences } from '@features/catalogue/api';
 import {
   catalogueQueryFromSearchParams,
   catalogueQueryToSearchParams,
-} from '../features/catalogue/query-params';
-import { getCatalogueClient } from '../lib/api/catalogue-client-instance.server';
+} from '@features/catalogue/query-params';
+import { getCatalogueClient } from '@lib/api/catalogue-client-instance.server';
 
 const initialQuery = catalogueQueryFromSearchParams(Astro.url.searchParams);
 const client = getCatalogueClient();

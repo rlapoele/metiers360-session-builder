@@ -1,6 +1,6 @@
 import type * as z from 'zod';
 
-import { CatalogueClientError } from './errors';
+import { CatalogueClientError } from '@lib/api/errors';
 import {
   ApiErrorSchema,
   AudienceListSchema,
@@ -15,7 +15,7 @@ import {
   VideoSchema,
   type Video,
   type VideoList,
-} from './schemas';
+} from '@lib/api/schemas';
 
 const DEFAULT_TIMEOUT_MS = 7_000;
 

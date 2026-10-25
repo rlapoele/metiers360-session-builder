@@ -5,11 +5,11 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@components/ui/button';
+import { Badge } from '@components/ui/badge';
 
-import { formatDuration } from '../../features/catalogue/format';
-import type { Video } from '../../lib/api/schemas';
+import { formatDuration } from '@features/catalogue/format';
+import type { Video } from '@lib/api/schemas';
 
 interface VideoCardProps {
   video: Video;
