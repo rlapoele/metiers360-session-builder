@@ -113,6 +113,8 @@ This layout is compatible with Railway's per-service root directories without as
 
 Both services need independent health checks. Deployment verification must also acknowledge that saved sessions are in API process memory and disappear when the API restarts or redeploys.
 
+Task 11 was authorised on 2026-10-25. [deployment.md](deployment.md) records the explicit service settings, Node pinning, web liveness endpoint, supported native Railpack build configuration, release-branch promotion and rollback procedure. The live Railway UI no longer permits new services to opt into legacy Railway Config as Code; do not add a `railway.json` assuming it will control deployment. The archived original Dockerfile remains historical only. Local scripts and the supplied API remain unchanged.
+
 Official references: [Railway monorepo deployments](https://docs.railway.com/deployments/monorepo), [Railway private domains](https://docs.railway.com/networking/domains/working-with-domains), [Railway variables](https://docs.railway.com/variables/reference), [Railway Astro deployment](https://docs.railway.com/guides/astro), and [Astro Node adapter](https://docs.astro.build/en/guides/integrations-guide/node/).
 
 ## Routes and responsive surfaces

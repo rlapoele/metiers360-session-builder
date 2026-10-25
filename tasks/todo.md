@@ -107,13 +107,13 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 ## Phase 7 — Optional hosted demo
 
-- [ ] **Task 11 (optional):** Deploy the public Astro service and private mock-API service to Railway.
+- [ ] **Task 11 (optional, now authorised and in progress):** Deploy the public Astro service and private mock-API service to Railway. Configuration, release and verification procedure: [deployment.md](../docs/deployment.md).
 - [ ] **Checkpoint F (optional):** Smoke-test the public URL and add it to the README only if verified.
 
 ## Current task
 
-- [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Left uncommitted for review.
+- [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Review the separately authorised folder-alias refactor. Do not commit/push or begin Task 11 without explicit instruction.
+**Next action:** Complete the authorised Task 11 configuration, guarded release promotion and public smoke verification. The alias refactor was candidate-reviewed, retested, committed and pushed in `b405ba1`.
 
-Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is left uncommitted for review.
+Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is reviewed, retested, committed and pushed in `b405ba1`. Task 11 is now explicitly authorised.

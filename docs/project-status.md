@@ -33,13 +33,13 @@ This file records transient project state that does not belong in the stable arc
 - The catalogue-card follow-up is committed and pushed in `e7ea188`: cards show every compatible headset without a filter and only the selected headset when filtered.
 - The draft-removal focus fix is committed and pushed in `cecaac0`; the candidate confirmed a successful manual retest before authorising the remaining Task 10 work.
 - Task 10 is technically complete: the original brief is preserved verbatim, the candidate-facing README includes reviewed screenshots and confirmed attention/AI-use evidence, and a pinned repository-owned browser suite accompanies the existing verification gate. A clean-install rehearsal passed 95 unit/component tests, strict checks with zero diagnostics, the production build and all six browser scenarios. Final polish fixes details-retry focus and narrow clear-filter action wrapping. See [delivery-verification.md](delivery-verification.md). Task 10 was reviewed, committed and pushed in `3c36990`, followed by the candidate’s README edits in `05026e5`.
-- The candidate confirmed Task 10 review, commit and push (`3c36990`) and their subsequent README edits (`05026e5`), closing Checkpoint E. Task 11 has not started and is not authorised.
-- A separately authorised maintenance follow-up replaces internal relative/root-alias imports with named aliases for each existing top-level `src/` folder. The refactor is left uncommitted for review; it preserves the candidate's README edits.
+- The candidate confirmed Task 10 review, commit and push (`3c36990`) and their subsequent README edits (`05026e5`), closing Checkpoint E. Task 11 was subsequently explicitly authorised on 2026-10-25 and is in progress.
+- A separately authorised maintenance follow-up replaces internal relative/root-alias imports with named aliases for each existing top-level `src/` folder. The candidate verified the aliases/imports, successfully retested the app, committed and pushed the refactor in `b405ba1`; it preserves their README edits.
 - Maintenance verification: all 95 unit/component tests, 76-file strict checks with zero diagnostics, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms unchanged code structure and module targets across the 57 migrated source/test files. No dependency changes or new feature scope were introduced.
 
 ## Next action
 
-Review the folder-alias refactor and its verification evidence. Do not commit/push or begin optional Task 11 without explicit instruction.
+Complete the explicitly authorised Task 11 deployment using [deployment.md](deployment.md): configure web/private API, preserve the previous release on `main`, promote verified `dev` to `releases`, inspect both deployments and verify the public application before publishing its URL.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 
@@ -55,7 +55,7 @@ Repository: `https://github.com/rlapoele/metiers360-session-builder.git`
 
 As verified on 2026-10-21, all three branches exist locally and on `origin` and track their matching remote branches. GitHub's remote `HEAD` points to `dev`. The branches are expected to diverge as development proceeds; inspect `git branch -vv` instead of relying on a commit hash recorded here.
 
-Before the first release, define and document the exact commands used to preserve the prior release on `main` and promote the candidate to `releases`. Do not improvise destructive branch replacement or force-push.
+The guarded fast-forward promotion and rollback procedures are defined in [deployment.md](deployment.md). `main` must preserve the previous release before `releases` advances. Every push to `origin/releases` triggers Railway deployment; do not reset branches or force-push.
 
 ## Repository-state handoff
 

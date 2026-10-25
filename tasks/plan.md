@@ -1,6 +1,6 @@
 # Implementation plan: Métiers360 session builder
 
-Status: accepted on 2026-10-21. Tasks 1 through 10 and Checkpoints A through E are complete. The candidate reviewed, committed and pushed Task 10 in `3c36990`, followed by their README edits in `05026e5`. Task 10 verification is recorded in [delivery-verification.md](../docs/delivery-verification.md). A separately authorised import-alias refactor follows submission readiness; stop for its review. Optional Task 11 remains unauthorised.
+Status: accepted on 2026-10-21. Tasks 1 through 10 and Checkpoints A through E are complete. The candidate reviewed, committed and pushed Task 10 in `3c36990`, followed by their README edits in `05026e5`. Task 10 verification is recorded in [delivery-verification.md](../docs/delivery-verification.md). The candidate reviewed/retested the alias refactor and committed/pushed it in `b405ba1`, then explicitly authorised Task 11 on 2026-10-25. Deployment is in progress under the guarded procedure in [deployment.md](../docs/deployment.md).
 
 ## Purpose
 

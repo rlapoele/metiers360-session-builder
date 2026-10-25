@@ -37,13 +37,15 @@ This document records the distinct agent skills actually applied while deliverin
 | `write-practical-copy` | 2026-10-22 | Established the staged French-copy review cadence, refined Task 5/7A wording and completed the Task 9A application-wide audit: consistent saved-session vocabulary, contextual action names, explicit recovery and cautious compatibility/duration/save-confirmation copy. | `docs/copy-audit.md`, intentional copy-contract tests and rendered-state verification in `docs/exercise-log.md` |
 | `app-696e890a45388191b24c4a36d2177201:generate-design-tokens` | 2026-10-22 | Preserved the established primitive/semantic token layers while converting every hexadecimal primitive palette value to a numerically equivalent OKLCH representation. | `src/styles/global.css` and the OKLCH conversion verification in `docs/exercise-log.md` |
 | `agent-skills:code-simplification` | 2026-10-25 | Replaced internal relative/root-alias imports with named folder aliases through a mechanical migration, preserving module targets and behavior. | `tsconfig.json`, `components.json`, Astro/React source and colocated tests; verification in `docs/exercise-log.md` |
+| `agent-skills:shipping-and-launch` | 2026-10-25 | Prepared the authorised two-service Railway demo, independent health checks, guarded release promotion, smoke checks and rollback procedure. | `docs/deployment.md`, web health endpoint and Task 11 evidence |
+| `agent-skills:ci-cd-and-automation` | 2026-10-25 | Configured branch-triggered releases and native Railpack build verification while retaining local workflows. | `railpack.json`, Node pins, Railway service settings and deployment procedure |
 
 ## Explicit exclusions
 
 The Task 8/9 evidence records implementation and verification outcomes but does not establish a newly applied distinct skill. Existing contribution summaries describe their recorded uses and are not an exhaustive task-by-task ledger. No new skill row is inferred from the work's subject matter. The October 24 documentation reconciliation reapplied the already registered context-engineering and documentation-and-adrs workflows.
 
 - The external shadcn skill was evaluated but deliberately not installed or used. Official shadcn/Base UI documentation informed the architecture instead.
-- Skills that become relevant later are not part of the registry until they are actually applied; shipping remains a future workflow.
+- Skills that become relevant later are not part of the registry until they are actually applied. Shipping and CI/CD were first applied during the explicitly authorised Task 11 work on 2026-10-25.
 
 ## Maintenance
 

@@ -1,6 +1,6 @@
 # Métiers360 session builder
 
-This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 10, including Tasks 7A and 9A, and Checkpoint E are complete and candidate-reviewed. Task 11 is not started or authorised. Consult the live task records before further work.
+This repository contains a frontend exercise for preparing playlists of immersive job-discovery videos. The supplied mock API and catalogue remain separate from the implemented Astro/React frontend. Tasks 1 through 10, including Tasks 7A and 9A, and Checkpoint E are complete and candidate-reviewed. Task 11 was explicitly authorised on 2026-10-25 and is in progress; follow `docs/deployment.md` for the release procedure and consult the live task records before further work.
 
 ## Read before changing the project
 
