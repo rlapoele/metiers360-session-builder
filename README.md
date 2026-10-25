@@ -1,6 +1,6 @@
-# Métiers360 — préparer une séance de découverte
+# Métiers360 : préparer une séance de découverte
 
-Une application pour les conseillers, enseignants et éducateurs qui préparent une sélection de vidéos métiers à faire découvrir à un groupe, souvent sur tablette et avec peu de temps.
+Une application pour les conseillers, enseignants et éducateurs qui préparent une sélection de vidéos métiers à faire découvrir à un groupe, souvent sur tablette et avec peu de temps de préparation.
 
 ## Lancer le projet
 
@@ -63,7 +63,7 @@ npm start
 
 ## Stack et organisation
 
-**Astro avec son outillage Vite**, React 18 et TypeScript strict : Astro prend en charge les pages et les routes serveur ; React porte les interactions. Une fine couche BFF relaie les appels du navigateur vers l’API fournie et garde son adresse côté serveur.
+**Astro avec son outillage Vite**, React 18 et TypeScript strict : Astro prend en charge les pages et les routes serveur ; React porte les interactions. Une fine couche BFF (Backend For Frontend) relaie les appels du navigateur vers l’API fournie et garde son adresse côté serveur.
 
 Zod valide les données externes et persistées. TanStack Query gère les données distantes ; Nano Stores partage le brouillon entre les îlots React. Tailwind, des primitives locales issues de shadcn/Base UI et Heroicons forment la couche d’interface. Les filtres et la pagination restent dans l’URL.
 
@@ -91,11 +91,11 @@ Avec une journée de plus : tester le parcours avec un professionnel de l’acco
 
 ## IA, travail personnel et attention
 
-J’ai utilisé l’IA pour explorer l’architecture, produire et faire évoluer les composants, écrire des tests, préparer les audits et maintenir les documents. Les méthodes appliquées sont recensées dans [le registre des skills](docs/skill-log.md).
+J’ai utilisé l’IA pour explorer des idées concernant l'expérience utilisateur (utilisateurs pressés pas toujours complètement à l'aise avec les outils digitaux), réaliser des maquettes au format texte pour étudier l'architecture de l'information et servir de point de départ pour la réalisation de l'interface. Je m'en suis également servi pour échanger sur des sujets tels que l’architecture, mais également pour produire et faire évoluer les composants, écrire des tests, préparer les audits et enfin maintenir la documentation du projet. Les méthodes appliquées (consignes pour les agents IA contextualisées par type d'activité) sont recensées dans [le registre des skills](docs/skill-log.md).
 
-J’ai dirigé les choix, relu chaque étape dans **WebStorm**, testé manuellement dans **Firefox et/ou Chrome**, et apporté des modifications de code et de CSS entre les étapes. Le dernier correctif de focus a également été retesté manuellement avant commit et push. Les commandes automatisées et les mesures consignées dans les rapports ont été exécutées par l’agent.
+J’ai par ailleurs dirigé les choix, relu chaque étape dans l'IDE **WebStorm** que j'ai utilisé pour le projet, testé manuellement dans **Firefox et/ou Chrome**, et apporté des modifications de code et de CSS entre les étapes. Le dernier correctif de focus a également été retesté manuellement avant commit et push. Les commandes automatisées et les mesures consignées dans les rapports ont été exécutées par l’agent.
 
-**Décision principale contre une proposition de l’IA :** l’outil recommandait initialement React 18 et TypeScript seuls, jugeant Astro excessif pour cet exercice. J’ai retenu Astro et les îlots React pour servir le contenu initial côté serveur et limiter l’hydratation aux interactions. L’objectif était un meilleur chargement initial ; aucun benchmark comparatif avec une SPA React n’a été réalisé. J’ai aussi demandé d’afficher tous les casques compatibles au lieu d’en masquer une partie, et de préserver les wireframes originaux plutôt que de les réécrire après l’implémentation.
+**Examples de décision prise à l'encontre d'une proposition de l’IA :** l’outil recommandait initialement React 18 et TypeScript seuls, jugeant Astro excessif pour cet exercice. J’ai quand même et finalement retenu Astro et les îlots React pour servir le contenu initial côté serveur et limiter l’hydratation aux interactions. L’objectif était un meilleur chargement et rendu initial. J’ai également demandé d’afficher tous les casques compatibles au lieu d’en masquer une partie, et de préserver les wireframes originaux plutôt que de les réécrire après l’implémentation.
 
 **Attention estimée : environ 6 h 30, réparties sur 7 à 8 sessions.** Ce total dépasse le budget initial d’une demi-journée ; il exclut l’exécution autonome de l’agent et inclut cadrage, lecture, revue et tests manuels. Voir [le journal de l’exercice](docs/exercise-log.md).
 
