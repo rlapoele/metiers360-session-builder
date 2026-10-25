@@ -40,7 +40,9 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
-Candidate review of the [public demo](https://web-production-2e0a66.up.railway.app) and Task 11 records. No further task is authorised. Future release pushes must follow [deployment.md](deployment.md); pushing `releases` triggers Railway deployment.
+The candidate explicitly authorised release `v1.0.1` after committing and pushing their README changes in `82d25ab`. This release adds root package/lockfile version `1.0.1` and a changelog, with no application or dependency changes. Its promotion must preserve the previous release `4187582` (tagged `v1.0.0`) on `main` before fast-forwarding `releases` from verified `dev`, then publish the annotated `v1.0.1` tag. Follow [deployment.md](deployment.md); pushing `releases` triggers Railway deployment. Final publication and hosted verification outcomes are reported in the release handoff.
+
+Candidate review of the [public demo](https://web-production-2e0a66.up.railway.app) and Task 11 records remains the next product-review action. No further implementation task is authorised.
 
 The plan and checklist are now the canonical implementation-progress record. This handoff document should summarise the current phase and next action rather than duplicate every task checkbox.
 

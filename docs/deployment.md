@@ -55,6 +55,12 @@ Local setup remains `npm ci`, `npm --prefix server ci`, `npm run dev`; no Railwa
 
 ## Release promotion
 
+### v1.0.1 — 2026-10-25
+
+The candidate explicitly authorised promoting their README update (`82d25ab`), setting the root package and lockfile version to `1.0.1`, and publishing an annotated `v1.0.1` tag. [CHANGELOG.md](../CHANGELOG.md) records this documentation/metadata patch; application behavior and dependencies are unchanged. The required backup target is `4187582`, the previous `releases` tip and `v1.0.0` commit. Keep that exact source on `main` / `origin/main`, then fast-forward `releases` to the verified release-preparation commit on `dev`. Publish the tag at the new release tip, push `dev` as well, and return to `dev` after promotion.
+
+### Standard procedure
+
 Only promote a clean, verified `dev` after explicit release authorisation. Fetch and inspect the three branch tips first. Preserve the previous `releases` on `main` before moving `releases`; use fast-forward merges and normal pushes, never resets or force-pushes:
 
 ```bash
