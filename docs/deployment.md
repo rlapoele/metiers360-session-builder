@@ -2,6 +2,8 @@
 
 Task 11 was explicitly authorised on 2026-10-25. The candidate created the Railway project and connected the repository; their existing service already follows `releases`. This document records the configuration and promotion procedure. Completion evidence is added only after deployment and public verification.
 
+The verified deployment preparation was committed as `a5ca4ba` and pushed to `dev` and `releases`. `main` and `origin/main` preserve the preceding `195cf9d` release. Both services' reviewed settings were then applied through Railway; live verification is still in progress.
+
 ## Services
 
 Project: `peaceful-education`, production environment. Both services use `rlapoele/metiers360-session-builder`, branch `releases`, one replica in EU West. Pushes to `dev` do not deploy; pushes to `releases` trigger automatic deployments. No watch-path exclusions are configured.
@@ -32,6 +34,8 @@ The web `/health` endpoint reports process liveness, uses `Cache-Control: no-sto
 The live Railway UI reports that legacy Config as Code is deprecated: new services cannot opt in after 2026-08-28. No legacy `railway.json` is used. Service roots, source branch, variables, networking and health checks are explicit Railway service settings recorded above. Root `railpack.json` is the supported native **builder** configuration, not the deprecated Railway deployment-config format; it runs the repository quality gate before packaging the web application.
 
 Both roots include `.node-version` for local version managers. Railway's explicit Node override takes precedence over the permissive package `engines` range. The candidate's first web attempt selected 22.23.3, which Astro rejected because it requires at least 22.23.4; 24.14.1 is the locally verified deployment version.
+
+Railpack supplies `NODE_ENV=production`. Vitest explicitly sets `NODE_ENV=test` inside its test workers so React's development-only `act` helpers remain available. This does not change the environment of the subsequent production build or deployed application. The first configured web build exposed the inherited-environment failure; the existing saved-session tests reproduced it locally before this correction, then the complete 95-test gate passed under `NODE_ENV=production`.
 
 Local setup remains `npm ci`, `npm --prefix server ci`, `npm run dev`; no Railway account or environment file is required. The local API default remains port 4000 and Astro's server-only API URL defaults to localhost. `npm run verify` and the default `npm run test:browser` remain local checks.
 

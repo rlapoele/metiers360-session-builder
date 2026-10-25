@@ -270,6 +270,7 @@ The repository is reproducible, the final README matches the delivered applicati
 **Acceptance criteria:**
 
 - Two Railway services use the same repository with explicit roots: `/` for `web` and `/server` for `api`; deployment does not depend on automatic monorepo discovery.
+- Both services follow the `releases` branch. Preserve the previous release on `main`, then fast-forward/push verified `dev` to `releases`; every release-branch push triggers deployment. Follow [deployment.md](../docs/deployment.md) without resets or force-pushes.
 - Astro uses the Node adapter in standalone server mode, listens on `0.0.0.0` and Railway's `PORT`, and is the only service with a public domain.
 - The web service's server-only `CATALOG_API_URL` references the API service's `RAILWAY_PRIVATE_DOMAIN` and `PORT`; no private hostname reaches browser code.
 - API-generated thumbnail URLs are exposed through the same-origin BFF proxy, and both services have passing health checks.
