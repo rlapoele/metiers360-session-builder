@@ -1,0 +1,39 @@
+flowchart TB
+  accTitle: Métiers360 — architecture après implémentation
+  accDescr: Instantané documentaire du 27 octobre 2026, établi après implémentation. Ne constitue pas une spécification pour les évolutions futures. Le navigateur reçoit les pages Astro, les îlots React appellent le BFF de même origine et partagent un brouillon Nano Stores persisté localement. Astro accède à une API simulée séparée dont les séances sont en mémoire.
+
+  subgraph browser["Navigateur"]
+    pages["Pages reçues<br/>Catalogue / · Mes séances /sessions<br/>Programme /sessions/id en lecture seule"]
+    islands["Îlots React 18<br/>CatalogueApp · SessionsApp<br/>SessionDraftButton dans l’en-tête"]
+    url["URL du catalogue<br/>Recherche · filtres · pagination"]
+    query["TanStack Query<br/>Requêtes et mutations des surfaces React<br/>Cache · chargement · erreur · reprise"]
+    draft["Nano Stores partagé entre îlots<br/>Brouillon : nom · casque · vidéos ordonnées<br/>Nombre · durée · compatibilité dérivés"]
+    storage[("localStorage<br/>Brouillon versionné et validé par Zod")]
+    pages -->|hydratation ou montage| islands
+    islands <-->|lecture et navigation| url
+    islands <-->|lecture et actions| draft
+    draft <-->|restauration et persistance| storage
+    islands -->|interactions distantes| query
+  end
+
+  subgraph web["Serveur Astro / Node — service web public sur Railway"]
+    ssr["Routes Astro et loaders<br/>Shell HTML · données initiales des îlots<br/>Programme enregistré rendu côté serveur"]
+    bff["BFF de même origine /api/*<br/>Catalogue · référentiels · séances<br/>POST de séance validé · proxy SVG"]
+    client["Client API réservé au serveur<br/>Contrats JSON Zod · erreurs · délais<br/>Réécriture des URL de vignettes"]
+    ssr -->|appels directs sans passer par le BFF| client
+    bff --> client
+  end
+
+  subgraph backend["Processus séparé — service API privé sur Railway"]
+    api["API simulée Node<br/>server/server.mjs<br/>Latence variable · erreurs occasionnelles"]
+    catalogue[("server/data/catalog.json<br/>Vidéos · métiers ROME · casques · publics<br/>Séances initiales")]
+    saved[("Séances en mémoire du processus<br/>Consultation et création<br/>Perdues au redémarrage, puis réinitialisées")]
+    api -->|lit au démarrage| catalogue
+    api <-->|GET et POST /sessions| saved
+  end
+
+  pages -->|requête de page| ssr
+  ssr -->|HTML et données initiales| pages
+  query <-->|HTTP JSON de même origine| bff
+  pages -->|images /api/thumbnails/id.svg| bff
+  client <-->|HTTP · CATALOG_API_URL côté serveur| api

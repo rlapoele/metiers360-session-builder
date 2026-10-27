@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-10-25
+Last reviewed: 2026-10-27
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -39,6 +39,8 @@ This file records transient project state that does not belong in the stable arc
 - Task 11 is technically complete: the public Astro web and private API are online using Railpack and Node 24.14.1, with separate health checks. Public HTTPS health/catalogue/proxied-thumbnail checks and all four desktop/mobile Chromium cases pass; 20 axe scans report zero violations with five retained incomplete contrast-node occurrences. The hosted web quality gate passes all 95 tests, zero-diagnostic strict checks and production build. Firefox supplied a visual catalogue smoke check; no new full native Firefox or screen-reader audit is claimed. The README links the demo; release/rollback details and the two recovered deployment/test-environment issues are in [deployment.md](deployment.md).
 
 ## Next action
+
+On 2026-10-27, the candidate separately authorised a post-implementation architecture diagram and its concise explanation in [architecture/README.md](architecture/README.md), then requested links to both from the main README. The SVG is generated with Pele from editable Mermaid source. It is a descriptive snapshot of `17d809f`, not a specification for future changes. This documentation follow-up is ready for candidate review; it does not authorise further implementation or a release.
 
 The candidate explicitly authorised release `v1.0.1` after committing and pushing their README changes in `82d25ab`. This release adds root package/lockfile version `1.0.1` and a changelog, with no application or dependency changes. Its promotion must preserve the previous release `4187582` (tagged `v1.0.0`) on `main` before fast-forwarding `releases` from verified `dev`, then publish the annotated `v1.0.1` tag. Follow [deployment.md](deployment.md); pushing `releases` triggers Railway deployment. Final publication and hosted verification outcomes are reported in the release handoff.
 

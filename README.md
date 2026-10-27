@@ -71,6 +71,8 @@ Zod valide les données externes et persistées. TanStack Query gère les donné
 
 Voir [l’architecture](docs/architecture.md) et [le contrat de l’API](API.md).
 
+Le [diagramme d’architecture](docs/architecture/architecture.svg) et [son explication](docs/architecture/README.md), réalisés après l’implémentation, décrivent l’application livrée et ne constituent pas une spécification pour les évolutions futures.
+
 ## Vérifier
 
 ```bash
