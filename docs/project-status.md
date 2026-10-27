@@ -40,9 +40,9 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
-On 2026-10-27, the candidate separately authorised a post-implementation architecture diagram and its concise explanation in [architecture/README.md](architecture/README.md), then requested links to both from the main README. The SVG is generated with Pele from editable Mermaid source. It is a descriptive snapshot of `17d809f`, not a specification for future changes. This documentation follow-up is ready for candidate review; it does not authorise further implementation or a release.
+On 2026-10-27, the candidate confirmed committing and pushing the post-implementation architecture diagram, its [explanation](architecture/README.md) and the main README links on `dev` in `b4efea9` (`docs: link architecture diagram from main README`). Local `dev`, `origin/dev` and a direct GitHub remote-ref check all identify that commit. The diagram describes the `17d809f` implementation and is not a specification for future changes.
 
-The candidate explicitly authorised release `v1.0.1` after committing and pushing their README changes in `82d25ab`. This release adds root package/lockfile version `1.0.1` and a changelog, with no application or dependency changes. Its promotion must preserve the previous release `4187582` (tagged `v1.0.0`) on `main` before fast-forwarding `releases` from verified `dev`, then publish the annotated `v1.0.1` tag. Follow [deployment.md](deployment.md); pushing `releases` triggers Railway deployment. Final publication and hosted verification outcomes are reported in the release handoff.
+**No new release is planned for these documentation updates for now.** They are available through the README on GitHub’s `dev` branch for the debrief and interested readers. Do not promote them to `releases`, create a new release tag or trigger a deployment without a separate instruction. The earlier `v1.0.1` release records and general release procedure remain in [deployment.md](deployment.md); they are not a pending instruction to release this documentation follow-up.
 
 Candidate review of the [public demo](https://web-production-2e0a66.up.railway.app) and Task 11 records remains the next product-review action. No further implementation task is authorised.
 
