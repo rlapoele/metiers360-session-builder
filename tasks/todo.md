@@ -129,6 +129,7 @@ See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-20
 - [ ] **Task 15:** Expose validated cached AND search and suggestion endpoints, shared with SSR.
 - [ ] **Task 16:** Build and browser-verify the accessible grouped keyword selector.
 - [ ] **Task 17A:** Compose the approved responsive form, shared icon chips and pending selection behaviour.
+  - Required: single-line chip text with ellipsis when needed; whole chips may wrap rows. Preserve icon/remove controls, full stored/accessible values and keyboard/touch access to the complete label. Verify long labels at 320/390px without horizontal overflow.
 - [ ] **Task 17B:** Integrate applied URL state, SSR, queries, history and pagination.
 - [ ] **Task 18:** Complete regression/browser verification, including early-arrival loading and startup recovery, and documentation handoff.
 - [ ] **Checkpoint H:** Candidate accepts the revamped search on `dev`; release remains a separate instruction.

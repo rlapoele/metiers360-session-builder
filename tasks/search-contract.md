@@ -39,6 +39,8 @@ See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.
 
 ## Form, chips and results
 
+Chip text stays on one line and never wraps. Constrain each chip to its container's available width and truncate only its text with an ellipsis when necessary; keep the category icon and remove button visible, non-shrinking and usable. The chip list may wrap whole chips onto subsequent rows. This supersedes earlier suggestions to wrap long text within a chip. Truncation is presentation-only: retain the complete selected appellation/keyword in state, URL restoration and accessible names, including the removal action. Make the full text available to keyboard and touch users through an accessible reveal; hover or a native title attribute alone is insufficient. Do not clip the entire chip or its focus treatment to conceal overflow.
+
 Allow up to ten job/title chips combined, in addition to public/headset. Duplicate aliases for the same job and duplicate normalized title terms do not add another criterion. A job and a title chip with similar text are not duplicates. Retain redundant broader/narrower title terms rather than removing them unexpectedly.
 
 All edits, chip removals and clear-all are pending until Rechercher; removal returns focus to its dropdown or keyword input. Clear-all restores default dropdowns and clears keywords and input. Show « Critères modifiés — lancez la recherche pour les appliquer. » only when pending selections differ from applied selections. Results/count and card headset display still reflect the last applied search; mark previous results as previous while a new request is pending or fails.
