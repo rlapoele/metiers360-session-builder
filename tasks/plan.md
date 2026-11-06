@@ -286,7 +286,7 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: Task 12's contract is agreed and separately authorised Task 13 is technically complete on `dev`, awaiting candidate review. Tasks 14 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. The complete search behaviour below remains future work; only the isolated Task 13 foundation is implemented.
+Status: Task 12's contract is agreed; Tasks 13 and separately authorised 14A are technically complete on `dev`. Task 14A awaits candidate review. Task 14B onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. The complete search remains future work; preparation and pure dictionary/suggestion helpers are implemented without startup or UI wiring.
 
 ### Agreed direction
 
@@ -309,7 +309,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** None. **Scope:** Small; planning/contracts only.
 
-The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Task 13 was subsequently explicitly authorised. Tasks 14 onward are not authorised.
+The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13 and 14A were subsequently explicitly authorised. Task 14B onward are not authorised.
 
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
@@ -345,6 +345,8 @@ The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-
 
 **Verification:** In 14A, real fixture examples, names, accents, apostrophes, œ, compounds, compressed gender forms, phrase preservation, mapping collisions and deterministic five-item limit. In 14B, prove upstream requests and dictionary preparation start before any visitor request; exercise delayed API startup, recovery/exhaustion, concurrent early requests, process restart, shutdown and a production build without a running API. Full repository gate after each slice.
 **Likely files:** 14A dictionary module/test under `src/features/catalogue/` and shared contracts if needed; 14B the supported startup integration/entry point and lifecycle tests. Select the exact startup mechanism from installed tooling and official documentation during implementation.
+
+**Task 14A verified handoff (2026-11-06):** pure rules/builder/suggestion helpers and 15 focused tests are implemented in five new files under `src/features/catalogue/`. Names, exact source occurrences, normalized mappings, stable selected-appellation keys, compact-form diagnostics and the five-suggestion allocation are covered. Reversing complete fixture inputs produces identical JSON without mutating inputs or using clock/randomness. `npm run verify` passes 147 tests, 87-file strict checks with zero diagnostics, formatting/lint and production build. Current fixture: 631 title entries, 1,603 job-vocabulary entries and zero diagnostics across 204 videos/55 jobs. No startup/controller wiring, endpoints, UI, supplied API/catalogue, dependency, commit or push changes. No interaction/browser verification was needed for these unconnected pure helpers. Candidate review is next.
 
 **Checkpoint G:** Candidate reviews extraction examples, dictionary mappings and evidence that initialization starts before the first request, with recoverable startup failures and no premature ready state, before UI integration.
 
