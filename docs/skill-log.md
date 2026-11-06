@@ -1,6 +1,6 @@
 # Agent skill registry
 
-Last reviewed: 2026-10-25
+Last reviewed: 2026-11-06
 
 This document records the distinct agent skills actually applied while delivering the Métiers360 session builder. It supports the exercise's AI-use disclosure by making the working methods visible without turning the exercise log into a tool transcript.
 
@@ -39,6 +39,7 @@ This document records the distinct agent skills actually applied while deliverin
 | `agent-skills:code-simplification` | 2026-10-25 | Replaced internal relative/root-alias imports with named folder aliases through a mechanical migration, preserving module targets and behavior. | `tsconfig.json`, `components.json`, Astro/React source and colocated tests; verification in `docs/exercise-log.md` |
 | `agent-skills:shipping-and-launch` | 2026-10-25 | Prepared the authorised two-service Railway demo, independent health checks, guarded release promotion, smoke checks and rollback procedure. | `docs/deployment.md`, web health endpoint and Task 11 evidence |
 | `agent-skills:ci-cd-and-automation` | 2026-10-25 | Configured branch-triggered releases and native Railpack build verification while retaining local workflows. | `railpack.json`, Node pins, Railway service settings and deployment procedure |
+| `agent-skills:observability-and-instrumentation` | 2026-11-06 | Added bounded JSON lifecycle logs for catalogue/dictionary startup, explicit development/production entry-point and startup/manual-retry attribution, correlation IDs, phase counts/timings and redacted error classification. | `search-runtime.server.ts`, runtime/lifecycle tests and [startup troubleshooting](catalogue-startup.md) |
 
 ## Explicit exclusions
 

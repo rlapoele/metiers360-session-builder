@@ -23,9 +23,18 @@ interface PreparationOptions<Dictionary> {
     signal: AbortSignal,
   ) => Dictionary | Promise<Dictionary>;
   reportFailure?: (error: unknown, attempt: number) => void;
+  onEvent?: (event: CataloguePreparationEvent) => void;
 }
 
+export type CataloguePreparationEvent =
+  | { type: 'attempt'; attempt: number; trigger: 'start' | 'retry' }
+  | { type: 'retry'; attempt: number; delayMs: number; error: unknown }
+  | { type: 'failed'; attempt: number; error: unknown }
+  | { type: 'ready'; attempt: number }
+  | { type: 'stopped' };
+
 const RETRY_DELAYS_MS = [1_000, 2_000, 4_000] as const;
+export const MAX_PREPARATION_ATTEMPTS = RETRY_DELAYS_MS.length + 1;
 const FAILURE_MESSAGE = 'Le catalogue ne peut pas être préparé. Réessayez.';
 
 function retryDelay(error: unknown, attempt: number): number | undefined {
@@ -81,31 +90,45 @@ function logFailure(error: unknown, attempt: number) {
 export function createCataloguePreparation<Dictionary>({
   loadSnapshot,
   buildDictionary,
-  reportFailure = logFailure,
+  reportFailure,
+  onEvent,
 }: PreparationOptions<Dictionary>) {
   let state: CataloguePreparationState<Dictionary> = { status: 'idle' };
   let pending: Promise<CataloguePreparationState<Dictionary>> | undefined;
   let controller: AbortController | undefined;
 
-  async function run(signal: AbortSignal) {
-    for (let attempt = 1; attempt <= 4; attempt += 1) {
+  function emit(event: CataloguePreparationEvent) {
+    try {
+      onEvent?.(event);
+    } catch {
+      console.error('Catalogue preparation telemetry failed.');
+    }
+  }
+
+  async function run(signal: AbortSignal, trigger: 'start' | 'retry') {
+    for (let attempt = 1; attempt <= MAX_PREPARATION_ATTEMPTS; attempt += 1) {
       if (signal.aborted) return state;
       state = { status: 'preparing', attempt };
+      emit({ type: 'attempt', attempt, trigger });
       try {
         const snapshot = await loadSnapshot(signal);
         signal.throwIfAborted();
         const dictionary = await buildDictionary(snapshot, signal);
         signal.throwIfAborted();
         state = { status: 'ready', snapshot, dictionary };
+        emit({ type: 'ready', attempt });
         return state;
       } catch (error) {
         if (signal.aborted) return state;
-        reportFailure(error, attempt);
+        if (reportFailure) reportFailure(error, attempt);
+        else if (!onEvent) logFailure(error, attempt);
         const delay = retryDelay(error, attempt);
         if (delay === undefined) {
           state = { status: 'failed', attempt, message: FAILURE_MESSAGE };
+          emit({ type: 'failed', attempt, error });
           return state;
         }
+        emit({ type: 'retry', attempt, delayMs: delay, error });
         try {
           await waitForRetry(delay, signal);
         } catch {
@@ -116,13 +139,13 @@ export function createCataloguePreparation<Dictionary>({
     return state;
   }
 
-  function begin() {
+  function begin(trigger: 'start' | 'retry') {
     controller = new AbortController();
     const signal = controller.signal;
     state = { status: 'preparing', attempt: 1 };
     // Assign pending before invoking any caller-supplied work.
     pending = Promise.resolve()
-      .then(() => (signal.aborted ? state : run(signal)))
+      .then(() => (signal.aborted ? state : run(signal, trigger)))
       .finally(() => {
         pending = undefined;
       });
@@ -133,15 +156,19 @@ export function createCataloguePreparation<Dictionary>({
     getState: () => state,
     start() {
       if (pending) return pending;
-      return state.status === 'idle' ? begin() : Promise.resolve(state);
+      return state.status === 'idle' ? begin('start') : Promise.resolve(state);
     },
     retry() {
       if (pending) return pending;
-      return state.status === 'failed' ? begin() : Promise.resolve(state);
+      return state.status === 'failed'
+        ? begin('retry')
+        : Promise.resolve(state);
     },
     shutdown() {
+      if (state.status === 'stopped') return;
       state = { status: 'stopped' };
       controller?.abort();
+      emit({ type: 'stopped' });
     },
   };
 }

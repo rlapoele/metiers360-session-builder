@@ -1,6 +1,6 @@
 # Deterministic search dictionary rules
 
-Version: 1. Date: 2026-11-06. Status: candidate-agreed rules, implemented and verified in Task 14A. Startup activation, HTTP endpoints and the search UI remain later tasks.
+Version: 1. Date: 2026-11-06. Status: candidate-agreed rules, implemented and verified in Task 14A. Task 14B subsequently activated startup preparation; HTTP endpoints and the search UI remain later tasks.
 
 This document owns the editorial extraction and matching rules. The [search contract](../tasks/search-contract.md) owns selection identities, suggestion ranking, URL state and startup behaviour. Keep stop words and expansion rules here rather than copying them into several specification documents.
 

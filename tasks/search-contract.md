@@ -1,6 +1,6 @@
 # Task 12 — Agreed search contract
 
-Date: 2026-11-06. Status: **candidate-agreed contract; Tasks 13/14A foundation implemented, full search not yet implemented**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13 and 14A were separately authorised and verified. Task 14B onward is not authorised.
+Date: 2026-11-06. Status: **candidate-agreed contract; Tasks 13/14A/14B startup foundation implemented, full search not yet implemented**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A and 14B were separately authorised and verified. Task 15 onward is not authorised.
 
 ## Confirmed direction
 
@@ -25,7 +25,7 @@ Public is exact API membership. « Tous les publics » means no filter; the actu
 
 ## Dictionary extraction and matching rules
 
-See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. It is not wired to startup or application requests.
+See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. Task 14B now wires it to startup preparation; new HTTP search handlers and UI remain later tasks.
 
 ## Dictionary mappings and suggestions
 
@@ -73,7 +73,7 @@ Legacy `job`, audience/headset and page links retain meaning. A legacy `q` remai
 - While preparing, return a machine-readable preparing state (HTTP 503 and Retry-After 1) from search/suggestions. The page shows an announced loading state, not zero results; React checks status once per second while visible and stops when ready or failed. Once ready it requests the submitted results automatically. Preserve pending selections/draft. Legacy query validation needing catalogue data waits until ready.
 - A failed state stops automatic polling and displays « Le catalogue ne peut pas être préparé. Réessayer ». Manual retry starts one new bounded cycle only when failed; simultaneous retries join it. Configuration/data failures may need server correction; manual retry is allowed but must not trigger a loop. A ready cache is never rebuilt via this public recovery action. Shutdown cancels retry timers and initialization requests.
 - Keep current liveness semantics. Do not gate Railway traffic or modify deployment settings in this increment without separate agreement. Readiness status belongs to the application search service.
-- The installed integration types and [official integration documentation](https://docs.astro.build/en/reference/integrations-reference/) distinguish development server hooks; the [Node adapter](https://docs.astro.build/en/guides/integrations-guide/node/) starts production standalone output through its server entrypoint. Do not claim astro:server:start alone covers production. Task 14B must select and prove supported dev and production bootstrap paths sharing the exact same cache instance as requests, without API calls during build. Exact wiring remains an implementation choice, not validated by this documentation task.
+- The installed integration types and [official integration documentation](https://docs.astro.build/en/reference/integrations-reference/) distinguish development server hooks; the [Node adapter](https://docs.astro.build/en/guides/integrations-guide/node/) starts production standalone output through its server entrypoint. Do not claim astro:server:start alone covers production. Task 14B must select and prove supported dev and production bootstrap paths sharing the exact same cache instance as requests, without API calls during build. Task 14B subsequently implemented and verified the development SSR-runner hook and wrapped Node server entrypoint; see [startup ownership and logs](../docs/catalogue-startup.md).
 
 ## Agreed acceptance examples
 
@@ -100,4 +100,4 @@ Legacy `job`, audience/headset and page links retain meaning. A legacy `q` remai
 4. Maximum ten keyword/job criteria; explicit selection required before submission; pending removals/clear-all; legacy q compatibility.
 5. Four startup attempts with 1/2/4s delays, loading/status polling and manual retry; keep video details on the existing API path. No deployment-readiness change.
 
-The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13 and 14A's loader/preparation and pure dictionary foundations, now verified in isolation. Task 14B onward still requires a separate instruction.
+The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13, 14A and 14B's preparation, dictionary and startup foundations, now verified. Task 15 onward still requires a separate instruction.

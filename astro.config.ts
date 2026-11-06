@@ -1,11 +1,12 @@
-import node from '@astrojs/node';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, envField } from 'astro/config';
 
+import catalogueNode from './src/lib/catalogue-node.integration';
+
 export default defineConfig({
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: catalogueNode(),
   env: {
     schema: {
       CATALOG_API_URL: envField.string({
