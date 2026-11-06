@@ -296,7 +296,8 @@ Status: proposal for candidate review on `dev`. Planning is authorised; implemen
 - Heroicons outline: UserGroup for public, Briefcase for métier, MagnifyingGlass for title keywords and Eye for headset. Introduce those same icons beside the corresponding field-label words; preserve complete category/value names for assistive technology and comfortable removal targets.
 - Desktop uses one row with the widest field reserved for keywords. Tablet gives Public and keywords separate full-width rows, followed by headset and submit together. Mobile stacks all controls and uses a full-width submit action; chips wrap below. Breakpoints follow available catalogue width, including the desktop draft rail, rather than device names alone.
 - Edits are pending until submission. Keep pending chips separate from applied results/counts in state and provide a visible modified-criteria cue. Applied criteria and pagination remain URL-owned; pending form presentation stays local.
-- Astro retrieves the entire catalogue and jobs through the existing validated API client, retaining data and dictionary in process memory without a timed expiry. The user confirms the catalogue rarely changes and never changes during use. Restart rebuilds the snapshot; no browser persistence or disk cache is needed.
+- When each Astro server process starts, automatically retrieve the entire catalogue and required reference data through the existing validated API client, validate the snapshot and build the dictionary before marking search ready. Do not wait for the first page visit or search. Retain the complete snapshot and dictionary in process memory without a timed expiry; a restart repeats preparation. The user confirms the catalogue rarely changes and never changes during use. No browser persistence or disk cache is needed.
+- Startup preparation has explicit preparing, ready and failed states. Retry temporary upstream failures with capped backoff and a finite attempt budget; after exhaustion, expose a recoverable error and manual retry. Early visitors see an announced loading state, never an empty catalogue presented as a successful result. Requests observe the shared preparation rather than starting another build.
 - Astro performs AND matching against the complete cached snapshot, then computes totals and pagination in stable video-ID order. The mock API and its catalogue files stay unchanged. Sessions remain live API operations. Proposed default: retain existing per-video details fetching for this increment, avoiding unrelated draft/session metadata changes.
 
 ### Architecture change to make explicit before coding
@@ -310,33 +311,36 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
 - Specify submission with unselected text (proposal: ask the user to select a suggestion or clear it), no-result behaviour, pending removal/clear semantics and video-details fetching. Candidate reviews these choices before implementation.
+- Specify retryable versus non-retryable initialization errors, attempt budget and backoff bounds. Verify the installed Astro/Node adapter's supported server-start lifecycle before choosing a startup entry point; module loading on first request or during the build does not satisfy startup preparation. Keep server liveness distinct from search readiness. Deployment traffic gating on readiness is a separate decision, not an instruction to change Railway settings now.
 
 **Verification:** Example acceptance matrix including Omar, Hugo, jardinier municipal, garagiste → I1604, accent variants, two jobs and duplicate aliases. Agree exact word versus substring matching; do not inherit upstream substring semantics accidentally.
 **Likely records:** `tasks/plan.md`, `tasks/todo.md`, `docs/architecture.md`.
 
-### Task 13 — Load one complete catalogue snapshot
+### Task 13 — Prepare the catalogue loader for startup initialization
 
 **Dependencies:** Task 12. **Scope:** Medium; server cache module and focused tests, reusing the API client.
 
 - Load every video page with supported `per_page=100`, plus required reference data; preserve validated values and same-origin thumbnail URLs. Check completion and duplicate IDs before publishing the snapshot.
-- Share one in-flight initialization between concurrent callers. Publish atomically only after success; failed initialization must release the pending promise so a manual retry can succeed. Never serve a partial dictionary/catalogue as complete.
+- Share one in-flight preparation between the startup initializer, requests and retries. Publish the search-ready state atomically only after both the complete snapshot and Task 14's dictionary succeed. Failed preparation must release the pending promise so recovery can succeed. Never serve a partial dictionary/catalogue as complete.
 - Reuse a successful snapshot for the process lifetime. Cache only catalogue/reference data, never saved-session responses; do not bind shared initialization cancellation to one browser disconnect.
+- Add explicit preparation states and the agreed bounded retry policy for temporary failures, including the mock API starting later than Astro. Manual retries share the same initializer and cannot overlap automatic attempts. Stop retry timers during shutdown; permanent validation/configuration errors must not spin in an automatic retry loop.
 
-**Verification:** Multiple pages, concurrent first requests, warm reuse without upstream calls, failure on a later page followed by successful retry, and unchanged session fetching. Full repository verification gate.
+**Verification:** Multiple pages, callers joining a running initialization, warm reuse without upstream calls, later-page failure followed by recovery, capped attempts/backoff, terminal errors, manual retry and unchanged session fetching. Full repository verification gate. Task 14 completes the startup trigger after the dictionary builder exists.
 **Likely files:** new `src/features/catalogue/search-snapshot.server.ts` and its test; existing server client only if required.
 
-### Task 14 — Build and verify the dictionary
+### Task 14 — Build the dictionary and connect server-start preparation
 
-**Dependencies:** Tasks 12–13. **Scope:** Medium; pure extraction/index module and focused tests.
+**Dependencies:** Tasks 12–13. **Scope:** Two reviewable slices: 14A dictionary module/tests, then 14B startup wiring/lifecycle tests.
 
 - Normalize matching copies while preserving original display strings and people’s names; implement the agreed reviewed gender/compound and phrase rules without generating meaningless suffix fragments.
 - Build category-aware mappings from title keywords to video IDs and job vocabulary to job codes, retaining source labels/appellations for explanations. Keep ambiguous terms as distinct job suggestions, not an implicit OR selection.
 - Return at most five deterministic suggestions across categories; rank exact/prefix matches before weaker matches and omit already-selected effective criteria. Categories need not both appear when only one matches.
+- In 14B, start the combined catalogue/dictionary preparation automatically from the verified server-start entry point. Initialization must begin without a browser request in development and the built Node server, remain server-only, and avoid an upstream dependency during `npm run build`. Search readiness requires successful completion of both stages; early requests join the current work or receive an explicit preparing state, not another initialization.
 
-**Verification:** Real fixture examples, names, accents, apostrophes, œ, compounds, compressed gender forms, phrase preservation, mapping collisions and deterministic five-item limit. Full repository gate.
-**Likely files:** dictionary module/test under `src/features/catalogue/` and shared contracts if needed.
+**Verification:** In 14A, real fixture examples, names, accents, apostrophes, œ, compounds, compressed gender forms, phrase preservation, mapping collisions and deterministic five-item limit. In 14B, prove upstream requests and dictionary preparation start before any visitor request; exercise delayed API startup, recovery/exhaustion, concurrent early requests, process restart, shutdown and a production build without a running API. Full repository gate after each slice.
+**Likely files:** 14A dictionary module/test under `src/features/catalogue/` and shared contracts if needed; 14B the supported startup integration/entry point and lifecycle tests. Select the exact startup mechanism from installed tooling and official documentation during implementation.
 
-**Checkpoint G:** Candidate reviews the extraction examples, dictionary mappings and cache failure/retry behaviour before UI integration.
+**Checkpoint G:** Candidate reviews extraction examples, dictionary mappings and evidence that initialization starts before the first request, with recoverable startup failures and no premature ready state, before UI integration.
 
 ### Task 15 — Expose cached AND search and suggestions
 
@@ -344,7 +348,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 - Add application-owned search/suggestion endpoints backed by the same service callable from SSR. Validate requests with Zod and check identifiers against the snapshot; reject malformed/unknown criteria with actionable French errors.
 - Require every selected title condition and every selected job code, plus audience/headset membership; paginate only after filtering and retain stable ordering. Return counts and existing validated video shapes.
-- Bound query input and distinguish empty results from unavailable initialization. Existing upstream video proxies and supplied API behaviour remain intact for other callers.
+- Bound query input and distinguish empty results from preparing/failed initialization. Define a response contract so SSR and React can announce preparation and recover automatically when ready; a failed preparation exposes manual retry without losing selected criteria. Existing upstream video proxies and supplied API behaviour remain intact for other callers.
 
 **Verification:** Multi-title/multi-job AND, mixed criteria, names, unknown IDs, injection-like input treated as data, matches beyond page one, correct totals and retryable cache errors. Full repository gate.
 **Likely files:** search service/test, search contracts and routes under `src/pages/api/catalogue/`.
@@ -374,7 +378,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** Task 17. **Scope:** Separate test and documentation passes.
 
-- Extend existing browser scenarios for the new search, first-load cache failures/retry and unchanged draft → save → saved-session flow. Keep mock latency/failure coverage for initialization, details and sessions; do not claim warm cached searches exercise the upstream API.
+- Extend existing browser scenarios for the new search, arrival during startup preparation, exhausted retries/manual recovery and unchanged draft → save → saved-session flow. Check that pending initialization never shows a misleading zero-result success, retains criteria/draft and becomes usable when ready. Keep mock latency/failure coverage for initialization, details and sessions; do not claim warm cached searches exercise the upstream API.
 - Run `npm run verify`, `npm run test:browser` and `git diff --check`; verify responsive keyboard/touch behaviour, suggestion/chip accessibility, loading/empty/error states and same-origin thumbnails. No new formal WCAG/RGAA conformance claim.
 - Update current architecture, README search/limit explanations, status, checklist and exercise/skill logs. Preserve original brief/wireframes and annotate the existing post-implementation diagram as describing its old baseline rather than silently treating it as current search documentation.
 

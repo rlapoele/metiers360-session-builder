@@ -44,6 +44,8 @@ On 2026-11-06, at the candidate's explicit request, `main` was advanced from `41
 
 The candidate requested an implementation proposal for the agreed revamped search on `dev`. [Tasks 12–18 and Checkpoints G–H](../tasks/plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06) describe the dictionary, lifetime catalogue cache, Astro AND search, accessible suggestions and approved responsive shared-chip form. The proposal explicitly identifies the required exception to the current thin-BFF architecture. Next: review the exact search/editorial/URL contract and authorise a first slice. Application implementation, release and deployment are not authorised by the planning request.
 
+On 2026-11-06, the candidate refined the future cache lifecycle: prepare the catalogue and dictionary when each Astro server process starts, before any visitor request. The plan now includes shared preparation states, bounded automatic retries for temporary failures, early-arrival loading, manual recovery and lifecycle verification. Cache lifetime remains the server process lifetime. Exact startup integration and retry bounds will be verified/defined before implementation; no application or deployment changes were authorised by this plan update.
+
 ### Previous documentation handoff (2026-10-27)
 
 On 2026-10-27, the candidate confirmed committing and pushing the post-implementation architecture diagram, its [explanation](architecture/README.md) and the main README links on `dev` in `b4efea9` (`docs: link architecture diagram from main README`). Local `dev`, `origin/dev` and a direct GitHub remote-ref check all identify that commit. The diagram describes the `17d809f` implementation and is not a specification for future changes.
