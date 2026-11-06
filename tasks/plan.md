@@ -284,6 +284,102 @@ The repository is reproducible, the final README matches the delivered applicati
 
 The public Astro URL serves the verified application, the API remains private, and the final README includes the live link only after the smoke test passes.
 
+## Proposed follow-up — Revamped catalogue search (2026-11-06)
+
+Status: proposal for candidate review on `dev`. Planning is authorised; implementation is not yet authorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. This section describes future behaviour, not the currently delivered application.
+
+### Agreed direction
+
+- Public → Métiers ou mots-clés → Casque VR → Rechercher. All criteria are optional; one audience, one headset and multiple typed job/title criteria combine with AND.
+- Up to five suggestions in total, grouped as Métier and Titre de vidéo. Job labels and appellations resolve to a particular job code; title keywords resolve to matching titles. A term may occur in both categories or match several jobs. Different aliases for the same job produce one effective criterion.
+- All selected criteria appear in a shared full-width chip area below the controls, followed by « Tous les critères sélectionnés doivent correspondre. » Removing a dropdown chip resets that control; default Tous values produce no chip. Retain the clear-all action.
+- Heroicons outline: UserGroup for public, Briefcase for métier, MagnifyingGlass for title keywords and Eye for headset. Introduce those same icons beside the corresponding field-label words; preserve complete category/value names for assistive technology and comfortable removal targets.
+- Desktop uses one row with the widest field reserved for keywords. Tablet gives Public and keywords separate full-width rows, followed by headset and submit together. Mobile stacks all controls and uses a full-width submit action; chips wrap below. Breakpoints follow available catalogue width, including the desktop draft rail, rather than device names alone.
+- Edits are pending until submission. Keep pending chips separate from applied results/counts in state and provide a visible modified-criteria cue. Applied criteria and pagination remain URL-owned; pending form presentation stays local.
+- Astro retrieves the entire catalogue and jobs through the existing validated API client, retaining data and dictionary in process memory without a timed expiry. The user confirms the catalogue rarely changes and never changes during use. Restart rebuilds the snapshot; no browser persistence or disk cache is needed.
+- Astro performs AND matching against the complete cached snapshot, then computes totals and pagination in stable video-ID order. The mock API and its catalogue files stay unchanged. Sessions remain live API operations. Proposed default: retain existing per-video details fetching for this increment, avoiding unrelated draft/session metadata changes.
+
+### Architecture change to make explicit before coding
+
+The current architecture requires a thin BFF and no duplicate catalogue storage. The agreed search direction deliberately adds a derived, read-only in-memory catalogue snapshot and an application search service in Astro. Record this scoped exception in `docs/architecture.md` before introducing it. Existing API proxies, thumbnail rewriting, session operations and the draft store keep their current responsibilities. Server-rendered initial results and browser searches must use the same service; SSR must not call its own HTTP endpoint.
+
+### Task 12 — Agree the exact search contract
+
+**Dependencies:** None. **Scope:** Small; planning/contracts only.
+
+- Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
+- Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
+- Specify submission with unselected text (proposal: ask the user to select a suggestion or clear it), no-result behaviour, pending removal/clear semantics and video-details fetching. Candidate reviews these choices before implementation.
+
+**Verification:** Example acceptance matrix including Omar, Hugo, jardinier municipal, garagiste → I1604, accent variants, two jobs and duplicate aliases. Agree exact word versus substring matching; do not inherit upstream substring semantics accidentally.
+**Likely records:** `tasks/plan.md`, `tasks/todo.md`, `docs/architecture.md`.
+
+### Task 13 — Load one complete catalogue snapshot
+
+**Dependencies:** Task 12. **Scope:** Medium; server cache module and focused tests, reusing the API client.
+
+- Load every video page with supported `per_page=100`, plus required reference data; preserve validated values and same-origin thumbnail URLs. Check completion and duplicate IDs before publishing the snapshot.
+- Share one in-flight initialization between concurrent callers. Publish atomically only after success; failed initialization must release the pending promise so a manual retry can succeed. Never serve a partial dictionary/catalogue as complete.
+- Reuse a successful snapshot for the process lifetime. Cache only catalogue/reference data, never saved-session responses; do not bind shared initialization cancellation to one browser disconnect.
+
+**Verification:** Multiple pages, concurrent first requests, warm reuse without upstream calls, failure on a later page followed by successful retry, and unchanged session fetching. Full repository verification gate.
+**Likely files:** new `src/features/catalogue/search-snapshot.server.ts` and its test; existing server client only if required.
+
+### Task 14 — Build and verify the dictionary
+
+**Dependencies:** Tasks 12–13. **Scope:** Medium; pure extraction/index module and focused tests.
+
+- Normalize matching copies while preserving original display strings and people’s names; implement the agreed reviewed gender/compound and phrase rules without generating meaningless suffix fragments.
+- Build category-aware mappings from title keywords to video IDs and job vocabulary to job codes, retaining source labels/appellations for explanations. Keep ambiguous terms as distinct job suggestions, not an implicit OR selection.
+- Return at most five deterministic suggestions across categories; rank exact/prefix matches before weaker matches and omit already-selected effective criteria. Categories need not both appear when only one matches.
+
+**Verification:** Real fixture examples, names, accents, apostrophes, œ, compounds, compressed gender forms, phrase preservation, mapping collisions and deterministic five-item limit. Full repository gate.
+**Likely files:** dictionary module/test under `src/features/catalogue/` and shared contracts if needed.
+
+**Checkpoint G:** Candidate reviews the extraction examples, dictionary mappings and cache failure/retry behaviour before UI integration.
+
+### Task 15 — Expose cached AND search and suggestions
+
+**Dependencies:** Tasks 13–14. **Scope:** Medium; shared search service/test and two small Astro routes.
+
+- Add application-owned search/suggestion endpoints backed by the same service callable from SSR. Validate requests with Zod and check identifiers against the snapshot; reject malformed/unknown criteria with actionable French errors.
+- Require every selected title condition and every selected job code, plus audience/headset membership; paginate only after filtering and retain stable ordering. Return counts and existing validated video shapes.
+- Bound query input and distinguish empty results from unavailable initialization. Existing upstream video proxies and supplied API behaviour remain intact for other callers.
+
+**Verification:** Multi-title/multi-job AND, mixed criteria, names, unknown IDs, injection-like input treated as data, matches beyond page one, correct totals and retryable cache errors. Full repository gate.
+**Likely files:** search service/test, search contracts and routes under `src/pages/api/catalogue/`.
+
+### Task 16 — Build the accessible keyword selector
+
+**Dependencies:** Tasks 12, 14–15. **Scope:** Medium; selector component/test and browser suggestion client/contracts.
+
+- Build the grouped suggest input with debounced requests, keyboard navigation, Enter selection, Escape dismissal and category-aware selections; prevent selection from prematurely submitting the form.
+- Handle idle/loading/no-suggestion/error/retry states. Cancel obsolete requests or ignore stale responses; preserve selected criteria when requests fail.
+- Use existing Base UI capabilities only after checking their installed API and official documentation; add no dependency unless a concrete need is demonstrated.
+
+**Verification:** Focused interaction tests plus real mobile/tablet/desktop keyboard and touch checks, including stale responses, long French labels and selection announcements. Full repository gate.
+**Likely files:** selector component/test, suggestion client/test and contracts as needed.
+
+### Task 17 — Integrate the responsive search form and URL state
+
+**Dependencies:** Tasks 15–16. **Scope:** Split into two reviewable slices.
+
+**17A — Form composition:** Replace the separate métier dropdown/title-only form with the approved ordered controls, full-width shared chips/help, matching label/chip icons, pending edits and explicit submission. Preserve native public/headset selects, removal/reset focus and the distinction between a catalogue headset filter and the draft headset. Likely files: search form, selector composition, applied chips and tests (up to five per slice).
+
+**17B — Catalogue integration:** Connect SSR and React/TanStack Query to the new search service/endpoints, typed applied URL criteria and pagination. Restore chips/results after back/forward/reload; reset page on submitted criteria changes. Preserve result-count meaning while pending/loading/error, draft contents, contextual details and scroll behaviour. Likely files: catalogue page, `CatalogueApp`, query-params, browser API and relevant tests; subdivide if this exceeds a focused slice.
+
+**Verification:** Full gate after each slice; browser checks at 320/390px, 834/1024px and desktop with draft rail. Verify chips from all categories, clear-all, long-value wrapping, removal focus, explicit submission, deep links, history, pagination and zero overflow. Review the rendered form with the candidate before final acceptance.
+
+### Task 18 — Regression verification and handoff
+
+**Dependencies:** Task 17. **Scope:** Separate test and documentation passes.
+
+- Extend existing browser scenarios for the new search, first-load cache failures/retry and unchanged draft → save → saved-session flow. Keep mock latency/failure coverage for initialization, details and sessions; do not claim warm cached searches exercise the upstream API.
+- Run `npm run verify`, `npm run test:browser` and `git diff --check`; verify responsive keyboard/touch behaviour, suggestion/chip accessibility, loading/empty/error states and same-origin thumbnails. No new formal WCAG/RGAA conformance claim.
+- Update current architecture, README search/limit explanations, status, checklist and exercise/skill logs. Preserve original brief/wireframes and annotate the existing post-implementation diagram as describing its old baseline rather than silently treating it as current search documentation.
+
+**Checkpoint H:** Candidate accepts the complete change on `dev`. No commit, push of implementation, release promotion, tag or deployment is included without a later explicit instruction. Each repository change passes `npm run verify`; interaction slices additionally require browser verification.
+
 ## Risks and mitigations
 
 | Risk | Impact | Mitigation |

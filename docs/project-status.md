@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-10-27
+Last reviewed: 2026-11-06
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -39,6 +39,12 @@ This file records transient project state that does not belong in the stable arc
 - Task 11 is technically complete: the public Astro web and private API are online using Railpack and Node 24.14.1, with separate health checks. Public HTTPS health/catalogue/proxied-thumbnail checks and all four desktop/mobile Chromium cases pass; 20 axe scans report zero violations with five retained incomplete contrast-node occurrences. The hosted web quality gate passes all 95 tests, zero-diagnostic strict checks and production build. Firefox supplied a visual catalogue smoke check; no new full native Firefox or screen-reader audit is claimed. The README links the demo; release/rollback details and the two recovered deployment/test-environment issues are in [deployment.md](deployment.md).
 
 ## Next action
+
+On 2026-11-06, at the candidate's explicit request, `main` was advanced from `4187582` to the existing `releases` tip `17d809f` (`v1.0.1`) and pushed. Direct remote-head verification confirmed both branches at that commit; `dev` remained checked out at `6c878c2`. No new commit/tag or update to `releases` was made.
+
+The candidate requested an implementation proposal for the agreed revamped search on `dev`. [Tasks 12–18 and Checkpoints G–H](../tasks/plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06) describe the dictionary, lifetime catalogue cache, Astro AND search, accessible suggestions and approved responsive shared-chip form. The proposal explicitly identifies the required exception to the current thin-BFF architecture. Next: review the exact search/editorial/URL contract and authorise a first slice. Application implementation, release and deployment are not authorised by the planning request.
+
+### Previous documentation handoff (2026-10-27)
 
 On 2026-10-27, the candidate confirmed committing and pushing the post-implementation architecture diagram, its [explanation](architecture/README.md) and the main README links on `dev` in `b4efea9` (`docs: link architecture diagram from main README`). Local `dev`, `origin/dev` and a direct GitHub remote-ref check all identify that commit. The diagram describes the `17d809f` implementation and is not a specification for future changes.
 

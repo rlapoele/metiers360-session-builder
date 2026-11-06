@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-10-25
+Last updated: 2026-11-06
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -114,6 +114,21 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Candidate review of the deployed demo and Task 11 records. No further task is planned or authorised. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+**Next action:** Candidate review of the proposed search follow-up below. Planning is authorised; implementation is not yet authorised. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+
+## Proposed follow-up — Revamped search on `dev`
+
+See [the detailed proposal](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). These unchecked tasks are proposed, not authorised implementation work.
+
+- [ ] **Task 12:** Review exact keyword, selection, URL and matching contracts with the candidate.
+- [ ] **Task 13:** Load and retain a complete, validated catalogue snapshot with shared initialization and recoverable failures.
+- [ ] **Task 14:** Build the normalized dictionary and category-aware mappings, retaining names.
+- [ ] **Checkpoint G:** Candidate reviews extraction examples, mappings and cache behaviour.
+- [ ] **Task 15:** Expose validated cached AND search and suggestion endpoints, shared with SSR.
+- [ ] **Task 16:** Build and browser-verify the accessible grouped keyword selector.
+- [ ] **Task 17A:** Compose the approved responsive form, shared icon chips and pending selection behaviour.
+- [ ] **Task 17B:** Integrate applied URL state, SSR, queries, history and pagination.
+- [ ] **Task 18:** Complete regression/browser verification and documentation handoff.
+- [ ] **Checkpoint H:** Candidate accepts the revamped search on `dev`; release remains a separate instruction.
 
 Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is reviewed, retested, committed and pushed in `b405ba1`. Task 11 is now explicitly authorised.
