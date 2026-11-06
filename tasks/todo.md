@@ -114,11 +114,11 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Candidate review of Task 14B and Checkpoint G below. Task 15 onward requires a new instruction. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+**Next action:** Candidate review of Task 15. The candidate explicitly authorised Task 15 after the startup handoff; no separate Checkpoint G sign-off is inferred. Task 16 onward requires a new instruction. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
 
 ## Proposed follow-up — Revamped search on `dev`
 
-See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). Task 12 is agreed; Tasks 13, 14A and 14B were explicitly authorised and are verified. Unchecked tasks are not authorised implementation work.
+See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). Task 12 is agreed; Tasks 13, 14A, 14B and 15 were explicitly authorised and are verified. Unchecked tasks are not authorised implementation work.
 
 - [x] **Task 12:** Review exact keyword, selection, URL and matching contracts with the candidate.
   - Evidence: on 2026-11-06 the candidate explicitly accepted the defaults and chose selected-appellation wording for métier chips. The [agreed contract](search-contract.md) preserves source identity in URLs and keeps job-code matching separate; [dictionary rules](../docs/search-dictionary-rules.md) specify deterministic extraction and future source documentation/verification. Documentation only; no implementation authorised.
@@ -132,7 +132,9 @@ See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-20
   - Evidence: dev SSR-runner hook and supported production Node entrypoint start one shared process runtime; no preparation during build/unit-test Vite setup. Lifecycle logs provide explicit entry point/trigger, correlation, counts, timings and redacted retry/failure information. [Startup guide](../docs/catalogue-startup.md) documents troubleshooting.
   - Evidence: `npm run verify` passes 158 tests, 92-file strict checks with zero diagnostics, formatting/lint and production build; eight real-process lifecycle cases cover both modes, including pending liveness, recovery and shutdown. All six existing browser scenarios pass; diff hygiene passes. Supplied API/catalogue, dependencies, UI/new endpoints and deployment configuration are unchanged. No commit/push. Candidate review/Checkpoint G pending.
 - [ ] **Checkpoint G:** Candidate reviews extraction examples, mappings, startup preparation and failure/retry behaviour.
-- [ ] **Task 15:** Expose validated cached AND search and suggestion endpoints, shared with SSR.
+- [x] **Task 15:** Expose validated cached AND search and suggestion endpoints, shared with SSR.
+  - Evidence: four routes provide complete-cache AND search, global suggestions, readiness and nonblocking shared recovery; Zod query/response contracts preserve selected appellations and legacy q without broadening invalid criteria. [HTTP/SSR guide](../docs/catalogue-search-service.md) documents exact shapes/bounds. Current form/page loader remain unchanged.
+  - Evidence: `npm run verify` passes 192 tests/26 files, 102-file strict checks with zero diagnostics, formatting/lint and production build. Eight actual dev/production lifecycle cases now exercise public HTTP preparation, cache reuse and concurrent recovery. All six desktop/tablet/mobile browser regressions pass; diff hygiene passes. Supplied API/catalogue and dependencies unchanged; no commit/push. Candidate review next.
 - [ ] **Task 16:** Build and browser-verify the accessible grouped keyword selector.
 - [ ] **Task 17A:** Compose the approved responsive form, shared icon chips and pending selection behaviour.
   - Required: single-line chip text with ellipsis when needed; whole chips may wrap rows. Preserve icon/remove controls, full stored/accessible values and keyboard/touch access to the complete label. Verify long labels at 320/390px without horizontal overflow.

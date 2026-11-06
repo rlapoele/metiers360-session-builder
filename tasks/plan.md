@@ -286,7 +286,7 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: Task 12's contract is agreed; Tasks 13, 14A and separately authorised 14B are technically complete on `dev`. Task 14B and Checkpoint G await candidate review. Task 15 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation is active; the revamped HTTP search and UI remain future work.
+Status: Task 12's contract is agreed; separately authorised Tasks 13, 14A, 14B and 15 are technically complete on `dev`. The candidate explicitly requested Task 15 after the startup handoff; Task 15 review is next. No separate Checkpoint G sign-off is inferred. Task 16 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; visible UI integration remains future work.
 
 ### Agreed direction
 
@@ -309,7 +309,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** None. **Scope:** Small; planning/contracts only.
 
-The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A and 14B were subsequently explicitly authorised. Task 15 onward is not authorised.
+The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B and 15 were subsequently explicitly authorised. Task 16 onward is not authorised.
 
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
@@ -354,7 +354,7 @@ The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-
 
 ### Task 15 — Expose cached AND search and suggestions
 
-**Dependencies:** Tasks 13–14. **Scope:** Medium; shared search service/test and two small Astro routes.
+**Dependencies:** Tasks 13–14. **Scope:** Medium; shared search service/tests and four small Astro routes including status/recovery.
 
 - Add application-owned search/suggestion endpoints backed by the same service callable from SSR. Validate requests with Zod and check identifiers against the snapshot; reject malformed/unknown criteria with actionable French errors.
 - Require every selected title condition and every selected job code, plus audience/headset membership; paginate only after filtering and retain stable ordering. Return counts and existing validated video shapes.
@@ -362,6 +362,8 @@ The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-
 
 **Verification:** Multi-title/multi-job AND, mixed criteria, names, unknown IDs, injection-like input treated as data, matches beyond page one, correct totals and retryable cache errors. Full repository gate.
 **Likely files:** search service/test, search contracts and routes under `src/pages/api/catalogue/`.
+
+**Task 15 verified handoff (2026-11-06):** from clean `dev` at `34ddf7b`, added bounded Zod query parsing, ready-only membership/source validation, cached complete-catalogue AND search with legacy q and canonical pagination, global suggestions, browser-safe response schemas and shared SSR-callable service. Four routes expose search/suggestions/status and nonblocking bodyless recovery without ready-cache refresh. Actual dev/production tests prove HTTP shares startup ownership and concurrent recovery performs one cycle. An initial real-server failure exposed empty POST streams in the Node adapter; a failing-first regression and bounded stream-content check corrected it. `npm run verify` passes 192 tests/26 files, 102-file strict checks with zero diagnostics, formatting/lint and build. All six desktop/tablet/mobile browser scenarios pass (57.3s); diff hygiene passes. [HTTP/SSR guide](../docs/catalogue-search-service.md) records response/validation/recovery contracts. No visible UI/SSR-page integration, supplied API/catalogue, dependency, deployment, commit or push changes. Candidate review is next; Task 16 remains unauthorised.
 
 ### Task 16 — Build the accessible keyword selector
 

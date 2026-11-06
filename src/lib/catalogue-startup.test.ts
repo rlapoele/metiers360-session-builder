@@ -6,6 +6,13 @@ import { promisify } from 'node:util';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as z from 'zod';
 
+import {
+  CatalogueSearchResultSchema,
+  CatalogueSuggestionsSchema,
+  CatalogueStatusSchema,
+  CatalogueUnavailableSchema,
+} from '@features/catalogue/search-contracts';
+
 const execute = promisify(execFile);
 const root = process.cwd();
 const fixture = z
@@ -27,7 +34,7 @@ const fixture = z
     ) as unknown,
   );
 
-// Test-only IPC inspection/recovery; no production HTTP route is introduced.
+// Test-only IPC inspects ownership; recovery is also exercised through real HTTP routes.
 const probe = `
 process.channel?.unref();
 process.on('message', async message => {
@@ -304,6 +311,20 @@ describe.each(['development', 'production'] as const)(
           ),
         );
         expect(responses.every((response) => response.ok)).toBe(true);
+        const base = `http://127.0.0.1:${app.port}/api/catalogue`;
+        const preparingStatus = await fetch(`${base}/status`);
+        expect(
+          CatalogueStatusSchema.parse(await preparingStatus.json()).status,
+        ).toBe('preparing');
+        for (const route of ['search?title=omar', 'suggestions?term=jard']) {
+          const response = await fetch(`${base}/${route}`);
+          expect(response.status).toBe(503);
+          expect(response.headers.get('retry-after')).toBe('1');
+          expect(response.headers.get('cache-control')).toBe('no-store');
+          expect(
+            CatalogueUnavailableSchema.parse(await response.json()).status,
+          ).toBe('preparing');
+        }
         expect(
           logs(app).filter((record) => record.event === 'catalogue.preparing'),
         ).toHaveLength(1);
@@ -325,6 +346,32 @@ describe.each(['development', 'production'] as const)(
         ]);
         const count = api.control.paths.length;
         expect(await inspect(app, 'retry')).toMatchObject({ status: 'ready' });
+        expect(api.control.paths).toHaveLength(count);
+        expect(
+          CatalogueStatusSchema.parse(
+            await (await fetch(`${base}/status`)).json(),
+          ),
+        ).toEqual({ status: 'ready' });
+        const filtered = await fetch(
+          `${base}/search?job=A1203&title=omar&title=jardinier&audience=adultes-reconversion&headset=pico-4`,
+        );
+        expect(filtered.status).toBe(200);
+        const videos = CatalogueSearchResultSchema.parse(await filtered.json());
+        expect(videos.data.map((video) => video.id)).toContain('vid_001');
+        const found = await fetch(`${base}/suggestions?term=jard`);
+        const suggestions = CatalogueSuggestionsSchema.parse(
+          await found.json(),
+        );
+        expect(suggestions.data.length).toBeGreaterThan(0);
+        expect(suggestions.data.length).toBeLessThanOrEqual(5);
+        const lastPage = CatalogueSearchResultSchema.parse(
+          await (await fetch(`${base}/search?page=999`)).json(),
+        );
+        expect(lastPage.meta).toMatchObject({ total: 204, page: 9 });
+        expect((await fetch(`${base}/search?job=UNKNOWN`)).status).toBe(400);
+        const noRefresh = await fetch(`${base}/retry`, { method: 'POST' });
+        expect(noRefresh.status).toBe(200);
+        expect(await noRefresh.json()).toEqual({ status: 'ready' });
         expect(api.control.paths).toHaveLength(count);
         expect(
           logs(app).find(
@@ -362,10 +409,38 @@ describe.each(['development', 'production'] as const)(
             .map((record) => record.delayMs),
         ).toEqual([1000, 2000, 4000]);
         const firstRun = logs(app)[0]?.runId;
-        expect(await inspect(app, 'retry')).toMatchObject({
+        const base = `http://127.0.0.1:${app.port}/api/catalogue`;
+        const failed = await fetch(`${base}/search`);
+        expect(failed.status).toBe(503);
+        expect(failed.headers.has('retry-after')).toBe(false);
+        expect(
+          CatalogueUnavailableSchema.parse(await failed.json()),
+        ).toMatchObject({ status: 'failed', canRetry: true });
+        let release!: () => void;
+        api.control.gate = new Promise((resolve) => {
+          release = resolve;
+        });
+        try {
+          const recovering = await Promise.all(
+            Array.from({ length: 3 }, () =>
+              fetch(`${base}/retry`, { method: 'POST' }),
+            ),
+          );
+          expect(recovering.map((response) => response.status)).toEqual([
+            202, 202, 202,
+          ]);
+          release();
+          api.control.gate = undefined;
+          await waitForLog(app, 'catalogue.ready');
+        } finally {
+          release();
+          api.control.gate = undefined;
+        }
+        expect(await inspect(app)).toMatchObject({
           status: 'ready',
           videos: 204,
         });
+        expect(api.control.paths).toHaveLength(10); // four failed attempts + six requests, one shared recovery
         expect(
           logs(app).find((record) => record.event === 'catalogue.ready')?.runId,
         ).not.toBe(firstRun);
