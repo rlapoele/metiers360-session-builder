@@ -115,7 +115,7 @@ export function SearchCriteriaChips({
             {chips.map((chip) => (
               <li
                 key={chip.key}
-                className="border-border bg-secondary flex min-w-0 max-w-full items-center rounded-full border"
+                className="border-border bg-secondary flex min-h-9 min-w-0 max-w-full items-center rounded-full border"
               >
                 <button
                   type="button"
@@ -134,7 +134,7 @@ export function SearchCriteriaChips({
                       current === chip.key ? undefined : chip.key,
                     )
                   }
-                  className="hover:bg-muted focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-11 min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-l-full px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="hover:bg-muted focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-8 min-w-0 flex-1 cursor-pointer items-center gap-1.5 rounded-l-full px-2 py-1 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <chip.icon aria-hidden="true" className="size-4 shrink-0" />
                   <span className="min-w-0 truncate">{chip.label}</span>
@@ -145,7 +145,7 @@ export function SearchCriteriaChips({
                   variant="ghost"
                   disabled={disabled}
                   aria-label={`Retirer le critère ${chip.type} : ${chip.label}`}
-                  className="rounded-full"
+                  className="size-8 rounded-full"
                   onClick={() => {
                     setRevealed(undefined);
                     onRemove(chip.removal);

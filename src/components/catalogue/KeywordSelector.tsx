@@ -139,7 +139,7 @@ export function KeywordSelector({
           ref={inputElement}
           id={id}
           aria-labelledby={`${id}-label`}
-          render={<Input />}
+          render={<Input className="min-h-11 text-sm" />}
           disabled={disabled}
           aria-describedby={`${id}-help ${id}-selected`}
           aria-invalid={Boolean(error || tooLong)}
@@ -213,7 +213,7 @@ function KeywordSuggestionGroups({
         );
         return groupItems.length > 0 ? (
           <Combobox.Group key={group.category}>
-            <Combobox.GroupLabel className="text-muted-foreground flex items-center gap-2 px-3 py-2 text-xs font-semibold">
+            <Combobox.GroupLabel className="text-foreground flex items-center gap-2 px-3 py-2 text-xs font-semibold">
               <group.icon aria-hidden="true" className="size-4 shrink-0" />
               {group.label}
             </Combobox.GroupLabel>

@@ -182,7 +182,7 @@ function SearchFormContent({
         <Button
           type="submit"
           disabled={disabled}
-          className="search-form-submit min-h-12 w-full"
+          className="search-form-submit w-full"
         >
           Rechercher
         </Button>

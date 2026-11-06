@@ -117,9 +117,6 @@
 .catalogue-search-fields {
   grid-template-columns: minmax(0, 1fr);
 }
-.catalogue-search-fields select {
-  @apply min-h-12;
-}
 @container catalogue-search (min-width: 32rem) {
   .catalogue-search-fields {
     grid-template-columns: minmax(0, 1fr) auto;

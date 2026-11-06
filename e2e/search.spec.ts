@@ -37,6 +37,25 @@ test('restores selected appellations through SSR, reload and browser history', a
   );
   expect(response?.status()).toBe(200);
   await ready(page);
+  const expectedHeight = await page
+    .getByRole('button', { name: /^Ajouter à ma séance :/ })
+    .first()
+    .evaluate((element) => element.getBoundingClientRect().height);
+  for (const control of [
+    page.getByLabel('Public', { exact: true }),
+    page.getByRole('combobox', { name: 'Métiers ou mots-clés' }),
+    page.getByLabel('Casque VR', { exact: true }),
+    page.getByRole('button', { name: 'Rechercher', exact: true }),
+  ]) {
+    expect(
+      await control.evaluate(
+        (element) => element.getBoundingClientRect().height,
+      ),
+    ).toBe(expectedHeight);
+    expect(
+      await control.evaluate((element) => getComputedStyle(element).fontSize),
+    ).toBe('14px');
+  }
   if ((page.viewportSize()?.width ?? 0) >= 1280) {
     const publicBox = await page.locator('.search-form-audience').boundingBox();
     const keywordBox = await page
@@ -49,6 +68,35 @@ test('restores selected appellations through SSR, reload and browser history', a
   await expect(
     page.getByRole('button', { name: 'Retirer le critère Métier : Garagiste' }),
   ).toBeVisible();
+  const chip = page
+    .getByRole('list', { name: 'Critères sélectionnés' })
+    .getByRole('listitem')
+    .first();
+  const chipHeight = await chip.evaluate(
+    (element) => element.getBoundingClientRect().height,
+  );
+  const badgeHeight = await page
+    .locator('article [data-slot=badge]')
+    .first()
+    .evaluate((element) => element.getBoundingClientRect().height);
+  expect(chipHeight).toBe(36);
+  expect(chipHeight).toBeGreaterThan(badgeHeight);
+  expect(chipHeight).toBeLessThan(expectedHeight);
+  const removal = page.getByRole('button', {
+    name: 'Retirer le critère Métier : Garagiste',
+  });
+  expect(
+    await removal.evaluate((element) => element.getBoundingClientRect().width),
+  ).toBeGreaterThanOrEqual(24);
+  const reveal = page.getByRole('button', {
+    name: 'Afficher le libellé complet du critère Métier : Garagiste',
+  });
+  await reveal.click();
+  await expect(
+    page.getByRole('region', { name: 'Libellé complet du critère' }),
+  ).toContainText('Garagiste');
+  await page.getByRole('button', { name: 'Fermer le libellé complet' }).click();
+  await expect(reveal).toBeFocused();
   expect(new URL(page.url()).searchParams.get('page')).toBeNull();
   await page.getByLabel('Public', { exact: true }).selectOption('college');
   expect(new URL(page.url()).searchParams.get('audience')).toBeNull();
@@ -88,6 +136,24 @@ test('uses keyword AND, stages removals and keeps unchanged submitted searches o
   await expect(page.getByText('Page 2 sur 9')).toBeVisible();
   await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   expect(new URL(page.url()).searchParams.get('page')).toBe('2');
+  const keywords = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
+  await keywords.fill('jard');
+  const labelColor = await page
+    .locator('[data-slot=keyword-selector] label')
+    .evaluate((element) => getComputedStyle(element).color);
+  for (const category of ['Métier', 'Titre de vidéo']) {
+    const heading = page.getByText(category, { exact: true });
+    await expect(heading).toBeVisible();
+    expect(
+      await heading.evaluate((element) => getComputedStyle(element).color),
+    ).toBe(labelColor);
+    expect(
+      await heading
+        .locator('svg')
+        .evaluate((element) => getComputedStyle(element).color),
+    ).toBe(labelColor);
+  }
+  await keywords.press('Escape');
   await chooseTitle(page, 'Omar');
   await chooseTitle(page, 'Hugo');
   expect(new URL(page.url()).searchParams.get('page')).toBe('2');
