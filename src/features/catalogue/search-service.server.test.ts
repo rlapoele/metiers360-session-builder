@@ -14,6 +14,10 @@ import {
   JobSchema,
   VideoSchema,
 } from '@lib/api/schemas';
+import {
+  CatalogueSearchPageSchema,
+  CatalogueSuggestionsSchema,
+} from '@features/catalogue/search-contracts';
 import { CatalogueClientError } from '@lib/api/errors';
 
 const fixture = z
@@ -61,7 +65,7 @@ function search(query = '') {
   return result;
 }
 
-describe('cached AND search and query boundary', () => {
+describe('cached grouped search and query boundary', () => {
   it('filters every condition before pagination, with stable IDs and validated existing list shapes', () => {
     const all = search();
     expect(all.body.meta).toEqual({
@@ -93,13 +97,13 @@ describe('cached AND search and query boundary', () => {
     expect(expected.map((v) => v.id)).toContain('vid_001');
   });
 
-  it('requires the same video to carry all jobs and all whole title terms', () => {
+  it('unions selected jobs while requiring all whole title terms', () => {
     const multi = snapshot.videos.find((v) => v.jobs.length > 1)!;
     const query = new URLSearchParams(multi.jobs.map((code) => ['job', code]));
     const result = search(query.toString());
     expect(result.body.meta.total).toBe(
       snapshot.videos.filter((v) =>
-        multi.jobs.every((code) => v.jobs.includes(code)),
+        multi.jobs.some((code) => v.jobs.includes(code)),
       ).length,
     );
     expect(result.body.data.map((v) => v.id)).toContain(multi.id);
@@ -117,6 +121,131 @@ describe('cached AND search and query boundary', () => {
       search(new URLSearchParams({ title: title.key }).toString()).body.meta
         .total,
     ).toBe(title.videoIds.length);
+  });
+
+  it('adopts OR for old multi-job URLs, retains AND for other groups and preserves ordinary responses', () => {
+    const union = search('job=A1203&job=I1604');
+    expect(union.body.meta.total).toBe(14);
+    expect(union.body.data).toEqual(
+      snapshot.videos.filter(
+        (v) => v.jobs.includes('A1203') || v.jobs.includes('I1604'),
+      ),
+    );
+    expect(Object.keys(union.body).sort()).toEqual(['data', 'meta']);
+    const query =
+      'job=A1203&job=I1604&title=omar&q=municipal&audience=adultes-reconversion&headset=pico-4';
+    expect(search(query).body.data.map((v) => v.id)).toEqual(['vid_001']);
+    expect(search('job=I1604&job=A1203&job=A1203').body).toEqual(union.body);
+    expect(
+      search('job=I1604&job=A1203&jobTerm=I1604:appellation/garagiste').body,
+    ).toEqual(union.body);
+  });
+
+  it('computes own-filter alternatives over all videos, independently of pagination and selected zero matches', () => {
+    const query =
+      'job=A1203&job=I1604&title=omar&q=municipal&audience=college&headset=pico-4';
+    const page = service.page(params(query));
+    expect(page.status).toBe(200);
+    if (page.status !== 200) throw new Error('Unexpected error');
+    CatalogueSearchPageSchema.parse(page.body);
+    const { availability } = page.body.context;
+    const common = snapshot.videos.filter(
+      (v) =>
+        (v.jobs.includes('A1203') || v.jobs.includes('I1604')) &&
+        v.title.toLowerCase().includes('omar') &&
+        v.title.toLowerCase().includes('municipal'),
+    );
+    expect(availability.audiences).toEqual(
+      snapshot.audiences.data.map(({ id }) => {
+        const count = common.filter(
+          (v) =>
+            v.compatible_headsets.includes('pico-4') &&
+            v.audiences.includes(id),
+        ).length;
+        return { id, count, available: count > 0 };
+      }),
+    );
+    expect(availability.headsets).toEqual(
+      snapshot.headsets.data.map(({ id }) => {
+        const count = common.filter(
+          (v) =>
+            v.audiences.includes('college') &&
+            v.compatible_headsets.includes(id),
+        ).length;
+        return { id, count, available: count > 0 };
+      }),
+    );
+    expect(service.page(params(query + '&page=99'))).toEqual(page);
+    expect(page.body.context.criteria.selected).toHaveLength(3);
+    const all = service.page(params('page=2'));
+    if (all.status !== 200) throw new Error('Unexpected error');
+    expect(all.body.context.availability.audiences).toEqual(
+      snapshot.audiences.data.map(({ id }) => {
+        const count = snapshot.videos.filter((v) =>
+          v.audiences.includes(id),
+        ).length;
+        return { id, count, available: count > 0 };
+      }),
+    );
+  });
+
+  it('evaluates candidate jobs without the selected OR group and title candidates with every current condition', () => {
+    const jobs = service.suggestions(
+      params(
+        'term=mecanicien&job=A1203&title=omar&q=municipal&audience=adultes-reconversion&headset=pico-4',
+      ),
+    );
+    if (jobs.status !== 200) throw new Error('Unexpected error');
+    CatalogueSuggestionsSchema.parse(jobs.body);
+    expect(
+      jobs.body.data.find(
+        (item) => item.category === 'job' && item.jobCode === 'I1604',
+      ),
+    ).toMatchObject({ availability: { count: 0, available: false } });
+    expect(search('job=A1203&job=I1604&title=omar').body.meta.total).toBe(1);
+    const alternatives = service.suggestions(
+      params('term=mecanicien&job=A1203'),
+    );
+    if (alternatives.status !== 200) throw new Error('Unexpected error');
+    expect(
+      alternatives.body.data.find(
+        (item) => item.category === 'job' && item.jobCode === 'I1604',
+      ),
+    ).toMatchObject({ availability: { count: 9, available: true } });
+    const titles = service.suggestions(
+      params(
+        'term=jard&job=A1203&job=I1604&title=omar&q=municipal&audience=adultes-reconversion&headset=pico-4',
+      ),
+    );
+    if (titles.status !== 200) throw new Error('Unexpected error');
+    for (const item of titles.body.data) {
+      const expected = snapshot.videos.filter(
+        (v) =>
+          v.title.toLowerCase().includes('omar') &&
+          v.title.toLowerCase().includes('municipal') &&
+          v.audiences.includes('adultes-reconversion') &&
+          v.compatible_headsets.includes('pico-4') &&
+          (item.category === 'job'
+            ? v.jobs.includes(item.jobCode)
+            : (v.jobs.includes('A1203') || v.jobs.includes('I1604')) &&
+              ready.dictionary.titles
+                .find((t) => t.key === item.key)!
+                .videoIds.includes(v.id)),
+      ).length;
+      expect(item.availability).toEqual({
+        count: expected,
+        available: expected > 0,
+      });
+    }
+    expect(
+      service.suggestions(params('term=jard&q=unknown&title=omar')).body,
+    ).toMatchObject({
+      data: expect.arrayContaining([
+        expect.objectContaining({
+          availability: { count: 0, available: false },
+        }),
+      ]),
+    });
   });
 
   it('uses whole words and contiguous dictionary phrases rather than title substrings', () => {
@@ -259,7 +388,7 @@ describe('cached AND search and query boundary', () => {
     ).toBe(200);
   });
 
-  it('suggests up to five global category matches and excludes selected identities', () => {
+  it('suggests up to five contextual category matches and excludes selected identities', () => {
     const result = service.suggestions(
       params(
         'term=jard&audience=college&headset=pico-4&job=A1203&title=jardinier',
@@ -279,7 +408,14 @@ describe('cached AND search and query boundary', () => {
       params('term=jard&job=A1203&title=jardinier'),
     );
     if (unfiltered.status !== 200) throw new Error('Not ready');
-    expect(result.body.data).toEqual(unfiltered.body.data);
+    expect(result.body.data.every((item) => item.availability.count >= 0)).toBe(
+      true,
+    );
+    expect(
+      unfiltered.body.data.every(
+        (item) => item.availability.available === item.availability.count > 0,
+      ),
+    ).toBe(true);
     expect(service.suggestions(params('term=j')).body).toEqual({ data: [] });
     expect(service.suggestions(params('term=.*')).body).toEqual({ data: [] });
     expect(service.suggestions(params('term=a&term=b')).status).toBe(400);

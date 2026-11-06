@@ -36,27 +36,43 @@ export const CatalogueUnavailableSchema = z
     ]),
   })
   .and(CataloguePendingStatusSchema);
+/** Selection identity/display data is independent of request-specific eligibility. */
+export const CatalogueSelectionSchema = z.discriminatedUnion('category', [
+  z.object({
+    category: z.literal('job'),
+    key: z.string(),
+    jobCode: z.string(),
+    sourceKey: z.string(),
+    label: z.string(),
+    jobLabel: z.string(),
+  }),
+  z.object({
+    category: z.literal('title'),
+    key: z.string(),
+    label: z.string(),
+  }),
+]);
+export const CatalogueOptionAvailabilitySchema = z
+  .object({
+    count: z.number().int().nonnegative(),
+    available: z.boolean(),
+  })
+  .refine(
+    (value) => value.available === value.count > 0,
+    'Availability must agree with count',
+  );
 export const CatalogueSuggestionsSchema = z.object({
   data: z
     .array(
-      z.discriminatedUnion('category', [
-        z.object({
-          category: z.literal('job'),
-          key: z.string(),
-          jobCode: z.string(),
-          sourceKey: z.string(),
-          label: z.string(),
-          jobLabel: z.string(),
-        }),
-        z.object({
-          category: z.literal('title'),
-          key: z.string(),
-          label: z.string(),
-        }),
-      ]),
+      CatalogueSelectionSchema.and(
+        z.object({ availability: CatalogueOptionAvailabilitySchema }),
+      ),
     )
     .max(5),
 });
+const ReferenceAvailabilitySchema = z.array(
+  CatalogueOptionAvailabilitySchema.and(z.object({ id: z.string() })),
+);
 export type CatalogueStatus = z.infer<typeof CatalogueStatusSchema>;
 export type CatalogueUnavailable = z.infer<typeof CatalogueUnavailableSchema>;
 export type CatalogueSuggestions = z.infer<typeof CatalogueSuggestionsSchema>;
@@ -64,8 +80,12 @@ export type CatalogueSearchResult = z.infer<typeof CatalogueSearchResultSchema>;
 
 export const CatalogueSearchPageSchema = CatalogueSearchResultSchema.extend({
   context: z.object({
+    availability: z.object({
+      audiences: ReferenceAvailabilitySchema,
+      headsets: ReferenceAvailabilitySchema,
+    }),
     criteria: z.object({
-      selected: z.array(CatalogueSuggestionsSchema.shape.data.element).max(10),
+      selected: z.array(CatalogueSelectionSchema).max(10),
       audience: z.string().optional(),
       headset: z.string().optional(),
       legacyQuery: z.string().optional(),

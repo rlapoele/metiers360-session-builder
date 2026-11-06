@@ -8,16 +8,24 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { KeywordSelector } from '@components/catalogue/KeywordSelector';
 import type { KeywordSuggestion } from '@features/catalogue/keyword-suggestions';
 
-const suggestions: KeywordSuggestion[] = [
+const suggestions: (KeywordSuggestion & {
+  availability: { count: number; available: boolean };
+})[] = [
   {
     category: 'job',
+    availability: { count: 1, available: true },
     key: 'A1203',
     jobCode: 'A1203',
     sourceKey: 'appellation/jardinier municipal',
     label: 'Jardinier municipal',
     jobLabel: 'Entretien des espaces verts',
   },
-  { category: 'title', key: 'jardinier', label: 'jardinier' },
+  {
+    category: 'title',
+    key: 'jardinier',
+    label: 'jardinier',
+    availability: { count: 1, available: true },
+  },
 ];
 afterEach(() => {
   cleanup();
@@ -145,7 +153,14 @@ describe('accessible grouped keyword selector', () => {
         async () =>
           new Response(
             JSON.stringify({
-              data: [{ category: 'title', key: 'omar', label: 'Omar' }],
+              data: [
+                {
+                  category: 'title',
+                  key: 'omar',
+                  label: 'Omar',
+                  availability: { count: 1, available: true },
+                },
+              ],
             }),
           ),
       );
@@ -169,6 +184,7 @@ describe('accessible grouped keyword selector', () => {
       category: 'title',
       key: 'omar',
       label: 'Omar',
+      availability: { count: 1, available: true },
     });
   });
 

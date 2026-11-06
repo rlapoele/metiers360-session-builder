@@ -8,6 +8,7 @@ import * as z from 'zod';
 
 import {
   CatalogueSearchResultSchema,
+  CatalogueSearchPageSchema,
   CatalogueSuggestionsSchema,
   CatalogueStatusSchema,
   CatalogueUnavailableSchema,
@@ -383,6 +384,42 @@ describe.each(['development', 'production'] as const)(
         expect(filtered.status).toBe(200);
         const videos = CatalogueSearchResultSchema.parse(await filtered.json());
         expect(videos.data.map((video) => video.id)).toContain('vid_001');
+        // Legacy repeated-job links intentionally adopt OR in both modes.
+        const union = CatalogueSearchPageSchema.parse(
+          await (
+            await fetch(`${base}/search?include=context&job=A1203&job=I1604`)
+          ).json(),
+        );
+        expect(union.meta.total).toBe(14);
+        const unionPage = await fetch(
+          `http://127.0.0.1:${app.port}/?job=A1203&job=I1604`,
+        );
+        expect(unionPage.status).toBe(200);
+        expect(await unionPage.text()).toContain('14 vidéos trouvées');
+        const ownAudience = CatalogueSearchPageSchema.parse(
+          await (
+            await fetch(
+              `${base}/search?include=context&job=A1203&title=omar&audience=college`,
+            )
+          ).json(),
+        );
+        expect(
+          ownAudience.context.availability.audiences.find(
+            (item) => item.id === 'adultes-reconversion',
+          ),
+        ).toMatchObject({ count: 1, available: true });
+        const contextual = CatalogueSuggestionsSchema.parse(
+          await (
+            await fetch(
+              `${base}/suggestions?term=mecanicien&job=A1203&title=omar&q=municipal`,
+            )
+          ).json(),
+        );
+        expect(
+          contextual.data.find(
+            (item) => item.category === 'job' && item.jobCode === 'I1604',
+          ),
+        ).toMatchObject({ availability: { count: 0, available: false } });
         const found = await fetch(`${base}/suggestions?term=jard`);
         const suggestions = CatalogueSuggestionsSchema.parse(
           await found.json(),

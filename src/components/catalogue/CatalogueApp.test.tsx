@@ -128,7 +128,14 @@ function CatalogueApp({
         initialVideos && references
           ? {
               status: 200,
-              body: { ...initialVideos, context: { criteria, references } },
+              body: {
+                ...initialVideos,
+                context: {
+                  criteria,
+                  references,
+                  availability: { audiences: [], headsets: [] },
+                },
+              },
             }
           : undefined
       }
@@ -782,11 +789,21 @@ describe('CatalogueApp', () => {
         new Response(
           JSON.stringify(
             String(input).includes('/suggestions')
-              ? { data: [{ category: 'title', key: 'sante', label: 'Santé' }] }
+              ? {
+                  data: [
+                    {
+                      category: 'title',
+                      key: 'sante',
+                      label: 'Santé',
+                      availability: { count: 1, available: true },
+                    },
+                  ],
+                }
               : {
                   data: [],
                   meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
                   context: {
+                    availability: { audiences: [], headsets: [] },
                     criteria: {
                       selected: [
                         { category: 'title', key: 'sante', label: 'Santé' },

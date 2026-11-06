@@ -130,7 +130,14 @@ describe('responsive pending search form', () => {
   it('requires explicit suggestion selection before submitting and focuses the input on invalid submission', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => new Response(JSON.stringify({ data: [job] }))),
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              data: [{ ...job, availability: { count: 1, available: true } }],
+            }),
+          ),
+      ),
     );
     const { user, onSubmit } = setup();
     const input = screen.getByRole('combobox', {
@@ -150,7 +157,7 @@ describe('responsive pending search form', () => {
     expect(input).toHaveValue('');
     await user.click(screen.getByRole('button', { name: 'Rechercher' }));
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ selected: [job] }),
+      expect.objectContaining({ selected: [expect.objectContaining(job)] }),
     );
   });
   it('clear-all is pending, clears input and legacy q, and focuses Public', async () => {
@@ -245,7 +252,14 @@ describe('responsive pending search form', () => {
   it('resets selector help after clearing a newly selected keyword', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => new Response(JSON.stringify({ data: [job] }))),
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              data: [{ ...job, availability: { count: 1, available: true } }],
+            }),
+          ),
+      ),
     );
     const { user } = setup();
     await user.type(

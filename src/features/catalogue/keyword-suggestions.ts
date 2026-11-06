@@ -1,13 +1,15 @@
+import type * as z from 'zod';
+
 import {
   CatalogueStatusSchema,
   CatalogueSuggestionsSchema,
   CatalogueUnavailableSchema,
   CatalogueSearchValidationSchema,
   type CatalogueStatus,
-  type CatalogueSuggestions,
+  type CatalogueSelectionSchema,
 } from '@features/catalogue/search-contracts';
 
-export type KeywordSuggestion = CatalogueSuggestions['data'][number];
+export type KeywordSuggestion = z.infer<typeof CatalogueSelectionSchema>;
 export interface KeywordSuggestionRequest {
   term: string;
   selected: readonly KeywordSuggestion[];

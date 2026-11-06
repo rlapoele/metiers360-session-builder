@@ -34,6 +34,7 @@ const base: CatalogueSearchPage = {
   ],
   meta: { page: 1, per_page: 24, total: 25, total_pages: 2 },
   context: {
+    availability: { audiences: [], headsets: [] },
     criteria: { selected: [] },
     references: {
       jobs: {

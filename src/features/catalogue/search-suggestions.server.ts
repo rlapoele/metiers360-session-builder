@@ -9,6 +9,7 @@ interface SuggestionInput {
   term: string;
   selectedJobCodes?: readonly string[];
   selectedTitleKeys?: readonly string[];
+  isAvailable?: (suggestion: DictionarySuggestion) => boolean;
 }
 
 export type DictionarySuggestion =
@@ -118,11 +119,47 @@ export function suggestDictionaryTerms(
   }
   jobs.sort(compareSuggestions);
   titles.sort(compareSuggestions);
-  let jobCount = Math.min(3, jobs.length);
-  let titleCount = Math.min(2, titles.length);
-  jobCount += Math.min(5 - jobCount - titleCount, jobs.length - jobCount);
-  titleCount += Math.min(5 - jobCount - titleCount, titles.length - titleCount);
-  return [...jobs.slice(0, jobCount), ...titles.slice(0, titleCount)].map(
-    (item) => item.suggestion,
+  function allocate(
+    jobItems: RankedSuggestion[],
+    titleItems: RankedSuggestion[],
+    limit: number,
+  ) {
+    let jobCount = Math.min(3, jobItems.length, limit);
+    let titleCount = Math.min(2, titleItems.length, limit - jobCount);
+    jobCount += Math.min(
+      limit - jobCount - titleCount,
+      jobItems.length - jobCount,
+    );
+    titleCount += Math.min(
+      limit - jobCount - titleCount,
+      titleItems.length - titleCount,
+    );
+    return {
+      jobs: jobItems.slice(0, jobCount),
+      titles: titleItems.slice(0, titleCount),
+    };
+  }
+  // Evaluate eligibility before the cap: weak available matches must not be
+  // hidden behind five stronger but contextually unavailable expressions.
+  const available = input.isAvailable ?? (() => true);
+  const enabledJobs: RankedSuggestion[] = [];
+  const disabledJobs: RankedSuggestion[] = [];
+  const enabledTitles: RankedSuggestion[] = [];
+  const disabledTitles: RankedSuggestion[] = [];
+  for (const item of jobs)
+    (available(item.suggestion) ? enabledJobs : disabledJobs).push(item);
+  for (const item of titles)
+    (available(item.suggestion) ? enabledTitles : disabledTitles).push(item);
+  const enabled = allocate(enabledJobs, enabledTitles, 5);
+  const disabled = allocate(
+    disabledJobs,
+    disabledTitles,
+    5 - enabled.jobs.length - enabled.titles.length,
   );
+  return [
+    ...enabled.jobs,
+    ...disabled.jobs,
+    ...enabled.titles,
+    ...disabled.titles,
+  ].map((item) => item.suggestion);
 }

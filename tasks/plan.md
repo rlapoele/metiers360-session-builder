@@ -286,11 +286,11 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: Task 12's contract is agreed; separately authorised Tasks 13–17B are technically complete on `dev`. The candidate explicitly requested Task 17B after the composed-form handoff. The 2026-11-07 contract revision below is documentation only; review/authorisation of Task 19 is next. No separate Checkpoint G sign-off is inferred. Task 18 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; the approved form and cached search are now integrated in the live catalogue.
+Status: Task 12's contract is agreed; separately authorised Tasks 13–17B are technically complete on `dev`. The candidate explicitly requested Task 17B after the composed-form handoff. The 2026-11-07 contract revision below is documentation only; Task 19 was subsequently authorised and implements OR/contextual server availability; review of that slice is next. No separate Checkpoint G sign-off is inferred. Task 18 and Tasks 20–21 remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; the approved form and cached search are now integrated in the live catalogue.
 
-### Agreed direction (revised 2026-11-07; not implemented)
+### Agreed direction (revised 2026-11-07; Task 19 server slice implemented)
 
-The candidate accepted automatic search and contextual availability, and explicitly accepted OR for every multi-métier URL, including old links. [The revised search contract](search-contract.md) supersedes manual submission, global option availability and AND between jobs in the completed Tasks 12–17B below. Those task descriptions and verification notes are retained as implementation history. Application behaviour is still that verified baseline.
+The candidate accepted automatic search and contextual availability, and explicitly accepted OR for every multi-métier URL, including old links. [The revised search contract](search-contract.md) supersedes manual submission, global option availability and AND between jobs in the completed Tasks 12–17B below. Those task descriptions and verification notes are retained as implementation history. Task 19 updates matching and server availability; visible form interaction remains the earlier verified baseline until Tasks 20–21.
 
 - Public → Métiers ou mots-clés → Casque VR; remove Rechercher. Commit on suggestion selection, dropdown change, chip removal and clear-all. Typing only obtains suggestions; no free-text criterion. Keep shared full-width icon chips/help and the accepted responsive field order, compact sizing, single-line ellipsis, keyboard/touch label disclosure and removal focus. Reflow the fields without reserving a submit-button cell.
 - Preserve Heroicons outline beside labels and in chips: UserGroup for public, Briefcase for métier, MagnifyingGlass for title and Eye for headset. Desktop keeps one row with keywords widest; tablet retains Public and keywords on full-width rows, then headset; mobile stacks the fields. Chips/help span the full area below controls. Breakpoints respond to allocated catalogue width alongside the draft rail.
@@ -402,7 +402,7 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 
 ### Automatic-search follow-up (agreed 2026-11-07)
 
-**Status:** Planning only; no implementation task is authorised. Preserve completed Tasks 12–17B and the original wireframes. Each slice needs separate authorisation, the full repository gate and updated implementation guides once behaviour actually changes. Final Task 18 follows these slices.
+**Status:** Task 19 was explicitly authorised and is implemented; Tasks 20–21 remain planning only and unauthorised. Preserve completed Tasks 12–17B and the original wireframes. Each slice needs separate authorisation, the full repository gate and updated implementation guides once behaviour actually changes. Final Task 18 follows these slices.
 
 ### Task 19 — OR matching and contextual server availability
 
@@ -413,6 +413,8 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 - Include every matching criterion, including q, in contextual suggestion requests/query identities. Rank available matches first using the existing deterministic category allocation; disabled suggestions may fill spare slots only. Keep dictionary extraction and process-lifetime preparation unchanged.
 
 **Verification:** Failing-first tests for old multi-job URLs adopting OR, aliases, job union with mixed title/q filters, no selected jobs, zero-contribution job candidates, alternative audience/headset replacement, title intersections, selected zero-match values and defaults, full-snapshot availability beyond page one, source retention, ranking/limits and unchanged warm-cache upstream isolation. Dev/production SSR/HTTP parity and full gate.
+
+**Task 19 handoff (2026-11-07):** shared complete-snapshot matching/availability replaces job AND with OR for all URLs, preserves other predicates/validation/pagination and selected appellations, and supplies audience/headset availability in opt-in context plus candidate availability on suggestions. Available candidates are allocated before the five-item cap. Schemas/browser boundaries and test fixtures are aligned without changing component interaction. Failing-first tests cover OR, filter exclusion, eligibility and validation; real dev/production tests cover HTTP/SSR parity and warm-cache isolation. Full gate passes 32 files/242 tests, 116-file strict checks with zero diagnostics, formatting/lint and build. All 18 desktop/tablet/mobile browser scenarios pass (1.2m), including the new multi-métier OR/contextual HTTP checks and existing session flows. No supplied API/catalogue, dependencies, startup lifecycle, automatic UI, commit or push change. Tasks 20–21 remain unauthorised.
 
 ### Task 20 — Accessible contextual option states
 

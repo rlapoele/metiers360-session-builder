@@ -4,6 +4,7 @@ const page = {
   data: [],
   meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
   context: {
+    availability: { audiences: [], headsets: [] },
     criteria: { selected: [] },
     references: {
       jobs: { data: [], source: 'test' },

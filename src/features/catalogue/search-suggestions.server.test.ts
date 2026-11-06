@@ -162,6 +162,37 @@ describe('pure dictionary suggestions', () => {
     );
   });
 
+  it('allocates available matches before disabled matches without losing category grouping or rank', () => {
+    const input = dictionary();
+    const allTitles = suggestDictionaryTerms(input, {
+      term: 'jard',
+      selectedJobCodes: input.jobs.map((j) => j.code),
+    });
+    const eligible = new Set(allTitles.slice(-4).map((t) => t.key));
+    const result = suggestDictionaryTerms(input, {
+      term: 'jard',
+      isAvailable: (item) =>
+        item.category === 'title' && eligible.has(item.key),
+    });
+    expect(result).toHaveLength(5);
+    expect(result.filter((item) => eligible.has(item.key))).toHaveLength(4);
+    expect(result.filter((item) => item.category === 'job')).toHaveLength(1);
+    const allEnabled = suggestDictionaryTerms(input, {
+      term: 'jard',
+      isAvailable: () => true,
+    });
+    expect(allEnabled).toEqual(suggestDictionaryTerms(input, { term: 'jard' }));
+    expect(
+      suggestDictionaryTerms(input, { term: 'jard', isAvailable: () => false }),
+    ).toEqual(allEnabled);
+    expect(
+      suggestDictionaryTerms(input, {
+        term: 'jard',
+        isAvailable: (item) => item.category === 'job',
+      }).filter((item) => item.category === 'job'),
+    ).toHaveLength(4);
+  });
+
   it('does not open on empty or one-character input and produces repeatable results', () => {
     for (const term of ['', ' ', 'j', 'j -'])
       expect(suggestDictionaryTerms(dictionary(), { term })).toEqual([]);

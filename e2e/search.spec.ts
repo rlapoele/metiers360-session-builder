@@ -1,3 +1,7 @@
+import {
+  CatalogueSearchPageSchema,
+  CatalogueSuggestionsSchema,
+} from '@features/catalogue/search-contracts';
 import { expect, test, type Page } from '@playwright/test';
 
 async function ready(page: Page) {
@@ -205,4 +209,52 @@ test('keeps malformed URLs explicit until correction is submitted', async ({
   await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   await expect(page.getByRole('article').first()).toBeVisible();
   expect(new URL(page.url()).search).toBe('');
+});
+
+test('restores multi-métier OR links and exposes contextual server availability', async ({
+  page,
+}) => {
+  await page.goto(
+    '/?job=A1203&job=I1604&jobTerm=I1604%3Aappellation%2Fgaragiste',
+  );
+  await ready(page);
+  await expect(
+    page.getByText('14 vidéos trouvées', { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('article')).toHaveCount(14);
+  await expect(
+    page.getByRole('button', { name: 'Retirer le critère Métier : Garagiste' }),
+  ).toBeVisible();
+  const response = await page.request.get(
+    '/api/catalogue/search?include=context&job=A1203&job=I1604&title=omar&audience=college',
+  );
+  expect(response.status()).toBe(200);
+  const result = CatalogueSearchPageSchema.parse(await response.json());
+  expect(
+    result.context.availability.audiences.find(
+      (item) => item.id === 'adultes-reconversion',
+    ),
+  ).toMatchObject({ count: 1, available: true });
+  const suggestionResponse = await page.request.get(
+    '/api/catalogue/suggestions?term=mecanicien&job=A1203&title=omar&q=municipal',
+  );
+  const suggestions = CatalogueSuggestionsSchema.parse(
+    await suggestionResponse.json(),
+  );
+  expect(
+    suggestions.data.find(
+      (item) => item.category === 'job' && item.jobCode === 'I1604',
+    ),
+  ).toMatchObject({ availability: { count: 0, available: false } });
+  // Task 19 intentionally retains explicit submission; automatic UI is Task 21.
+  await chooseTitle(page, 'Omar');
+  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  await expect(page.getByRole('article')).toHaveCount(1);
+  await expect(
+    page.getByText('1 vidéo trouvée', { exact: true }),
+  ).toBeVisible();
+  expect(new URL(page.url()).searchParams.getAll('job')).toEqual([
+    'A1203',
+    'I1604',
+  ]);
 });

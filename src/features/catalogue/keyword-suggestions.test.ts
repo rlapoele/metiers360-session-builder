@@ -27,13 +27,23 @@ describe('keyword suggestion client boundary', () => {
     });
     expect(params.get('jobTerm')).toBe('A1203:appellation/jardinier municipal');
     expect(params.get('title')).toBe('omar');
+    expect(params.get('q')).toBe('Omar');
+    expect(params.get('audience')).toBe('college');
+    expect(params.get('headset')).toBe('pico-4');
     expect(params.toString()).not.toContain('Selected');
   });
   it('validates responses and forwards cancellation to fetch', async () => {
     const fetcher = vi.fn().mockResolvedValue(
       new Response(
         JSON.stringify({
-          data: [{ category: 'title', key: 'omar', label: 'Omar' }],
+          data: [
+            {
+              category: 'title',
+              key: 'omar',
+              label: 'Omar',
+              availability: { count: 1, available: true },
+            },
+          ],
         }),
       ),
     );
@@ -44,13 +54,52 @@ describe('keyword suggestion client boundary', () => {
         new URLSearchParams({ term: 'om' }),
         signal,
       ),
-    ).toEqual([{ category: 'title', key: 'omar', label: 'Omar' }]);
+    ).toEqual([
+      {
+        category: 'title',
+        key: 'omar',
+        label: 'Omar',
+        availability: { count: 1, available: true },
+      },
+    ]);
     expect(fetcher.mock.calls[0]?.[1]).toEqual({ signal });
     fetcher.mockResolvedValue(new Response('{}'));
     await expect(
       fetchKeywordSuggestions(new URLSearchParams()),
     ).rejects.toThrow('invalide');
   });
+  it.each([
+    undefined,
+    { count: -1, available: false },
+    { count: 0, available: true },
+    { count: 1, available: false },
+    { count: 1.5, available: true },
+  ])(
+    'rejects missing or inconsistent availability metadata: %j',
+    async (availability) => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(
+          async () =>
+            new Response(
+              JSON.stringify({
+                data: [
+                  {
+                    category: 'title',
+                    key: 'omar',
+                    label: 'Omar',
+                    availability,
+                  },
+                ],
+              }),
+            ),
+        ),
+      );
+      await expect(
+        fetchKeywordSuggestions(new URLSearchParams('term=om')),
+      ).rejects.toThrow('invalide');
+    },
+  );
   it('distinguishes preparation from empty suggestions without exposing error content', async () => {
     vi.stubGlobal(
       'fetch',

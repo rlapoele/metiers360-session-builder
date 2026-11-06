@@ -5,6 +5,7 @@ import type {
   CatalogueSuggestions,
   CataloguePageResult,
 } from '@features/catalogue/search-contracts';
+import { createSearchContext } from '@features/catalogue/search-matching.server';
 import type { SearchDictionary } from '@features/catalogue/search-dictionary.server';
 import { compareCodePoints } from '@features/catalogue/search-dictionary-rules';
 import type { CataloguePreparationState } from '@features/catalogue/search-preparation.server';
@@ -93,37 +94,31 @@ export function createCatalogueSearchService(runtime: SearchRuntime) {
       state,
     };
   }
-  function search(
-    params: URLSearchParams,
-  ):
+  function search(params: URLSearchParams):
     | SearchFailure
-    | { status: 200; body: CatalogueSearchResult; criteria: SearchCriteria } {
+    | {
+        status: 200;
+        body: CatalogueSearchResult;
+        criteria: SearchCriteria;
+        availability: ReturnType<typeof createSearchContext>['availability'];
+      } {
     const prepared = prepare(params);
     if (!prepared.success) return prepared.result;
     const { criteria, state } = prepared;
-    const titleMatches = criteria.titles.map(
-      (key) =>
-        new Set(
-          state.dictionary.titles.find((title) => title.key === key)!.videoIds,
-        ),
+    const context = createSearchContext(
+      state.snapshot,
+      state.dictionary,
+      criteria,
     );
-    const q = criteria.q?.toLowerCase();
-    const matches = state.snapshot.videos
-      .filter(
-        (video) =>
-          criteria.jobs.every((code) => video.jobs.includes(code)) &&
-          titleMatches.every((ids) => ids.has(video.id)) &&
-          (!criteria.audience || video.audiences.includes(criteria.audience)) &&
-          (!criteria.headset ||
-            video.compatible_headsets.includes(criteria.headset)) &&
-          (!q || video.title.toLowerCase().includes(q)),
-      )
-      .sort((a, b) => compareCodePoints(a.id, b.id));
+    const matches = context.matches.sort((a, b) =>
+      compareCodePoints(a.id, b.id),
+    );
     const totalPages = Math.max(1, Math.ceil(matches.length / 24));
     const page = Math.min(criteria.page, totalPages);
     return {
       status: 200,
       criteria: { ...criteria, page },
+      availability: context.availability,
       body: {
         data: matches.slice((page - 1) * 24, page * 24),
         meta: {
@@ -148,6 +143,7 @@ export function createCatalogueSearchService(runtime: SearchRuntime) {
         body: {
           ...result.body,
           context: {
+            availability: result.availability,
             criteria: {
               audience: criteria.audience,
               headset: criteria.headset,
@@ -186,16 +182,22 @@ export function createCatalogueSearchService(runtime: SearchRuntime) {
     ): CatalogueServiceResult<CatalogueSuggestions> {
       const prepared = prepare(params, true);
       if (!prepared.success) return prepared.result;
-      return {
-        status: 200,
-        body: {
-          data: suggestDictionaryTerms(prepared.state.dictionary, {
-            term: prepared.term,
-            selectedJobCodes: prepared.criteria.jobs,
-            selectedTitleKeys: prepared.criteria.titles,
-          }),
-        },
-      };
+      const { criteria, state } = prepared;
+      const context = createSearchContext(
+        state.snapshot,
+        state.dictionary,
+        criteria,
+      );
+      const data = suggestDictionaryTerms(state.dictionary, {
+        term: prepared.term,
+        selectedJobCodes: criteria.jobs,
+        selectedTitleKeys: criteria.titles,
+        isAvailable: (item) => context.forSuggestion(item).available,
+      }).map((item) => ({
+        ...item,
+        availability: context.forSuggestion(item),
+      }));
+      return { status: 200, body: { data } };
     },
     status(): { status: 200; body: CatalogueStatus } {
       return { status: 200, body: publicStatus(runtime.getState()) };

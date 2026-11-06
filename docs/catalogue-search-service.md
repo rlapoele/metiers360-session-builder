@@ -8,7 +8,7 @@ Task 15 adds the application-owned HTTP boundary for the [agreed search contract
 
 SSR loaders call `getCatalogueSearchService()` from `search-http.server.ts`, then `search(url.searchParams)` or `status()` directly, without loopback HTTP. Getting the service does not start preparation or create another cache. The factory `createCatalogueSearchService(runtime)` also supports isolated tests. Each request reads the current runtime state; a ready snapshot is never refreshed by search, suggestions or recovery.
 
-A successful service search returns `{ status: 200, body, criteria }`. Only `body` is serialized over HTTP. `criteria` supplies canonical page, sorted/deduplicated job codes and normalized title keys, legacy q and validated `{ code, sourceKey, label }` métier selections for SSR restoration. A legacy job without jobTerm resolves to its dictionary label source. Explicit source keys preserve the selected appellation. No client-supplied display label is trusted.
+A successful service search returns `{ status: 200, body, criteria, availability }`. Only `body` is serialized over HTTP. `criteria` supplies canonical page, sorted/deduplicated job codes and normalized title keys, legacy q and validated `{ code, sourceKey, label }` métier selections for SSR restoration. A legacy job without jobTerm resolves to its dictionary label source. Explicit source keys preserve the selected appellation. No client-supplied display label is trusted.
 
 ## HTTP responses
 
@@ -31,9 +31,36 @@ Examples (URLSearchParams should encode values in application code):
 /api/catalogue/suggestions?term=jard&job=A1203
 ```
 
-Every job and every title condition must match the same video, alongside audience/headset and optional legacy q. Title predicates use the dictionary's complete-word/phrase video mappings. q preserves trimmed, case-insensitive contiguous substring matching, including its original accents/punctuation. Nothing is evaluated as a regular expression. Filtering precedes ID ordering and pagination across the full snapshot. An excessive page is canonicalized in response meta and service criteria; zero results uses page one and total_pages one. The service does not redirect or relax criteria.
+At least one selected job must match the video (OR); every selected title condition, audience/headset and optional legacy q must also match (AND). An empty group imposes no condition. This applies to all repeated-job URLs, including old links, without a version flag. Title predicates use the dictionary's complete-word/phrase video mappings. q preserves trimmed, case-insensitive contiguous substring matching, including its original accents/punctuation. Nothing is evaluated as a regular expression. Filtering precedes ID ordering and pagination across the full snapshot. An excessive page is canonicalized in response meta and service criteria; zero results uses page one and total_pages one. The service does not redirect or relax criteria.
 
-Suggestions use the whole dictionary, not the filtered result set. Selected job/title identities are excluded before the existing ranking and three-job/two-title allocation. Under two normalized characters returns an empty suggestion list. Public/headset selections are validated without narrowing suggestions.
+Suggestions match expressions from the complete dictionary, exclude selected identities and rank available candidates before applying the five-item cap. Available candidates retain the three-job/two-title allocation and fill unused places across categories; unavailable candidates fill only remaining places, with the same allocation. Render jobs first and titles second, available before unavailable within each group. Under two normalized characters returns an empty list. The server now evaluates the complete current context, including legacy q; existing browser serialization/query keys already carry all these criteria.
+
+## Contextual availability (Task 19)
+
+`search-matching.server.ts` evaluates one complete ready snapshot per request, before pagination, using shared predicates for SSR, HTTP search and suggestions. It does not mutate the startup cache or extraction rules. Membership counts count each video once per candidate, including multi-job videos.
+
+- Job candidate: retain every title/q, audience and headset; exclude the entire selected job group and require the candidate code. This is the candidate's contextual count, not the union total after adding it.
+- Title candidate: retain all current criteria, including the OR job group and every title/q; intersect with the candidate title's dictionary video IDs.
+- Audience/headset candidate: replace its own filter, retain all other groups and require candidate membership.
+
+Opt-in `include=context` search responses and `service.page(params)` now include:
+
+```json
+{
+  "context": {
+    "availability": {
+      "audiences": [{ "id": "college", "count": 5, "available": true }],
+      "headsets": [{ "id": "pico-4", "count": 8, "available": true }]
+    }
+  }
+}
+```
+
+This is a structural example, not fixture counts. Arrays include every reference ID in reference order, including selected zero-match values. Unfiltered defaults have no reference ID; the UI must always leave them usable. Actual `tout-public` membership is counted separately from no filter. Other criteria/context fields and video data/meta remain present; ordinary search response bodies remain exactly data/meta.
+
+Each suggestion now additionally carries `availability: { count, available }`. Browser-safe Zod schemas require a nonnegative integer count and `available === (count > 0)`; malformed or missing metadata fails boundary validation. `CatalogueSelectionSchema` separates stable selection/source identity from request-specific eligibility, so restored chips do not carry a required availability value. Selection names and authored appellations remain unchanged.
+
+The server and browser response boundary are connected. **Disabled option rendering and availability failure/staleness presentation remain Task 20; automatic search, revised help and removal of Rechercher remain Task 21.** Until then the existing form still stages edits and submits explicitly; its earlier blanket AND help is scheduled for replacement in Task 21. No visible counts have been added. Preparing/failed responses remain explicit 503 states, never fabricated zero-availability success.
 
 ## Validation
 
@@ -51,7 +78,7 @@ Search/suggestion 503 bodies add `error: 'catalogue_preparing' | 'catalogue_fail
 
 Recovery accepts no parameters or nonempty body, never takes an upstream URL, never starts an idle/stopped owner and never rebuilds ready data. It returns immediately after initiating or joining one preparation cycle; it does not wait through upstream requests/backoff. Concurrent calls share the existing controller. An empty Node request stream is accepted; nonempty input is rejected without buffering the whole body. Existing lifecycle logs identify a recovery cycle with `trigger: manual-retry` and a fresh run ID; ordinary searches do not add log noise.
 
-Visible polling, loading/error announcements and a retry button remain future UI integration. Consumers should poll status once per second only while preparing and visible, stop on failed, and load submitted results when ready. See [startup logs and troubleshooting](catalogue-startup.md).
+Task 17B connects visible polling, loading/error announcements and retry. Consumers poll status once per second only while preparing and visible, stop on failed, and load submitted results when ready. See [startup logs and troubleshooting](catalogue-startup.md).
 
 ## Verification
 
@@ -60,3 +87,6 @@ Focused service/route tests cover mixed and multi-title/multi-job AND, word/phra
 Verified Task 15 gate: `npm run verify` passes 192 tests in 26 files, strict checks on 102 files with zero diagnostics, formatting/lint and production build. All six existing desktop/tablet/mobile browser regression scenarios pass against the unchanged mock API (57.3s). Documentation links and diff hygiene pass. No dependency, supplied API/catalogue, deployment, commit or push change.
 
 Task 17B adds `service.page(params)` and opt-in `GET /api/catalogue/search?include=context` for trusted selected labels and cached references alongside data/meta. Non-opt-in responses and the supplied API retain their contracts. The catalogue index calls page directly; browser queries validate the page projection. This is presentation metadata, not another predicate or a new upstream capability.
+
+
+Task 19 supersedes the historical multi-job AND/global-suggestion assertions above. Verification now covers old-link OR union, mixed AND groups, aliases, own-filter alternatives, zero-contribution jobs, full-snapshot counts independent of pagination, eligible-before-cap allocation, metadata validation and retained selected values. Development and production lifecycle cases verify real HTTP/SSR OR results and availability without new upstream calls. The full gate passes formatting/lint, 116-file strict checks with zero diagnostics, all 32 test files/242 tests and the production build. All 18 desktop/tablet/mobile browser scenarios pass (1.2m), including new old-link OR/contextual endpoint checks and original session flows. Local documentation link targets and git diff hygiene pass. No mock API/catalogue, dependency, staging, commit, push or deployment changes.
