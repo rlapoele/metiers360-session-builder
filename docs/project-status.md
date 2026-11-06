@@ -46,6 +46,8 @@ The candidate requested an implementation proposal for the agreed revamped searc
 
 On 2026-11-06, the candidate refined the future cache lifecycle: prepare the catalogue and dictionary when each Astro server process starts, before any visitor request. The plan now includes shared preparation states, bounded automatic retries for temporary failures, early-arrival loading, manual recovery and lifecycle verification. Cache lifetime remains the server process lifetime. Exact startup integration and retry bounds will be verified/defined before implementation; no application or deployment changes were authorised by this plan update.
 
+Task 12 update (2026-11-06): the candidate authorised proposing the exact contract, without implementing it. [The draft](../tasks/search-contract.md) now records extraction and matching rules, suggestion ranking/limits, chip identities, URL/legacy semantics, startup retries/loading and acceptance examples. Five decision groups await candidate agreement; Task 12 remains unchecked and Tasks 13 onward are not authorised. Work started from clean `dev` at `4b32a58`; no application code was changed.
+
 ### Previous documentation handoff (2026-10-27)
 
 On 2026-10-27, the candidate confirmed committing and pushing the post-implementation architecture diagram, its [explanation](architecture/README.md) and the main README links on `dev` in `b4efea9` (`docs: link architecture diagram from main README`). Local `dev`, `origin/dev` and a direct GitHub remote-ref check all identify that commit. The diagram describes the `17d809f` implementation and is not a specification for future changes.

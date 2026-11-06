@@ -2,6 +2,8 @@
 
 Status: implementation baseline, agreed before frontend bootstrap and updated as delivery progresses.
 
+Planning note (2026-11-06): [Task 12's search contract](../tasks/search-contract.md) proposes a startup-prepared read-only catalogue/dictionary and Astro AND search service as a scoped exception to the thin-BFF baseline below. The contract awaits candidate agreement; no search implementation has changed, and the sections below continue to describe the delivered baseline.
+
 The repository contains the supplied Node mock API and the implemented Astro/React frontend through Task 9A, including Task 7A. The French-copy inventory and audit outcomes are recorded in [copy-audit.md](copy-audit.md). This document records the accepted architecture and remaining delivery direction. The task plan and checklist own completion status; update this document when an implemented decision supersedes the baseline.
 
 ## Goals

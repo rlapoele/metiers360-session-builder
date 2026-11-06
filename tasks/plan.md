@@ -308,6 +308,8 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** None. **Scope:** Small; planning/contracts only.
 
+The [Task 12 contract proposal](search-contract.md) is drafted for candidate review. It specifies extraction/matching, typed selections, suggestions, pending/applied state, URL compatibility, startup/retry states and an example acceptance matrix. Recommendations remain proposals until agreed; Task 12 is not complete and implementation is not authorised.
+
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
 - Specify submission with unselected text (proposal: ask the user to select a suggestion or clear it), no-result behaviour, pending removal/clear semantics and video-details fetching. Candidate reviews these choices before implementation.

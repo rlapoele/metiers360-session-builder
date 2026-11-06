@@ -121,6 +121,7 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 See [the detailed proposal](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). These unchecked tasks are proposed, not authorised implementation work.
 
 - [ ] **Task 12:** Review exact keyword, selection, URL and matching contracts with the candidate.
+  - Draft [search contract](search-contract.md) prepared on 2026-11-06 with exact proposed rules and acceptance examples; awaiting candidate agreement, not implementation.
 - [ ] **Task 13:** Prepare the complete catalogue loader and shared initialization states, bounded automatic retries and manual recovery.
 - [ ] **Task 14A:** Build the normalized dictionary and category-aware mappings, retaining names.
 - [ ] **Task 14B:** Start combined cache/dictionary preparation when the Astro server starts, before any visitor request; verify development and production lifecycle behaviour.
