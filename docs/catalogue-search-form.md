@@ -1,6 +1,6 @@
 # Responsive search form and shared criteria chips
 
-Task 17A composes the approved form from Task 16's keyword selector. It is a reusable composition, not yet mounted in the existing catalogue workspace. Task 17B owns replacement of the old controls in CatalogueApp, applied URL/history criteria, SSR/search requests, pagination and previous-result loading/error behaviour. No unsupported multi-criterion request is sent through the existing legacy query path during this intermediate slice.
+Task 17A composes the approved form from Task 16's keyword selector. Task 17B now mounts this composition in CatalogueApp and connects applied URL/history criteria, SSR/search requests, pagination and previous-result loading/error behaviour; see [live integration](catalogue-search-integration.md). No unsupported multi-criterion request is sent through the existing legacy query path during this intermediate slice.
 
 ## Parent contract and state
 
@@ -18,7 +18,7 @@ Rechercher with nonempty unselected text focuses the keyword input and shows the
 
 DOM and keyboard order is Public → Métiers ou mots-clés → Casque VR → Rechercher. Public/headset remain native selects. Default Tous les publics means no audience, while the supplied Tout public ID remains a separate exact value. Matching Heroicons outline accompany labels and chips: UserGroup, Briefcase, MagnifyingGlass and Eye.
 
-The form establishes a named inline-size container. Below 32rem of allocated width, controls stack and Rechercher spans the full width. From 32rem, Public and keywords each occupy a full row, followed by headset and submit together. From the existing 80rem desktop/draft-rail viewport breakpoint, an allocated form width of at least 48rem allows one row with twice the column capacity for keywords. A constrained desktop container retains the stacked/tablet composition. Scoped named CSS classes define this grid; no global layout or draft-panel change is made.
+The form establishes a named inline-size container. Below 32rem of allocated width, controls stack and Rechercher spans the full width. From 32rem, Public and keywords each occupy a full row, followed by headset and submit together. From the existing 80rem desktop/draft-rail viewport breakpoint, an allocated form width of at least 45rem (adjusted in Task 17B after checking the actual draft-rail allocation) allows one row with twice the column capacity for keywords. A constrained desktop container retains the stacked/tablet composition. Scoped named CSS classes define this grid; no global layout or draft-panel change is made.
 
 ## Shared chip area
 
@@ -36,4 +36,4 @@ Nine new form/model interaction cases bring the passing full repository gate to 
 
 An isolated temporary browser fixture imports actual source and full application styles, simulates the desktop draft rail and supplies deterministic suggestion responses. Chromium checks pass at 320/390/834/1024/1440px: ordered control geometry, desktop keyword capacity, shared full-width chips, ellipsis/nowrap, no horizontal overflow, retained 44px removal targets, keyboard/touch full-label reveal, focus, pending operations and explicit submission. Whole-fixture axe scans with the combobox closed have zero violations at those five widths; runtime exceptions are absent. Clean mobile/tablet/desktop captures were visually inspected. All six existing catalogue/session browser scenarios also pass against the unchanged mock API; they protect the delivered application rather than claim the new form is already connected.
 
-Task 16's documented open-combobox portal focus-hiding/landmark findings remain an integration check, not a resolved claim from the closed-popup form scans. No native screen-reader or formal WCAG/RGAA conformance claim is made. Task 17B must test the composed form in the actual catalogue and applied-result lifecycle. Original wireframes remain design history. No supplied API/catalogue, dependency, live URL/result path, staging, commit, push or deployment change is included.
+Task 16's documented open-combobox portal focus-hiding/landmark findings remain an integration check, not a resolved claim from the closed-popup form scans. No native screen-reader or formal WCAG/RGAA conformance claim is made. Task 17B subsequently verified the composed form in the actual catalogue and applied-result lifecycle; see the linked integration record. Original wireframes remain design history. No supplied API/catalogue, dependency, live URL/result path, staging, commit, push or deployment change is included.

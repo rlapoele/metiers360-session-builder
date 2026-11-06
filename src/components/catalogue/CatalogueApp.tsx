@@ -1,33 +1,17 @@
 import { useStore } from '@nanostores/react';
-import {
-  keepPreviousData,
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query';
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type FormEvent,
-  type ReactNode,
-} from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { Button } from '@components/ui/button';
-
+import { CatalogueSearchForm } from '@components/catalogue/CatalogueSearchForm';
+import { CatalogueResults } from '@components/catalogue/CatalogueResults';
+import { SessionDraftComposition } from '@components/catalogue/SessionDraftComposition';
+import { VideoDetailsSheet } from '@components/catalogue/VideoDetailsSheet';
 import {
-  fetchCatalogueReferences,
-  fetchVideos,
-  type CatalogueReferences,
-} from '@features/catalogue/api';
+  useCatalogueSearch,
+  type CataloguePageProps,
+} from '@features/catalogue/use-catalogue-search';
 import { formatResultCount } from '@features/catalogue/format';
-import {
-  catalogueQueryFromSearchParams,
-  catalogueQueryToSearchParams,
-  updateCatalogueQuery,
-  type CatalogueQuery,
-} from '@features/catalogue/query-params';
 import {
   $sessionDraft,
   addVideoToDraft,
@@ -35,25 +19,10 @@ import {
   registerDraftVideos,
   removeVideoFromDraft,
 } from '@features/sessions/session-draft.store';
-import type { Video, VideoList } from '@lib/api/schemas';
-import {
-  AppliedFilters,
-  type AppliedFilter,
-} from '@components/catalogue/AppliedFilters';
-import { CatalogueFilters } from '@components/catalogue/CatalogueFilters';
-import { CatalogueResults } from '@components/catalogue/CatalogueResults';
-import { CatalogueSearch } from '@components/catalogue/CatalogueSearch';
-import { SessionDraftComposition } from '@components/catalogue/SessionDraftComposition';
-import { VideoDetailsSheet } from '@components/catalogue/VideoDetailsSheet';
-
-interface CatalogueAppProps {
-  initialQuery: CatalogueQuery;
-  initialVideos?: VideoList;
-  initialReferences?: CatalogueReferences;
-}
+import type { Video } from '@lib/api/schemas';
 
 function QueryProvider({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(
+  const [client] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
@@ -65,48 +34,21 @@ function QueryProvider({ children }: { children: ReactNode }) {
         },
       }),
   );
-
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }
-
-export function CatalogueApp(props: CatalogueAppProps) {
+export function CatalogueApp(props: CataloguePageProps) {
   return (
     <QueryProvider>
       <CatalogueContent {...props} />
     </QueryProvider>
   );
 }
-
-function CatalogueContent({
-  initialQuery,
-  initialVideos,
-  initialReferences,
-}: CatalogueAppProps) {
-  const [query, setQuery] = useState(initialQuery);
-  const [searchValue, setSearchValue] = useState(initialQuery.q);
+function CatalogueContent(props: CataloguePageProps) {
+  const search = useCatalogueSearch(props);
   const [canObserveDraft, setCanObserveDraft] = useState(false);
   const draft = useStore($sessionDraft);
   const [detailsVideoId, setDetailsVideoId] = useState<string>();
   const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const initialQueryKey = useMemo(
-    () => catalogueQueryToSearchParams(initialQuery).toString(),
-    [initialQuery],
-  );
-  const currentQueryKey = catalogueQueryToSearchParams(query).toString();
-  const referencesQuery = useQuery({
-    queryKey: ['catalogue-references'],
-    queryFn: ({ signal }) => fetchCatalogueReferences(signal),
-    initialData: initialReferences,
-  });
-  const videosQuery = useQuery({
-    queryKey: ['videos', query],
-    queryFn: ({ signal }) => fetchVideos(query, signal),
-    initialData:
-      currentQueryKey === initialQueryKey ? initialVideos : undefined,
-    placeholderData: keepPreviousData,
-  });
   const selectedIds = useMemo(
     () => new Set(canObserveDraft ? draft.video_ids : []),
     [canObserveDraft, draft.video_ids],
@@ -118,39 +60,8 @@ function CatalogueContent({
   }, []);
 
   useEffect(() => {
-    if (videosQuery.data) registerDraftVideos(videosQuery.data.data);
-  }, [videosQuery.data]);
-
-  useEffect(() => {
-    function readLocation() {
-      const nextQuery = catalogueQueryFromSearchParams(
-        new URLSearchParams(window.location.search),
-      );
-      setQuery(nextQuery);
-      setSearchValue(nextQuery.q);
-    }
-
-    window.addEventListener('popstate', readLocation);
-    return () => window.removeEventListener('popstate', readLocation);
-  }, []);
-
-  function navigate(update: Partial<CatalogueQuery>) {
-    const nextQuery = updateCatalogueQuery(query, update);
-    const searchParams = catalogueQueryToSearchParams(nextQuery);
-    const nextUrl = `${window.location.pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
-    window.history.pushState({}, '', nextUrl);
-    setQuery(nextQuery);
-  }
-
-  function submitSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    navigate({ q: searchValue.trim() });
-  }
-
-  function clearCriteria() {
-    setSearchValue('');
-    navigate({ q: '', job: '', headset: '', audience: '' });
-  }
+    if (search.displayed) registerDraftVideos(search.displayed.data);
+  }, [search.displayed]);
 
   function toggleSelection(videoId: string) {
     if (selectedIds.has(videoId)) {
@@ -158,7 +69,7 @@ function CatalogueContent({
       return;
     }
 
-    const video = videosQuery.data?.data.find((item) => item.id === videoId);
+    const video = search.displayed?.data.find((item) => item.id === videoId);
     if (video) addVideoToDraft(video);
   }
 
@@ -172,112 +83,104 @@ function CatalogueContent({
     detailsTriggerRef.current?.focus();
   }
 
-  const references = referencesQuery.data;
+  const references = search.references;
   const jobLabels = new Map(
     references?.jobs.data.map((job) => [job.code, job.label]),
   );
   const headsetLabels = new Map(
     references?.headsets.data.map((headset) => [headset.id, headset.name]),
   );
-  const activeFilters: AppliedFilter[] = [
-    query.job
-      ? { key: 'job', label: jobLabels.get(query.job) ?? query.job }
-      : undefined,
-    query.headset
-      ? {
-          key: 'headset',
-          label: headsetLabels.get(query.headset) ?? query.headset,
-        }
-      : undefined,
-    query.audience
-      ? {
-          key: 'audience',
-          label:
-            references?.audiences.data.find(
-              (audience) => audience.id === query.audience,
-            )?.label ?? query.audience,
-        }
-      : undefined,
-  ].filter((filter): filter is AppliedFilter => filter !== undefined);
-
-  function compatibleHeadsetLabels(video: Video): string[] {
-    if (query.headset) {
-      return [headsetLabels.get(query.headset) ?? query.headset];
-    }
-
-    return video.compatible_headsets.map((id) => headsetLabels.get(id) ?? id);
+  const shownHeadset = search.displayed?.context.criteria.headset;
+  function compatibleHeadsetLabels(video: Video) {
+    return shownHeadset
+      ? [headsetLabels.get(shownHeadset) ?? shownHeadset]
+      : video.compatible_headsets.map((id) => headsetLabels.get(id) ?? id);
   }
-
-  const hasCriteria = Boolean(
-    query.q || query.job || query.headset || query.audience,
-  );
-
   return (
     <div className="grid gap-6 xl:grid-cols-3 xl:items-start xl:gap-8">
       <div className="@container space-y-6 pb-24 xl:col-span-2 xl:pb-0">
         <div className="border-border bg-card space-y-5 rounded-lg border p-4 sm:p-5">
-          <CatalogueSearch
-            value={searchValue}
-            onChange={setSearchValue}
-            onSubmit={submitSearch}
+          <CatalogueSearchForm
+            applied={search.applied}
+            references={references}
+            onSubmit={search.submit}
+            resetKey={String(search.revision)}
+            disabled={search.disabled}
           />
-
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <CatalogueFilters
-                query={query}
-                references={references}
-                disabled={referencesQuery.isPending}
-                onChange={navigate}
-              />
-              {videosQuery.data && (
-                <p
-                  role="status"
-                  aria-live="polite"
-                  className="text-sm font-medium"
-                >
-                  {formatResultCount(videosQuery.data.meta.total)}
-                </p>
-              )}
-            </div>
-
-            {referencesQuery.isError && (
-              <div
-                role="alert"
-                className="border-border bg-muted rounded-md border p-4 text-sm"
-              >
-                <p>Les filtres ne peuvent pas être chargés.</p>
-                <Button
-                  type="button"
-                  variant="link"
-                  onClick={() => void referencesQuery.refetch()}
-                  className="mt-2"
-                >
-                  Réessayer de charger les filtres
-                </Button>
-              </div>
-            )}
-
-            <AppliedFilters
-              filters={activeFilters}
-              onRemove={(key) => navigate({ [key]: '' })}
-              onClear={clearCriteria}
-            />
-          </div>
+          {search.displayed && (
+            <p role="status" className="text-sm font-medium">
+              {formatResultCount(search.displayed.meta.total)}
+              {search.previous ? ' — résultats précédents' : ''}
+            </p>
+          )}
         </div>
-
+        {search.validation && (
+          <div
+            role="alert"
+            className="border-border bg-card space-y-3 rounded-lg border p-4"
+          >
+            <h2 className="font-semibold">
+              Les critères de recherche sont invalides.
+            </h2>
+            <ul>
+              {search.validation.details.map((detail, index) => (
+                <li key={index}>{detail.message}</li>
+              ))}
+            </ul>
+            <p>
+              Les résultats ne sont pas élargis automatiquement. Modifiez les
+              critères, puis lancez la recherche.
+            </p>
+            {!search.repair && (
+              <Button type="button" onClick={search.modifyInvalid}>
+                Modifier les critères
+              </Button>
+            )}
+          </div>
+        )}
+        {search.preparing && (
+          <p role="status">
+            Le catalogue est en cours de préparation. Vos critères et votre
+            séance sont conservés.
+          </p>
+        )}
+        {search.failed && (
+          <div
+            role="alert"
+            className="border-border bg-card space-y-3 rounded-lg border p-4"
+          >
+            <h2 className="font-semibold">
+              Le catalogue ne peut pas être préparé.
+            </h2>
+            {search.failed.canRetry && (
+              <Button type="button" onClick={search.retry}>
+                Réessayer
+              </Button>
+            )}
+          </div>
+        )}
         <CatalogueResults
-          data={videosQuery.data}
+          data={search.displayed}
           errorMessage={
-            videosQuery.isError
+            search.error
               ? 'Réessayez dans quelques instants. Votre séance en cours est conservée.'
               : undefined
           }
-          isPending={videosQuery.isPending}
-          isPlaceholderData={videosQuery.isPlaceholderData}
-          isFetching={videosQuery.isFetching}
-          query={query}
-          hasCriteria={hasCriteria}
+          isPending={
+            search.loading &&
+            !search.failed &&
+            !search.error &&
+            !search.validation
+          }
+          isPlaceholderData={search.previous}
+          isFetching={search.isFetching}
+          query={{ page: search.displayed?.meta.page ?? 1 }}
+          hasCriteria={Boolean(
+            search.applied.selected.length ||
+            search.applied.audience ||
+            search.applied.headset ||
+            search.applied.legacyQuery,
+          )}
           selectedIds={selectedIds}
           jobLabelFor={(video) =>
             jobLabels.get(video.jobs[0] ?? '') ??
@@ -285,18 +188,16 @@ function CatalogueContent({
             'Métier non renseigné'
           }
           compatibleHeadsetLabelsFor={compatibleHeadsetLabels}
-          onRetry={() => void videosQuery.refetch()}
-          onClear={clearCriteria}
-          onPageChange={(page) => navigate({ page })}
+          onRetry={search.retry}
+          onPageChange={search.page}
           onOpenDetails={openDetails}
           onToggle={toggleSelection}
         />
       </div>
-
       <SessionDraftComposition
         canObserveDraft={canObserveDraft}
         references={references}
-        initialVideos={videosQuery.data?.data ?? []}
+        initialVideos={search.displayed?.data ?? []}
       />
 
       <VideoDetailsSheet

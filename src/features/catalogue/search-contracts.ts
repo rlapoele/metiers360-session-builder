@@ -1,6 +1,12 @@
 import * as z from 'zod';
 
-import { BffVideoListSchema, ValidationErrorSchema } from '@lib/api/schemas';
+import {
+  BffVideoListSchema,
+  ValidationErrorSchema,
+  JobListSchema,
+  AudienceListSchema,
+  HeadsetListSchema,
+} from '@lib/api/schemas';
 
 export const CatalogueSearchResultSchema = BffVideoListSchema;
 export const CatalogueSearchValidationSchema = ValidationErrorSchema;
@@ -55,3 +61,24 @@ export type CatalogueStatus = z.infer<typeof CatalogueStatusSchema>;
 export type CatalogueUnavailable = z.infer<typeof CatalogueUnavailableSchema>;
 export type CatalogueSuggestions = z.infer<typeof CatalogueSuggestionsSchema>;
 export type CatalogueSearchResult = z.infer<typeof CatalogueSearchResultSchema>;
+
+export const CatalogueSearchPageSchema = CatalogueSearchResultSchema.extend({
+  context: z.object({
+    criteria: z.object({
+      selected: z.array(CatalogueSuggestionsSchema.shape.data.element).max(10),
+      audience: z.string().optional(),
+      headset: z.string().optional(),
+      legacyQuery: z.string().optional(),
+    }),
+    references: z.object({
+      jobs: JobListSchema,
+      audiences: AudienceListSchema,
+      headsets: HeadsetListSchema,
+    }),
+  }),
+});
+export type CatalogueSearchPage = z.infer<typeof CatalogueSearchPageSchema>;
+export type CataloguePageResult =
+  | { status: 200; body: CatalogueSearchPage }
+  | { status: 400; body: z.infer<typeof CatalogueSearchValidationSchema> }
+  | { status: 503; body: CatalogueUnavailable; retryAfter?: 1 };

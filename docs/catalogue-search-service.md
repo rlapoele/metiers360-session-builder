@@ -1,12 +1,12 @@
 # Cached catalogue search service
 
-Task 15 adds the application-owned HTTP boundary for the [agreed search contract](../tasks/search-contract.md). The visible catalogue and its SSR loader still use their existing API path; selector/form integration belongs to Tasks 16–17. The supplied API and its `/videos` contract are unchanged.
+Task 15 adds the application-owned HTTP boundary for the [agreed search contract](../tasks/search-contract.md). Task 17B now connects the visible catalogue and SSR loader to this service; [live integration](catalogue-search-integration.md) records the opt-in page context and URL/query ownership. The supplied API and its `/videos` contract are unchanged.
 
 ## Ownership and SSR use
 
 `search-service.server.ts` operates on the complete startup-owned snapshot and deterministic dictionary. `search-query.server.ts` validates queries and resolves trusted chip wording. `search-contracts.ts` exports browser-safe Zod response schemas and inferred types; it imports no server runtime. The four Astro routes delegate to the same service.
 
-Future SSR loaders can call `getCatalogueSearchService()` from `search-http.server.ts`, then `search(url.searchParams)` or `status()` directly, without loopback HTTP. Getting the service does not start preparation or create another cache. The factory `createCatalogueSearchService(runtime)` also supports isolated tests. Each request reads the current runtime state; a ready snapshot is never refreshed by search, suggestions or recovery.
+SSR loaders call `getCatalogueSearchService()` from `search-http.server.ts`, then `search(url.searchParams)` or `status()` directly, without loopback HTTP. Getting the service does not start preparation or create another cache. The factory `createCatalogueSearchService(runtime)` also supports isolated tests. Each request reads the current runtime state; a ready snapshot is never refreshed by search, suggestions or recovery.
 
 A successful service search returns `{ status: 200, body, criteria }`. Only `body` is serialized over HTTP. `criteria` supplies canonical page, sorted/deduplicated job codes and normalized title keys, legacy q and validated `{ code, sourceKey, label }` métier selections for SSR restoration. A legacy job without jobTerm resolves to its dictionary label source. Explicit source keys preserve the selected appellation. No client-supplied display label is trusted.
 
@@ -58,3 +58,5 @@ Visible polling, loading/error announcements and a retry button remain future UI
 Focused service/route tests cover mixed and multi-title/multi-job AND, word/phrase boundaries, names and accent normalization, legacy substring conditions, selected appellations, input bounds, unknown/malformed selections, global suggestion allocation/exclusions, zero results, pagination and nonblocking recovery. Real development/production process tests hold preparation, check actual HTTP readiness/503 headers, query prepared data without new upstream calls, and recover from bounded failure through concurrent HTTP POSTs. They also retain startup, build-without-API and shutdown checks. No UI behavior change is claimed by these endpoint checks.
 
 Verified Task 15 gate: `npm run verify` passes 192 tests in 26 files, strict checks on 102 files with zero diagnostics, formatting/lint and production build. All six existing desktop/tablet/mobile browser regression scenarios pass against the unchanged mock API (57.3s). Documentation links and diff hygiene pass. No dependency, supplied API/catalogue, deployment, commit or push change.
+
+Task 17B adds `service.page(params)` and opt-in `GET /api/catalogue/search?include=context` for trusted selected labels and cached references alongside data/meta. Non-opt-in responses and the supplied API retain their contracts. The catalogue index calls page directly; browser queries validate the page projection. This is presentation metadata, not another predicate or a new upstream capability.

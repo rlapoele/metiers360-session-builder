@@ -1,12 +1,12 @@
 # Task 12 — Agreed search contract
 
-Date: 2026-11-06. Status: **candidate-agreed contract; startup foundation and Task 15 search endpoints implemented; Task 17A form composition implemented; live catalogue integration pending**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B, 15, 16 and 17A were separately authorised and verified. Task 17A is ready for candidate review; Task 17B onward is not authorised.
+Date: 2026-11-06. Status: **candidate-agreed contract; startup foundation and Task 15 search endpoints implemented; Task 17B live catalogue integration implemented**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13–17B were separately authorised and verified. Task 17B is ready for candidate review; Task 18 onward is not authorised.
 
 ## Confirmed direction
 
 Use the approved Public → Métiers ou mots-clés → Casque VR → Rechercher layout, full-width icon chips and shared AND help. Keep people’s names. Astro prepares the complete catalogue/dictionary at server startup, retains it for the process lifetime and searches it without changing the supplied API. Sessions stay live API operations. See [the implementation plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06).
 
-The rules and defaults below are agreed requirements. Tasks 13–15 now implement the server preparation/dictionary/search boundary; Task 16 adds the controlled selector; Task 17A composes the complete pending form/chips. Live page/URL/result integration remains Task 17B. Editorial extraction rules are maintained in [dictionary rules](../docs/search-dictionary-rules.md); this contract owns interaction, selection and URL behaviour.
+The rules and defaults below are agreed requirements. Tasks 13–15 now implement the server preparation/dictionary/search boundary; Task 16 adds the controlled selector; Task 17A composes the complete pending form/chips. Task 17B now connects the live page, URL/history and results. Editorial extraction rules are maintained in [dictionary rules](../docs/search-dictionary-rules.md); this contract owns interaction, selection and URL behaviour.
 
 ## Selected criteria and meaning
 
@@ -25,7 +25,7 @@ Public is exact API membership. « Tous les publics » means no filter; the actu
 
 ## Dictionary extraction and matching rules
 
-See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. Task 14B wires it to startup preparation; Task 15 exposes validated cached HTTP search and suggestions. Task 17A composes the selector into the pending form; live catalogue integration remains Task 17B.
+See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. Task 14B wires it to startup preparation; Task 15 exposes validated cached HTTP search and suggestions. Task 17A composes the selector into the pending form; Task 17B now supplies live catalogue integration.
 
 ## Dictionary mappings and suggestions
 
@@ -51,7 +51,7 @@ Submission updates the URL and resets page to one only when criteria change. Bac
 
 ## URL and server contract
 
-Implemented Task 15 application-owned routes: `GET /api/catalogue/search`, `GET /api/catalogue/suggestions`, `GET /api/catalogue/status`, `POST /api/catalogue/retry`. Existing `/api/videos` and upstream endpoints keep their contracts. The same search/status service is directly callable by SSR; connecting the current page loader remains Task 17B. [HTTP response and validation details](../docs/catalogue-search-service.md) document the implemented boundary. Retry accepts no arbitrary upstream URL and cannot refresh an already-ready cache.
+Implemented Task 15 application-owned routes: `GET /api/catalogue/search`, `GET /api/catalogue/suggestions`, `GET /api/catalogue/status`, `POST /api/catalogue/retry`. Existing `/api/videos` and upstream endpoints keep their contracts. The same search/status service is called directly by SSR; Task 17B now connects the current page loader. [HTTP response and validation details](../docs/catalogue-search-service.md) document the implemented boundary. Retry accepts no arbitrary upstream URL and cannot refresh an already-ready cache.
 
 Search URLs use repeated `job` and `title` parameters, plus optional `audience`, `headset`, `page`; example (spaces shown decoded): `/?audience=adultes-reconversion&job=A1203&title=omar&title=jardinier&headset=pico-4`. Encode with URLSearchParams. Sort/deduplicate job codes and normalized title values for stable URLs/query keys; omit defaults. Chip order: public, jobs, titles, headset. Search returns the existing video-list data/meta shape; paginate at 24 items, ordered by video ID. A page beyond the last page is canonicalized to the last page after filtering; zero results uses page one.
 
@@ -100,4 +100,6 @@ Legacy `job`, audience/headset and page links retain meaning. A legacy `q` remai
 4. Maximum ten keyword/job criteria; explicit selection required before submission; pending removals/clear-all; legacy q compatibility.
 5. Four startup attempts with 1/2/4s delays, loading/status polling and manual retry; keep video details on the existing API path. No deployment-readiness change.
 
-The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13–17A's preparation, dictionary, startup, HTTP search, selector and pending form, now verified. Task 17B onward still requires a separate instruction.
+The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13–17B's preparation, dictionary, startup, HTTP search, selector, form and live integration, now verified. Task 18 onward still requires a separate instruction.
+
+Task 17B implementation choice: `include=context` on the existing search route opts into validated selected-source labels and cached references for page restoration. Other callers retain the existing data/meta response. SSR uses the same page projection directly. Only matching criteria change resets pagination; a source-label-only change for the same job code preserves the page. Invalid URL correction is explicitly staged before Rechercher, rather than silently dropping criteria. [Live integration evidence](../docs/catalogue-search-integration.md) records these details.

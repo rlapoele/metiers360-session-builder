@@ -37,9 +37,9 @@ Logs deliberately omit API URLs, configuration values, raw exception messages/bo
 
 - No `catalogue.preparing`: check that the process uses the normal development command or built standalone entrypoint. A build, a unit-test Vite server, or an explicitly disabled Node adapter autostart is not application startup.
 - `retry` with transport/timeout/408/429/5xx: check API availability/private networking and the configured `CATALOG_API_URL`. Follow the same `runId`; the log gives the next delay. Startup order is allowed to differ between the two services.
-- `failed` with configuration/invalid-response/other 4xx: correct configuration or inspect the supplied API contract/data. These errors do not automatically loop. Temporary failures stop after four attempts too. Manual recovery starts a fresh bounded cycle through the runtime's `retry()` method or Task 15's bodyless `POST /api/catalogue/retry`; the visible retry button remains future UI work.
+- `failed` with configuration/invalid-response/other 4xx: correct configuration or inspect the supplied API contract/data. These errors do not automatically loop. Temporary failures stop after four attempts too. Manual recovery starts a fresh bounded cycle through the runtime's `retry()` method or Task 15's bodyless `POST /api/catalogue/retry`; Task 17B now wires the visible retry button to the shared cycle.
 - `dictionary_built` has nonzero diagnostics: review `getCatalogueRuntime().getState()` internally and the dictionary's diagnostics against [the extraction rules](search-dictionary-rules.md). Unknown compact notation is reported for review, not converted into guessed vocabulary. The log contains the count without dumping source text.
-- `/health` is still **liveness**, not a readiness guarantee. It responds while preparation is pending or failed. Task 15 exposes `/api/catalogue/status` to distinguish those states; visible loading integration remains future work and deployment traffic is not gated.
+- `/health` is still **liveness**, not a readiness guarantee. It responds while preparation is pending or failed. Task 15 exposes `/api/catalogue/status` to distinguish those states; Task 17B now supplies visible loading/recovery integration; deployment traffic is not gated.
 
 ## Verification
 
@@ -50,3 +50,5 @@ The lifecycle tests bind loopback ports and therefore require an environment per
 Task 14B verification gate: `npm run verify` passed 158 tests and strict checks on 92 files with zero diagnostics, formatting/lint and production build. All six existing desktop/tablet/mobile browser scenarios also passed against the unchanged mock API. The controlled lifecycle backend is a test stand-in, not a modification to that API. No new search UI or production recovery/status route is claimed.
 
 Task 15 verification extends those real-process cases to public HTTP preparation/error headers, cached mixed AND search, suggestions, canonical pagination and concurrent manual recovery without duplicate upstream work. The full gate now passes 192 tests and strict checks on 102 files with zero diagnostics. See [the service guide](catalogue-search-service.md); visible form integration remains later work.
+
+Task 17B verifies real SSR preparation/status headers and no extra upstream reads, then actual production browser startup before the API, terminal failure, explicit recovery, submitted criteria and persisted draft retention. Recovery now clears a cached terminal client status before resuming polling. See [live integration](catalogue-search-integration.md) for current evidence and limits.

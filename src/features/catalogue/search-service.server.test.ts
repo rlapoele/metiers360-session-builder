@@ -154,6 +154,29 @@ describe('cached AND search and query boundary', () => {
     });
   });
 
+  it('restores selected appellation/title spelling and references through the same page service', () => {
+    const result = service.page(
+      params('job=I1604&jobTerm=I1604:appellation/garagiste&title=Aïcha'),
+    );
+    expect(result.status).toBe(200);
+    if (result.status !== 200) throw new Error('Unexpected error');
+    expect(result.body.context.criteria.selected).toContainEqual(
+      expect.objectContaining({
+        category: 'job',
+        label: 'Garagiste',
+        sourceKey: 'appellation/garagiste',
+      }),
+    );
+    expect(result.body.context.criteria.selected).toContainEqual({
+      category: 'title',
+      key: 'aicha',
+      label: ready.dictionary.titles.find((title) => title.key === 'aicha')!
+        .label,
+    });
+    expect(result.body.context.references.jobs).toBe(snapshot.jobs);
+    expect(service.page(params('job=unknown')).status).toBe(400);
+  });
+
   it('preserves legacy substring semantics without accent normalization or regex execution', () => {
     expect(search('q=OMAR').body.data).toEqual(search('title=omar').body.data);
     expect(search('q=mar').body.meta.total).toBeGreaterThan(0);

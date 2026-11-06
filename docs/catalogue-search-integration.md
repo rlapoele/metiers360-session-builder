@@ -1,0 +1,41 @@
+# Live catalogue search integration
+
+Task 17B mounts the approved Task 17A form in CatalogueApp and replaces the old search/filter/chip controls. SSR and browser requests now search the complete startup-prepared snapshot through the same service. The supplied mock API/catalogue and existing proxy contracts remain unchanged; sessions, video details and thumbnails retain their live API paths.
+
+## Server and browser boundary
+
+The Astro index calls `getCatalogueSearchService().page(Astro.url.searchParams)` directly. It does not request its own HTTP endpoint or reload video/reference pages. Ready responses seed the React page query with videos, pagination, trusted selected-source labels and cached references. Invalid queries render a French HTTP 400 page. Preparation/failure renders an explicit HTTP 503 page; only preparing has Retry-After 1. All are no-store. `/health` remains independent liveness; deployment settings are unchanged.
+
+`GET /api/catalogue/search?include=context` opts into the same page projection: existing data/meta plus `context: { criteria, references }`. Criteria contain selected job/title objects with dictionary-authored labels/source keys, audience/headset and optional legacyQuery. References contain the already-validated jobs/audiences/headsets. Only selected title labels are sent, not the entire dictionary. Existing search callers without the opt-in retain their exact data/meta response. The include parameter is presentation metadata, never a matching criterion or upstream URL.
+
+`search-contracts.ts` supplies browser-safe response schemas/inferred types. `search-page-api.ts` validates unknown JSON once and returns typed 200/400/503 states; malformed responses/network failures become recoverable query errors without exposing raw diagnostics. Server tests verify selected appellation/title restoration; HTTP tests verify the opt-in boundary. Real development/production lifecycle tests now also check rendered preparation, selected source labels, invalid URLs and page canonicalization without extra upstream catalogue calls.
+
+## Applied URL state and pending edits
+
+`search-navigation.ts` serializes sorted/deduplicated typed identities and stable jobTerm keys with URLSearchParams; display labels are never trusted from the URL. Legacy q retains case-insensitive contiguous-substring meaning and exact authored punctuation/accents. Unrelated page URL parameters/hash survive search and pagination. Recognized invalid/duplicate values remain intact until the shared server validator rejects them; the browser does not silently normalize invalid queries into a broader search.
+
+`use-catalogue-search.ts` owns applied navigation and TanStack Query state. Form edits remain local until Rechercher. A changed matching criterion resets page to one; unchanged criteria keep the current/requested page, including while a page request is pending. Changing only an appellation source for the same job code changes the chip/URL, not the predicate or result page. Beyond-last pages redirect to the canonical page on SSR; browser responses replace the current URL's page without adding a history entry. Zero results uses page one.
+
+Back/forward reads the URL and increments the form reset token, discarding unsubmitted selections/text even when criteria are equal. Reload gets validated labels/results from SSR. A same-URL submission can refetch without adding a duplicate history entry. Query AbortSignals and distinct recognized-parameter keys prevent late responses replacing the currently requested search.
+
+Malformed/unknown URLs stay visibly invalid, without results being silently broadened. “Modifier les critères” explicitly loads a safe editable reference context, leaves the invalid URL/results unchanged, and lets the user choose replacement criteria. Only Rechercher applies that correction; it starts on page one. This repair context never becomes the displayed result set by itself.
+
+## Results, preparation and recovery
+
+The last successful result set remains visible while another request is pending or fails, with explicit “résultats précédents” text/count meaning. Card headset presentation comes from that displayed result set's context, not pending or newly requested criteria. Previous cards remain readable and usable: the old opacity reduction was removed because it lowered text/button contrast. Pagination is disabled on previous results. Empty results explain that all selected conditions must match; the form remains editable and no criteria are relaxed automatically.
+
+Early visitors see preparation, not a successful zero-result catalogue. Initial controls wait for trusted context; the URL and persisted session draft survive. Status polling runs once per second while preparing, using Query's foreground policy, and stops on terminal failure. Ready status requests submitted results automatically. Manual retry starts/joins one bounded server cycle, retains form/draft state and never refreshes a ready cache.
+
+A real cold-start check exposed a cached terminal-status bug: the server reached ready after manual recovery but the browser still held failed status and did not resume polling. Failing-first page regression coverage reproduced it; both page and selector recovery now replace their cached status with the recovery response before refetching, allowing polling to resume. Tests cover failures reached through polling as well as a page initially rendered failed.
+
+## Verification
+
+The final repository gate passes 233 tests in 32 files, strict checks on 115 files with zero diagnostics, formatting/lint and production build. Existing draft/details tests use the new page contract through test-only fixture conversion, preserving their behavioural assertions rather than retaining a production legacy-prop shim. Obsolete old form/filter/chip components were removed. The legacy video proxy/client helper contract remains available for other callers.
+
+The browser suite has 15 desktop/tablet/mobile scenarios: the original session flow/recovery checks plus selected-appellation SSR/reload/history, keyword AND, pending removals, unchanged-page submission, canonical pagination and invalid-URL correction. The visible-field contrast measurement excludes Base UI's aria-hidden serialization input, which has a clipped rectangle but no visible border; all visible fields retain the original minimum 3:1 threshold. Axe gates/thresholds are not disabled or reduced.
+
+An additional real production browser check starts Astro before an unavailable API, confirms HTTP 503 with no false empty results and `/health` 200, waits for bounded failure, starts the unchanged API and manually recovers. Submitted Omar and a persisted named one-video draft survive. Warm SSR/search also succeeds after stopping that isolated API, while details/thumbnails remain live API operations. At 320/834/1440px, closed-popup page scans have zero axe violations and no horizontal overflow/runtime exceptions; full-label disclosure supports touch and Tab exits the open popup to the headset control. Live-page captures were visually reviewed.
+
+The actual desktop panel proved slightly narrower than the isolated Task 17A fixture. A failing browser geometry assertion caught the tablet fallback at 1440px; the desktop capacity threshold is now 45rem at the existing 80rem viewport breakpoint, with public/headset minimum column widths and a wider keyword column. Narrower allocations retain the fallback layout. This supersedes the earlier 48rem threshold without changing the approved hierarchy.
+
+Open-combobox page scans retain the previously recorded Base UI outside-content focus-hiding/landmark findings: aria-hidden-focus (10 nodes on mobile/tablet, 11 on desktop in the one-item draft check), page-has-heading-one and region. Closed-popup scans do not imply these are resolved. Keyboard/touch operation was checked; no native screen-reader or formal WCAG/RGAA conformance claim is made. Task 18 remains a separately authorised final regression/documentation handoff; no staging, commit, push or deployment is included here.

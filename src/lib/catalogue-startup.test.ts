@@ -312,6 +312,15 @@ describe.each(['development', 'production'] as const)(
         );
         expect(responses.every((response) => response.ok)).toBe(true);
         const base = `http://127.0.0.1:${app.port}/api/catalogue`;
+        const pendingPage = await fetch(
+          `http://127.0.0.1:${app.port}/?title=omar`,
+        );
+        expect(pendingPage.status).toBe(503);
+        expect(pendingPage.headers.get('retry-after')).toBe('1');
+        const pendingHtml = await pendingPage.text();
+        expect(pendingHtml).toContain('en cours de préparation');
+        expect(pendingHtml).not.toContain('0 vidéo trouvée');
+        expect(api.control.paths).toHaveLength(1);
         const preparingStatus = await fetch(`${base}/status`);
         expect(
           CatalogueStatusSchema.parse(await preparingStatus.json()).status,
@@ -346,6 +355,22 @@ describe.each(['development', 'production'] as const)(
         ]);
         const count = api.control.paths.length;
         expect(await inspect(app, 'retry')).toMatchObject({ status: 'ready' });
+        expect(api.control.paths).toHaveLength(count);
+        const rendered = await fetch(
+          `http://127.0.0.1:${app.port}/?job=I1604&jobTerm=I1604%3Aappellation%2Fgaragiste`,
+        );
+        expect(rendered.status).toBe(200);
+        expect(await rendered.text()).toContain('Garagiste');
+        const canonical = await fetch(
+          `http://127.0.0.1:${app.port}/?page=999&tracking=keep`,
+        );
+        expect(new URL(canonical.url).searchParams.get('page')).toBe('9');
+        expect(new URL(canonical.url).searchParams.get('tracking')).toBe(
+          'keep',
+        );
+        expect(
+          (await fetch(`http://127.0.0.1:${app.port}/?job=UNKNOWN`)).status,
+        ).toBe(400);
         expect(api.control.paths).toHaveLength(count);
         expect(
           CatalogueStatusSchema.parse(

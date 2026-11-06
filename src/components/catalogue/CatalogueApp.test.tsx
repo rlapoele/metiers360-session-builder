@@ -21,7 +21,10 @@ import {
   setDraftHeadset,
 } from '@features/sessions/session-draft.store';
 import type { VideoList } from '@lib/api/schemas';
-import { CatalogueApp } from '@components/catalogue/CatalogueApp';
+import { CatalogueApp as LiveCatalogueApp } from '@components/catalogue/CatalogueApp';
+import { catalogueQueryToSearchParams } from '@features/catalogue/query-params';
+import { normalizeSearchText } from '@features/catalogue/search-dictionary-rules';
+import type { CatalogueSearchPage } from '@features/catalogue/search-contracts';
 
 const initialQuery: CatalogueQuery = {
   q: '',
@@ -84,6 +87,54 @@ const initialReferences: CatalogueReferences = {
     data: [{ id: 'adultes-reconversion', label: 'Adultes en reconversion' }],
   },
 };
+
+// Keep domain fixtures focused on draft/details behaviour while using the real new page contract.
+function CatalogueApp({
+  initialQuery,
+  initialVideos,
+  initialReferences,
+}: {
+  initialQuery: CatalogueQuery;
+  initialVideos?: VideoList;
+  initialReferences?: CatalogueReferences;
+}) {
+  const references = initialReferences;
+  const criteria: CatalogueSearchPage['context']['criteria'] = {
+    headset: initialQuery.headset || undefined,
+    audience: initialQuery.audience || undefined,
+    legacyQuery: initialQuery.q || undefined,
+    selected:
+      initialQuery.job && references
+        ? [
+            {
+              category: 'job',
+              key: initialQuery.job,
+              jobCode: initialQuery.job,
+              sourceKey: `label/${normalizeSearchText(references.jobs.data.find((job) => job.code === initialQuery.job)!.label)}`,
+              label: references.jobs.data.find(
+                (job) => job.code === initialQuery.job,
+              )!.label,
+              jobLabel: references.jobs.data.find(
+                (job) => job.code === initialQuery.job,
+              )!.label,
+            },
+          ]
+        : [],
+  };
+  return (
+    <LiveCatalogueApp
+      initialSearch={catalogueQueryToSearchParams(initialQuery).toString()}
+      initialResult={
+        initialVideos && references
+          ? {
+              status: 200,
+              body: { ...initialVideos, context: { criteria, references } },
+            }
+          : undefined
+      }
+    />
+  );
+}
 
 beforeEach(() => {
   clearDraftAfterSave();
@@ -724,20 +775,31 @@ describe('CatalogueApp', () => {
     ).toHaveFocus();
   });
 
-  it('writes submitted search state to the URL and resets the page', async () => {
+  it('writes selected keyword state to the URL and resets the page only on submitted changes', async () => {
     const user = userEvent.setup();
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          data: [],
-          meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
-        }),
-        { status: 200 },
-      ),
+    const fetchMock = vi.fn<typeof fetch>(
+      async (input) =>
+        new Response(
+          JSON.stringify(
+            String(input).includes('/suggestions')
+              ? { data: [{ category: 'title', key: 'sante', label: 'Santé' }] }
+              : {
+                  data: [],
+                  meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
+                  context: {
+                    criteria: {
+                      selected: [
+                        { category: 'title', key: 'sante', label: 'Santé' },
+                      ],
+                    },
+                    references: initialReferences,
+                  },
+                },
+          ),
+        ),
     );
     vi.stubGlobal('fetch', fetchMock);
     window.history.replaceState({}, '', '/?page=3');
-
     render(
       <CatalogueApp
         initialQuery={{ ...initialQuery, page: 3 }}
@@ -748,21 +810,19 @@ describe('CatalogueApp', () => {
         initialReferences={initialReferences}
       />,
     );
-
-    await user.type(
-      screen.getByRole('searchbox', {
-        name: 'Rechercher une vidéo par titre',
-      }),
-      'santé',
-    );
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
-
-    expect(window.location.search).toBe('?q=sant%C3%A9');
-    await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith(
-        '/api/videos?q=sant%C3%A9',
-        expect.objectContaining({ signal: expect.any(AbortSignal) }),
-      );
+    const input = screen.getByRole('combobox', {
+      name: 'Métiers ou mots-clés',
     });
+    await user.type(input, 'santé');
+    await user.click(await screen.findByRole('option', { name: 'Santé' }));
+    expect(window.location.search).toBe('?page=3');
+    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
+    expect(window.location.search).toBe('?title=sante');
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/catalogue/search?title=sante&include=context',
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
+      ),
+    );
   });
 });

@@ -99,6 +99,24 @@ describe('catalogue HTTP boundary', () => {
     ).toEqual({ data: [] });
   });
 
+  it('adds validated cached page context only when explicitly requested', async () => {
+    await runtime.start();
+    const result = await response(search(context('search?include=context')));
+    const body: unknown = await result.json();
+    expect(body).toMatchObject({
+      data: [],
+      meta: { total: 0 },
+      context: {
+        criteria: { selected: [] },
+        references: {
+          jobs: { data: [] },
+          audiences: { data: [] },
+          headsets: { data: [] },
+        },
+      },
+    });
+  });
+
   it('returns French validation errors without reflecting untrusted criteria', async () => {
     await runtime.start();
     const result = await response(search(context('search?title=%3Cscript%3E')));

@@ -308,4 +308,60 @@ describe('accessible grouped keyword selector', () => {
     await user.click(retry);
     await screen.findAllByRole('option');
   });
+  it('resumes status polling after manual recovery of a polled failure', async () => {
+    let started = false;
+    let ready = false;
+    const preparing = {
+      error: 'catalogue_preparing',
+      status: 'preparing',
+      attempt: 1,
+      message: 'Préparation',
+      canRetry: false,
+    };
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(async (path) => {
+        if (String(path).includes('/retry')) {
+          started = true;
+          return new Response(
+            JSON.stringify({
+              status: 'preparing',
+              attempt: 1,
+              message: 'Préparation',
+              canRetry: false,
+            }),
+            { status: 202 },
+          );
+        }
+        if (String(path).includes('/status')) {
+          if (started) {
+            ready = true;
+            return new Response(JSON.stringify({ status: 'ready' }));
+          }
+          return new Response(
+            JSON.stringify({
+              status: 'failed',
+              message: 'Échec',
+              canRetry: true,
+            }),
+          );
+        }
+        return ready
+          ? new Response(JSON.stringify({ data: suggestions }))
+          : new Response(JSON.stringify(preparing), { status: 503 });
+      }),
+    );
+    const { input, user } = setup();
+    await user.type(input, 'jard');
+    await user.click(
+      await screen.findByRole('button', { name: 'Réessayer les suggestions' }),
+    );
+    await screen.findByRole(
+      'option',
+      { name: /Jardinier municipal/ },
+      { timeout: 3000 },
+    );
+    expect(input).toHaveValue('jard');
+    expect(input).toHaveFocus();
+  });
 });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { normalizeSearchText } from '@features/catalogue/search-dictionary-rules';
 import {
@@ -16,6 +16,7 @@ export function useKeywordSuggestions(
   input: KeywordSuggestionRequest,
   enabled: boolean,
 ) {
+  const queryClient = useQueryClient();
   const params = keywordSuggestionParams(input).toString();
   const [settled, setSettled] = useState('');
   const normalized = normalizeSearchText(input.term).replaceAll(' ', '');
@@ -52,7 +53,12 @@ export function useKeywordSuggestions(
   });
   const recovery = useMutation({
     mutationFn: retryKeywordPreparation,
-    onSuccess: () => {
+    onSuccess: (state) => {
+      // A manual cycle must replace a cached terminal status so polling resumes.
+      queryClient.setQueryData(
+        ['catalogue-keyword-preparation', params],
+        state,
+      );
       void suggestions.refetch();
     },
   });

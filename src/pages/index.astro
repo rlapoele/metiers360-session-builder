@@ -1,33 +1,31 @@
 ---
 import AppLayout from '@layouts/AppLayout.astro';
 import { CatalogueApp } from '@components/catalogue/CatalogueApp';
-import type { CatalogueReferences } from '@features/catalogue/api';
-import {
-  catalogueQueryFromSearchParams,
-  catalogueQueryToSearchParams,
-} from '@features/catalogue/query-params';
-import { getCatalogueClient } from '@lib/api/catalogue-client-instance.server';
+import { getCatalogueSearchService } from '@features/catalogue/search-http.server';
+import type { CataloguePageResult } from '@features/catalogue/search-contracts';
 
-const initialQuery = catalogueQueryFromSearchParams(Astro.url.searchParams);
-const client = getCatalogueClient();
-const [videosResult, referencesResult] = await Promise.allSettled([
-  client.listVideos(catalogueQueryToSearchParams(initialQuery)),
-  Promise.all([
-    client.listJobs(),
-    client.listHeadsets(),
-    client.listAudiences(),
-  ]),
-]);
-const initialVideos =
-  videosResult.status === 'fulfilled' ? videosResult.value : undefined;
-const initialReferences: CatalogueReferences | undefined =
-  referencesResult.status === 'fulfilled'
-    ? {
-        jobs: referencesResult.value[0],
-        headsets: referencesResult.value[1],
-        audiences: referencesResult.value[2],
-      }
-    : undefined;
+const initialSearch = Astro.url.searchParams.toString();
+const initialResult: CataloguePageResult = getCatalogueSearchService().page(
+  Astro.url.searchParams,
+);
+Astro.response.headers.set('Cache-Control', 'no-store');
+if (initialResult.status !== 200) {
+  Astro.response.status = initialResult.status;
+  if (initialResult.status === 503 && initialResult.retryAfter)
+    Astro.response.headers.set('Retry-After', '1');
+} else {
+  const requested = Number(Astro.url.searchParams.get('page') ?? 1);
+  if (requested !== initialResult.body.meta.page) {
+    const params = new URLSearchParams(Astro.url.searchParams);
+    if (initialResult.body.meta.page === 1) params.delete('page');
+    else params.set('page', String(initialResult.body.meta.page));
+    const suffix = params.toString();
+    return Astro.redirect(
+      `${Astro.url.pathname}${suffix ? `?${suffix}` : ''}`,
+      302,
+    );
+  }
+}
 ---
 
 <AppLayout
@@ -49,9 +47,8 @@ const initialReferences: CatalogueReferences | undefined =
   <section aria-label="Recherche dans le catalogue" class="mt-6 sm:mt-8">
     <CatalogueApp
       client:load
-      initialQuery={initialQuery}
-      initialVideos={initialVideos}
-      initialReferences={initialReferences}
+      initialSearch={initialSearch}
+      initialResult={initialResult}
     />
   </section>
 </AppLayout>

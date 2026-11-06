@@ -1,6 +1,6 @@
 # Grouped keyword selector
 
-Task 16 supplies a reusable controlled selector and browser client for the [agreed search contract](../tasks/search-contract.md). It is not mounted in the delivered catalogue form yet. Task 17A owns form/chip composition; Task 17B owns applied URL state, page loading and result integration.
+Task 16 supplies a reusable controlled selector and browser client for the [agreed search contract](../tasks/search-contract.md). Task 17A subsequently composed it into the shared-chip form, and Task 17B now mounts that form with applied URL state, page loading and result integration. See [live integration](catalogue-search-integration.md).
 
 ## Component contract
 
@@ -41,3 +41,5 @@ Component-scoped axe scans covering the selector and listbox have zero violation
 Reference: [Base UI combobox documentation](https://base-ui.com/react/components/combobox), checked against installed 1.9 API/types/source before use. No mock API/catalogue, dependency, existing form or URL/result-flow change is included in Task 16.
 
 All six existing catalogue/session desktop/tablet/mobile browser regressions pass against the unchanged mock API (58.2s). They cover the delivered application rather than mounting this standalone selector. The final selector-specific fixture also verifies focus after retry at all four widths. The fixture used the installed Playwright runtime after the CLI availability check stalled; no test tooling or browser fixture was added to the application.
+
+Task 17B additionally fixed and regression-tested manual recovery after a status query had already reached failed: the recovery response replaces the cached status so polling resumes. Actual live-page keyboard/touch/closed-popup checks and retained open-popup findings are recorded in the integration guide.

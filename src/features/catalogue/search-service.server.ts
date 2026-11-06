@@ -3,6 +3,7 @@ import type {
   CatalogueUnavailable,
   CatalogueSearchResult,
   CatalogueSuggestions,
+  CataloguePageResult,
 } from '@features/catalogue/search-contracts';
 import type { SearchDictionary } from '@features/catalogue/search-dictionary.server';
 import { compareCodePoints } from '@features/catalogue/search-dictionary-rules';
@@ -92,47 +93,90 @@ export function createCatalogueSearchService(runtime: SearchRuntime) {
       state,
     };
   }
+  function search(
+    params: URLSearchParams,
+  ):
+    | SearchFailure
+    | { status: 200; body: CatalogueSearchResult; criteria: SearchCriteria } {
+    const prepared = prepare(params);
+    if (!prepared.success) return prepared.result;
+    const { criteria, state } = prepared;
+    const titleMatches = criteria.titles.map(
+      (key) =>
+        new Set(
+          state.dictionary.titles.find((title) => title.key === key)!.videoIds,
+        ),
+    );
+    const q = criteria.q?.toLowerCase();
+    const matches = state.snapshot.videos
+      .filter(
+        (video) =>
+          criteria.jobs.every((code) => video.jobs.includes(code)) &&
+          titleMatches.every((ids) => ids.has(video.id)) &&
+          (!criteria.audience || video.audiences.includes(criteria.audience)) &&
+          (!criteria.headset ||
+            video.compatible_headsets.includes(criteria.headset)) &&
+          (!q || video.title.toLowerCase().includes(q)),
+      )
+      .sort((a, b) => compareCodePoints(a.id, b.id));
+    const totalPages = Math.max(1, Math.ceil(matches.length / 24));
+    const page = Math.min(criteria.page, totalPages);
+    return {
+      status: 200,
+      criteria: { ...criteria, page },
+      body: {
+        data: matches.slice((page - 1) * 24, page * 24),
+        meta: {
+          page,
+          per_page: 24,
+          total: matches.length,
+          total_pages: totalPages,
+        },
+      },
+    };
+  }
   return {
-    search(
-      params: URLSearchParams,
-    ):
-      | SearchFailure
-      | { status: 200; body: CatalogueSearchResult; criteria: SearchCriteria } {
-      const prepared = prepare(params);
-      if (!prepared.success) return prepared.result;
-      const { criteria, state } = prepared;
-      const titleMatches = criteria.titles.map(
-        (key) =>
-          new Set(
-            state.dictionary.titles.find((title) => title.key === key)!
-              .videoIds,
-          ),
-      );
-      const q = criteria.q?.toLowerCase();
-      const matches = state.snapshot.videos
-        .filter(
-          (video) =>
-            criteria.jobs.every((code) => video.jobs.includes(code)) &&
-            titleMatches.every((ids) => ids.has(video.id)) &&
-            (!criteria.audience ||
-              video.audiences.includes(criteria.audience)) &&
-            (!criteria.headset ||
-              video.compatible_headsets.includes(criteria.headset)) &&
-            (!q || video.title.toLowerCase().includes(q)),
-        )
-        .sort((a, b) => compareCodePoints(a.id, b.id));
-      const totalPages = Math.max(1, Math.ceil(matches.length / 24));
-      const page = Math.min(criteria.page, totalPages);
+    search,
+    page(params: URLSearchParams): CataloguePageResult {
+      const result = search(params);
+      if (result.status !== 200) return result;
+      const state = runtime.getState();
+      if (state.status !== 'ready') throw new Error('Catalogue owner stopped');
+      const { criteria } = result;
       return {
         status: 200,
-        criteria: { ...criteria, page },
         body: {
-          data: matches.slice((page - 1) * 24, page * 24),
-          meta: {
-            page,
-            per_page: 24,
-            total: matches.length,
-            total_pages: totalPages,
+          ...result.body,
+          context: {
+            criteria: {
+              audience: criteria.audience,
+              headset: criteria.headset,
+              legacyQuery: criteria.q,
+              selected: [
+                ...criteria.jobTerms.map((source) => ({
+                  category: 'job' as const,
+                  key: source.code,
+                  jobCode: source.code,
+                  sourceKey: source.sourceKey,
+                  label: source.label,
+                  jobLabel: state.dictionary.jobs.find(
+                    (job) => job.code === source.code,
+                  )!.label,
+                })),
+                ...criteria.titles.map((key) => ({
+                  category: 'title' as const,
+                  key,
+                  label: state.dictionary.titles.find(
+                    (title) => title.key === key,
+                  )!.label,
+                })),
+              ],
+            },
+            references: {
+              jobs: state.snapshot.jobs,
+              audiences: state.snapshot.audiences,
+              headsets: state.snapshot.headsets,
+            },
           },
         },
       };

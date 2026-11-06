@@ -94,27 +94,35 @@ async function fieldBoundaries(page: Page, info: TestInfo, state: string) {
       (Math.max(luminance(a), luminance(b)) + 0.05) /
       (Math.min(luminance(a), luminance(b)) + 0.05);
     const root = document.querySelector('dialog[open]') ?? document;
-    return [...root.querySelectorAll('input,select')]
-      .filter((element) => element.getClientRects().length > 0)
-      .map((element) => {
-        const style = getComputedStyle(element);
-        let parent = element.parentElement;
-        while (
-          parent &&
-          getComputedStyle(parent).backgroundColor === 'rgba(0, 0, 0, 0)'
+    return (
+      [...root.querySelectorAll('input,select')]
+        // Base UI's clipped serialization input has a rect but no visible field border.
+        .filter(
+          (element) =>
+            element.getClientRects().length > 0 &&
+            element.getAttribute('aria-hidden') !== 'true' &&
+            !element.matches('input[type=hidden]'),
         )
-          parent = parent.parentElement;
-        if (!parent) throw new Error('No opaque field background found.');
-        const border = rgb(style.borderTopColor);
-        return {
-          id: element.id,
-          outside: contrast(
-            border,
-            rgb(getComputedStyle(parent).backgroundColor),
-          ),
-          inside: contrast(border, rgb(style.backgroundColor)),
-        };
-      });
+        .map((element) => {
+          const style = getComputedStyle(element);
+          let parent = element.parentElement;
+          while (
+            parent &&
+            getComputedStyle(parent).backgroundColor === 'rgba(0, 0, 0, 0)'
+          )
+            parent = parent.parentElement;
+          if (!parent) throw new Error('No opaque field background found.');
+          const border = rgb(style.borderTopColor);
+          return {
+            id: element.id,
+            outside: contrast(
+              border,
+              rgb(getComputedStyle(parent).backgroundColor),
+            ),
+            inside: contrast(border, rgb(style.backgroundColor)),
+          };
+        })
+    );
   });
   await info.attach(`field-boundaries-${state}`, {
     body: JSON.stringify(measurements),
@@ -297,19 +305,26 @@ test('recover from catalogue failure and keep narrow text readable', async ({
       .first()
       .getByText('Meta Quest 3', { exact: true }),
   );
-  await page.route('**/api/videos?**', async (route) => {
+  await page.route('**/api/catalogue/search?**', async (route) => {
     await route.fulfill({
       status: 503,
       json: { error: 'upstream_error', message: 'Service indisponible.' },
     });
   });
-  await page.getByRole('searchbox').fill('zzzz-verification');
-  await page.getByRole('searchbox').press('Enter');
+  const keywords = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
+  for (const name of ['Omar', 'Hugo']) {
+    await keywords.fill(name);
+    await page
+      .getByRole('group', { name: 'Titre de vidéo', exact: true })
+      .getByRole('option', { name, exact: true })
+      .click();
+  }
+  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Le catalogue ne peut pas être chargé' }),
   ).toBeVisible();
   await scan(page, info, 'catalogue-error');
-  await page.unroute('**/api/videos?**');
+  await page.unroute('**/api/catalogue/search?**');
   await recoverReads(
     page,
     page.getByRole('heading', { name: 'Aucune vidéo trouvée', exact: true }),
@@ -320,7 +335,7 @@ test('recover from catalogue failure and keep narrow text readable', async ({
   await scan(page, info, 'catalogue-empty');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const transition = await page
-    .getByRole('searchbox')
+    .getByRole('combobox', { name: 'Métiers ou mots-clés' })
     .evaluate((element) => getComputedStyle(element).transitionDuration);
   expect(parseFloat(transition)).toBeLessThan(0.001);
   if (info.project.name === 'mobile')

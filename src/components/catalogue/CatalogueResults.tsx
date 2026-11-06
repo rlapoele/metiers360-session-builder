@@ -2,7 +2,6 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '@components/ui/button';
 
-import type { CatalogueQuery } from '@features/catalogue/query-params';
 import type { Video, VideoList } from '@lib/api/schemas';
 import { VideoCard } from '@components/catalogue/VideoCard';
 
@@ -12,13 +11,12 @@ interface CatalogueResultsProps {
   isPending: boolean;
   isPlaceholderData: boolean;
   isFetching: boolean;
-  query: CatalogueQuery;
+  query: { page: number };
   hasCriteria: boolean;
   selectedIds: Set<string>;
   jobLabelFor: (video: Video) => string;
   compatibleHeadsetLabelsFor: (video: Video) => string[];
   onRetry: () => void;
-  onClear: () => void;
   onPageChange: (page: number) => void;
   onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
@@ -91,42 +89,50 @@ export function CatalogueResults(props: CatalogueResultsProps) {
     jobLabelFor,
     compatibleHeadsetLabelsFor,
     onRetry,
-    onClear,
     onPageChange,
     onOpenDetails,
     onToggle,
   } = props;
 
-  if (isPending) return <LoadingState />;
-  if (errorMessage)
+  if (isPending && !data) return <LoadingState />;
+  if (errorMessage && !data)
     return <ErrorState message={errorMessage} onRetry={onRetry} />;
   if (!data) return null;
 
   if (data.data.length === 0) {
     return (
-      <div className="border-border bg-card rounded-lg border px-6 py-12 text-center shadow-sm">
-        <h2 className="text-xl font-semibold">Aucune vidéo trouvée</h2>
-        <p className="text-muted-foreground mx-auto mt-2 max-w-lg text-sm leading-6">
-          Modifiez votre recherche ou retirez un filtre pour afficher d’autres
-          vidéos.
-        </p>
-        {hasCriteria && (
-          <Button
-            type="button"
-            onClick={onClear}
-            className="mt-5 max-w-full whitespace-normal"
-          >
-            Effacer la recherche et les filtres
-          </Button>
+      <>
+        {errorMessage && (
+          <ErrorState message={errorMessage} onRetry={onRetry} />
         )}
-      </div>
+        {isPlaceholderData && (
+          <p role="status">
+            Résultats précédents — aucune vidéo pour la recherche précédente.
+          </p>
+        )}
+        <div className="border-border bg-card rounded-lg border px-6 py-12 text-center shadow-sm">
+          <h2 className="text-xl font-semibold">Aucune vidéo trouvée</h2>
+          <p className="text-muted-foreground mx-auto mt-2 max-w-lg text-sm leading-6">
+            {hasCriteria
+              ? 'Aucune vidéo ne correspond à tous les critères sélectionnés. Modifiez les critères, puis lancez la recherche.'
+              : 'Aucune vidéo n’est disponible dans le catalogue.'}
+          </p>
+        </div>
+      </>
     );
   }
 
   return (
     <>
+      {errorMessage && <ErrorState message={errorMessage} onRetry={onRetry} />}
+      {isPlaceholderData && (
+        <p role="status" className="text-muted-foreground text-sm">
+          Résultats précédents — ils ne correspondent pas encore à la recherche
+          demandée.
+        </p>
+      )}
       <ul
-        className={`grid gap-5 transition-opacity motion-reduce:transition-none sm:grid-cols-2 @4xl:grid-cols-3 ${isPlaceholderData ? 'opacity-60' : ''}`}
+        className="grid gap-5 sm:grid-cols-2 @4xl:grid-cols-3"
         aria-busy={isFetching}
       >
         {data.data.map((video) => (
