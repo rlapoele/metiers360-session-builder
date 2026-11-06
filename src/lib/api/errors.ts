@@ -10,6 +10,7 @@ interface CatalogueClientErrorOptions {
   upstream?: ApiError | ValidationError;
   diagnostics?: unknown;
   cause?: unknown;
+  retryAfterMs?: number;
 }
 
 export class CatalogueClientError extends Error {
@@ -17,6 +18,7 @@ export class CatalogueClientError extends Error {
   readonly status: number;
   readonly upstream?: ApiError | ValidationError;
   readonly diagnostics?: unknown;
+  readonly retryAfterMs?: number;
 
   constructor({
     kind,
@@ -25,6 +27,7 @@ export class CatalogueClientError extends Error {
     upstream,
     diagnostics,
     cause,
+    retryAfterMs,
   }: CatalogueClientErrorOptions) {
     super(message, { cause });
     this.name = 'CatalogueClientError';
@@ -32,5 +35,6 @@ export class CatalogueClientError extends Error {
     this.status = status;
     this.upstream = upstream;
     this.diagnostics = diagnostics;
+    this.retryAfterMs = retryAfterMs;
   }
 }

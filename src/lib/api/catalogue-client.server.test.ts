@@ -16,6 +16,111 @@ const video = {
 };
 
 describe('createCatalogueClient', () => {
+  it('reads an HTTP-date Retry-After without exposing it on unrelated errors', async () => {
+    const now = vi
+      .spyOn(Date, 'now')
+      .mockReturnValue(Date.UTC(2026, 10, 6, 12));
+    try {
+      const fetcher = vi.fn<typeof fetch>().mockImplementation(
+        async () =>
+          new Response('{}', {
+            status: 429,
+            headers: { 'Retry-After': 'Fri, 06 Nov 2026 12:00:15 GMT' },
+          }),
+      );
+      const client = createCatalogueClient({
+        baseUrl: 'http://catalogue.internal',
+        fetcher,
+      });
+      await expect(client.listJobs()).rejects.toMatchObject({
+        retryAfterMs: 15_000,
+      });
+      fetcher.mockResolvedValueOnce(
+        new Response('{}', { status: 400, headers: { 'Retry-After': '15' } }),
+      );
+      const error = await client.listJobs().catch((reason: unknown) => reason);
+      expect(error).toMatchObject({ status: 400 });
+      expect(error).toHaveProperty('retryAfterMs', undefined);
+    } finally {
+      now.mockRestore();
+    }
+  });
+
+  it.each([
+    ['12', 12_000],
+    ['900', 30_000],
+    ['invalid', undefined],
+    ['-2', undefined],
+  ])(
+    'retains bounded Retry-After metadata for 429 (%s)',
+    async (header, delay) => {
+      const client = createCatalogueClient({
+        baseUrl: 'http://catalogue.internal',
+        fetcher: vi.fn<typeof fetch>().mockResolvedValue(
+          new Response('{}', {
+            status: 429,
+            headers: { 'Retry-After': header },
+          }),
+        ),
+      });
+      const error = await client.listJobs().catch((reason: unknown) => reason);
+      expect(error).toBeInstanceOf(CatalogueClientError);
+      expect(error).toHaveProperty('retryAfterMs', delay);
+    },
+  );
+
+  it('propagates owner cancellation to catalogue reads without retrying', async () => {
+    const controller = new AbortController();
+    const fetcher = vi.fn<typeof fetch>().mockImplementation(
+      (_input, init) =>
+        new Promise((_resolve, reject) => {
+          init?.signal?.addEventListener(
+            'abort',
+            () => reject(init.signal?.reason),
+            { once: true },
+          );
+        }),
+    );
+    const client = createCatalogueClient({
+      baseUrl: 'http://catalogue.internal',
+      fetcher,
+    });
+    const pending = client.listJobs(controller.signal);
+    const rejection = expect(pending).rejects.toMatchObject({
+      name: 'AbortError',
+    });
+    controller.abort();
+    await rejection;
+    expect(fetcher).toHaveBeenCalledOnce();
+  });
+
+  it('keeps the request timeout active while consuming the response body', async () => {
+    const fetcher = vi.fn<typeof fetch>().mockImplementation(
+      async (_input, init) =>
+        new Response(
+          new ReadableStream({
+            start(controller) {
+              init?.signal?.addEventListener(
+                'abort',
+                () => controller.error(init.signal?.reason),
+                { once: true },
+              );
+            },
+          }),
+          { headers: { 'Content-Type': 'application/json' } },
+        ),
+    );
+    const client = createCatalogueClient({
+      baseUrl: 'http://catalogue.internal',
+      fetcher,
+      timeoutMs: 5,
+    });
+    await expect(client.listJobs()).rejects.toMatchObject({
+      kind: 'timeout',
+      status: 504,
+    });
+  });
+
   it('validates a video list, forwards filters and rewrites thumbnail URLs', async () => {
     const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
       Response.json({

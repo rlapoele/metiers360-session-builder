@@ -19,6 +19,21 @@ import {
 
 const DEFAULT_TIMEOUT_MS = 7_000;
 
+function retryAfterMilliseconds(response: Response) {
+  if (response.status !== 429) return undefined;
+  const value = response.headers.get('Retry-After')?.trim();
+  if (!value) return undefined;
+  // Retry-After allows integer seconds or an HTTP date; reject signed numbers.
+  const milliseconds = /^\d+$/.test(value)
+    ? Number(value) * 1_000
+    : /[a-z]/i.test(value)
+      ? Date.parse(value) - Date.now()
+      : NaN;
+  return Number.isFinite(milliseconds)
+    ? Math.min(30_000, Math.max(0, milliseconds))
+    : undefined;
+}
+
 interface CatalogueClientOptions {
   baseUrl: string;
   fetcher?: typeof fetch;
@@ -49,16 +64,31 @@ export function createCatalogueClient({
 }: CatalogueClientOptions) {
   const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 
-  async function fetchResponse(path: string, init: RequestInit = {}) {
+  async function withResponse<T>(
+    path: string,
+    init: RequestInit,
+    consume: (response: Response) => Promise<T>,
+  ): Promise<T> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    const signal = init.signal
+      ? AbortSignal.any([controller.signal, init.signal])
+      : controller.signal;
 
     try {
-      return await fetcher(new URL(path, normalizedBaseUrl).toString(), {
-        ...init,
-        signal: controller.signal,
-      });
+      signal.throwIfAborted();
+      const response = await fetcher(
+        new URL(path, normalizedBaseUrl).toString(),
+        {
+          ...init,
+          signal,
+        },
+      );
+      const result = await consume(response);
+      signal.throwIfAborted();
+      return result;
     } catch (cause) {
+      if (init.signal?.aborted) throw init.signal.reason;
       if (controller.signal.aborted) {
         throw new CatalogueClientError({
           kind: 'timeout',
@@ -67,6 +97,8 @@ export function createCatalogueClient({
           cause,
         });
       }
+
+      if (cause instanceof CatalogueClientError) throw cause;
 
       throw new CatalogueClientError({
         kind: 'transport',
@@ -93,6 +125,7 @@ export function createCatalogueClient({
       status: response.status,
       upstream: parseUpstreamError(payload),
       diagnostics: payload,
+      retryAfterMs: retryAfterMilliseconds(response),
     });
   }
 
@@ -101,41 +134,45 @@ export function createCatalogueClient({
     schema: z.ZodType<T>,
     init: RequestInit = {},
   ): Promise<T> {
-    const response = await fetchResponse(path, init);
+    return withResponse(path, init, async (response) => {
+      if (!response.ok) await throwUpstreamError(response);
 
-    if (!response.ok) await throwUpstreamError(response);
+      let payload: unknown;
+      try {
+        payload = await response.json();
+      } catch (cause) {
+        throw new CatalogueClientError({
+          kind: 'invalid-response',
+          message: 'The catalogue service returned invalid JSON.',
+          status: 502,
+          cause,
+        });
+      }
 
-    let payload: unknown;
-    try {
-      payload = await response.json();
-    } catch (cause) {
-      throw new CatalogueClientError({
-        kind: 'invalid-response',
-        message: 'The catalogue service returned invalid JSON.',
-        status: 502,
-        cause,
-      });
-    }
+      const result = schema.safeParse(payload);
+      if (!result.success) {
+        throw new CatalogueClientError({
+          kind: 'invalid-response',
+          message: 'The catalogue service response did not match its contract.',
+          status: 502,
+          diagnostics: result.error.issues,
+        });
+      }
 
-    const result = schema.safeParse(payload);
-    if (!result.success) {
-      throw new CatalogueClientError({
-        kind: 'invalid-response',
-        message: 'The catalogue service response did not match its contract.',
-        status: 502,
-        diagnostics: result.error.issues,
-      });
-    }
-
-    return result.data;
+      return result.data;
+    });
   }
 
   return {
-    async listVideos(params = new URLSearchParams()): Promise<VideoList> {
+    async listVideos(
+      params = new URLSearchParams(),
+      signal?: AbortSignal,
+    ): Promise<VideoList> {
       const query = params.toString();
       const result = await request(
         `/videos${query ? `?${query}` : ''}`,
         VideoListSchema,
+        { signal },
       );
       return { ...result, data: result.data.map(rewriteThumbnail) };
     },
@@ -146,20 +183,20 @@ export function createCatalogueClient({
       );
     },
 
-    listJobs() {
-      return request('/jobs', JobListSchema);
+    listJobs(signal?: AbortSignal) {
+      return request('/jobs', JobListSchema, { signal });
     },
 
     getJob(code: string) {
       return request(`/jobs/${encodeURIComponent(code)}`, JobSchema);
     },
 
-    listAudiences() {
-      return request('/audiences', AudienceListSchema);
+    listAudiences(signal?: AbortSignal) {
+      return request('/audiences', AudienceListSchema, { signal });
     },
 
-    listHeadsets() {
-      return request('/headsets', HeadsetListSchema);
+    listHeadsets(signal?: AbortSignal) {
+      return request('/headsets', HeadsetListSchema, { signal });
     },
 
     listSessions() {
@@ -179,25 +216,28 @@ export function createCatalogueClient({
     },
 
     async getThumbnail(id: string) {
-      const response = await fetchResponse(
+      return withResponse(
         `/thumbnails/${encodeURIComponent(id)}.svg`,
+        {},
+        async (response) => {
+          if (!response.ok) await throwUpstreamError(response);
+
+          const contentType = response.headers
+            .get('Content-Type')
+            ?.split(';')[0]
+            ?.trim();
+          if (contentType !== 'image/svg+xml') {
+            throw new CatalogueClientError({
+              kind: 'invalid-response',
+              message: 'The catalogue service returned an invalid thumbnail.',
+              status: 502,
+              diagnostics: { contentType },
+            });
+          }
+
+          return { body: await response.arrayBuffer(), contentType };
+        },
       );
-      if (!response.ok) await throwUpstreamError(response);
-
-      const contentType = response.headers
-        .get('Content-Type')
-        ?.split(';')[0]
-        ?.trim();
-      if (contentType !== 'image/svg+xml') {
-        throw new CatalogueClientError({
-          kind: 'invalid-response',
-          message: 'The catalogue service returned an invalid thumbnail.',
-          status: 502,
-          diagnostics: { contentType },
-        });
-      }
-
-      return { body: await response.arrayBuffer(), contentType };
     },
   };
 }

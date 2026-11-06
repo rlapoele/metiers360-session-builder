@@ -114,15 +114,17 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Candidate review of the proposed search follow-up below. Planning is authorised; implementation is not yet authorised. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+**Next action:** Candidate review of the technically complete Task 13 foundation below. Tasks 14 onward require a new instruction. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
 
 ## Proposed follow-up — Revamped search on `dev`
 
-See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). Task 12 is agreed; unchecked tasks are not authorised implementation work.
+See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06). Task 12 is agreed; Task 13 was explicitly authorised and is verified. Unchecked tasks are not authorised implementation work.
 
 - [x] **Task 12:** Review exact keyword, selection, URL and matching contracts with the candidate.
   - Evidence: on 2026-11-06 the candidate explicitly accepted the defaults and chose selected-appellation wording for métier chips. The [agreed contract](search-contract.md) preserves source identity in URLs and keeps job-code matching separate; [dictionary rules](../docs/search-dictionary-rules.md) specify deterministic extraction and future source documentation/verification. Documentation only; no implementation authorised.
-- [ ] **Task 13:** Prepare the complete catalogue loader and shared initialization states, bounded automatic retries and manual recovery.
+- [x] **Task 13:** Prepare the complete catalogue loader and shared initialization states, bounded automatic retries and manual recovery.
+  - Evidence: complete validated paginated loading/reference consistency, shared controller state/promise, four attempts with 1/2/4s backoff and capped 429 delay, permanent-failure handling, manual recovery and shutdown cancellation/race protection. Dictionary callback is mandatory before readiness; actual builder/startup wiring/endpoints remain later tasks.
+  - Evidence: `npm run verify` passes 132 tests, zero-diagnostic strict checks, formatting/lint and production build. All six existing desktop/tablet/mobile browser scenarios pass; `git diff --check` passes. Supplied API/catalogue and dependencies unchanged; no commit/push. Technically complete, awaiting candidate review.
 - [ ] **Task 14A:** Build the normalized dictionary and category-aware mappings, retaining names.
 - [ ] **Task 14B:** Start combined cache/dictionary preparation when the Astro server starts, before any visitor request; verify development and production lifecycle behaviour.
 - [ ] **Checkpoint G:** Candidate reviews extraction examples, mappings, startup preparation and failure/retry behaviour.

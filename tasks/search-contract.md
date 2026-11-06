@@ -1,6 +1,6 @@
 # Task 12 — Agreed search contract
 
-Date: 2026-11-06. Status: **candidate-agreed contract; not implemented**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13 onward are not authorised.
+Date: 2026-11-06. Status: **candidate-agreed contract; Task 13 foundation implemented, full search not yet implemented**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Task 13 was separately authorised and verified. Tasks 14 onward are not authorised.
 
 ## Confirmed direction
 
@@ -100,4 +100,4 @@ Legacy `job`, audience/headset and page links retain meaning. A legacy `q` remai
 4. Maximum ten keyword/job criteria; explicit selection required before submission; pending removals/clear-all; legacy q compatibility.
 5. Four startup attempts with 1/2/4s delays, loading/status polling and manual retry; keep video details on the existing API path. No deployment-readiness change.
 
-The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md); no application code is implemented or authorised by this agreement. Tasks 13 onward still require a separate instruction.
+The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Task 13's loader/preparation foundation, now verified in isolation. Tasks 14 onward still require a separate instruction.

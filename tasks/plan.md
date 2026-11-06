@@ -286,7 +286,7 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: proposal for candidate review on `dev`. Planning is authorised; implementation is not yet authorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. This section describes future behaviour, not the currently delivered application.
+Status: Task 12's contract is agreed and separately authorised Task 13 is technically complete on `dev`, awaiting candidate review. Tasks 14 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. The complete search behaviour below remains future work; only the isolated Task 13 foundation is implemented.
 
 ### Agreed direction
 
@@ -309,7 +309,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** None. **Scope:** Small; planning/contracts only.
 
-The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13 onward are not authorised.
+The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Task 13 was subsequently explicitly authorised. Tasks 14 onward are not authorised.
 
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
@@ -329,7 +329,9 @@ The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-
 - Add explicit preparation states and the agreed bounded retry policy for temporary failures, including the mock API starting later than Astro. Manual retries share the same initializer and cannot overlap automatic attempts. Stop retry timers during shutdown; permanent validation/configuration errors must not spin in an automatic retry loop.
 
 **Verification:** Multiple pages, callers joining a running initialization, warm reuse without upstream calls, later-page failure followed by recovery, capped attempts/backoff, terminal errors, manual retry and unchanged session fetching. Full repository verification gate. Task 14 completes the startup trigger after the dictionary builder exists.
-**Likely files:** new `src/features/catalogue/search-snapshot.server.ts` and its test; existing server client only if required.
+**Implemented files:** `src/features/catalogue/search-snapshot.server.ts`, `search-preparation.server.ts` and their tests; existing server API client/error type and client tests for cancellation, body timeout and Retry-After metadata.
+
+**Verified handoff (2026-11-06):** `npm run verify` passes 132 tests, 82-file strict checks with zero diagnostics, formatting/lint and production build. All six existing desktop/tablet/mobile browser scenarios pass. Failing-first tests cover second-page failure/reload, four-attempt exhaustion/manual recovery, concurrent callers, dictionary completion before readiness, 429 delays and shutdown races. The controller requires the future dictionary callback and retains state per instance; Task 14B will instantiate it once at server startup. No mock API, catalogue, dependencies, startup wiring, search UI or endpoints changed; no commit/push performed. Candidate review is next.
 
 ### Task 14 — Build the dictionary and connect server-start preparation
 
