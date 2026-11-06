@@ -1,6 +1,6 @@
 # Project task checklist
 
-Last updated: 2026-11-06
+Last updated: 2026-11-07
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 
@@ -114,7 +114,7 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Candidate review of Task 17B’s live catalogue search. The candidate explicitly authorised Task 17B after the composed-form handoff; no separate Checkpoint G sign-off is inferred. Task 18 onward requires a new instruction. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+**Next action:** Candidate review of the revised automatic/contextual search contract and plan, then explicit authorisation of Task 19. Tasks 19–21 precede final Task 18; none is authorised by this documentation agreement. Task 17B remains the implemented baseline; no separate Checkpoint G sign-off is inferred. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
 
 ## Proposed follow-up — Revamped search on `dev`
 
@@ -147,6 +147,12 @@ See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-20
   - Evidence: full gate passes 233 tests/32 files, 115-file strict checks with zero diagnostics, formatting/lint and build. Fifteen desktop/tablet/mobile scenarios cover new search/history plus original session flows; actual production cold-start/recovery/draft retention and warm upstream-offline SSR pass. Closed-popup live axe scans have zero violations at 320/834/1440px; open-popup findings remain documented. Visible-field contrast thresholds remain unchanged; previous-card dimming is removed. No API/catalogue, dependencies, staging, commit or push changes. Candidate review next.
   - Candidate sizing follow-up (2026-11-07): keyword text is text-sm and all four search controls match the existing 44px action buttons. Full gate remains green at 233 tests; all 15 responsive browser scenarios pass, including measured height/font assertions. Search behaviour is unchanged; no commit/push.
   - Candidate chip/heading follow-up (2026-11-07): category headings/icons match field-label foreground; selected chips are 36px with 32px removal targets, between headset badges and action controls. Full-label disclosure, focus and ellipsis remain; source tests/geometry/colour assertions verify the adjustment without changing search behaviour.
+- [ ] **Task 19:** Implement all-URL multi-métier OR matching and contextual server availability (agreed 2026-11-07; not authorised).
+- [ ] **Task 20:** Consume contextual availability in accessible dropdowns/suggestions, including stale/loading/error handling (not authorised).
+- [ ] **Task 21:** Replace staged submission with automatic criteria/URL/history search and revised responsive form/help (not authorised).
+
+The revised [search contract](search-contract.md) is agreed; this is documentation only. Existing code still uses explicit submission, all-AND jobs and global suggestions. Execute Tasks 19 → 20 → 21 before final Task 18; completed task evidence above records the earlier baseline. No version flag preserves old multi-métier AND links.
+
 - [ ] **Task 18:** Complete regression/browser verification, including early-arrival loading and startup recovery, and documentation handoff.
 - [ ] **Checkpoint H:** Candidate accepts the revamped search on `dev`; release remains a separate instruction.
 

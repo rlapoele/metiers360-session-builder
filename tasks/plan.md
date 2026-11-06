@@ -286,20 +286,18 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: Task 12's contract is agreed; separately authorised Tasks 13–17B are technically complete on `dev`. The candidate explicitly requested Task 17B after the composed-form handoff; live catalogue review is next. No separate Checkpoint G sign-off is inferred. Task 18 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; the approved form and cached search are now integrated in the live catalogue.
+Status: Task 12's contract is agreed; separately authorised Tasks 13–17B are technically complete on `dev`. The candidate explicitly requested Task 17B after the composed-form handoff. The 2026-11-07 contract revision below is documentation only; review/authorisation of Task 19 is next. No separate Checkpoint G sign-off is inferred. Task 18 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; the approved form and cached search are now integrated in the live catalogue.
 
-### Agreed direction
+### Agreed direction (revised 2026-11-07; not implemented)
 
-- Public → Métiers ou mots-clés → Casque VR → Rechercher. All criteria are optional; one audience, one headset and multiple typed job/title criteria combine with AND.
-- Up to five suggestions in total, grouped as Métier and Titre de vidéo. Job labels and appellations resolve to a particular job code; title keywords resolve to matching titles. A term may occur in both categories or match several jobs. Different aliases for the same job produce one effective criterion.
-- All selected criteria appear in a shared full-width chip area below the controls, followed by « Tous les critères sélectionnés doivent correspondre. » Removing a dropdown chip resets that control; default Tous values produce no chip. Retain the clear-all action.
-- Whole chips may wrap across rows, but text inside each chip must remain on one line. Limit chip width to its container and ellipsize only overflowing text, keeping the icon and remove button visible and usable. Preserve complete values/accessibility text and provide keyboard/touch access to the full label. This replaces the earlier long-value text-wrapping suggestion.
-- Heroicons outline: UserGroup for public, Briefcase for métier, MagnifyingGlass for title keywords and Eye for headset. Introduce those same icons beside the corresponding field-label words; preserve complete category/value names for assistive technology and comfortable removal targets.
-- Desktop uses one row with the widest field reserved for keywords. Tablet gives Public and keywords separate full-width rows, followed by headset and submit together. Mobile stacks all controls and uses a full-width submit action; chips wrap below. Breakpoints follow available catalogue width, including the desktop draft rail, rather than device names alone.
-- Edits are pending until submission. Keep pending chips separate from applied results/counts in state and provide a visible modified-criteria cue. Applied criteria and pagination remain URL-owned; pending form presentation stays local.
-- When each Astro server process starts, automatically retrieve the entire catalogue and required reference data through the existing validated API client, validate the snapshot and build the dictionary before marking search ready. Do not wait for the first page visit or search. Retain the complete snapshot and dictionary in process memory without a timed expiry; a restart repeats preparation. The user confirms the catalogue rarely changes and never changes during use. No browser persistence or disk cache is needed.
-- Startup preparation has explicit preparing, ready and failed states. Retry temporary upstream failures with capped backoff and a finite attempt budget; after exhaustion, expose a recoverable error and manual retry. Early visitors see an announced loading state, never an empty catalogue presented as a successful result. Requests observe the shared preparation rather than starting another build.
-- Astro performs AND matching against the complete cached snapshot, then computes totals and pagination in stable video-ID order. The mock API and its catalogue files stay unchanged. Sessions remain live API operations. Proposed default: retain existing per-video details fetching for this increment, avoiding unrelated draft/session metadata changes.
+The candidate accepted automatic search and contextual availability, and explicitly accepted OR for every multi-métier URL, including old links. [The revised search contract](search-contract.md) supersedes manual submission, global option availability and AND between jobs in the completed Tasks 12–17B below. Those task descriptions and verification notes are retained as implementation history. Application behaviour is still that verified baseline.
+
+- Public → Métiers ou mots-clés → Casque VR; remove Rechercher. Commit on suggestion selection, dropdown change, chip removal and clear-all. Typing only obtains suggestions; no free-text criterion. Keep shared full-width icon chips/help and the accepted responsive field order, compact sizing, single-line ellipsis, keyboard/touch label disclosure and removal focus. Reflow the fields without reserving a submit-button cell.
+- Preserve Heroicons outline beside labels and in chips: UserGroup for public, Briefcase for métier, MagnifyingGlass for title and Eye for headset. Desktop keeps one row with keywords widest; tablet retains Public and keywords on full-width rows, then headset; mobile stacks the fields. Chips/help span the full area below controls. Breakpoints respond to allocated catalogue width alongside the draft rail.
+- Predicate: audience AND (selected jobs OR) AND every title keyword AND legacy q AND headset. Empty groups impose no condition. All repeated-job URLs adopt OR without versioning; aliases still resolve to one code and retain selected appellation wording. Update the shared French help to explain mixed operators.
+- Derive contextual availability from the complete cached snapshot: job candidates ignore the current job group; audience/headset alternatives replace their own filter; title candidates retain all current conditions. Disable zero-match candidates, while retaining removable selections and usable unfiltered defaults/clear-all. Prioritize available suggestions before the five-item cap; preserve deterministic grouping/ranking and 3-job/2-title allocation, filling available slots across categories before disabled options.
+- URL/history owns each committed selection, with no staged form state. Preserve unfinished input during ordinary criterion changes. Reset pagination on matching-criteria changes only. Keep focus stable and announce loading/results; preserve last successful results/count/headset context with clear previous-results status during loading/error. Cancel/ignore superseded responses; availability/results must describe the same criteria. Stale availability must not lock options in a new context.
+- Startup-prepared complete catalogue/reference snapshot and deterministic dictionary remain process-lifetime, read-only caches. Keep names, authored source mappings and selected appellations. Existing shared preparation states, four bounded attempts, loading, manual recovery and startup logs remain unchanged. SSR and browser use the same service; supplied API/catalogue, sessions, details, thumbnails, draft and deployment remain unchanged.
 
 ### Architecture change to make explicit before coding
 
@@ -396,11 +394,44 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 
 ### Task 18 — Regression verification and handoff
 
-**Dependencies:** Task 17. **Scope:** Separate test and documentation passes.
+**Dependencies:** Task 17 and, for the revised contract, Tasks 19–21 below. **Scope:** Separate final test and documentation passes. Execution order is 19 → 20 → 21 → 18 → Checkpoint H; task numbers preserve existing history.
 
 - Extend existing browser scenarios for the new search, arrival during startup preparation, exhausted retries/manual recovery and unchanged draft → save → saved-session flow. Check that pending initialization never shows a misleading zero-result success, retains criteria/draft and becomes usable when ready. Keep mock latency/failure coverage for initialization, details and sessions; do not claim warm cached searches exercise the upstream API.
 - Run `npm run verify`, `npm run test:browser` and `git diff --check`; verify responsive keyboard/touch behaviour, suggestion/chip accessibility, loading/empty/error states and same-origin thumbnails. No new formal WCAG/RGAA conformance claim.
 - Update current architecture, README search/limit explanations, status, checklist and exercise/skill logs. Preserve original brief/wireframes and annotate the existing post-implementation diagram as describing its old baseline rather than silently treating it as current search documentation.
+
+### Automatic-search follow-up (agreed 2026-11-07)
+
+**Status:** Planning only; no implementation task is authorised. Preserve completed Tasks 12–17B and the original wireframes. Each slice needs separate authorisation, the full repository gate and updated implementation guides once behaviour actually changes. Final Task 18 follows these slices.
+
+### Task 19 — OR matching and contextual server availability
+
+**Dependencies:** Task 17B. **Scope:** Server matching/availability contracts, then route/client schema alignment as a reviewable slice.
+
+- Change the job predicate from every code to any code for both SSR and browser search, including old repeated-job URLs. Retain all title/q/audience/headset conditions, validation, selected source keys, stable ordering and pagination. No version parameter or API modification.
+- Extract straightforward shared predicate helpers; calculate availability before pagination using the contract's own-group exclusion/replacement rules. Return audience/headset availability in opt-in page context with its results and job/title availability through contextual suggestions. Keep ordinary search data/meta compatible and runtime-validate extended projections.
+- Include every matching criterion, including q, in contextual suggestion requests/query identities. Rank available matches first using the existing deterministic category allocation; disabled suggestions may fill spare slots only. Keep dictionary extraction and process-lifetime preparation unchanged.
+
+**Verification:** Failing-first tests for old multi-job URLs adopting OR, aliases, job union with mixed title/q filters, no selected jobs, zero-contribution job candidates, alternative audience/headset replacement, title intersections, selected zero-match values and defaults, full-snapshot availability beyond page one, source retention, ranking/limits and unchanged warm-cache upstream isolation. Dev/production SSR/HTTP parity and full gate.
+
+### Task 20 — Accessible contextual option states
+
+**Dependencies:** Task 19. **Scope:** Browser clients/hooks, grouped selector and native dropdown availability.
+
+- Consume typed contextual metadata with criteria-specific query keys and cancellation. Disable unavailable suggestions/dropdown alternatives accessibly; explain no matches without mandatory visible counts. Preserve category icons/labels, max five suggestions, keyboard/touch operation, selected-value removal and usable defaults/clear-all.
+- Do not apply stale disabled flags to changed criteria; unknown availability remains selectable while explicitly updating. Retain last successful information as previous during failures, provide recovery and never infer zero matches from a failed/preparing response. Do not globally freeze the form.
+
+**Verification:** Focused client/component tests for disabled navigation/selection, eligible options ahead of disabled ones, selected unavailable values, q context, stale response races and recovery. Real mobile/tablet/desktop keyboard/touch checks, focus/status announcements and full gate. This slice may still use the existing explicit-submit form until Task 21 replaces staging; availability follows the selected form criteria, not the previous result page. Label that interim state clearly.
+
+### Task 21 — Automatic criteria, URL/history and responsive form
+
+**Dependencies:** Tasks 19–20. **Scope:** Form state/URL integration, then responsive/interaction verification; subdivide if needed.
+
+- Remove Rechercher, staged edits and modified-criteria messaging. Each committed action updates the URL and searches automatically; typing only drives suggestions. Preserve unfinished input during ordinary criterion changes, clear it on clear-all/history navigation, and never generate free-text chips. Replace blanket AND help with the agreed mixed-operator explanation.
+- Preserve one history entry per effective committed action, canonical URL serialization, source-only page preservation, matching-criteria page reset, SSR/reload/back/forward and pagination. Keep invalid-URL errors explicit; an intentional correction action applies safe defaults and automatically searches, without broadening on page load.
+- Publish newest matching results and availability together. Preserve prior results/count/headset meaning while loading/error, retry current criteria, retain draft and focus, and announce status/count. Verify rapid changes/out-of-order responses. Preserve shared chip area, icons, compact targets, ellipsis/disclosure and field order; reflow desktop/tablet/mobile without the button.
+
+**Verification:** Focused model/component/query tests plus browser scenarios at 320/390px, tablet and desktop with draft rail. Cover every automatic trigger, typing without a search, unfinished input, OR widening/title narrowing, own-filter alternatives, zero matches, clear/remove, focus, rapid changes, history/reload/pagination, invalid URLs, errors/retry and startup recovery. Run full gate and existing session/detail flows; update implemented guides truthfully. Then separately authorise Task 18 final regression/handoff.
 
 **Checkpoint H:** Candidate accepts the complete change on `dev`. No commit, push of implementation, release promotion, tag or deployment is included without a later explicit instruction. Each repository change passes `npm run verify`; interaction slices additionally require browser verification.
 
