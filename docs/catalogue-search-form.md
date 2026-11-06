@@ -1,0 +1,39 @@
+# Responsive search form and shared criteria chips
+
+Task 17A composes the approved form from Task 16's keyword selector. It is a reusable composition, not yet mounted in the existing catalogue workspace. Task 17B owns replacement of the old controls in CatalogueApp, applied URL/history criteria, SSR/search requests, pagination and previous-result loading/error behaviour. No unsupported multi-criterion request is sent through the existing legacy query path during this intermediate slice.
+
+## Parent contract and state
+
+`CatalogueSearchForm` takes `applied`, validated `references` for audiences/headsets, `onSubmit`, optional `disabled` and optional `resetKey`. It renders inside the existing QueryClientProvider, as required by KeywordSelector. SearchFormCriteria derives from the existing browser request contract: selected typed job/title suggestions plus optional audience/headset/legacyQuery. No second dictionary or search predicate is introduced.
+
+The form copies applied criteria into local pending state and owns unselected keyword text. Dropdown edits, keyword selection, removals and clear-all emit no submission. Only Rechercher calls onSubmit with the complete pending criteria, retaining authored selected appellations, source keys and legacy q. The parent remains responsible for accepting those criteria as applied and translating/validating URL data; the form does not navigate, fetch results, reset pagination, alter card headset displays or touch the session draft.
+
+A new semantic applied selection remounts the pending form, clearing unsubmitted text/errors/disclosures. `resetKey` lets the future owner do the same for each applied history/page-navigation event even if criteria are semantically equal. Merely recreating the applied object does not discard pending edits. Task 17B must provide a changing navigation token where needed.
+
+The modified cue appears only when pending selections differ from applied selections; raw unselected input alone is not a criterion. Comparison ignores keyword order but retains selected job source identity and the exact legacy substring. Duplicate job aliases preserve the first chosen source; duplicate title identities do not add criteria. A job and title with similar text remain separate. The ten-slot bound includes legacy q, alongside the selector/server bounds.
+
+Rechercher with nonempty unselected text focuses the keyword input and shows the agreed explanation. No free-text chip is created. Empty criteria are a valid submission. Clear-all removes public/headset, keywords, legacy q and typed text without submitting; focus returns to Public, or the keyword input if that select is unavailable. Clear-all is also available when there is only unselected text. Native dropdown values are captured before queued React state updates.
+
+## Responsive controls
+
+DOM and keyboard order is Public → Métiers ou mots-clés → Casque VR → Rechercher. Public/headset remain native selects. Default Tous les publics means no audience, while the supplied Tout public ID remains a separate exact value. Matching Heroicons outline accompany labels and chips: UserGroup, Briefcase, MagnifyingGlass and Eye.
+
+The form establishes a named inline-size container. Below 32rem of allocated width, controls stack and Rechercher spans the full width. From 32rem, Public and keywords each occupy a full row, followed by headset and submit together. From the existing 80rem desktop/draft-rail viewport breakpoint, an allocated form width of at least 48rem allows one row with twice the column capacity for keywords. A constrained desktop container retains the stacked/tablet composition. Scoped named CSS classes define this grid; no global layout or draft-panel change is made.
+
+## Shared chip area
+
+`SearchCriteriaChips` renders one full-width list beneath the controls, in public → jobs → title keywords → legacy title condition → headset order. Category text is replaced visually by its icon; complete category/value names remain in accessible reveal/removal names. Default dropdowns do not create chips. Clear-all and « Tous les critères sélectionnés doivent correspondre. » follow the shared area.
+
+Each whole chip can wrap onto another row. Within the chip, only the text is single-line and ellipsized; its icon and 44px remove button do not shrink or disappear. The chip cannot exceed its available container width. The list/chip surfaces do not clip focus rings to hide overflow. Complete labels remain in state, callback values and accessible names.
+
+The text/icon part is a disclosure button. Clicking/tapping or pressing Enter reveals a separate full-width inline region containing the complete, wrapping label and its category. Closing the region or pressing Escape restores focus to the same disclosure trigger. This provides full-label access without a hover-only title or another overlay. The legacy q disclosure also explains historical contiguous-substring semantics. Removing a chip closes the disclosure and focuses its originating dropdown or the keyword input. Removing a dropdown chip changes its pending value to the default; it does not search immediately.
+
+Composing the selector exposed a stale “added” announcement after clear-all. A failing-first form test reproduced it; the selector now shows that announcement only while its corresponding item is still selected, restoring normal help after removal/reset.
+
+## Verification and remaining work
+
+Nine new form/model interaction cases bring the passing full repository gate to 215 tests in 29 files, strict checks on 111 files with zero diagnostics, formatting/lint and production build. They cover pending submission/removal/reset, ordered shared chips, defaults versus Tout public, explicit suggestion selection, invalid unselected text, navigation reset, accessible full-label disclosure/focus, deduplication/limits and stale-announcement reset.
+
+An isolated temporary browser fixture imports actual source and full application styles, simulates the desktop draft rail and supplies deterministic suggestion responses. Chromium checks pass at 320/390/834/1024/1440px: ordered control geometry, desktop keyword capacity, shared full-width chips, ellipsis/nowrap, no horizontal overflow, retained 44px removal targets, keyboard/touch full-label reveal, focus, pending operations and explicit submission. Whole-fixture axe scans with the combobox closed have zero violations at those five widths; runtime exceptions are absent. Clean mobile/tablet/desktop captures were visually inspected. All six existing catalogue/session browser scenarios also pass against the unchanged mock API; they protect the delivered application rather than claim the new form is already connected.
+
+Task 16's documented open-combobox portal focus-hiding/landmark findings remain an integration check, not a resolved claim from the closed-popup form scans. No native screen-reader or formal WCAG/RGAA conformance claim is made. Task 17B must test the composed form in the actual catalogue and applied-result lifecycle. Original wireframes remain design history. No supplied API/catalogue, dependency, live URL/result path, staging, commit, push or deployment change is included.

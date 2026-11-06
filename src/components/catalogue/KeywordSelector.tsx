@@ -41,7 +41,16 @@ export function KeywordSelector({
   const inputElement = useRef<HTMLInputElement>(null);
   useImperativeHandle(inputRef, () => inputElement.current!);
   const [open, setOpen] = useState(false);
-  const [announcement, setAnnouncement] = useState('');
+  const [announcedItem, setAnnouncedItem] = useState<KeywordSuggestion>();
+  const announcement =
+    announcedItem &&
+    selected.some(
+      (item) =>
+        item.category === announcedItem.category &&
+        item.key === announcedItem.key,
+    )
+      ? `${announcedItem.label}, ${announcedItem.category === 'job' ? 'métier' : 'titre de vidéo'}, ajouté aux critères.`
+      : '';
   const count =
     new Set(selected.map((item) => `${item.category}:${item.key}`)).size +
     Number(Boolean(legacyQuery));
@@ -107,7 +116,7 @@ export function KeywordSelector({
           if (details.reason === 'input-change') {
             onValueChange(text);
             setOpen(true);
-            setAnnouncement('');
+            setAnnouncedItem(undefined);
           }
         }}
         onValueChange={(item) => {
@@ -123,9 +132,7 @@ export function KeywordSelector({
           onSelect(item);
           onValueChange('');
           setOpen(false);
-          setAnnouncement(
-            `${item.label}, ${item.category === 'job' ? 'métier' : 'titre de vidéo'}, ajouté aux critères.`,
-          );
+          setAnnouncedItem(item);
         }}
       >
         <Combobox.Input

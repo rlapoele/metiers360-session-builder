@@ -109,3 +109,37 @@
 .keyword-suggestions-list {
   max-height: min(24rem, var(--available-height));
 }
+
+/* Search composition responds to its allocated width, including the draft rail. */
+.catalogue-search-form {
+  container: catalogue-search / inline-size;
+}
+.catalogue-search-fields {
+  grid-template-columns: minmax(0, 1fr);
+}
+.catalogue-search-fields select {
+  @apply min-h-12;
+}
+@container catalogue-search (min-width: 32rem) {
+  .catalogue-search-fields {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .search-form-audience,
+  .search-form-keywords {
+    grid-column: 1 / -1;
+  }
+  .search-form-submit {
+    @apply mt-7;
+  }
+}
+@media (min-width: 80rem) {
+  @container catalogue-search (min-width: 48rem) {
+    .catalogue-search-fields {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr) auto;
+    }
+    .search-form-audience,
+    .search-form-keywords {
+      grid-column: auto;
+    }
+  }
+}
