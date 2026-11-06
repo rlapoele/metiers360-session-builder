@@ -1,12 +1,12 @@
 # Task 12 — Agreed search contract
 
-Date: 2026-11-06. Status: **candidate-agreed contract; startup foundation and Task 15 search endpoints implemented; visible search integration pending**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B and 15 were separately authorised and verified. Task 15 is ready for candidate review; Task 16 onward is not authorised.
+Date: 2026-11-06. Status: **candidate-agreed contract; startup foundation and Task 15 search endpoints implemented; Task 16 standalone selector implemented; form integration pending**. The candidate accepted the defaults and chose the selected appellation for métier chips. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B, 15 and 16 were separately authorised and verified. Task 16 is ready for candidate review; Task 17 onward is not authorised.
 
 ## Confirmed direction
 
 Use the approved Public → Métiers ou mots-clés → Casque VR → Rechercher layout, full-width icon chips and shared AND help. Keep people’s names. Astro prepares the complete catalogue/dictionary at server startup, retains it for the process lifetime and searches it without changing the supplied API. Sessions stay live API operations. See [the implementation plan](plan.md#proposed-follow-up--revamped-catalogue-search-2026-11-06).
 
-The rules and defaults below are agreed requirements. Tasks 13–15 now implement the server preparation/dictionary/search boundary; interaction and visible form integration remain future work. Editorial extraction rules are maintained in [dictionary rules](../docs/search-dictionary-rules.md); this contract owns interaction, selection and URL behaviour.
+The rules and defaults below are agreed requirements. Tasks 13–15 now implement the server preparation/dictionary/search boundary; Task 16 adds the standalone controlled selector; visible form integration remains future work. Editorial extraction rules are maintained in [dictionary rules](../docs/search-dictionary-rules.md); this contract owns interaction, selection and URL behaviour.
 
 ## Selected criteria and meaning
 
@@ -25,7 +25,7 @@ Public is exact API membership. « Tous les publics » means no filter; the actu
 
 ## Dictionary extraction and matching rules
 
-See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. Task 14B wires it to startup preparation; Task 15 exposes validated cached HTTP search and suggestions. UI integration remains later work.
+See [deterministic dictionary rules, version 1](../docs/search-dictionary-rules.md) for the canonical normalization, stop list, compact-gender handling, phrase extraction and reproducibility requirements. Keep names, source spellings and source-to-video/job mappings. The Task 14A builder now implements those rules with linked JSDoc/comments and focused regression checks. Task 14B wires it to startup preparation; Task 15 exposes validated cached HTTP search and suggestions. Task 16 adds the standalone selector; form integration remains later work.
 
 ## Dictionary mappings and suggestions
 
@@ -100,4 +100,4 @@ Legacy `job`, audience/headset and page links retain meaning. A legacy `q` remai
 4. Maximum ten keyword/job criteria; explicit selection required before submission; pending removals/clear-all; legacy q compatibility.
 5. Four startup attempts with 1/2/4s delays, loading/status polling and manual retry; keep video details on the existing API path. No deployment-readiness change.
 
-The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13, 14A, 14B and 15's preparation, dictionary, startup and HTTP search foundations, now verified. Task 16 onward still requires a separate instruction.
+The candidate agreed to these defaults and the selected-appellation choice. Task 12 is complete. Document and test deterministic extraction as specified in [dictionary rules](../docs/search-dictionary-rules.md). That agreement alone did not authorise implementation; the candidate subsequently explicitly authorised Tasks 13–16's preparation, dictionary, startup, HTTP search and standalone selector, now verified. Task 17 onward still requires a separate instruction.

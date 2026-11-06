@@ -100,3 +100,12 @@
   --radius-lg: calc(var(--radius) + 0.125rem);
   --spacing-draft-panel: calc(100dvh - 3rem);
 }
+
+/* Base UI exposes measured popup bounds. Keep suggestions inside small viewports. */
+.keyword-suggestions-positioner {
+  width: var(--anchor-width);
+  max-width: var(--available-width);
+}
+.keyword-suggestions-list {
+  max-height: min(24rem, var(--available-height));
+}

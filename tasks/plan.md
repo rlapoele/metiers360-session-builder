@@ -286,7 +286,7 @@ The public Astro URL serves the verified application, the API remains private, a
 
 ## Proposed follow-up — Revamped catalogue search (2026-11-06)
 
-Status: Task 12's contract is agreed; separately authorised Tasks 13, 14A, 14B and 15 are technically complete on `dev`. The candidate explicitly requested Task 15 after the startup handoff; Task 15 review is next. No separate Checkpoint G sign-off is inferred. Task 16 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; visible UI integration remains future work.
+Status: Task 12's contract is agreed; separately authorised Tasks 13, 14A, 14B, 15 and 16 are technically complete on `dev`. The candidate explicitly requested Task 16 after the endpoint handoff; standalone selector review is next. No separate Checkpoint G sign-off is inferred. Task 17 onward remain unauthorised. Preserve completed Tasks 1–11 and the original wireframes as delivery history. Startup preparation and revamped HTTP search are active; visible UI integration remains future work.
 
 ### Agreed direction
 
@@ -309,7 +309,7 @@ The current architecture requires a thin BFF and no duplicate catalogue storage.
 
 **Dependencies:** None. **Scope:** Small; planning/contracts only.
 
-The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B and 15 were subsequently explicitly authorised. Task 16 onward is not authorised.
+The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-06, accepting the defaults and selecting the matched appellation for métier chip text. Validated source keys preserve that wording through URL sharing/reload while job codes alone determine matching. [Dictionary rules](../docs/search-dictionary-rules.md) own deterministic extraction, editorial lists, source ordering and future implementation comments/tests. Task 12 is complete as a documentation/agreement task; Tasks 13, 14A, 14B, 15 and 16 were subsequently explicitly authorised. Task 17 onward is not authorised.
 
 - Define typed job/title selection identities, safe query limits, duplicate handling, URL serialization and legacy `q`/`job` link compatibility. Propose keeping existing links meaningful rather than silently dropping them.
 - Agree title word/phrase extraction, a small explicit French stop list, gender/compound rules, accent and œ normalization, suggestion ranking and empty-input behaviour. Names such as Omar and Hugo must remain keywords. No AI enrichment, invented synonyms or fuzzy matching in this increment.
@@ -375,6 +375,8 @@ The candidate agreed [Task 12's search contract](search-contract.md) on 2026-11-
 
 **Verification:** Focused interaction tests plus real mobile/tablet/desktop keyboard and touch checks, including stale responses, long French labels and selection announcements. Full repository gate.
 **Likely files:** selector component/test, suggestion client/test and contracts as needed.
+
+**Task 16 verified handoff (2026-11-06):** from clean `dev` at `53e6ac3`, added a controlled Base UI grouped keyword selector, validated suggestion/status/recovery client and TanStack Query hook. Two-code-point threshold, 200ms debounce, server-ranked grouping, selected-source retention, no automatic highlight/free-text chip, keyboard/touch selection, bounded ten-criterion additions, cancellation/stale-response isolation and preparation recovery follow the contract. Named CSS classes constrain popup bounds and wrap long options; chip truncation remains Task 17A. Fourteen new client/component cases bring the passing full gate to 206 tests/28 files, 107-file strict checks with zero diagnostics, formatting/lint and build. An isolated real Chromium fixture checks 320/390/834/1440px, long/unbroken labels, touch, open-popup Tab, Enter/Escape, retry and zero horizontal overflow/runtime exceptions. All six existing desktop/tablet/mobile browser regressions pass (58.2s). A failing-first focus assertion also protects input focus after retry. Scoped selector/listbox axe scans have zero violations; three full-page open-popup focus-hiding/landmark findings are retained in [the selector guide](../docs/keyword-selector.md), with no whole-page conformance claim. No supplied API/catalogue, dependencies, live form/URL/results integration, commit or push changes. Candidate review next; Task 17 remains unauthorised.
 
 ### Task 17 — Integrate the responsive search form and URL state
 
