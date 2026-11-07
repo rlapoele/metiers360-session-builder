@@ -8,6 +8,10 @@ import {
   SearchCriteriaChips,
   type ChipRemoval,
 } from '@components/catalogue/SearchCriteriaChips';
+import {
+  useCatalogueAvailability,
+  type CatalogueAvailabilityContext,
+} from '@features/catalogue/use-catalogue-availability';
 import type { CatalogueReferences } from '@features/catalogue/api';
 import {
   addKeyword,
@@ -20,6 +24,7 @@ import {
 interface Props {
   applied: SearchFormCriteria;
   references?: Pick<CatalogueReferences, 'audiences' | 'headsets'>;
+  availabilityContext?: CatalogueAvailabilityContext;
   onSubmit: (criteria: SearchFormCriteria) => void;
   disabled?: boolean;
   /** Future history/page restoration can reset pending edits even if criteria are equal. */
@@ -36,6 +41,7 @@ export function CatalogueSearchForm(props: Props) {
 function SearchFormContent({
   applied,
   references,
+  availabilityContext,
   onSubmit,
   disabled = false,
 }: Props) {
@@ -44,6 +50,24 @@ function SearchFormContent({
     ...applied,
     selected: [...applied.selected],
   }));
+  const availability = useCatalogueAvailability(
+    pending,
+    !disabled && Boolean(references),
+    availabilityContext,
+  );
+  const optionInfo = availability.current ?? availability.previous;
+  function optionState(group: 'audiences' | 'headsets', key: string) {
+    const info = optionInfo?.[group].find((item) => item.id === key);
+    const unavailable = info?.available === false;
+    return {
+      disabled: Boolean(availability.current && unavailable),
+      suffix: unavailable
+        ? availability.current
+          ? ' — Aucune vidéo avec ces critères'
+          : ' — Aucune vidéo avec les critères précédents'
+        : '',
+    };
+  }
   const [text, setText] = useState('');
   const [error, setError] = useState<string>();
   const audienceRef = useRef<HTMLSelectElement>(null);
@@ -114,6 +138,7 @@ function SearchFormContent({
             id={`${id}-audience`}
             value={pending.audience ?? ''}
             disabled={disabled || !references}
+            aria-describedby={`${id}-availability`}
             onChange={(event) => {
               const value = event.currentTarget.value;
               setPending((current) => ({
@@ -124,8 +149,13 @@ function SearchFormContent({
           >
             <NativeSelectOption value="">Tous les publics</NativeSelectOption>
             {references?.audiences.data.map((item) => (
-              <NativeSelectOption key={item.id} value={item.id}>
+              <NativeSelectOption
+                key={item.id}
+                value={item.id}
+                disabled={optionState('audiences', item.id).disabled}
+              >
                 {item.label}
+                {optionState('audiences', item.id).suffix}
               </NativeSelectOption>
             ))}
           </NativeSelect>
@@ -163,6 +193,7 @@ function SearchFormContent({
             id={`${id}-headset`}
             value={pending.headset ?? ''}
             disabled={disabled || !references}
+            aria-describedby={`${id}-availability`}
             onChange={(event) => {
               const value = event.currentTarget.value;
               setPending((current) => ({
@@ -173,8 +204,13 @@ function SearchFormContent({
           >
             <NativeSelectOption value="">Tous les casques</NativeSelectOption>
             {references?.headsets.data.map((item) => (
-              <NativeSelectOption key={item.id} value={item.id}>
+              <NativeSelectOption
+                key={item.id}
+                value={item.id}
+                disabled={optionState('headsets', item.id).disabled}
+              >
                 {item.name}
+                {optionState('headsets', item.id).suffix}
               </NativeSelectOption>
             ))}
           </NativeSelect>
@@ -186,6 +222,31 @@ function SearchFormContent({
         >
           Rechercher
         </Button>
+      </div>
+      <div className="min-w-0 space-y-2">
+        <p
+          id={`${id}-availability`}
+          role="status"
+          className="text-muted-foreground text-sm wrap-anywhere"
+        >
+          {availability.loading
+            ? 'Mise à jour de la disponibilité. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
+            : availability.error
+              ? 'La disponibilité ne peut pas être actualisée. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
+              : 'Les options sans vidéo avec ces critères sont indisponibles.'}
+        </p>
+        {availability.error && availability.canRetry && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              audienceRef.current?.focus();
+              availability.retry();
+            }}
+          >
+            Réessayer la disponibilité
+          </Button>
+        )}
       </div>
       <SearchCriteriaChips
         criteria={pending}

@@ -103,6 +103,61 @@ describe('accessible grouped keyword selector', () => {
     expect(input).toHaveValue('');
     expect(input).toHaveFocus();
   });
+  it('explains unavailable candidates and blocks keyboard/pointer selection while allowing the next option', async () => {
+    const disabled = {
+      ...suggestions[0]!,
+      availability: { count: 0, available: false },
+    };
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ data: [disabled, suggestions[1]] })),
+      ),
+    );
+    const { input, user, onSelect, submit } = setup();
+    await user.type(input, 'jard');
+    const unavailable = await screen.findByRole('option', {
+      name: /Jardinier municipal/,
+    });
+    expect(unavailable).toHaveAttribute('aria-disabled', 'true');
+    expect(unavailable).toHaveTextContent('Aucune vidéo avec ces critères');
+    await user.click(unavailable);
+    expect(onSelect).not.toHaveBeenCalled();
+    await user.click(input);
+    await user.keyboard('{ArrowDown}{Enter}');
+    expect(onSelect).not.toHaveBeenCalled();
+    // Base UI keeps disabled items discoverable to assistive technology.
+    await user.keyboard('{ArrowDown}{Enter}');
+    expect(onSelect).toHaveBeenCalledWith(suggestions[1]);
+    expect(submit).not.toHaveBeenCalled();
+  });
+  it('keeps an all-unavailable group visible without offering an actionable suggestion', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              data: suggestions.map((item) => ({
+                ...item,
+                availability: { count: 0, available: false },
+              })),
+            }),
+          ),
+      ),
+    );
+    const { input, user, onSelect } = setup();
+    await user.type(input, 'jard');
+    await screen.findAllByRole('option');
+    expect(
+      screen.getByText(/Aucune suggestion disponible avec ces critères/),
+    ).toBeVisible();
+    await user.keyboard('{ArrowDown}{Enter}');
+    expect(onSelect).not.toHaveBeenCalled();
+    expect(input).toHaveValue('jard');
+  });
+
   it('does not create a free-text selection; Escape dismisses without clearing text and Tab leaves', async () => {
     success();
     const { input, user, onSelect } = setup();

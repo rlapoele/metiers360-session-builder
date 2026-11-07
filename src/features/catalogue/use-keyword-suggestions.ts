@@ -52,16 +52,23 @@ export function useKeywordSuggestions(
       query.state.data?.status === 'preparing' ? 1000 : false,
   });
   const recovery = useMutation({
-    mutationFn: retryKeywordPreparation,
-    onSuccess: (state) => {
+    mutationFn: async (requestKey: string) => ({
+      state: await retryKeywordPreparation(),
+      requestKey,
+    }),
+    onSuccess: ({ state, requestKey }) => {
       // A manual cycle must replace a cached terminal status so polling resumes.
       queryClient.setQueryData(
-        ['catalogue-keyword-preparation', params],
+        ['catalogue-keyword-preparation', requestKey],
         state,
       );
-      void suggestions.refetch();
+      if (requestKey === params) void suggestions.refetch();
     },
   });
+  useEffect(() => {
+    // Recovery errors belong to the criteria that failed, not later contexts.
+    recovery.reset();
+  }, [params, recovery.reset]);
   useEffect(() => {
     if (
       active &&
@@ -76,7 +83,11 @@ export function useKeywordSuggestions(
   const preparing =
     active && !status.error && preparation?.status === 'preparing';
   return {
-    items: active && !suggestions.isFetching ? (suggestions.data ?? []) : [],
+    // Failed/refetching data must not reapply obsolete eligibility flags.
+    items:
+      active && !suggestions.isFetching && !error
+        ? (suggestions.data ?? [])
+        : [],
     loading:
       eligible &&
       (!active || suggestions.isFetching || preparing || recovery.isPending),
@@ -86,7 +97,7 @@ export function useKeywordSuggestions(
       status.error
         ? void status.refetch()
         : preparation?.status === 'failed' && preparation.canRetry
-          ? recovery.mutate()
+          ? recovery.mutate(params)
           : void suggestions.refetch(),
     preparing,
   };

@@ -179,6 +179,7 @@ export function useCatalogueSearch({
     displayed,
     applied,
     references: context?.references,
+    availabilityContext: context,
     revision: location.revision,
     disabled: !context || Boolean(validation && !repairContext),
     validation,

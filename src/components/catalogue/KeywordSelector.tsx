@@ -8,6 +8,7 @@ import { useId, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
 import { normalizeSearchText } from '@features/catalogue/search-dictionary-rules';
+import type { CatalogueSuggestions } from '@features/catalogue/search-contracts';
 import type { KeywordSuggestion } from '@features/catalogue/keyword-suggestions';
 import { useKeywordSuggestions } from '@features/catalogue/use-keyword-suggestions';
 
@@ -69,6 +70,9 @@ export function KeywordSelector({
           chosen.category === item.category && chosen.key === item.key,
       ),
   );
+  const availableCount = items.filter(
+    (item) => item.availability.available,
+  ).length;
   const message =
     error ??
     (limit
@@ -84,7 +88,9 @@ export function KeywordSelector({
               : open && eligible && items.length === 0
                 ? 'Aucune suggestion. Essayez un autre terme.'
                 : items.length > 0
-                  ? `${items.length} suggestions disponibles. Utilisez les flèches pour choisir.`
+                  ? availableCount === 0
+                    ? 'Aucune suggestion disponible avec ces critères. Retirez un critère pour élargir les possibilités.'
+                    : `${availableCount} suggestion${availableCount > 1 ? 's' : ''} disponible${availableCount > 1 ? 's' : ''}. Utilisez les flèches pour choisir.${items.length > availableCount ? ' Les autres suggestions ne correspondent à aucune vidéo avec ces critères.' : ''}`
                   : 'Saisissez au moins deux caractères, puis choisissez une suggestion.');
   return (
     <div data-slot="keyword-selector" className="min-w-0 space-y-2">
@@ -97,7 +103,7 @@ export function KeywordSelector({
         <MagnifyingGlassIcon aria-hidden="true" className="size-4 shrink-0" />
         Métiers ou mots-clés
       </label>
-      <Combobox.Root<KeywordSuggestion>
+      <Combobox.Root<CatalogueSuggestions['data'][number]>
         items={items}
         filter={null}
         value={null}
@@ -122,6 +128,7 @@ export function KeywordSelector({
         onValueChange={(item) => {
           if (
             !item ||
+            !item.availability.available ||
             limit ||
             selected.some(
               (chosen) =>
@@ -203,7 +210,7 @@ const groups = [
 function KeywordSuggestionGroups({
   items,
 }: {
-  items: readonly KeywordSuggestion[];
+  items: readonly CatalogueSuggestions['data'][number][];
 }) {
   return (
     <>
@@ -221,9 +228,15 @@ function KeywordSuggestionGroups({
               <Combobox.Item
                 key={`${item.category}:${item.key}`}
                 value={item}
-                className="data-highlighted:bg-accent data-highlighted:text-accent-foreground flex min-h-12 cursor-pointer flex-col justify-center rounded-sm px-3 py-2 text-sm wrap-anywhere data-highlighted:outline-none"
+                disabled={!item.availability.available}
+                className="data-highlighted:bg-accent data-highlighted:text-accent-foreground flex min-h-12 cursor-pointer flex-col justify-center rounded-sm px-3 py-2 text-sm wrap-anywhere data-highlighted:outline-none data-disabled:cursor-not-allowed"
               >
                 <span>{item.label}</span>
+                {!item.availability.available && (
+                  <span className="text-muted-foreground text-xs">
+                    Aucune vidéo avec ces critères
+                  </span>
+                )}
                 {item.category === 'job' && item.jobLabel !== item.label && (
                   <span className="text-muted-foreground text-xs">
                     {item.jobLabel}

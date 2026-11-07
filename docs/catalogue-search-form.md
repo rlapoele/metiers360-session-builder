@@ -2,6 +2,20 @@
 
 Task 17A composes the approved form from Task 16's keyword selector. Task 17B now mounts this composition in CatalogueApp and connects applied URL/history criteria, SSR/search requests, pagination and previous-result loading/error behaviour; see [live integration](catalogue-search-integration.md). No unsupported multi-criterion request is sent through the existing legacy query path during this intermediate slice.
 
+## Contextual availability — Task 20 (2026-11-07)
+
+The form now consumes Task 19 availability. `availabilityContext` seeds the matching SSR/page metadata. `use-catalogue-availability.ts` follows the **current selected form criteria**, independently of the submitted URL/results; its key includes selected codes/source keys, title terms, legacy q, public and headset, but no unfinished input or page. Typing therefore does not request dropdown availability. It reuses the validated `include=context` search boundary, retains only criteria/availability in its query data and never applies returned videos or changes the URL. No new endpoint or upstream request path is introduced. Task 21 can consolidate these metadata/result requests when it replaces pending state.
+
+Native audience/headset options with a current zero count are disabled and append « Aucune vidéo avec ces critères ». Unfiltered defaults stay usable; the real Tout public remains its own option. Selected zero-match values remain visible, with working chip removal and clear-all. Both selects reference the shared availability status through aria-describedby. Existing group icons, compact controls, chip truncation/disclosure and pending submission behaviour are preserved.
+
+On a criteria change, previous unavailable flags immediately become non-blocking hints labelled « critères précédents ». A polite status explains that those indications are provisional while loading or after failure. Unknown/currently unverified options remain selectable; inputs, chips and submit are not globally frozen. Matching responses alone can restore disabled flags. Query keys and consumed AbortSignals isolate obsolete responses even if a transport ignores cancellation.
+
+Failed metadata requests expose « Réessayer la disponibilité ». Retry restores focus to Public before the temporary button disappears; selected criteria and the session draft are retained. Preparing responses use foreground status polling; terminal preparation failures expose the same bounded manual recovery, never fabricated zero availability. Recovery errors reset with context, and recovery callbacks are associated with their original request key.
+
+Task 20 still uses Rechercher and pending chips/results. Automatic search, the revised Boolean help and removal of the button remain separately authorisable Task 21. Earlier sections below record the original form composition and verification history.
+
+Task 20 verification: `npm run verify` passes 34 test files/252 tests, strict checks on 119 files with zero diagnostics, formatting/lint and production build. All 24 desktop/tablet/mobile browser scenarios pass (1.1m), including native keyboard typeahead, loading/failure/retry, current pending context, actual touch selection and original session flows. Unit checks cover selected disabled values, defaults/removal/clear-all, full q context, cancellation/late responses, provisional flags, retry focus and bounded preparation recovery. Existing closed-popup axe/overflow checks pass; prior open-popup findings remain documented. A desktop disabled-menu capture was visually inspected; no full native Firefox or screen-reader conformance claim is made.
+
 ## Parent contract and state
 
 `CatalogueSearchForm` takes `applied`, validated `references` for audiences/headsets, `onSubmit`, optional `disabled` and optional `resetKey`. It renders inside the existing QueryClientProvider, as required by KeywordSelector. SearchFormCriteria derives from the existing browser request contract: selected typed job/title suggestions plus optional audience/headset/legacyQuery. No second dictionary or search predicate is introduced.

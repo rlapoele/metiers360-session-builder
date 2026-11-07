@@ -11,10 +11,20 @@ Render inside the existing `QueryClientProvider`. Props:
 - `value` / `onValueChange`: controlled unselected input text. Parent clear-all, history restoration and submission checks can control it directly.
 - `selected`: pending validated job/title suggestion objects. Category plus identity distinguishes a métier from a similarly worded title. `legacyQuery` optionally carries the separate old title condition and consumes one of ten slots.
 - `onSelect`: emits the complete chosen object, including authored appellation, source key and parent job code. Selection clears text, closes the menu and leaves input focus; it does not apply a search or create a free-text criterion.
-- Optional `audience`, `headset`: current pending IDs, included for server validation without narrowing suggestions.
+- Optional `audience`, `headset`: current pending IDs, included in contextual suggestion availability.
 - Optional `inputRef`, `disabled`, `error`: parent focus control, availability and a French validation explanation, including future unselected-text submission errors.
 
 The parent owns pending chips, duplicate prevention across the whole form, applied criteria and submission. The selector defensively excludes already-selected identities and blocks additions once ten unique job/title/legacy criteria exist. It retains input text at the limit. Explicit public/headset choices do not consume those ten slots. No session draft state is read or modified.
+
+## Contextual disabled suggestions — Task 20 (2026-11-07)
+
+The selector consumes the required count/available metadata validated by the existing client. Grouped items retain the server's eligible-first allocation, authored labels and five-item limit. Unavailable matches remain visible where the server leaves spare slots, with « Aucune vidéo avec ces critères » and native Base UI Item `disabled`/aria-disabled semantics. The live help counts only actionable suggestions; an all-unavailable menu explains that criteria can be removed to broaden possibilities. No video counts are displayed beside options.
+
+The installed [Base UI 1.9 Item contract](https://github.com/mui/base-ui/blob/v1.9.0/docs/src/app/(docs)/react/components/combobox/types.md) exposes disabled interaction. Its keyboard model keeps disabled items reachable so assistive technology can discover their explanation: highlighting is allowed, but Enter/pointer selection is blocked. Continue with the arrows to an available item. An explicit onValueChange guard also rejects unavailable items. No first item is selected automatically, and no free-text criterion is created.
+
+Queries include every selected criterion, including legacy q, and cancel/ignore obsolete contexts. While updating or after failure, stale suggestions/flags are not offered as current choices; the announced loading/error state and retry action remain distinct from an empty successful menu. Recovery errors reset on context changes, and delayed manual recovery responses update their original context key. The form's separate dropdown availability retains previous metadata as explicitly provisional hints. Existing keyboard/touch focus, selected-source wording and retry-focus behaviour remain intact. Automatic application is Task 21.
+
+Task 20 focused tests verify disabled pointer/Enter activation, all-unavailable explanations and continued access to enabled choices. The complete gate passes 252 tests/34 files with zero strict diagnostics and build; all 24 responsive browser scenarios pass, including real touch activation at desktop/tablet/mobile widths. Existing scoped/full-page audit boundaries below are preserved.
 
 ## Interaction and presentation
 

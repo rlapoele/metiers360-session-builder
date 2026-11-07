@@ -305,26 +305,31 @@ test('recover from catalogue failure and keep narrow text readable', async ({
       .first()
       .getByText('Meta Quest 3', { exact: true }),
   );
+  // Conflicting saved URLs remain valid and recoverable. The contextual picker
+  // now blocks choosing Hugo after Omar, so load that explicit AND case directly.
+  await page.goto('/?title=hugo&title=omar');
+  await expect(
+    page.locator('astro-island[component-export="CatalogueApp"]'),
+  ).not.toHaveAttribute('ssr', '');
+  await expect(
+    page.getByRole('heading', { name: 'Aucune vidéo trouvée', exact: true }),
+  ).toBeVisible();
   await page.route('**/api/catalogue/search?**', async (route) => {
     await route.fulfill({
       status: 503,
       json: { error: 'upstream_error', message: 'Service indisponible.' },
     });
   });
-  const keywords = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
-  for (const name of ['Omar', 'Hugo']) {
-    await keywords.fill(name);
-    await page
-      .getByRole('group', { name: 'Titre de vidéo', exact: true })
-      .getByRole('option', { name, exact: true })
-      .click();
-  }
   await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Le catalogue ne peut pas être chargé' }),
   ).toBeVisible();
   await scan(page, info, 'catalogue-error');
   await page.unroute('**/api/catalogue/search?**');
+  await page.getByRole('button', { name: 'Réessayer', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Le catalogue ne peut pas être chargé' }),
+  ).toBeHidden();
   await recoverReads(
     page,
     page.getByRole('heading', { name: 'Aucune vidéo trouvée', exact: true }),

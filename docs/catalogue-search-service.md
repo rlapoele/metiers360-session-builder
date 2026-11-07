@@ -60,7 +60,7 @@ This is a structural example, not fixture counts. Arrays include every reference
 
 Each suggestion now additionally carries `availability: { count, available }`. Browser-safe Zod schemas require a nonnegative integer count and `available === (count > 0)`; malformed or missing metadata fails boundary validation. `CatalogueSelectionSchema` separates stable selection/source identity from request-specific eligibility, so restored chips do not carry a required availability value. Selection names and authored appellations remain unchanged.
 
-The server and browser response boundary are connected. **Disabled option rendering and availability failure/staleness presentation remain Task 20; automatic search, revised help and removal of Rechercher remain Task 21.** Until then the existing form still stages edits and submits explicitly; its earlier blanket AND help is scheduled for replacement in Task 21. No visible counts have been added. Preparing/failed responses remain explicit 503 states, never fabricated zero-availability success.
+The server and browser response boundary are connected. **Task 20 now renders contextual disabled options and availability failure/staleness recovery; automatic search, revised help and removal of Rechercher remain Task 21.** The existing form still stages edits and submits explicitly; its earlier blanket AND help is scheduled for replacement in Task 21. No visible counts have been added. Preparing/failed responses remain explicit 503 states, never fabricated zero-availability success.
 
 ## Validation
 

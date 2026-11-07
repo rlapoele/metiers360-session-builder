@@ -103,6 +103,7 @@ function CatalogueContent(props: CataloguePageProps) {
           <CatalogueSearchForm
             applied={search.applied}
             references={references}
+            availabilityContext={search.availabilityContext}
             onSubmit={search.submit}
             resetKey={String(search.revision)}
             disabled={search.disabled}

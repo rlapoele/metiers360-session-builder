@@ -131,7 +131,7 @@ test('restores selected appellations through SSR, reload and browser history', a
   );
 });
 
-test('uses keyword AND, stages removals and keeps unchanged submitted searches on their page', async ({
+test('disables conflicting title choices, stages removals and preserves explicit keyword AND links', async ({
   page,
 }) => {
   await page.goto('/');
@@ -159,9 +159,20 @@ test('uses keyword AND, stages removals and keeps unchanged submitted searches o
   }
   await keywords.press('Escape');
   await chooseTitle(page, 'Omar');
-  await chooseTitle(page, 'Hugo');
+  await keywords.fill('Hugo');
+  const unavailable = page
+    .getByRole('group', { name: 'Titre de vidéo', exact: true })
+    .getByRole('option', { name: /Hugo/ });
+  await expect(unavailable).toHaveAttribute('aria-disabled', 'true');
+  await expect(unavailable).toContainText('Aucune vidéo avec ces critères');
+  await keywords.press('ArrowDown');
+  await keywords.press('Enter');
+  await expect(keywords).toHaveValue('Hugo');
   expect(new URL(page.url()).searchParams.get('page')).toBe('2');
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  // Old/conflicting URLs stay explicit and recoverable, even though the picker
+  // now prevents adding an unavailable title in the normal selection flow.
+  await page.goto('/?title=hugo&title=omar');
+  await ready(page);
   await expect(
     page.getByRole('heading', { name: 'Aucune vidéo trouvée', exact: true }),
   ).toBeVisible();
@@ -257,4 +268,117 @@ test('restores multi-métier OR links and exposes contextual server availability
     'A1203',
     'I1604',
   ]);
+});
+
+test('uses current pending context for native option availability and recovers without locking controls', async ({
+  page,
+}) => {
+  await page.goto('/?title=omar&q=municipal');
+  await ready(page);
+  const audience = page.getByLabel('Public', { exact: true });
+  const college = audience.locator('option[value="college"]');
+  const adult = audience.locator('option[value="adultes-reconversion"]');
+  await expect(college).toBeDisabled();
+  await expect(college).toContainText('Aucune vidéo avec ces critères');
+  await expect(adult).toBeEnabled();
+  await expect(audience.locator('option[value=""]')).toBeEnabled();
+  await audience.focus();
+  // Native closed-select typeahead avoids driving the OS-owned popup.
+  await page.keyboard.press('a');
+  await expect(audience).toHaveValue('adultes-reconversion');
+  expect(new URL(page.url()).searchParams.has('audience')).toBe(false);
+  await expect(
+    page.getByText('1 vidéo trouvée', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', {
+      name: 'Retirer le critère Recherche par titre : municipal',
+    })
+    .click();
+  await expect(college).toBeEnabled();
+  await expect(
+    page.getByText(
+      'Les options sans vidéo avec ces critères sont indisponibles.',
+      { exact: true },
+    ),
+  ).toBeVisible();
+  // Hold the next metadata request, then fail it: previous disabled values
+  // remain hints only and the form stays editable throughout.
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/api/catalogue/search?**', async (route) => {
+    await gate;
+    await route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: '{}',
+    });
+  });
+  await audience.selectOption('college');
+  await expect(page.getByText(/Mise à jour de la disponibilité/)).toBeVisible();
+  await expect(audience).toBeEnabled();
+  await expect(page.getByLabel('Casque VR', { exact: true })).toBeEnabled();
+  release();
+  const retry = page.getByRole('button', {
+    name: 'Réessayer la disponibilité',
+  });
+  await expect(retry).toBeVisible();
+  await expect(audience.locator('option[value=""]')).toBeEnabled();
+  await page.unroute('**/api/catalogue/search?**');
+  await retry.click();
+  await expect(retry).toBeHidden();
+  await expect(audience).toBeFocused();
+  expect(new URL(page.url()).searchParams.has('audience')).toBe(false);
+  await page.getByRole('button', { name: 'Effacer tous les critères' }).click();
+  await expect(audience).toHaveValue('');
+  await expect(
+    page.getByRole('button', { name: 'Rechercher', exact: true }),
+  ).toBeVisible();
+});
+
+test('keeps unavailable suggestions inert for touch and selects an available keyword', async ({
+  browser,
+  baseURL,
+}, info) => {
+  const context = await browser.newContext({
+    baseURL,
+    hasTouch: true,
+    viewport: info.project.use.viewport ?? { width: 390, height: 844 },
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto('/?title=omar&q=municipal');
+    await ready(page);
+    const input = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
+    await input.fill('Hugo');
+    const unavailable = page
+      .getByRole('group', { name: 'Titre de vidéo', exact: true })
+      .getByRole('option', { name: /Hugo/ });
+    await expect(unavailable).toHaveAttribute('aria-disabled', 'true');
+    await unavailable.tap({ force: true });
+    await expect(input).toHaveValue('Hugo');
+    await expect(
+      page.getByRole('button', {
+        name: 'Retirer le critère Titre de vidéo : Hugo',
+      }),
+    ).toHaveCount(0);
+    await input.fill('jardinier');
+    const available = page
+      .getByRole('group', { name: 'Titre de vidéo', exact: true })
+      .getByRole('option', { name: 'jardinier', exact: true });
+    await expect(available).not.toHaveAttribute('aria-disabled', 'true');
+    await available.tap();
+    await expect(input).toHaveValue('');
+    await expect(input).toBeFocused();
+    await expect(
+      page.getByRole('button', {
+        name: 'Retirer le critère Titre de vidéo : jardinier',
+      }),
+    ).toBeVisible();
+    expect(new URL(page.url()).searchParams.getAll('title')).toEqual(['omar']);
+  } finally {
+    await context.close();
+  }
 });
