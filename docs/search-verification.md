@@ -87,6 +87,26 @@ There are 30 gated closed-popup/workflow scans and three gated open-popup scoped
 
 No exhaustive native Firefox, VoiceOver/other screen-reader, zoom or WCAG/RGAA conformance audit is claimed. React hydration is required for interactive search; checks wait for hydration and do not establish no-JavaScript or pre-hydration behaviour. API fixture coverage is finite and the catalogue is assumed stable during a process. Process restart is the supported snapshot refresh boundary; manual recovery cannot rebuild an already-ready cache.
 
+## Open-popup review and deferred follow-up (2026-11-07)
+
+**Candidate decision:** leave the current application/tests as they are for now and record the findings/recommendations. No accessibility remediation or further investigation is authorised by this note. Deferring work does not resolve the findings, establish conformance or constitute acceptance of Checkpoint H.
+
+The recorded rule counts above describe affected nodes, not that many independent defects. Inspection of the installed Base UI 1.9 implementation identifies a likely shared cause: our input is outside the popup, and that path uses a focus manager which hides surrounding content from assistive technology while suggestions are open. The public Combobox modal option already defaults to false; setting it explicitly to false would not bypass that internal path. See [the versioned popup implementation](https://github.com/mui/base-ui/blob/v1.9.0/packages/react/src/combobox/popup/ComboboxPopup.tsx).
+
+| Finding | Interpretation and possible user impact | Priority |
+|---|---|---|
+| aria-hidden-focus | Surrounding content is hidden from screen readers while containing focusable controls. If focus reaches one before the hiding is removed, its name/purpose may not be announced. Deque classifies the rule as serious and maps it to WCAG level A. The finding alone does not prove that this timing actually occurs in our interaction. | First priority for investigation/resolution |
+| page-has-heading-one | The existing catalogue heading temporarily disappears from the accessibility tree, rather than being absent from the HTML. Screen-reader heading navigation may not find it while suggestions are open. This appears to be a consequence of the same hiding policy. | Review as a possible secondary symptom |
+| region | The popup is portalled outside the main landmark. Screen-reader landmark navigation may not clearly locate its content. This needs semantic review; it is not justification to add an arbitrary landmark solely to silence the rule. | Review after the focus policy is understood |
+
+Authoritative rule guidance: [hidden focusable content](https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus), [heading-one rule](https://dequeuniversity.com/rules/axe/3.0/page-has-heading-one), [landmark containment](https://dequeuniversity.com/rules/axe/4.14/region). The heading/region diagnostics are not equivalent in severity or interpretation to the focus finding; the region guidance also references RGAA.
+
+Existing browser checks passed selection, Escape, Tab dismissal, focus behaviour and touch activation. Closing the popup before moving focus can avoid the practical hidden-focus mismatch. However, neither those checks nor the zero-violation scoped scans verify the actual native screen-reader experience, especially touch-screen-reader navigation. These are potential impacts supported by the reported DOM conditions, not newly observed VoiceOver failures.
+
+**Recommendation, not an authorised task:** before unconditional Checkpoint H acceptance, perform a focused accessibility validation/resolution pass prioritising aria-hidden-focus. With VoiceOver, check entering/navigating suggestions, selection, dismissal, Tab departure and return to surrounding controls; include touch-screen-reader navigation for mobile/tablet. If a mismatch is confirmed, prefer supported composition/configuration or a targeted upstream/library fix that keeps focus and accessibility-tree exposure consistent. Re-run full-page open/closed axe scans and keyboard/touch/screen-reader checks. Do not blindly remove aria-hidden, add fake headings/landmarks, suppress the rules or assume a library upgrade fixes it. The two structural findings may be secondary effects and do not independently justify a rewrite.
+
+If work resumes, start from this evidence and validate the current installed version/behaviour before choosing a fix. The recommendation remains deferred until the candidate explicitly requests that follow-up.
+
 ## Documentation and candidate handoff
 
 Current authorities are [the agreed search contract](../tasks/search-contract.md), [dictionary rules](search-dictionary-rules.md), [current architecture](architecture.md), [startup/log guide](catalogue-startup.md), [HTTP service](catalogue-search-service.md), [form](catalogue-search-form.md), [selector](keyword-selector.md) and [integration](catalogue-search-integration.md). Original brief/wireframes and the dated v1.0.1 diagram are preserved as history; the old diagram does not depict the startup snapshot, dictionary or current search service.
