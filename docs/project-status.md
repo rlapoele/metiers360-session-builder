@@ -40,6 +40,8 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
+**Version 1.1.0 preparation — 2026-11-07:** The candidate authorised preparing version metadata and the revamped-search changelog, plus the verification-report whitespace correction. Root package/lockfile metadata now says `1.1.0`; the changelog marks it unreleased and explicitly explains the OR meaning of existing multi-métier URLs. No application, dependency or supplied API/catalogue change is included. Checkpoint H accessibility limitations remain deferred. Await candidate review and explicit publication authorisation; no staging, commit, tag, merge, push or deployment is authorised. Production-mode npm run verify passes formatting/lint, zero-diagnostic strict checks, all 255 tests and build; version/dependency consistency, the changelog link and release-diff whitespace checks pass. Details are recorded in the exercise log.
+
 **README/screenshots refresh — 2026-11-07:** The candidate requested a concise description of the revamped search and refreshed documentation images. README now explains automatic selection/removal, grouped suggestions, métier OR versus other-criteria AND, selection limits and unavailable options. The existing desktop catalogue, tablet details and mobile finalisation captures are refreshed from the local application; capture mode uses a clean keyword/headset example and a readable session name. All six screenshot-mode browser scenarios and the final desktop recapture passed; npm run verify passed. This documentation refresh does not change the accepted application, deferred accessibility limitations or deployment state. No commit/push/deployment is included.
 
 

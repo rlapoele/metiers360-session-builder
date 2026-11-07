@@ -52,7 +52,7 @@ The cold-start browser case starts the real built Astro entrypoint with the API 
 
 ## Results
 
-Environment: macOS, Node 24.14.1, npm 11.17.0, repository-pinned Playwright/Chromium and axe packages. 
+Environment: macOS, Node 24.14.1, npm 11.17.0, repository-pinned Playwright/Chromium and axe packages.
 
 | Check | Result |
 |---|---|
