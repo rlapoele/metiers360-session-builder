@@ -1,5 +1,7 @@
 # Cached catalogue search service
 
+Final regression/handoff: [Task 18 evidence and limits](search-verification.md). Dated implementation evidence below remains historical; candidate acceptance at Checkpoint H is separate.
+
 Task 15 adds the application-owned HTTP boundary for the [agreed search contract](../tasks/search-contract.md). Task 17B now connects the visible catalogue and SSR loader to this service; [live integration](catalogue-search-integration.md) records the opt-in page context and URL/query ownership. The supplied API and its `/videos` contract are unchanged.
 
 ## Ownership and SSR use

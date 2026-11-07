@@ -1,5 +1,7 @@
 # Responsive search form and shared criteria chips
 
+Final regression/handoff: [Task 18 evidence and limits](search-verification.md). Dated implementation evidence below remains historical; candidate acceptance at Checkpoint H is separate.
+
 Task 17A composes the approved form from Task 16's keyword selector. Task 17B now mounts this composition in CatalogueApp and connects applied URL/history criteria, SSR/search requests, pagination and previous-result loading/error behaviour; see [live integration](catalogue-search-integration.md). No unsupported multi-criterion request is sent through the existing legacy query path during this intermediate slice.
 
 ## Automatic form — Task 21 (2026-11-07)

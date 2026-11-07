@@ -1,5 +1,7 @@
 # Grouped keyword selector
 
+Final regression/handoff: [Task 18 evidence and limits](search-verification.md). Dated implementation evidence below remains historical; candidate acceptance at Checkpoint H is separate.
+
 Task 16 supplies a reusable controlled selector and browser client for the [agreed search contract](../tasks/search-contract.md). Task 17A subsequently composed it into the shared-chip form, and Task 17B now mounts that form with applied URL state, page loading and result integration. See [live integration](catalogue-search-integration.md).
 
 Task 21 integration (2026-11-07): the controlled selector's available selection now commits the parent form's criteria immediately, while typing still only requests suggestions. It keeps the same input node across criteria/results updates, preserving unfinished text on dropdown changes and focus on selection. Back/forward resets text/disclosures through the form's presentation reset key; clear-all clears them explicitly. Disabled options, max five grouping, selected appellations and preparation/error/retry semantics remain unchanged. Earlier references below to pending parent submission describe the original integration history.

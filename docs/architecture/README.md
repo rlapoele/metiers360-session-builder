@@ -4,6 +4,8 @@ Ce diagramme décrit l’application Métiers360 **après son implémentation**.
 
 **Cet instantané documentaire ne doit pas servir de spécification pour les évolutions futures.** Consulter le [sujet original](../source/exercise-brief.md), les [consignes du projet](../../AGENTS.md), le [document d’architecture](../architecture.md) et le code en vigueur avant toute évolution.
 
+**Écart avec la recherche actuelle (7 novembre 2026) :** ce schéma conserve le fonctionnement de la version `v1.0.1`. Il ne représente pas le catalogue/dictionnaire préparé au démarrage, le service de recherche en mémoire, les suggestions contextuelles ni la recherche automatique des Tasks 13–21. Ces responsabilités sont décrites dans [l’architecture actuelle](../architecture.md) et [la vérification finale de la recherche](../search-verification.md). Les sources Mermaid et le SVG sont volontairement conservés, sans mise à jour rétrospective.
+
 ![Architecture de Métiers360 : navigateur, serveur Astro et BFF, API simulée séparée, brouillon local et séances en mémoire](./architecture.svg)
 
 ## Lecture du diagramme

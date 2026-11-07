@@ -114,7 +114,7 @@ This is the live progress record for the accepted [implementation plan](plan.md)
 
 - [x] **Separately authorised maintenance:** Replace internal imports with named aliases for every existing top-level `src/` folder and align component-generator destinations. All 95 tests, zero-diagnostic strict checks, formatting/lint, production build and six desktop/tablet/mobile browser scenarios pass. Structural comparison confirms preserved module targets and code structure; source markup and candidate README are unchanged. Candidate-reviewed, manually retested, committed and pushed in `b405ba1`.
 
-**Next action:** Candidate review of verified Task 21’s automatic URL-owned search on `dev`. Final Task 18 and Checkpoint H require a new instruction; no separate Checkpoint G sign-off is inferred. Every future push to `releases` triggers the configured Railway release process; follow the guarded procedure.
+**Next action:** Candidate review/acceptance at Checkpoint H for the complete revamped search on `dev`, using [Task 18's evidence and limits](../docs/search-verification.md). Task 18 is technically complete and verified; no separate Checkpoint G sign-off is inferred. Commit, release and deployment remain separate instructions. Every future push to `releases` triggers the configured Railway process; follow the guarded procedure.
 
 ## Proposed follow-up — Revamped search on `dev`
 
@@ -156,7 +156,8 @@ See [the detailed plan](plan.md#proposed-follow-up--revamped-catalogue-search-20
 
 The revised [search contract](search-contract.md) is agreed; Task 19 now supplies server OR and contextual availability. Task 20 connects availability disabling and recovery; Task 21 now commits selections automatically, with one URL/result/availability owner. Execute Tasks 19 → 20 → 21 before final Task 18; completed task evidence above records the earlier baseline. No version flag preserves old multi-métier AND links.
 
-- [ ] **Task 18:** Complete regression/browser verification, including early-arrival loading and startup recovery, and documentation handoff.
+- [x] **Task 18:** Complete regression/browser verification, including early-arrival loading and startup recovery, and documentation handoff.
+  - Evidence: full gate passes 255 tests/34 files, zero-diagnostic 119-file strict checks, formatting/lint/build; all 30 desktop/tablet/mobile scenarios pass (1.8m), including new isolated cold-start exhaustion/recovery and warm API-offline search/SSR. Existing session flows and 30 closed-popup/three scoped popup axe gates pass. Diagnostic full-popup findings remain explicitly recorded, not suppressed or claimed resolved. [Final report](../docs/search-verification.md) consolidates requirement-linked coverage, reproducible commands, review limits and original-diagram annotation. No production source/dependency, mock API/catalogue, original brief/wireframe, staging, commit, push or deployment change. Checkpoint H awaits candidate acceptance.
 - [ ] **Checkpoint H:** Candidate accepts the revamped search on `dev`; release remains a separate instruction.
 
 Task 8 and Checkpoint D are committed in `f22dc0d`, with refinements through `c797443`. Task 9 is committed in `8ead669`, the muted-text adjustment in `e8a8e02`, documentation/contribution records through `e569c57`, Task 9A in `3870b3b`, initial accessibility remediation in `63730ba`, visual follow-up in `d294030`, complete catalogue headset badges in `e7ea188`, input contrast in `0a8c14a`, removal focus in `cecaac0`, Task 10 in `3c36990`, and candidate README edits in `05026e5`. Those baselines are pushed. The import-alias follow-up is reviewed, retested, committed and pushed in `b405ba1`. Task 11 is now explicitly authorised.

@@ -1,5 +1,7 @@
 # Live catalogue search integration
 
+Final regression/handoff: [Task 18 evidence and limits](search-verification.md). Dated implementation evidence below remains historical; candidate acceptance at Checkpoint H is separate.
+
 Task 17B mounts the approved Task 17A form in CatalogueApp and replaces the old search/filter/chip controls. SSR and browser requests now search the complete startup-prepared snapshot through the same service. The supplied mock API/catalogue and existing proxy contracts remain unchanged; sessions, video details and thumbnails retain their live API paths.
 
 ## Automatic URL-owned search — Task 21 (2026-11-07)

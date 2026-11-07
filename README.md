@@ -39,6 +39,8 @@ Le parcours ci-dessous décrit la recherche actuelle sur `dev`. Cette modificati
 4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer.
 5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**.
 
+Le sélecteur propose jusqu’à **cinq suggestions**, réparties entre métiers et mots-clés de titre. On peut sélectionner jusqu’à **dix critères métier/titre**, y compris une ancienne recherche `q`, en plus du public et du casque. Les options sans vidéo correspondante sont indisponibles ; retirer un critère ou choisir une valeur Tous reste possible.
+
 ![Catalogue sur ordinateur avec les filtres visibles et le brouillon à droite](docs/screenshots/desktop-catalogue.png)
 *Le catalogue et la séance restent consultables ensemble sur ordinateur.*
 
@@ -67,13 +69,13 @@ Le parcours ci-dessous décrit la recherche actuelle sur `dev`. Cette modificati
 
 ## Stack technique et organisation
 
-**Astro avec son outillage Vite**, React 18 et TypeScript strict : Astro prend en charge les pages et les routes serveur ; React porte les interactions. Une fine couche BFF (Backend For Frontend) relaie les appels du navigateur vers l’API fournie et garde son adresse côté serveur.
+**Astro avec son outillage Vite**, React 18 et TypeScript strict : Astro prend en charge les pages et les routes serveur ; React porte les interactions. Une couche BFF (Backend For Frontend) garde l’adresse de l’API côté serveur. La recherche utilise le catalogue et le dictionnaire préparés au démarrage d’Astro ; les détails vidéo, vignettes et séances continuent de passer par l’API fournie.
 
 Zod valide les données externes et persistées. TanStack Query gère les données distantes ; Nano Stores partage le brouillon entre les îlots React. Tailwind, des primitives locales issues de shadcn/Base UI et Heroicons forment la couche d’interface. Les filtres et la pagination restent dans l’URL.
 
 Voir [l’architecture](docs/architecture.md) et [le contrat de l’API](API.md).
 
-Le [diagramme d’architecture](docs/architecture/architecture.svg) et [son explication](docs/architecture/README.md), réalisés après l’implémentation, décrivent l’application livrée et ne constituent pas une spécification pour les évolutions futures.
+Le [diagramme d’architecture](docs/architecture/architecture.svg) et [son explication](docs/architecture/README.md), réalisés après l’implémentation, décrivent la version `v1.0.1`, avant la recherche actuelle ; le cache de démarrage et le service de recherche ne figurent pas sur cet instantané historique.
 
 ## Vérifier
 
@@ -83,7 +85,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-`verify` regroupe formatage, ESLint, vérification Astro/TypeScript stricte, les tests unitaires/composants et build serveur. La suite navigateur démarre ses propres services sur les ports **4100 et 4323**, couvre ordinateur, tablette et mobile, et conserve les traces en cas d’échec. Le [protocole de vérification](docs/delivery-verification.md) décrit les parcours, les résultats et leurs limites.
+`verify` regroupe formatage, ESLint, vérification Astro/TypeScript stricte, les tests unitaires/composants et build serveur. La suite navigateur démarre ses propres services sur les ports **4100 et 4323**, couvre ordinateur, tablette et mobile, et conserve les traces en cas d’échec. Les scénarios de démarrage utilisent aussi leurs propres ports temporaires ; ils ne sont pas exécutés en mode `PLAYWRIGHT_BASE_URL`. La [vérification finale de la recherche](docs/search-verification.md) décrit les parcours et leurs limites, y compris le démarrage avant l’API et la récupération. Le [protocole initial](docs/delivery-verification.md) conserve les résultats de la livraison d’origine.
 
 L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier, focus, libellés, contraste, réduction des mouvements et débordements. Les contrôles compacts de séance mesurent 36px de haut et satisfont le minimum AA de 24px. Ces vérifications **ne constituent pas une déclaration de conformité WCAG/RGAA** ; aucun audit exhaustif avec lecteur d’écran n’est revendiqué. Voir [le détail des audits](docs/accessibility-audit.md).
 

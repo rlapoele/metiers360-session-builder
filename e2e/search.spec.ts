@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import {
   CatalogueSearchPageSchema,
   CatalogueSuggestionsSchema,
@@ -135,7 +136,7 @@ test('restores selected appellations through SSR, reload and browser history', a
 
 test('disables conflicting title choices, automatically applies removals and preserves explicit keyword AND links', async ({
   page,
-}) => {
+}, info) => {
   await page.goto('/');
   await ready(page);
   await page.getByRole('button', { name: 'Suivant', exact: true }).click();
@@ -158,6 +159,25 @@ test('disables conflicting title choices, automatically applies removals and pre
         .evaluate((element) => getComputedStyle(element).color),
     ).toBe(labelColor);
   }
+  const scoped = await new AxeBuilder({ page })
+    .include('[data-slot="keyword-selector"]')
+    .include('[role="listbox"]')
+    .analyze();
+  await info.attach('axe-open-keyword-scoped', {
+    body: JSON.stringify(scoped, null, 2),
+    contentType: 'application/json',
+  });
+  expect(scoped.violations).toEqual([]);
+  // Diagnostic full-page evidence stays visible; the library's open-popup
+  // focus-hiding findings are not reclassified as a whole-page pass.
+  const full = await new AxeBuilder({ page }).analyze();
+  await info.attach('axe-open-keyword-full-page', {
+    body: JSON.stringify(full, null, 2),
+    contentType: 'application/json',
+  });
+  console.log(
+    `[open-keyword ${info.project.name}] ${JSON.stringify(full.violations.map((item) => ({ id: item.id, nodes: item.nodes.length })))}`,
+  );
   await keywords.press('Escape');
   await chooseTitle(page, 'Omar');
   await keywords.fill('Hugo');

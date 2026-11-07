@@ -4,6 +4,8 @@ const externalBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
 
 export default defineConfig({
   testDir: './e2e',
+  // Hosted checks must not launch local cold-start processes.
+  testIgnore: externalBaseUrl ? ['**/startup.spec.ts'] : undefined,
   timeout: 120_000,
   expect: { timeout: 15_000 },
   workers: 1,

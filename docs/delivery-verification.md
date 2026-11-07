@@ -2,6 +2,8 @@
 
 Date: 2026-10-25. Application baseline: `cecaac0` plus the Task 10 changes under review. Task 11 had not started at this Task 10 snapshot; its later authorisation, deployment and public checks are recorded in [deployment.md](deployment.md).
 
+**Current search follow-up:** this document preserves Task 10 evidence. Use [Task 18 search verification](search-verification.md) for the current automatic search, contextual availability and startup/recovery regression handoff.
+
 ## Reproduce the checks
 
 Prerequisites: Node >=22.23.4, npm, and the browser installed by Playwright. Commands from the repository root:

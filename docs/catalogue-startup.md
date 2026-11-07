@@ -1,5 +1,7 @@
 # Catalogue preparation at server startup
 
+Final regression/handoff: [Task 18 evidence and limits](search-verification.md). Dated implementation evidence below remains historical; candidate acceptance at Checkpoint H is separate.
+
 Task 14B, 2026-11-06. Catalogue and dictionary preparation now starts automatically in development and in the built Node server. Search endpoints/UI are still later tasks: current catalogue pages continue using their existing API requests.
 
 ## Startup ownership
