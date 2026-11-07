@@ -31,7 +31,7 @@ npm start
 
 ## Utiliser l’application
 
-Le parcours et les captures ci-dessous correspondent à la version actuelle sur `dev` ; leur mise à jour ne déploie pas ces évolutions sur la démonstration en ligne.
+Le parcours et les captures ci-dessous correspondent à la version **1.1.0**, disponible sur la démonstration en ligne.
 
 1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats s’actualisent automatiquement à chaque sélection ou retrait de critère.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
