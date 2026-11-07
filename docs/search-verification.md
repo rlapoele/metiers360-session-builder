@@ -1,8 +1,8 @@
 # Revamped search — Task 18 verification and handoff
 
-Date: 2026-11-07. Starting point: clean `dev` at `e05e0c8` (`feat: apply catalogue search automatically`). Tasks 12–17B and 19–21 supply the implementation; Task 18 consolidates regression evidence and current documentation. Candidate acceptance at Checkpoint H is separate. No release or deployment is included.
+Date: 2026-11-07. Starting point: clean `dev` at `e05e0c8` (`feat: apply catalogue search automatically`). Tasks 12–17B and 19–21 supply the implementation; Task 18 consolidates regression evidence and current documentation. Checkpoint H was subsequently explicitly accepted on 2026-11-07 with the documented accessibility limitations deferred. No release or deployment is included.
 
-Status: **Task 18 technically complete and verified; Checkpoint H awaits candidate review.** Results below come from this run.
+Status: **Task 18 technically complete and verified; Checkpoint H accepted with documented accessibility limitations deferred (2026-11-07).** Results below come from this run.
 
 ## Current behaviour
 
@@ -89,7 +89,7 @@ No exhaustive native Firefox, VoiceOver/other screen-reader, zoom or WCAG/RGAA c
 
 ## Open-popup review and deferred follow-up (2026-11-07)
 
-**Candidate decision:** leave the current application/tests as they are for now and record the findings/recommendations. No accessibility remediation or further investigation is authorised by this note. Deferring work does not resolve the findings, establish conformance or constitute acceptance of Checkpoint H.
+**Earlier candidate deferral:** leave the current application/tests as they are for now and record the findings/recommendations. No accessibility remediation or further investigation is authorised by this note. That deferral alone did not resolve findings, establish conformance or constitute Checkpoint H acceptance; the subsequent explicit acceptance is recorded below.
 
 The recorded rule counts above describe affected nodes, not that many independent defects. Inspection of the installed Base UI 1.9 implementation identifies a likely shared cause: our input is outside the popup, and that path uses a focus manager which hides surrounding content from assistive technology while suggestions are open. The public Combobox modal option already defaults to false; setting it explicitly to false would not bypass that internal path. See [the versioned popup implementation](https://github.com/mui/base-ui/blob/v1.9.0/packages/react/src/combobox/popup/ComboboxPopup.tsx).
 
@@ -107,8 +107,16 @@ Existing browser checks passed selection, Escape, Tab dismissal, focus behaviour
 
 If work resumes, start from this evidence and validate the current installed version/behaviour before choosing a fix. The recommendation remains deferred until the candidate explicitly requests that follow-up.
 
+## Checkpoint H acceptance (2026-11-07)
+
+The candidate explicitly accepted Checkpoint H for the current revamped search on `dev`, with the documented accessibility limitations deferred. This supersedes the previous pending-review/sign-off status and accepts the delivered implementation with those recorded limitations.
+
+The aria-hidden-focus, page-has-heading-one and region findings remain unresolved. Their recorded impacts and recommendations remain available above; native screen-reader validation and any remediation are deferred, not authorised. Acceptance is not an accessibility-conformance claim, finding resolution or instruction to alter the current application/tests.
+
+No commit, push, release promotion or deployment is authorised. Await a later explicit instruction for further work or delivery actions.
+
 ## Documentation and candidate handoff
 
 Current authorities are [the agreed search contract](../tasks/search-contract.md), [dictionary rules](search-dictionary-rules.md), [current architecture](architecture.md), [startup/log guide](catalogue-startup.md), [HTTP service](catalogue-search-service.md), [form](catalogue-search-form.md), [selector](keyword-selector.md) and [integration](catalogue-search-integration.md). Original brief/wireframes and the dated v1.0.1 diagram are preserved as history; the old diagram does not depict the startup snapshot, dictionary or current search service.
 
-Checkpoint H remains the candidate's review/acceptance of the complete search on `dev`, including its recorded accessibility limits. Nothing is staged, committed, pushed, released or deployed by this task. The public demo and original screenshots are not claimed to reflect these local changes. A new clean-install rehearsal, dependency audit and hosted/Firefox verification were not part of this run; dated Task 10/11 evidence remains separate.
+Checkpoint H is accepted with the documented accessibility limitations deferred, as recorded above. Nothing is staged, committed, pushed, released or deployed by this task. The public demo and original screenshots are not claimed to reflect these local changes. A new clean-install rehearsal, dependency audit and hosted/Firefox verification were not part of this run; dated Task 10/11 evidence remains separate.

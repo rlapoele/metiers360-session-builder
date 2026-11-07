@@ -40,6 +40,9 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
+**Latest candidate decision — Checkpoint H accepted, 2026-11-07:** The candidate explicitly accepts the complete revamped search on `dev` with the [documented accessibility limitations](search-verification.md#checkpoint-h-acceptance-2026-11-07) deferred. This supersedes the earlier pending-acceptance status. Task 18 remains verified; the open-popup findings remain unresolved and native screen-reader investigation/remediation remains deferred, requiring a future explicit instruction. Acceptance is not a WCAG/RGAA conformance claim or authorisation for further implementation. Leave the application/tests unchanged and await a new instruction. No commit, push, release promotion or deployment is authorised by this decision. Earlier notes below are historical.
+
+
 **Latest candidate decision — 2026-11-07:** Leave the current application/tests unchanged for now. The [open-popup findings, user-impact assessment and recommendations](search-verification.md#open-popup-review-and-deferred-follow-up-2026-11-07) are recorded; remediation and native screen-reader investigation are deferred, not authorised. Prioritise validating/resolving aria-hidden-focus before unconditional Checkpoint H acceptance; heading/landmark findings may be secondary symptoms. Keyboard/touch checks pass, but actual screen-reader impact is still unverified. This deferral is not a finding resolution, conformance claim or Checkpoint H sign-off. Await an explicit candidate instruction before resuming that work.
 
 
