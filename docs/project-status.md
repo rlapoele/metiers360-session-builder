@@ -40,6 +40,9 @@ This file records transient project state that does not belong in the stable arc
 
 ## Next action
 
+**README/screenshots refresh — 2026-11-07:** The candidate requested a concise description of the revamped search and refreshed documentation images. README now explains automatic selection/removal, grouped suggestions, métier OR versus other-criteria AND, selection limits and unavailable options. The existing desktop catalogue, tablet details and mobile finalisation captures are refreshed from the local application; capture mode uses a clean keyword/headset example and a readable session name. All six screenshot-mode browser scenarios and the final desktop recapture passed; npm run verify passed. This documentation refresh does not change the accepted application, deferred accessibility limitations or deployment state. No commit/push/deployment is included.
+
+
 **Latest candidate decision — Checkpoint H accepted, 2026-11-07:** The candidate explicitly accepts the complete revamped search on `dev` with the [documented accessibility limitations](search-verification.md#checkpoint-h-acceptance-2026-11-07) deferred. This supersedes the earlier pending-acceptance status. Task 18 remains verified; the open-popup findings remain unresolved and native screen-reader investigation/remediation remains deferred, requiring a future explicit instruction. Acceptance is not a WCAG/RGAA conformance claim or authorisation for further implementation. Leave the application/tests unchanged and await a new instruction. No commit, push, release promotion or deployment is authorised by this decision. Earlier notes below are historical.
 
 

@@ -221,9 +221,31 @@ test('prepare, persist, order, save and review a session', async ({
     .getByRole('heading', { level: 3 })
     .allTextContents();
   await scan(page, info, 'draft');
-  if (info.project.name === 'desktop') {
+  if (info.project.name === 'desktop' && process.env.CAPTURE_README === '1') {
+    await page
+      .getByRole('button', { name: 'Effacer tous les critères' })
+      .click();
+    await expect(
+      page.getByText('204 vidéos trouvées', { exact: true }),
+    ).toBeVisible();
+    const keywords = page.getByRole('combobox', {
+      name: 'Métiers ou mots-clés',
+    });
+    await keywords.fill('Omar');
+    await page
+      .getByRole('group', { name: 'Titre de vidéo', exact: true })
+      .getByRole('option', { name: 'Omar', exact: true })
+      .click();
+    await page.getByLabel('Casque VR', { exact: true }).selectOption('pico-4');
+    await expect(page.getByText(/résultats précédents/)).toHaveCount(0);
     await page.evaluate(() => scrollTo(0, 0));
     await capture(page, info, 'catalogue');
+    await page
+      .getByRole('button', { name: 'Effacer tous les critères' })
+      .click();
+    await expect(
+      page.getByText('204 vidéos trouvées', { exact: true }),
+    ).toBeVisible();
   }
   await draft
     .getByRole('button', { name: 'Finaliser ma séance', exact: true })
@@ -246,7 +268,11 @@ test('prepare, persist, order, save and review a session', async ({
     .selectOption('pico-4');
   await scan(page, info, 'finalisation');
   await fieldBoundaries(page, info, 'finalisation');
-  if (info.project.name === 'mobile') await capture(page, info, 'finalisation');
+  if (info.project.name === 'mobile' && process.env.CAPTURE_README === '1') {
+    await name.fill('Atelier découverte des métiers');
+    await capture(page, info, 'finalisation');
+    await name.fill(sessionName);
+  }
   for (let attempt = 0; attempt < 6; attempt++) {
     const response = page.waitForResponse(
       (value) =>

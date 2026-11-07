@@ -31,18 +31,18 @@ npm start
 
 ## Utiliser l’application
 
-Le parcours ci-dessous décrit la recherche actuelle sur `dev`. Cette modification ne déploie pas ces évolutions ; les captures conservées plus bas illustrent la version livrée initialement.
+Le parcours et les captures ci-dessous correspondent à la version actuelle sur `dev` ; leur mise à jour ne déploie pas ces évolutions sur la démonstration en ligne.
 
-1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats se mettent à jour automatiquement à chaque sélection ou retrait ; saisir du texte affiche des suggestions sans lancer de recherche libre.
+1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats s’actualisent automatiquement à chaque sélection ou retrait de critère.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
 3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur lors d’un rechargement ou d’un changement de page.
 4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer.
 5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**.
 
-Le sélecteur propose jusqu’à **cinq suggestions**, réparties entre métiers et mots-clés de titre. On peut sélectionner jusqu’à **dix critères métier/titre**, y compris une ancienne recherche `q`, en plus du public et du casque. Les options sans vidéo correspondante sont indisponibles ; retirer un critère ou choisir une valeur Tous reste possible.
+Saisir un terme affiche jusqu’à **cinq suggestions** ; il faut en choisir une pour ajouter un critère. Les métiers se combinent avec **OU** ; les mots-clés de titre, le public et le casque avec **ET**. Jusqu’à **dix critères métier/titre** peuvent être sélectionnés. Les choix sans vidéo correspondante sont désactivés ; les critères restent retirables.
 
 ![Catalogue sur ordinateur avec les filtres visibles et le brouillon à droite](docs/screenshots/desktop-catalogue.png)
-*Le catalogue et la séance restent consultables ensemble sur ordinateur.*
+*Recherche automatique : Public → Métiers ou mots-clés → Casque VR, avec les critères regroupés sous les contrôles et la séance à droite.*
 
 <details>
 <summary>Voir les vues tablette et mobile</summary>
@@ -91,7 +91,7 @@ L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier
 
 ## Limites et suite
 
-Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. La recherche combine les métiers avec OU, puis les mots-clés de titre, le public et le casque avec ET. Le dictionnaire est déterministe et conserve les prénoms ainsi que les appellations choisies ; il ne produit pas de recherche sémantique. Les anciennes URL utilisant `q` conservent leur recherche par sous-chaîne du titre. Astro prépare le catalogue et le dictionnaire au démarrage, puis les conserve pendant la durée du processus, avec chargement et récupération en cas d’échec.
+Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. Le dictionnaire est déterministe et conserve les prénoms ainsi que les appellations choisies ; il ne produit pas de recherche sémantique. Les anciennes URL utilisant `q` conservent leur recherche par sous-chaîne du titre et comptent dans la limite de dix critères. Astro prépare le catalogue et le dictionnaire au démarrage, puis les conserve pendant la durée du processus, avec chargement et récupération en cas d’échec.
 
 Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. La démo déployée sur Railway reste un environnement d’exercice.
 
