@@ -114,7 +114,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
           <h2 className="text-xl font-semibold">Aucune vidéo trouvée</h2>
           <p className="text-muted-foreground mx-auto mt-2 max-w-lg text-sm leading-6">
             {hasCriteria
-              ? 'Aucune vidéo ne correspond à tous les critères sélectionnés. Modifiez les critères, puis lancez la recherche.'
+              ? 'Aucune vidéo ne correspond à cette combinaison de critères. Modifiez les critères pour actualiser les résultats.'
               : 'Aucune vidéo n’est disponible dans le catalogue.'}
           </p>
         </div>

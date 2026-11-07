@@ -307,7 +307,7 @@ test('recover from catalogue failure and keep narrow text readable', async ({
   );
   // Conflicting saved URLs remain valid and recoverable. The contextual picker
   // now blocks choosing Hugo after Omar, so load that explicit AND case directly.
-  await page.goto('/?title=hugo&title=omar');
+  await page.goto('/?title=hugo&title=omar&title=jardinier');
   await expect(
     page.locator('astro-island[component-export="CatalogueApp"]'),
   ).not.toHaveAttribute('ssr', '');
@@ -320,7 +320,12 @@ test('recover from catalogue failure and keep narrow text readable', async ({
       json: { error: 'upstream_error', message: 'Service indisponible.' },
     });
   });
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  await page
+    .getByRole('button', {
+      name: 'Retirer le critère Titre de vidéo : jardinier',
+      exact: true,
+    })
+    .click();
   await expect(
     page.getByRole('heading', { name: 'Le catalogue ne peut pas être chargé' }),
   ).toBeVisible();

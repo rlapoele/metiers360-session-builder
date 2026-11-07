@@ -1,5 +1,5 @@
 import { EyeIcon, UserGroupIcon } from '@heroicons/react/24/outline';
-import { useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 import { Button } from '@components/ui/button';
 import { NativeSelect, NativeSelectOption } from '@components/ui/native-select';
@@ -8,10 +8,6 @@ import {
   SearchCriteriaChips,
   type ChipRemoval,
 } from '@components/catalogue/SearchCriteriaChips';
-import {
-  useCatalogueAvailability,
-  type CatalogueAvailabilityContext,
-} from '@features/catalogue/use-catalogue-availability';
 import type { CatalogueReferences } from '@features/catalogue/api';
 import {
   addKeyword,
@@ -19,42 +15,43 @@ import {
   keywordIdentity,
   orderedKeywords,
   type SearchFormCriteria,
+  type SearchAvailabilityState,
 } from '@features/catalogue/search-form';
 
 interface Props {
-  applied: SearchFormCriteria;
+  criteria: SearchFormCriteria;
   references?: Pick<CatalogueReferences, 'audiences' | 'headsets'>;
-  availabilityContext?: CatalogueAvailabilityContext;
-  onSubmit: (criteria: SearchFormCriteria) => void;
+  availability?: SearchAvailabilityState;
+  focusOnReady?: boolean;
+  onChange: (criteria: SearchFormCriteria) => void;
   disabled?: boolean;
-  /** Future history/page restoration can reset pending edits even if criteria are equal. */
+  /** Reset temporary text/disclosures on history restoration or explicit URL repair. */
   resetKey?: string;
 }
 export function CatalogueSearchForm(props: Props) {
-  return (
-    <SearchFormContent
-      key={`${props.resetKey ?? ''}:${formCriteriaIdentity(props.applied)}`}
-      {...props}
-    />
-  );
+  return <SearchFormContent key={props.resetKey ?? ''} {...props} />;
 }
 function SearchFormContent({
-  applied,
+  criteria,
   references,
-  availabilityContext,
-  onSubmit,
+  availability = {
+    loading: false,
+    error: false,
+    canRetry: false,
+    retry: () => {},
+  },
+  onChange,
+  focusOnReady = false,
   disabled = false,
 }: Props) {
   const id = useId();
-  const [pending, setPending] = useState<SearchFormCriteria>(() => ({
-    ...applied,
-    selected: [...applied.selected],
-  }));
-  const availability = useCatalogueAvailability(
-    pending,
-    !disabled && Boolean(references),
-    availabilityContext,
-  );
+  function commit(next: SearchFormCriteria) {
+    if (
+      !disabled &&
+      formCriteriaIdentity(next) !== formCriteriaIdentity(criteria)
+    )
+      onChange({ ...next, selected: orderedKeywords(next.selected) });
+  }
   const optionInfo = availability.current ?? availability.previous;
   function optionState(group: 'audiences' | 'headsets', key: string) {
     const info = optionInfo?.[group].find((item) => item.id === key);
@@ -69,26 +66,30 @@ function SearchFormContent({
     };
   }
   const [text, setText] = useState('');
-  const [error, setError] = useState<string>();
   const audienceRef = useRef<HTMLSelectElement>(null);
   const headsetRef = useRef<HTMLSelectElement>(null);
   const keywordRef = useRef<HTMLInputElement>(null);
-  const modified =
-    formCriteriaIdentity(pending) !== formCriteriaIdentity(applied);
+  const focusedAfterRepair = useRef(false);
+  useEffect(() => {
+    if (focusOnReady && !disabled && !focusedAfterRepair.current) {
+      audienceRef.current?.focus();
+      focusedAfterRepair.current = true;
+    }
+  }, [focusOnReady, disabled]);
   function remove(removal: ChipRemoval) {
     if (removal.category === 'keyword') {
-      setPending((current) => ({
-        ...current,
-        selected: current.selected.filter(
+      commit({
+        ...criteria,
+        selected: criteria.selected.filter(
           (item) => keywordIdentity(item) !== removal.identity,
         ),
-      }));
+      });
       keywordRef.current?.focus();
     } else if (removal.category === 'legacy') {
-      setPending((current) => ({ ...current, legacyQuery: undefined }));
+      commit({ ...criteria, legacyQuery: undefined });
       keywordRef.current?.focus();
     } else {
-      setPending((current) => ({ ...current, [removal.category]: undefined }));
+      commit({ ...criteria, [removal.category]: undefined });
       const control = (
         removal.category === 'audience' ? audienceRef : headsetRef
       ).current;
@@ -97,31 +98,17 @@ function SearchFormContent({
     }
   }
   function clear() {
-    setPending({ selected: [] });
+    commit({ selected: [] });
     setText('');
-    setError(undefined);
     if (audienceRef.current && !audienceRef.current.disabled)
       audienceRef.current.focus();
     else keywordRef.current?.focus();
-  }
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (disabled) return;
-    if (text.trim()) {
-      setError(
-        'Choisissez une suggestion ou effacez le texte avant de rechercher.',
-      );
-      keywordRef.current?.focus();
-      return;
-    }
-    setError(undefined);
-    onSubmit({ ...pending, selected: orderedKeywords(pending.selected) });
   }
   return (
     <form
       role="search"
       aria-label="Rechercher des vidéos"
-      onSubmit={submit}
+      onSubmit={(event) => event.preventDefault()}
       className="catalogue-search-form min-w-0 space-y-4"
     >
       <div className="catalogue-search-fields grid min-w-0 items-start gap-4">
@@ -136,15 +123,15 @@ function SearchFormContent({
           <NativeSelect
             ref={audienceRef}
             id={`${id}-audience`}
-            value={pending.audience ?? ''}
+            value={criteria.audience ?? ''}
             disabled={disabled || !references}
             aria-describedby={`${id}-availability`}
             onChange={(event) => {
               const value = event.currentTarget.value;
-              setPending((current) => ({
-                ...current,
+              commit({
+                ...criteria,
                 audience: value || undefined,
-              }));
+              });
             }}
           >
             <NativeSelectOption value="">Tous les publics</NativeSelectOption>
@@ -165,19 +152,16 @@ function SearchFormContent({
             value={text}
             onValueChange={(value) => {
               setText(value);
-              setError(undefined);
             }}
-            selected={pending.selected}
+            selected={criteria.selected}
             onSelect={(item) => {
-              setPending((current) => addKeyword(current, item));
-              setError(undefined);
+              commit(addKeyword(criteria, item));
             }}
-            audience={pending.audience}
-            headset={pending.headset}
-            legacyQuery={pending.legacyQuery}
+            audience={criteria.audience}
+            headset={criteria.headset}
+            legacyQuery={criteria.legacyQuery}
             inputRef={keywordRef}
             disabled={disabled}
-            error={error}
           />
         </div>
         <div className="search-form-headset min-w-0 space-y-2">
@@ -191,15 +175,15 @@ function SearchFormContent({
           <NativeSelect
             ref={headsetRef}
             id={`${id}-headset`}
-            value={pending.headset ?? ''}
+            value={criteria.headset ?? ''}
             disabled={disabled || !references}
             aria-describedby={`${id}-availability`}
             onChange={(event) => {
               const value = event.currentTarget.value;
-              setPending((current) => ({
-                ...current,
+              commit({
+                ...criteria,
                 headset: value || undefined,
-              }));
+              });
             }}
           >
             <NativeSelectOption value="">Tous les casques</NativeSelectOption>
@@ -215,13 +199,6 @@ function SearchFormContent({
             ))}
           </NativeSelect>
         </div>
-        <Button
-          type="submit"
-          disabled={disabled}
-          className="search-form-submit w-full"
-        >
-          Rechercher
-        </Button>
       </div>
       <div className="min-w-0 space-y-2">
         <p
@@ -229,11 +206,13 @@ function SearchFormContent({
           role="status"
           className="text-muted-foreground text-sm wrap-anywhere"
         >
-          {availability.loading
-            ? 'Mise à jour de la disponibilité. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
-            : availability.error
-              ? 'La disponibilité ne peut pas être actualisée. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
-              : 'Les options sans vidéo avec ces critères sont indisponibles.'}
+          {disabled
+            ? 'Les critères ne sont pas encore disponibles.'
+            : availability.loading
+              ? 'Recherche en cours. Mise à jour de la disponibilité. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
+              : availability.error
+                ? 'La disponibilité ne peut pas être actualisée. Les indications précédentes sont provisoires ; les options restent sélectionnables.'
+                : 'Les options sans vidéo avec ces critères sont indisponibles.'}
         </p>
         {availability.error && availability.canRetry && (
           <Button
@@ -249,18 +228,13 @@ function SearchFormContent({
         )}
       </div>
       <SearchCriteriaChips
-        criteria={pending}
+        criteria={criteria}
         hasUnselectedText={Boolean(text)}
         references={references}
         disabled={disabled}
         onRemove={remove}
         onClear={clear}
       />
-      <p role="status" className="text-muted-foreground text-sm">
-        {modified
-          ? 'Critères modifiés — lancez la recherche pour les appliquer.'
-          : ''}
-      </p>
     </form>
   );
 }

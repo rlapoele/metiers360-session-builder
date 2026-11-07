@@ -31,7 +31,9 @@ npm start
 
 ## Utiliser l’application
 
-1. Rechercher une vidéo **par titre**, puis filtrer par métier, casque ou public.
+Le parcours ci-dessous décrit la recherche actuelle sur `dev`. Cette modification ne déploie pas ces évolutions ; les captures conservées plus bas illustrent la version livrée initialement.
+
+1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats se mettent à jour automatiquement à chaque sélection ou retrait ; saisir du texte affiche des suggestions sans lancer de recherche libre.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
 3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur lors d’un rechargement ou d’un changement de page.
 4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer.
@@ -81,13 +83,13 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-`verify` regroupe formatage, ESLint, vérification Astro/TypeScript stricte, **95 tests unitaires/composants** et build serveur. La suite navigateur démarre ses propres services sur les ports **4100 et 4323**, couvre ordinateur, tablette et mobile, et conserve les traces en cas d’échec. Le [protocole de vérification](docs/delivery-verification.md) décrit les parcours, les résultats et leurs limites.
+`verify` regroupe formatage, ESLint, vérification Astro/TypeScript stricte, les tests unitaires/composants et build serveur. La suite navigateur démarre ses propres services sur les ports **4100 et 4323**, couvre ordinateur, tablette et mobile, et conserve les traces en cas d’échec. Le [protocole de vérification](docs/delivery-verification.md) décrit les parcours, les résultats et leurs limites.
 
 L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier, focus, libellés, contraste, réduction des mouvements et débordements. Les contrôles compacts de séance mesurent 36px de haut et satisfont le minimum AA de 24px. Ces vérifications **ne constituent pas une déclaration de conformité WCAG/RGAA** ; aucun audit exhaustif avec lecteur d’écran n’est revendiqué. Voir [le détail des audits](docs/accessibility-audit.md).
 
 ## Limites et suite
 
-Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. La recherche suit le contrat fourni : sous-chaîne du titre, sans recherche sémantique.
+Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. La recherche combine les métiers avec OU, puis les mots-clés de titre, le public et le casque avec ET. Le dictionnaire est déterministe et conserve les prénoms ainsi que les appellations choisies ; il ne produit pas de recherche sémantique. Les anciennes URL utilisant `q` conservent leur recherche par sous-chaîne du titre. Astro prépare le catalogue et le dictionnaire au démarrage, puis les conserve pendant la durée du processus, avec chargement et récupération en cas d’échec.
 
 Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. La démo déployée sur Railway reste un environnement d’exercice.
 

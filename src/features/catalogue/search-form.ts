@@ -7,7 +7,7 @@ import {
   normalizeSearchText,
 } from '@features/catalogue/search-dictionary-rules';
 
-/** Pending form values; applied URL/result ownership belongs to the parent. */
+/** Selected URL criteria; result ownership belongs to the parent. */
 export type SearchFormCriteria = Omit<KeywordSuggestionRequest, 'term'>;
 
 export function keywordIdentity(item: KeywordSuggestion) {
@@ -47,4 +47,13 @@ export function addKeyword(
   )
     return criteria;
   return { ...criteria, selected: [...criteria.selected, item] };
+}
+
+export interface SearchAvailabilityState {
+  current?: import('@features/catalogue/search-contracts').CatalogueSearchPage['context']['availability'];
+  previous?: import('@features/catalogue/search-contracts').CatalogueSearchPage['context']['availability'];
+  loading: boolean;
+  error: boolean;
+  canRetry: boolean;
+  retry: () => void;
 }

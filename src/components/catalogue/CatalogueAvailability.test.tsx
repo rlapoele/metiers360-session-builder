@@ -2,10 +2,9 @@
 import '@testing-library/jest-dom/vitest';
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { CatalogueSearchForm } from '@components/catalogue/CatalogueSearchForm';
-import type { CatalogueAvailabilityContext } from '@features/catalogue/use-catalogue-availability';
+import type { CatalogueSearchPage } from '@features/catalogue/search-contracts';
+import { CatalogueApp } from '@components/catalogue/CatalogueApp';
 
 const references = {
   audiences: {
@@ -21,19 +20,20 @@ const references = {
     ],
   },
 };
-const seed: CatalogueAvailabilityContext = {
-  criteria: { selected: [], audience: 'college', legacyQuery: 'Omar' },
-  availability: {
-    audiences: [
-      { id: 'college', count: 0, available: false },
-      { id: 'tout-public', count: 1, available: true },
-    ],
-    headsets: [
-      { id: 'pico-4', count: 1, available: true },
-      { id: 'quest', count: 0, available: false },
-    ],
-  },
-};
+const seed: Pick<CatalogueSearchPage['context'], 'criteria' | 'availability'> =
+  {
+    criteria: { selected: [], audience: 'college', legacyQuery: 'Omar' },
+    availability: {
+      audiences: [
+        { id: 'college', count: 0, available: false },
+        { id: 'tout-public', count: 1, available: true },
+      ],
+      headsets: [
+        { id: 'pico-4', count: 1, available: true },
+        { id: 'quest', count: 0, available: false },
+      ],
+    },
+  };
 function reply(context = seed) {
   return new Response(
     JSON.stringify({
@@ -47,21 +47,24 @@ function reply(context = seed) {
   );
 }
 function setup() {
-  const client = new QueryClient({
-    defaultOptions: { queries: { retry: false, gcTime: 0 } },
-  });
-  const onSubmit = vi.fn();
+  window.history.replaceState({}, '', '/?audience=college&q=Omar');
   render(
-    <QueryClientProvider client={client}>
-      <CatalogueSearchForm
-        applied={seed.criteria}
-        references={references}
-        availabilityContext={seed}
-        onSubmit={onSubmit}
-      />
-    </QueryClientProvider>,
+    <CatalogueApp
+      initialSearch="audience=college&q=Omar"
+      initialResult={{
+        status: 200,
+        body: {
+          data: [],
+          meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
+          context: {
+            ...seed,
+            references: { ...references, jobs: { data: [], source: 'test' } },
+          },
+        },
+      }}
+    />,
   );
-  return { user: userEvent.setup(), onSubmit };
+  return { user: userEvent.setup() };
 }
 afterEach(() => {
   cleanup();
@@ -74,7 +77,7 @@ describe('accessible contextual dropdowns', () => {
       'fetch',
       vi.fn(async () => reply()),
     );
-    const { user, onSubmit } = setup();
+    const { user } = setup();
     const college = screen.getByRole('option', { name: /Collégiens/ });
     expect(college).toBeDisabled();
     expect(college).toHaveTextContent('Aucune vidéo avec ces critères');
@@ -94,7 +97,9 @@ describe('accessible contextual dropdowns', () => {
     );
     expect(screen.getByLabelText('Public')).toHaveValue('');
     expect(screen.getByLabelText('Public')).toHaveFocus();
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole('button', { name: 'Rechercher' }),
+    ).not.toBeInTheDocument();
     await user.click(
       screen.getByRole('button', { name: 'Effacer tous les critères' }),
     );
@@ -108,7 +113,7 @@ describe('accessible contextual dropdowns', () => {
       async () => new Response(JSON.stringify({ data: [] })),
     );
     vi.stubGlobal('fetch', fetcher);
-    const { user, onSubmit } = setup();
+    const { user } = setup();
     await user.type(
       screen.getByRole('combobox', { name: 'Métiers ou mots-clés' }),
       'jard',
@@ -122,7 +127,9 @@ describe('accessible contextual dropdowns', () => {
     expect(requested.pathname).toBe('/api/catalogue/suggestions');
     expect(requested.searchParams.get('q')).toBe('Omar');
     expect(requested.searchParams.get('audience')).toBe('college');
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole('button', { name: 'Rechercher' }),
+    ).not.toBeInTheDocument();
   });
   it('marks previous indications provisional, enables unknown alternatives during loading and offers focused recovery', async () => {
     let release!: (response: Response) => void;
@@ -133,7 +140,7 @@ describe('accessible contextual dropdowns', () => {
         }),
     );
     vi.stubGlobal('fetch', fetcher);
-    const { user, onSubmit } = setup();
+    const { user } = setup();
     await user.selectOptions(screen.getByLabelText('Casque VR'), 'pico-4');
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(1));
     expect(screen.getByRole('option', { name: /Quest/ })).toBeEnabled();
@@ -153,7 +160,9 @@ describe('accessible contextual dropdowns', () => {
       expect(screen.getByRole('option', { name: /Quest/ })).toBeDisabled(),
     );
     expect(screen.getByLabelText('Public')).toHaveFocus();
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole('button', { name: 'Rechercher' }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText('Public')).toHaveAccessibleDescription(
       /options sans vidéo/,
     );

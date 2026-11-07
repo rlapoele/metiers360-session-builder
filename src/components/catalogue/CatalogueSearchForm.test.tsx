@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen, within } from '@testing-library/react';
+import { useEffect, useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -35,57 +36,67 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 function setup(applied = defaults) {
-  const onSubmit = vi.fn();
+  const onChange = vi.fn();
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false, gcTime: 0 } },
   });
-  const tree = (criteria: SearchFormCriteria, resetKey?: string) => (
-    <QueryClientProvider client={client}>
-      <CatalogueSearchForm
-        applied={criteria}
-        references={references}
-        onSubmit={onSubmit}
-        resetKey={resetKey}
-      />
-    </QueryClientProvider>
+  function Harness({
+    value,
+    resetKey,
+  }: {
+    value: SearchFormCriteria;
+    resetKey?: string;
+  }) {
+    const [criteria, setCriteria] = useState(value);
+    useEffect(() => setCriteria(value), [value]);
+    return (
+      <QueryClientProvider client={client}>
+        <CatalogueSearchForm
+          criteria={criteria}
+          references={references}
+          onChange={(next) => {
+            onChange(next);
+            setCriteria(next);
+          }}
+          resetKey={resetKey}
+        />
+      </QueryClientProvider>
+    );
+  }
+  const tree = (value: SearchFormCriteria, resetKey?: string) => (
+    <Harness value={value} resetKey={resetKey} />
   );
   const rendered = render(tree(applied));
   return {
-    onSubmit,
+    onChange,
     user: userEvent.setup(),
     rerender: (criteria: SearchFormCriteria, resetKey?: string) =>
       rendered.rerender(tree(criteria, resetKey)),
   };
 }
 
-describe('responsive pending search form', () => {
-  it('orders controls, keeps native dropdowns and stages changes until explicit submission', async () => {
-    const { user, onSubmit } = setup();
-    const controls = screen.getAllByRole('combobox');
-    expect(controls.map((control) => control.tagName)).toEqual([
-      'SELECT',
-      'INPUT',
-      'SELECT',
-    ]);
-    expect(controls[0]).toHaveAccessibleName('Public');
-    expect(controls[2]).toHaveAccessibleName('Casque VR');
+describe('responsive automatic search form', () => {
+  it('orders native controls, omits submit/pending messaging and commits dropdown choices immediately', async () => {
+    const { user, onChange } = setup();
+    expect(
+      screen.getAllByRole('combobox').map((control) => control.tagName),
+    ).toEqual(['SELECT', 'INPUT', 'SELECT']);
+    expect(
+      screen.queryByRole('button', { name: 'Rechercher' }),
+    ).not.toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText('Public'), 'tout-public');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith({
+      selected: [],
+      audience: 'tout-public',
+    });
     expect(
-      screen.getByText(
-        'Critères modifiés — lancez la recherche pour les appliquer.',
-      ),
+      screen.getByText(/Au moins un métier sélectionné doit correspondre/),
     ).toBeVisible();
-    expect(onSubmit).not.toHaveBeenCalled();
-    expect(
-      screen.getByText('Tous les critères sélectionnés doivent correspondre.'),
-    ).toBeVisible();
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
-    expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ audience: 'tout-public', selected: [] }),
-    );
+    expect(screen.queryByText(/Critères modifiés/)).not.toBeInTheDocument();
   });
-  it('shows all selected categories in one ordered chip area and removal changes pending state only', async () => {
-    const { user, onSubmit } = setup({
+  it('shows all selected categories in one ordered chip area and removal immediately commits the new selection', async () => {
+    const { user, onChange } = setup({
       audience: 'college',
       selected: [title, job],
       legacyQuery: 'ancienne recherche',
@@ -110,7 +121,7 @@ describe('responsive pending search form', () => {
     );
     expect(screen.getByLabelText('Public')).toHaveValue('');
     expect(screen.getByLabelText('Public')).toHaveFocus();
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalledTimes(1);
     await user.click(
       screen.getByRole('button', {
         name: 'Retirer le critère Métier : Garagiste',
@@ -127,7 +138,7 @@ describe('responsive pending search form', () => {
     expect(screen.getByLabelText('Casque VR')).toHaveValue('');
     expect(screen.getByLabelText('Casque VR')).toHaveFocus();
   });
-  it('requires explicit suggestion selection before submitting and focuses the input on invalid submission', async () => {
+  it('typing and Enter do not create a criterion; selecting a suggestion commits once and retains focus', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(
@@ -139,29 +150,37 @@ describe('responsive pending search form', () => {
           ),
       ),
     );
-    const { user, onSubmit } = setup();
+    const { user, onChange } = setup();
     const input = screen.getByRole('combobox', {
       name: 'Métiers ou mots-clés',
     });
     await user.type(input, 'gar');
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
-    expect(onSubmit).not.toHaveBeenCalled();
-    expect(input).toHaveFocus();
-    expect(
-      screen.getByText(
-        'Choisissez une suggestion ou effacez le texte avant de rechercher.',
-      ),
-    ).toBeVisible();
+    await user.keyboard('{Enter}');
+    expect(onChange).not.toHaveBeenCalled();
     await user.click(await screen.findByRole('option', { name: /Garagiste/ }));
-    expect(onSubmit).not.toHaveBeenCalled();
-    expect(input).toHaveValue('');
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
-    expect(onSubmit).toHaveBeenCalledWith(
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ selected: [expect.objectContaining(job)] }),
     );
+    expect(input).toHaveValue('');
+    expect(input).toHaveFocus();
   });
-  it('clear-all is pending, clears input and legacy q, and focuses Public', async () => {
-    const { user, onSubmit } = setup({
+  it('preserves unfinished text and the input node during ordinary criteria changes', async () => {
+    const { user, onChange } = setup();
+    const input = screen.getByRole('combobox', {
+      name: 'Métiers ou mots-clés',
+    });
+    await user.type(input, 'x');
+    await user.selectOptions(screen.getByLabelText('Casque VR'), 'pico-4');
+    expect(onChange).toHaveBeenCalledWith({ selected: [], headset: 'pico-4' });
+    expect(screen.getByRole('combobox', { name: 'Métiers ou mots-clés' })).toBe(
+      input,
+    );
+    expect(input).toHaveValue('x');
+    expect(screen.getByLabelText('Casque VR')).toHaveFocus();
+  });
+  it('clear-all commits empty criteria, clears input/legacy q, and focuses Public', async () => {
+    const { user, onChange } = setup({
       audience: 'college',
       headset: 'pico-4',
       selected: [job, title],
@@ -172,27 +191,26 @@ describe('responsive pending search form', () => {
     );
     expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
     expect(screen.getByLabelText('Public')).toHaveFocus();
-    expect(onSubmit).not.toHaveBeenCalled();
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
-    expect(onSubmit).toHaveBeenCalledWith({ selected: [] });
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({ selected: [] });
   });
-  it('restores submitted values on a new applied selection or navigation reset key', async () => {
+  it('restores controlled criteria without clearing text, and clears presentation on history reset', async () => {
     const { user, rerender } = setup();
-    await user.selectOptions(screen.getByLabelText('Public'), 'college');
+    const input = screen.getByRole('combobox', {
+      name: 'Métiers ou mots-clés',
+    });
+    await user.type(input, 'x');
     rerender({ selected: [job] });
     expect(screen.getByLabelText('Public')).toHaveValue('');
+    expect(input).toHaveValue('x');
+    rerender({ selected: [job] }, 'history-2');
     expect(
-      screen.queryByText(
-        'Critères modifiés — lancez la recherche pour les appliquer.',
-      ),
-    ).not.toBeInTheDocument();
-    await user.selectOptions(screen.getByLabelText('Public'), 'college');
-    rerender({ selected: [job] }, 'navigation-2');
-    expect(screen.getByLabelText('Public')).toHaveValue('');
+      screen.getByRole('combobox', { name: 'Métiers ou mots-clés' }),
+    ).toHaveValue('');
   });
   it('reveals full chip text for keyboard and touch without changing or removing the selection', async () => {
     const label = 'Appellation très longue '.repeat(12);
-    const { user, onSubmit } = setup({ selected: [{ ...job, label }] });
+    const { user, onChange } = setup({ selected: [{ ...job, label }] });
     const trigger = screen.getByRole('button', {
       name: `Afficher le libellé complet du critère Métier : ${label.trim()}`,
     });
@@ -202,7 +220,7 @@ describe('responsive pending search form', () => {
       name: 'Libellé complet du critère',
     });
     expect(within(region).getByText(label.trim())).toBeVisible();
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
     await user.click(
       within(region).getByRole('button', { name: 'Fermer le libellé complet' }),
     );
@@ -233,7 +251,7 @@ describe('responsive pending search form', () => {
     expect(addKeyword(full, job)).toBe(full);
   });
   it('allows clearing unselected input without submitting a criterion', async () => {
-    const { user, onSubmit } = setup();
+    const { user, onChange } = setup();
     const input = screen.getByRole('combobox', {
       name: 'Métiers ou mots-clés',
     });
@@ -242,7 +260,7 @@ describe('responsive pending search form', () => {
       screen.getByRole('button', { name: 'Effacer tous les critères' }),
     );
     expect(input).toHaveValue('');
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
     expect(
       screen.queryByText(
         'Critères modifiés — lancez la recherche pour les appliquer.',

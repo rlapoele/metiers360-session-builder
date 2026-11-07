@@ -782,7 +782,7 @@ describe('CatalogueApp', () => {
     ).toHaveFocus();
   });
 
-  it('writes selected keyword state to the URL and resets the page only on submitted changes', async () => {
+  it('writes selected keyword state to the URL and resets the page on committed changes', async () => {
     const user = userEvent.setup();
     const fetchMock = vi.fn<typeof fetch>(
       async (input) =>
@@ -832,8 +832,6 @@ describe('CatalogueApp', () => {
     });
     await user.type(input, 'santé');
     await user.click(await screen.findByRole('option', { name: 'Santé' }));
-    expect(window.location.search).toBe('?page=3');
-    await user.click(screen.getByRole('button', { name: 'Rechercher' }));
     expect(window.location.search).toBe('?title=sante');
     await waitFor(() =>
       expect(fetchMock).toHaveBeenCalledWith(

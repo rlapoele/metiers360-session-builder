@@ -195,7 +195,8 @@ export function SearchCriteriaChips({
         </Button>
       )}
       <p className="text-muted-foreground text-sm">
-        Tous les critères sélectionnés doivent correspondre.
+        Au moins un métier sélectionné doit correspondre. Tous les mots-clés de
+        titre et les autres critères doivent correspondre.
       </p>
     </div>
   );

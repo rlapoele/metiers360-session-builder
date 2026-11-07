@@ -101,10 +101,11 @@ function CatalogueContent(props: CataloguePageProps) {
       <div className="@container space-y-6 pb-24 xl:col-span-2 xl:pb-0">
         <div className="border-border bg-card space-y-5 rounded-lg border p-4 sm:p-5">
           <CatalogueSearchForm
-            applied={search.applied}
+            criteria={search.criteria}
             references={references}
-            availabilityContext={search.availabilityContext}
-            onSubmit={search.submit}
+            availability={search.availability}
+            focusOnReady={search.focusAfterRepair}
+            onChange={search.change}
             resetKey={String(search.revision)}
             disabled={search.disabled}
           />
@@ -129,12 +130,12 @@ function CatalogueContent(props: CataloguePageProps) {
               ))}
             </ul>
             <p>
-              Les résultats ne sont pas élargis automatiquement. Modifiez les
-              critères, puis lancez la recherche.
+              Les résultats ne sont pas élargis automatiquement. Effacez les
+              critères invalides pour relancer la recherche.
             </p>
-            {!search.repair && (
+            {search.validation && (
               <Button type="button" onClick={search.modifyInvalid}>
-                Modifier les critères
+                Réinitialiser la recherche
               </Button>
             )}
           </div>
@@ -177,10 +178,10 @@ function CatalogueContent(props: CataloguePageProps) {
           isFetching={search.isFetching}
           query={{ page: search.displayed?.meta.page ?? 1 }}
           hasCriteria={Boolean(
-            search.applied.selected.length ||
-            search.applied.audience ||
-            search.applied.headset ||
-            search.applied.legacyQuery,
+            search.criteria.selected.length ||
+            search.criteria.audience ||
+            search.criteria.headset ||
+            search.criteria.legacyQuery,
           )}
           selectedIds={selectedIds}
           jobLabelFor={(video) =>

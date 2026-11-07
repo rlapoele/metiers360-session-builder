@@ -3,7 +3,7 @@ import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { ReactNode } from 'react';
-import { useCatalogueAvailability } from '@features/catalogue/use-catalogue-availability';
+import { useCatalogueSearch } from '@features/catalogue/use-catalogue-search';
 import type { SearchFormCriteria } from '@features/catalogue/search-form';
 
 const initial = {
@@ -36,27 +36,45 @@ function setup(seed = initial) {
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={client}>{children}</QueryClientProvider>
   );
-  return renderHook(
-    ({ criteria }: { criteria: SearchFormCriteria }) =>
-      useCatalogueAvailability(criteria, true, seed),
-    {
-      wrapper,
-      initialProps: { criteria: { selected: [] } as SearchFormCriteria },
+  window.history.replaceState({}, '', '/');
+  const body = {
+    data: [],
+    meta: { page: 1, per_page: 24, total: 0, total_pages: 1 },
+    context: {
+      ...seed,
+      references: {
+        jobs: { data: [], source: 'test' },
+        audiences: { data: [] },
+        headsets: { data: [] },
+      },
     },
+  };
+  const hook = renderHook(
+    () =>
+      useCatalogueSearch({
+        initialSearch: '',
+        initialResult: { status: 200, body },
+      }),
+    { wrapper },
   );
+  return {
+    ...hook,
+    rerender: ({ criteria }: { criteria: SearchFormCriteria }) =>
+      act(() => hook.result.current.change(criteria)),
+  };
 }
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
 });
 
-describe('contextual dropdown availability', () => {
+describe('unified automatic search and availability', () => {
   it('reuses matching SSR metadata without a redundant request', () => {
     const fetcher = vi.fn();
     vi.stubGlobal('fetch', fetcher);
     const { result } = setup();
-    expect(result.current.current).toEqual(initial.availability);
-    expect(result.current.loading).toBe(false);
+    expect(result.current.availability.current).toEqual(initial.availability);
+    expect(result.current.availability.loading).toBe(false);
     expect(fetcher).not.toHaveBeenCalled();
   });
   it('releases stale disabled flags immediately, uses complete pending context and ignores obsolete responses', async () => {
@@ -90,8 +108,8 @@ describe('contextual dropdown availability', () => {
       },
     });
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(1));
-    expect(result.current.current).toBeUndefined();
-    expect(result.current.previous).toEqual(initial.availability);
+    expect(result.current.availability.current).toBeUndefined();
+    expect(result.current.availability.previous).toEqual(initial.availability);
     const requested = new URL(
       String(fetcher.mock.calls[0]?.[0]),
       'http://localhost',
@@ -103,11 +121,13 @@ describe('contextual dropdown availability', () => {
     const signal = fetcher.mock.calls[0]?.[1]?.signal;
     rerender({ criteria: { selected: [], audience: 'tout-public' } });
     await waitFor(() =>
-      expect(result.current.current?.audiences[0]?.count).toBe(3),
+      expect(result.current.availability.current?.audiences[0]?.count).toBe(3),
     );
     expect(signal?.aborted).toBe(true);
     await act(async () => release(response()));
-    expect(result.current.current?.audiences[0]?.available).toBe(true);
+    expect(result.current.availability.current?.audiences[0]?.available).toBe(
+      true,
+    );
   });
   it('retains previous information without disabling unknown options after failure and retries the current context', async () => {
     const fetcher = vi
@@ -116,15 +136,15 @@ describe('contextual dropdown availability', () => {
     vi.stubGlobal('fetch', fetcher);
     const { result, rerender } = setup();
     rerender({ criteria: { selected: [], audience: 'college' } });
-    await waitFor(() => expect(result.current.error).toBeTruthy());
-    expect(result.current.current).toBeUndefined();
-    expect(result.current.previous).toEqual(initial.availability);
+    await waitFor(() => expect(result.current.availability.error).toBeTruthy());
+    expect(result.current.availability.current).toBeUndefined();
+    expect(result.current.availability.previous).toEqual(initial.availability);
     fetcher.mockImplementation(async () => response());
     act(() => result.current.retry());
     await waitFor(() =>
-      expect(result.current.current).toEqual(initial.availability),
+      expect(result.current.availability.current).toEqual(initial.availability),
     );
-    expect(result.current.error).toBeFalsy();
+    expect(result.current.availability.error).toBeFalsy();
     expect(fetcher).toHaveBeenCalledTimes(2);
   });
   it('does not carry a failed manual recovery into a different criteria context', async () => {
@@ -147,18 +167,14 @@ describe('contextual dropdown availability', () => {
     );
     const { result, rerender } = setup();
     rerender({ criteria: { selected: [], audience: 'college' } });
-    await waitFor(() => expect(result.current.error).toBeTruthy());
+    await waitFor(() => expect(result.current.availability.error).toBeTruthy());
     act(() => result.current.retry());
-    await waitFor(() =>
-      expect(result.current.error).toMatchObject({
-        message: 'Le catalogue ne peut pas être préparé. Réessayez.',
-      }),
-    );
+    await waitFor(() => expect(result.current.availability.error).toBe(true));
     rerender({ criteria: { selected: [], audience: 'tout-public' } });
     await waitFor(() =>
-      expect(result.current.current).toEqual(initial.availability),
+      expect(result.current.availability.current).toEqual(initial.availability),
     );
-    expect(result.current.error).toBeFalsy();
+    expect(result.current.availability.error).toBeFalsy();
   });
   it('polls preparation and replaces terminal status when a manual bounded cycle starts', async () => {
     let retried = false;
@@ -207,10 +223,10 @@ describe('contextual dropdown availability', () => {
     );
     const { result, rerender } = setup();
     rerender({ criteria: { selected: [], audience: 'college' } });
-    await waitFor(() => expect(result.current.error).toBeTruthy());
+    await waitFor(() => expect(result.current.availability.error).toBeTruthy());
     act(() => result.current.retry());
     await waitFor(() =>
-      expect(result.current.current).toEqual(initial.availability),
+      expect(result.current.availability.current).toEqual(initial.availability),
     );
     expect(retried).toBe(true);
   });

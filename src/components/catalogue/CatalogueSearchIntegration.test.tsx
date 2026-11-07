@@ -61,7 +61,6 @@ const base: CatalogueSearchPage = {
 };
 const input = () =>
   screen.getByRole('combobox', { name: 'Métiers ou mots-clés' });
-const submit = () => screen.getByRole('button', { name: 'Rechercher' });
 function mount(
   initialResult: CataloguePageResult = { status: 200, body: base },
   search = '',
@@ -79,7 +78,7 @@ afterEach(() => {
 });
 
 describe('live catalogue search integration', () => {
-  it('preserves pending dropdown choices, previous cards/count and headset display through failure', async () => {
+  it('commits dropdown choices while preserving, previous cards/count and headset display through failure', async () => {
     let fail = true;
     vi.stubGlobal(
       'fetch',
@@ -100,11 +99,11 @@ describe('live catalogue search integration', () => {
     mount();
     const user = userEvent.setup();
     await user.selectOptions(screen.getByLabelText('Casque VR'), 'pico-4');
-    expect(window.location.search).toBe('');
+    expect(window.location.search).toBe('?headset=pico-4');
     expect(
-      screen.getByRole('list', { name: 'Casques compatibles' }),
-    ).toHaveTextContent('Quest');
-    await user.click(submit());
+      screen.queryByRole('button', { name: 'Rechercher' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByLabelText('Casque VR')).toHaveFocus();
     expect(window.location.search).toBe('?headset=pico-4');
     await screen.findByRole('heading', {
       name: 'Le catalogue ne peut pas être chargé',
@@ -126,7 +125,7 @@ describe('live catalogue search integration', () => {
       ).not.toHaveTextContent('Quest'),
     );
   });
-  it('restores selected source labels and discards unsubmitted edits on history navigation', async () => {
+  it('restores selected source labels and clears unfinished text and disclosures on history navigation', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn<typeof fetch>(async (request) => {
@@ -167,24 +166,119 @@ describe('live catalogue search integration', () => {
       }),
     ).not.toBeInTheDocument();
   });
-  it('keeps an unchanged submitted search on its page and retains criteria through pagination', async () => {
+  it('restores known selected criteria on history navigation even when their search never succeeded', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('{}', { status: 500 })),
+    );
+    mount();
+    const user = userEvent.setup();
+    await user.selectOptions(screen.getByLabelText('Casque VR'), 'pico-4');
+    await screen.findByRole('heading', {
+      name: 'Le catalogue ne peut pas être chargé',
+    });
+    await user.selectOptions(screen.getByLabelText('Public'), 'college');
+    await user.type(input(), 'x');
+    await act(async () => {
+      window.history.pushState({}, '', '/?headset=pico-4');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    expect(screen.getByLabelText('Casque VR')).toHaveValue('pico-4');
+    expect(screen.getByLabelText('Public')).toHaveValue('');
+    expect(input()).toHaveValue('');
+    expect(input()).toBeEnabled();
+    expect(
+      screen.getByRole('button', {
+        name: 'Retirer le critère Casque VR : Pico 4',
+      }),
+    ).toBeVisible();
+  });
+  it('retains criteria and selected source labels through pagination', async () => {
     const initial = {
       ...base,
-      meta: { ...base.meta, page: 2 },
       context: { ...base.context, criteria: { selected: [job] } },
     };
-    const fetcher = vi.fn<typeof fetch>(
-      async () => new Response(JSON.stringify(initial)),
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({ ...initial, meta: { ...base.meta, page: 2 } }),
+          ),
+      ),
     );
-    vi.stubGlobal('fetch', fetcher);
-    mount({ status: 200, body: initial }, 'job=I1604&page=2');
+    mount(
+      { status: 200, body: initial },
+      'job=I1604&jobTerm=I1604%3Aappellation%2Fgaragiste',
+    );
     const user = userEvent.setup();
-    await user.click(submit());
+    await user.click(screen.getByRole('button', { name: 'Suivant' }));
     expect(new URLSearchParams(window.location.search).get('page')).toBe('2');
     expect(new URLSearchParams(window.location.search).get('jobTerm')).toBe(
       'I1604:appellation/garagiste',
     );
+    await screen.findByText('Page 2 sur 2');
   });
+  it('publishes only the newest response and availability after rapid committed changes, with one history entry per action', async () => {
+    const releases: ((response: Response) => void)[] = [];
+    const fetcher = vi.fn<typeof fetch>(
+      () => new Promise((resolve) => releases.push(resolve)),
+    );
+    vi.stubGlobal('fetch', fetcher);
+    mount();
+    const history = vi.spyOn(window.history, 'pushState');
+    const user = userEvent.setup();
+    await user.type(input(), 'x');
+    expect(history).not.toHaveBeenCalled();
+    expect(fetcher).not.toHaveBeenCalled();
+    await user.selectOptions(screen.getByLabelText('Casque VR'), 'pico-4');
+    await user.selectOptions(screen.getByLabelText('Public'), 'college');
+    await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
+    expect(history).toHaveBeenCalledTimes(2);
+    expect(new URLSearchParams(window.location.search).get('headset')).toBe(
+      'pico-4',
+    );
+    expect(new URLSearchParams(window.location.search).get('audience')).toBe(
+      'college',
+    );
+    expect(input()).toHaveValue('x');
+    expect(screen.getByLabelText('Public')).toHaveFocus();
+    const newest = {
+      ...base,
+      data: [{ ...base.data[0]!, title: 'Réponse actuelle' }],
+      meta: { page: 1, per_page: 24, total: 1, total_pages: 1 },
+      context: {
+        ...base.context,
+        criteria: { selected: [], headset: 'pico-4', audience: 'college' },
+        availability: {
+          audiences: [{ id: 'college', count: 0, available: false }],
+          headsets: [],
+        },
+      },
+    };
+    await act(async () => releases[1]!(new Response(JSON.stringify(newest))));
+    await screen.findByRole('heading', { name: 'Réponse actuelle' });
+    expect(screen.getByRole('option', { name: /Collégiens/ })).toBeDisabled();
+    await act(async () =>
+      releases[0]!(
+        new Response(
+          JSON.stringify({
+            ...base,
+            data: [{ ...base.data[0]!, title: 'Réponse obsolète' }],
+          }),
+        ),
+      ),
+    );
+    expect(
+      screen.queryByRole('heading', { name: 'Réponse obsolète' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Collégiens/ })).toBeDisabled();
+    expect(screen.getByText('1 vidéo trouvée')).toBeVisible();
+    expect(history).toHaveBeenCalledTimes(2);
+    expect(input()).toHaveValue('x');
+    history.mockRestore();
+  });
+
   it('waits through preparation without false zero results and resumes automatically', async () => {
     let ready = false;
     const fetcher = vi.fn<typeof fetch>(async (path) => {
@@ -236,7 +330,7 @@ describe('live catalogue search integration', () => {
     await screen.findByRole('heading', { name: 'Omar au garage' });
     expect(recovered).toBe(true);
   });
-  it('does not broaden invalid URLs until explicit correction and submission', async () => {
+  it('does not broaden invalid URLs until explicit correction automatically searches defaults', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn<typeof fetch>(
@@ -273,17 +367,15 @@ describe('live catalogue search integration', () => {
     expect(screen.queryByRole('article')).not.toBeInTheDocument();
     const user = userEvent.setup();
     await user.click(
-      screen.getByRole('button', { name: 'Modifier les critères' }),
+      screen.getByRole('button', { name: 'Réinitialiser la recherche' }),
     );
     await waitFor(() => expect(input()).toBeEnabled());
-    expect(window.location.search).toBe('?job=UNKNOWN&page=2');
-    expect(screen.queryByRole('article')).not.toBeInTheDocument();
-    await user.click(submit());
+    expect(window.location.search).toBe('');
     expect(new URLSearchParams(window.location.search).has('page')).toBe(false);
     await screen.findByRole('heading', { name: 'Omar au garage' });
     expect(window.location.search).toBe('');
   });
-  it('keeps the requested page when unchanged criteria are submitted during page loading', async () => {
+  it('preserves unfinished text during page loading without changing selected criteria', async () => {
     let release!: (response: Response) => void;
     vi.stubGlobal(
       'fetch',
@@ -296,8 +388,9 @@ describe('live catalogue search integration', () => {
     );
     mount();
     const user = userEvent.setup();
+    await user.type(input(), 'x');
+    const originalInput = input();
     await user.click(screen.getByRole('button', { name: 'Suivant' }));
-    await user.click(submit());
     expect(new URLSearchParams(window.location.search).get('page')).toBe('2');
     await act(async () =>
       release(
@@ -306,6 +399,8 @@ describe('live catalogue search integration', () => {
         ),
       ),
     );
+    expect(input()).toBe(originalInput);
+    expect(input()).toHaveValue('x');
   });
   it('restarts status polling when a polled terminal failure is manually recovered', async () => {
     let started = false;

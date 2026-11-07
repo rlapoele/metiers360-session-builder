@@ -49,7 +49,6 @@ test('restores selected appellations through SSR, reload and browser history', a
     page.getByLabel('Public', { exact: true }),
     page.getByRole('combobox', { name: 'Métiers ou mots-clés' }),
     page.getByLabel('Casque VR', { exact: true }),
-    page.getByRole('button', { name: 'Rechercher', exact: true }),
   ]) {
     expect(
       await control.evaluate(
@@ -60,6 +59,9 @@ test('restores selected appellations through SSR, reload and browser history', a
       await control.evaluate((element) => getComputedStyle(element).fontSize),
     ).toBe('14px');
   }
+  await expect(
+    page.getByRole('button', { name: 'Rechercher', exact: true }),
+  ).toHaveCount(0);
   if ((page.viewportSize()?.width ?? 0) >= 1280) {
     const publicBox = await page.locator('.search-form-audience').boundingBox();
     const keywordBox = await page
@@ -102,9 +104,9 @@ test('restores selected appellations through SSR, reload and browser history', a
   await page.getByRole('button', { name: 'Fermer le libellé complet' }).click();
   await expect(reveal).toBeFocused();
   expect(new URL(page.url()).searchParams.get('page')).toBeNull();
+  await page.getByLabel('Public', { exact: true }).focus();
   await page.getByLabel('Public', { exact: true }).selectOption('college');
-  expect(new URL(page.url()).searchParams.get('audience')).toBeNull();
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  await expect(page.getByLabel('Public', { exact: true })).toBeFocused();
   await expect
     .poll(() => new URL(page.url()).searchParams.get('audience'))
     .toBe('college');
@@ -131,14 +133,13 @@ test('restores selected appellations through SSR, reload and browser history', a
   );
 });
 
-test('disables conflicting title choices, stages removals and preserves explicit keyword AND links', async ({
+test('disables conflicting title choices, automatically applies removals and preserves explicit keyword AND links', async ({
   page,
 }) => {
   await page.goto('/');
   await ready(page);
   await page.getByRole('button', { name: 'Suivant', exact: true }).click();
   await expect(page.getByText('Page 2 sur 9')).toBeVisible();
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   expect(new URL(page.url()).searchParams.get('page')).toBe('2');
   const keywords = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
   await keywords.fill('jard');
@@ -168,7 +169,8 @@ test('disables conflicting title choices, stages removals and preserves explicit
   await keywords.press('ArrowDown');
   await keywords.press('Enter');
   await expect(keywords).toHaveValue('Hugo');
-  expect(new URL(page.url()).searchParams.get('page')).toBe('2');
+  expect(new URL(page.url()).searchParams.has('page')).toBe(false);
+  expect(new URL(page.url()).searchParams.getAll('title')).toEqual(['omar']);
   // Old/conflicting URLs stay explicit and recoverable, even though the picker
   // now prevents adding an unavailable title in the normal selection flow.
   await page.goto('/?title=hugo&title=omar');
@@ -181,23 +183,35 @@ test('disables conflicting title choices, stages removals and preserves explicit
     'omar',
   ]);
   expect(new URL(page.url()).searchParams.has('page')).toBe(false);
+  let releaseRemoval!: () => void;
+  const removalGate = new Promise<void>((resolve) => {
+    releaseRemoval = resolve;
+  });
+  await page.route('**/api/catalogue/search?**', async (route) => {
+    await removalGate;
+    await route.continue();
+  });
   await page
     .getByRole('button', { name: 'Retirer le critère Titre de vidéo : Omar' })
     .click();
   await expect(
     page.getByRole('heading', { name: 'Aucune vidéo trouvée', exact: true }),
   ).toBeVisible();
-  expect(new URL(page.url()).searchParams.getAll('title')).toHaveLength(2);
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  expect(new URL(page.url()).searchParams.getAll('title')).toEqual(['hugo']);
+  await expect(
+    page.getByText(/0 vidéo trouvée — résultats précédents/),
+  ).toBeVisible();
+  releaseRemoval();
   await expect(page.getByRole('article').first()).toBeVisible();
   for (const title of await page
     .getByRole('article')
     .getByRole('heading', { level: 2 })
     .allTextContents())
     expect(title.toLowerCase()).toContain('hugo');
+  await page.unroute('**/api/catalogue/search?**');
 });
 
-test('keeps malformed URLs explicit until correction is submitted', async ({
+test('keeps malformed URLs explicit until an explicit correction automatically searches', async ({
   page,
 }) => {
   const response = await page.goto('/?job=UNKNOWN&title=unknown&page=2');
@@ -211,13 +225,13 @@ test('keeps malformed URLs explicit until correction is submitted', async ({
     }),
   ).toBeVisible();
   await expect(page.getByRole('article')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Modifier les critères' }).click();
+  await page
+    .getByRole('button', { name: 'Réinitialiser la recherche' })
+    .click();
   await expect(
     page.getByRole('combobox', { name: 'Métiers ou mots-clés' }),
   ).toBeEnabled();
-  expect(new URL(page.url()).searchParams.get('job')).toBe('UNKNOWN');
-  await expect(page.getByRole('article')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+  expect(new URL(page.url()).searchParams.has('job')).toBe(false);
   await expect(page.getByRole('article').first()).toBeVisible();
   expect(new URL(page.url()).search).toBe('');
 });
@@ -257,9 +271,7 @@ test('restores multi-métier OR links and exposes contextual server availability
       (item) => item.category === 'job' && item.jobCode === 'I1604',
     ),
   ).toMatchObject({ availability: { count: 0, available: false } });
-  // Task 19 intentionally retains explicit submission; automatic UI is Task 21.
   await chooseTitle(page, 'Omar');
-  await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
   await expect(page.getByRole('article')).toHaveCount(1);
   await expect(
     page.getByText('1 vidéo trouvée', { exact: true }),
@@ -270,7 +282,7 @@ test('restores multi-métier OR links and exposes contextual server availability
   ]);
 });
 
-test('uses current pending context for native option availability and recovers without locking controls', async ({
+test('uses committed context for native option availability and recovers without locking controls', async ({
   page,
 }) => {
   await page.goto('/?title=omar&q=municipal');
@@ -286,7 +298,7 @@ test('uses current pending context for native option availability and recovers w
   // Native closed-select typeahead avoids driving the OS-owned popup.
   await page.keyboard.press('a');
   await expect(audience).toHaveValue('adultes-reconversion');
-  expect(new URL(page.url()).searchParams.has('audience')).toBe(false);
+  expect(new URL(page.url()).searchParams.has('audience')).toBe(true);
   await expect(
     page.getByText('1 vidéo trouvée', { exact: true }),
   ).toBeVisible();
@@ -330,12 +342,13 @@ test('uses current pending context for native option availability and recovers w
   await retry.click();
   await expect(retry).toBeHidden();
   await expect(audience).toBeFocused();
-  expect(new URL(page.url()).searchParams.has('audience')).toBe(false);
+  expect(new URL(page.url()).searchParams.has('audience')).toBe(true);
   await page.getByRole('button', { name: 'Effacer tous les critères' }).click();
   await expect(audience).toHaveValue('');
   await expect(
     page.getByRole('button', { name: 'Rechercher', exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  expect(new URL(page.url()).search).toBe('');
 });
 
 test('keeps unavailable suggestions inert for touch and selects an available keyword', async ({
@@ -377,8 +390,70 @@ test('keeps unavailable suggestions inert for touch and selects an available key
         name: 'Retirer le critère Titre de vidéo : jardinier',
       }),
     ).toBeVisible();
-    expect(new URL(page.url()).searchParams.getAll('title')).toEqual(['omar']);
+    expect(new URL(page.url()).searchParams.getAll('title')).toEqual([
+      'jardinier',
+      'omar',
+    ]);
   } finally {
     await context.close();
   }
+});
+
+test('automatically widens métiers with OR, narrows titles with AND and issues one result request per committed change', async ({
+  page,
+}) => {
+  const searches: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).pathname === '/api/catalogue/search')
+      searches.push(request.url());
+  });
+  await page.goto('/?job=A1203');
+  await ready(page);
+  await expect(
+    page.getByText('5 vidéos trouvées', { exact: true }),
+  ).toBeVisible();
+  const historyLength = await page.evaluate(() => history.length);
+  const keywords = page.getByRole('combobox', { name: 'Métiers ou mots-clés' });
+  await keywords.fill('garagiste');
+  const job = page
+    .getByRole('group', { name: 'Métier', exact: true })
+    .getByRole('option', {
+      name: 'Garagiste Mécanicien / Mécanicienne automobile',
+      exact: true,
+    });
+  await expect(job).toBeVisible();
+  expect(searches).toHaveLength(0);
+  await job.click();
+  await expect(
+    page.getByText('14 vidéos trouvées', { exact: true }),
+  ).toBeVisible();
+  expect(searches).toHaveLength(1);
+  expect(await page.evaluate(() => history.length)).toBe(historyLength + 1);
+  expect(new URL(page.url()).searchParams.getAll('job')).toEqual([
+    'A1203',
+    'I1604',
+  ]);
+  expect(new URL(page.url()).searchParams.getAll('jobTerm')).toContain(
+    'I1604:appellation/garagiste',
+  );
+  await chooseTitle(page, 'Omar');
+  await expect(
+    page.getByText('1 vidéo trouvée', { exact: true }),
+  ).toBeVisible();
+  expect(searches).toHaveLength(2);
+  expect(await page.evaluate(() => history.length)).toBe(historyLength + 2);
+  await page.getByRole('button', { name: 'Effacer tous les critères' }).click();
+  await expect(
+    page.getByText('204 vidéos trouvées', { exact: true }),
+  ).toBeVisible();
+  expect(searches).toHaveLength(3);
+  await page.getByRole('button', { name: 'Suivant', exact: true }).click();
+  await expect(page.getByText('Page 2 sur 9')).toBeVisible();
+  await keywords.fill('x');
+  await keywords.press('Enter');
+  expect(new URL(page.url()).searchParams.get('page')).toBe('2');
+  expect(searches).toHaveLength(4);
+  await page.goBack();
+  await expect(keywords).toHaveValue('');
+  await expect(page.getByText('Page 1 sur 9')).toBeVisible();
 });
