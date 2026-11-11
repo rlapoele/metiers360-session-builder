@@ -20,6 +20,7 @@ interface CatalogueResultsProps {
   onPageChange: (page: number) => void;
   onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
+  readOnly?: boolean;
 }
 
 function LoadingState() {
@@ -92,6 +93,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
     onPageChange,
     onOpenDetails,
     onToggle,
+    readOnly,
   } = props;
 
   if (isPending && !data) return <LoadingState />;
@@ -143,6 +145,7 @@ export function CatalogueResults(props: CatalogueResultsProps) {
             compatibleHeadsetLabels={compatibleHeadsetLabelsFor(video)}
             isSelected={selectedIds.has(video.id)}
             onOpenDetails={onOpenDetails}
+            readOnly={readOnly}
             onToggle={onToggle}
           />
         ))}

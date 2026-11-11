@@ -18,6 +18,7 @@ interface VideoCardProps {
   isSelected: boolean;
   onOpenDetails: (videoId: string, trigger: HTMLButtonElement) => void;
   onToggle: (videoId: string) => void;
+  readOnly?: boolean;
 }
 
 export function VideoCard({
@@ -27,6 +28,7 @@ export function VideoCard({
   isSelected,
   onOpenDetails,
   onToggle,
+  readOnly = false,
 }: VideoCardProps) {
   const titleId = `video-${video.id}-title`;
 
@@ -101,6 +103,7 @@ export function VideoCard({
               variant={isSelected ? 'secondary' : 'default'}
               aria-pressed={isSelected}
               aria-label={`${isSelected ? 'Retirer de ma séance' : 'Ajouter à ma séance'} : ${video.title}`}
+              disabled={readOnly}
               onClick={() => onToggle(video.id)}
               className="w-full"
             >

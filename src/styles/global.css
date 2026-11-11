@@ -22,6 +22,9 @@
   --blue-700: oklch(46.399% 0.12784 250.291);
   --blue-800: oklch(40.091% 0.10613 249.247);
 
+  --amber-800: oklch(47.3% 0.137 46.201);
+  --gold-400: oklch(0.818 0.168 77.377);
+
   --green-700: oklch(52.7% 0.154 150.069);
 
   --red-600: oklch(57.71% 0.21516 27.325);
@@ -40,6 +43,8 @@
   --muted-foreground: var(--neutral-600);
   --accent: var(--blue-50);
   --accent-foreground: var(--blue-800);
+  --warning: var(--gold-400);
+  --warning-foreground: var(--neutral-900);
   --success: var(--green-700);
   --success-foreground: var(--neutral-0);
   --destructive: var(--red-600);
@@ -82,6 +87,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-destructive: var(--destructive);
@@ -90,7 +97,7 @@
   --color-badge: var(--border-badge);
   --color-dialog: var(--border-dialog);
   --color-input: var(--input);
-  --color-input-boundary: var(--input-boundary);
+/*  --color-input-boundary: var(--input-boundary);*/
   --color-ring: var(--ring);
   --color-navigation-current: var(--navigation-current);
   --color-action-hover: var(--action-hover);

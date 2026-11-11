@@ -1,3 +1,4 @@
+import { SaveStatusBanner } from '@components/sessions/SessionSaveStatus';
 import { keepFocusInside } from '@lib/dialog-focus';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +15,7 @@ interface VideoDetailsSheetProps {
   isSelected: boolean;
   onClose: () => void;
   onToggle: (videoId: string) => void;
+  readOnly?: boolean;
 }
 
 export function VideoDetailsSheet({
@@ -22,6 +24,7 @@ export function VideoDetailsSheet({
   isSelected,
   onClose,
   onToggle,
+  readOnly = false,
 }: VideoDetailsSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -55,6 +58,7 @@ export function VideoDetailsSheet({
       className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 sm:inset-y-0 sm:right-0 sm:left-auto sm:max-w-lg sm:border-l"
     >
       <div className="flex h-full flex-col">
+        <SaveStatusBanner onlyOperation />
         <header className="border-border bg-card flex min-h-16 shrink-0 items-center justify-between border-b px-4 sm:px-6">
           <h2 id="video-details-dialog-title" className="text-xl font-semibold">
             Détails de la vidéo
@@ -134,6 +138,7 @@ export function VideoDetailsSheet({
               type="button"
               variant={isSelected ? 'secondary' : 'default'}
               aria-pressed={isSelected}
+              disabled={readOnly}
               onClick={() => onToggle(videoId)}
               className="min-h-12 w-full"
             >

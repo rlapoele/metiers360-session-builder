@@ -1,3 +1,4 @@
+import { SaveStatusBanner } from '@components/sessions/SessionSaveStatus';
 import { keepFocusInside } from '@lib/dialog-focus';
 import {
   CheckCircleIcon,
@@ -13,7 +14,7 @@ import { Input } from '@components/ui/input';
 import { NativeSelect, NativeSelectOption } from '@components/ui/native-select';
 
 import { formatDuration } from '@features/catalogue/format';
-import { createSession, SessionSaveError } from '@features/sessions/api';
+import { SessionSaveError } from '@features/sessions/api';
 import {
   CreateSessionSchema,
   type CreateSession,
@@ -25,6 +26,9 @@ import type { DraftVideoItem } from '@components/catalogue/SessionDraftContent';
 
 interface SessionFinalisationDialogProps {
   draft: SessionDraft;
+  readOnly?: boolean;
+  canSave?: boolean;
+  saveSession: (request: CreateSession) => Promise<Session>;
   items: DraftVideoItem[];
   headsets: Headset[];
   onNameChange: (name: string) => void;
@@ -57,6 +61,9 @@ function fieldErrorsFromIssues(
 
 export function SessionFinalisationDialog({
   draft,
+  readOnly = false,
+  canSave = true,
+  saveSession,
   items,
   headsets,
   onNameChange,
@@ -68,7 +75,7 @@ export function SessionFinalisationDialog({
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const mutation = useMutation({
-    mutationFn: (request: CreateSession) => createSession(request),
+    mutationFn: saveSession,
     retry: false,
     onSuccess: onSaved,
   });
@@ -83,7 +90,7 @@ export function SessionFinalisationDialog({
       )
     : [];
   const unresolvedItems = items.filter((item) => !item.video);
-  const isPending = mutation.isPending;
+  const isPending = mutation.isPending || readOnly;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -100,7 +107,7 @@ export function SessionFinalisationDialog({
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isPending) return;
+    if (isPending || !canSave) return;
 
     mutation.reset();
     const parsed = CreateSessionSchema.safeParse({
@@ -143,12 +150,22 @@ export function SessionFinalisationDialog({
       aria-labelledby="session-finalisation-title"
       onClose={onClose}
       onCancel={(event) => {
-        if (isPending) event.preventDefault();
+        if (mutation.isPending) event.preventDefault();
       }}
       onKeyDown={keepFocusInside}
       className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 sm:inset-y-6 sm:mx-auto sm:h-auto sm:max-h-draft-panel sm:max-w-2xl sm:rounded-lg sm:border border-dialog"
     >
       <form noValidate onSubmit={submit} className="flex h-full flex-col">
+        <SaveStatusBanner onlyOperation />
+        {!canSave && (
+          <p
+            role="alert"
+            className="bg-warning text-warning-foreground px-4 py-3 text-sm"
+          >
+            L’enregistrement n’est pas disponible. Autorisez le stockage local
+            ou utilisez un navigateur récent. Votre brouillon reste conservé.
+          </p>
+        )}
         <header className="border-border shrink-0 border-b px-4 py-3 sm:px-6">
           <div className="flex min-h-11 items-center justify-between gap-4">
             <div>
@@ -165,7 +182,7 @@ export function SessionFinalisationDialog({
             <Button
               type="button"
               variant="ghost"
-              disabled={isPending}
+              disabled={mutation.isPending}
               onClick={() => dialogRef.current?.close()}
               className="px-2"
             >
@@ -392,12 +409,12 @@ export function SessionFinalisationDialog({
             <Button
               type="button"
               variant="outline"
-              disabled={isPending}
+              disabled={mutation.isPending}
               onClick={() => dialogRef.current?.close()}
             >
               Revenir à ma séance
             </Button>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !canSave}>
               {isPending
                 ? 'Enregistrement en cours…'
                 : mutation.isError

@@ -1,6 +1,9 @@
+import type { SaveOperation } from '@features/sessions/save-operation-contracts';
 import { atom, computed } from 'nanostores';
 
 import {
+  CreateSessionSchema,
+  type CreateSession,
   SessionDraftSchema,
   type SessionDraft,
   type Video,
@@ -11,6 +14,8 @@ import {
   SESSION_DRAFT_LOCK,
   emptyDraftRecord,
   parsePersistedDraft,
+  isDraftSaveLocked,
+  type DraftSave,
   type PersistedSessionDraft,
 } from '@features/sessions/session-draft.persistence';
 
@@ -67,6 +72,10 @@ interface DraftStoreOptions {
 export function createSessionDraftStore(options: DraftStoreOptions = {}) {
   const $draft = atom<SessionDraft>({ ...EMPTY_SESSION_DRAFT });
   const $isHydrated = atom(false);
+  const $saveState = atom<DraftSave | undefined>();
+  const $isReadOnly = computed($saveState, isDraftSaveLocked);
+  const $canSave = atom(false);
+  const $saveIssue = atom<string | undefined>();
   const $videosById = atom<Record<string, Video>>({});
   const $count = computed($draft, (draft) => draft.video_ids.length);
   const $unresolvedVideoIds = computed(
@@ -129,9 +138,11 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
       : undefined);
 
   function publish() {
+    if (JSON.stringify($saveState.get()) !== JSON.stringify(record.save))
+      $saveState.set(record.save);
     let draft = record.draft;
     // Preserve fast local typing while earlier writes wait for the Web Lock.
-    for (const action of pending) {
+    for (const action of isDraftSaveLocked(record.save) ? [] : pending) {
       if (
         action.draftId !== record.draft_id ||
         action.revision > record.revision
@@ -148,8 +159,13 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
     if (!storage) return;
     try {
       const raw = storage.getItem(SESSION_DRAFT_STORAGE_KEY);
-      if (raw === null && !initial) record = emptyDraftRecord();
-      else {
+      if (raw === null && !initial) {
+        if (isDraftSaveLocked(record.save))
+          $saveIssue.set(
+            'Le suivi local est indisponible. La séance reste protégée.',
+          );
+        else record = emptyDraftRecord();
+      } else {
         const parsed = raw === null ? undefined : parsePersistedDraft(raw);
         if (parsed) record = parsed;
         else if (initial && raw !== null)
@@ -157,6 +173,11 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
       }
     } catch {
       storage = undefined;
+      $canSave.set(false);
+      if (isDraftSaveLocked(record.save))
+        $saveIssue.set(
+          'Le stockage partagé est inaccessible. Rechargez la page après avoir rétabli l’accès ; la séance reste protégée.',
+        );
     }
   }
 
@@ -167,6 +188,10 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
 
   function mutate(change: Change, reset = false): Promise<boolean> {
     readLatest();
+    if (isDraftSaveLocked(record.save)) {
+      publish();
+      return Promise.resolve(false);
+    }
     const action = {
       draftId: record.draft_id,
       revision: record.revision,
@@ -186,6 +211,7 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
       }
       readLatest();
       if (
+        isDraftSaveLocked(record.save) ||
         action.draftId !== record.draft_id ||
         action.revision > record.revision
       ) {
@@ -202,6 +228,8 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
         JSON.stringify(parsed.data) !== JSON.stringify(record.draft)
       ) {
         record = {
+          ...record,
+          save: undefined,
           version: 2,
           draft_id: reset ? crypto.randomUUID() : record.draft_id,
           revision: reset ? 0 : record.revision + 1,
@@ -212,6 +240,7 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
         } catch {
           // Keep the latest edits in memory if persistence becomes unavailable.
           storage = undefined;
+          $canSave.set(false);
         }
       }
       finish();
@@ -251,8 +280,154 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
         document.removeEventListener('visibilitychange', onVisible);
       };
     }
+    $canSave.set(Boolean(storage && runExclusive));
     $isHydrated.set(true);
     return true;
+  }
+
+  function saveWrite(next: PersistedSessionDraft) {
+    if (!storage || !runExclusive) return false;
+    if (JSON.stringify(next) === JSON.stringify(record) && !$saveIssue.get())
+      return true;
+    try {
+      storage.setItem(SESSION_DRAFT_STORAGE_KEY, JSON.stringify(next));
+      record = next;
+      $canSave.set(true);
+      $saveIssue.set(undefined);
+      publish();
+      return true;
+    } catch {
+      $canSave.set(false);
+      $saveIssue.set(
+        'Le stockage du suivi est indisponible. La séance reste protégée.',
+      );
+      return false;
+    }
+  }
+
+  async function beginSave(
+    expected: CreateSession,
+    runtimeId: string,
+  ): Promise<DraftSave> {
+    let captured: DraftSave | undefined;
+    let message =
+      'L’enregistrement n’est pas disponible dans ce navigateur. Autorisez le stockage local et utilisez un navigateur récent.';
+    await runExclusive?.(() => {
+      readLatest();
+      if (isDraftSaveLocked(record.save)) {
+        captured = record.save;
+        publish();
+        return true;
+      }
+      const current = CreateSessionSchema.safeParse({
+        name: record.draft.name,
+        video_ids: record.draft.video_ids,
+        headset_id: record.draft.headset_id,
+      });
+      const canonical = (value: CreateSession) =>
+        JSON.stringify([
+          value.name.trim(),
+          value.video_ids,
+          value.headset_id ?? null,
+        ]);
+      if (!current.success || canonical(current.data) !== canonical(expected)) {
+        message =
+          'Le brouillon a été modifié. Vérifiez son contenu avant de l’enregistrer.';
+        publish();
+        return false;
+      }
+      const clientId = record.client_id ?? crypto.randomUUID();
+      const save: DraftSave = {
+        request: {
+          operation_id: crypto.randomUUID(),
+          client_id: clientId,
+          draft_id: record.draft_id,
+          revision: record.revision,
+          expected_runtime_id: runtimeId,
+          session: {
+            ...current.data,
+            headset_id: current.data.headset_id ?? null,
+          },
+        },
+        started_at: Date.now(),
+      };
+      if (!saveWrite({ ...record, client_id: clientId, save })) return false;
+      captured = save;
+      return true;
+    });
+    if (!captured) throw new Error(message);
+    return captured;
+  }
+
+  async function applySaveResult(result: SaveOperation) {
+    return (
+      (await runExclusive?.(() => {
+        readLatest();
+        const save = record.save;
+        if (
+          !save ||
+          save.request.operation_id !== result.operation_id ||
+          save.request.client_id !== result.client_id ||
+          save.request.draft_id !== result.draft_id ||
+          save.request.revision !== result.revision ||
+          save.request.expected_runtime_id !== result.runtime_id
+        )
+          return false;
+        if (save.result && save.result.status !== 'pending') return true;
+        const next = {
+          ...record,
+          save: { ...save, result, uncertain: undefined },
+        };
+        if (result.status === 'succeeded') {
+          if (record.draft_id !== save.request.draft_id) return false;
+          next.draft = { ...EMPTY_SESSION_DRAFT };
+          next.draft_id = crypto.randomUUID();
+          next.revision = 0;
+        }
+        return saveWrite(next);
+      })) ?? false
+    );
+  }
+
+  async function markSaveUncertain(
+    operationId: string,
+    reason: NonNullable<DraftSave['uncertain']>,
+  ) {
+    return (
+      (await runExclusive?.(() => {
+        readLatest();
+        const save = record.save;
+        if (
+          !save ||
+          save.request.operation_id !== operationId ||
+          !isDraftSaveLocked(save)
+        )
+          return false;
+        return saveWrite({ ...record, save: { ...save, uncertain: reason } });
+      })) ?? false
+    );
+  }
+
+  async function releaseUncertainSave(operationId: string) {
+    return (
+      (await runExclusive?.(() => {
+        readLatest();
+        const save = record.save;
+        if (
+          !save ||
+          save.request.operation_id !== operationId ||
+          save.uncertain !== 'runtime' ||
+          !isDraftSaveLocked(save)
+        )
+          return false;
+        return saveWrite({
+          ...record,
+          draft_id: crypto.randomUUID(),
+          revision: 0,
+          save: undefined,
+        });
+      })) ?? false
+    );
   }
 
   function registerVideos(videos: Video[]) {
@@ -320,6 +495,14 @@ export function createSessionDraftStore(options: DraftStoreOptions = {}) {
   return {
     $draft,
     $isHydrated,
+    $saveState,
+    $isReadOnly,
+    $canSave,
+    $saveIssue,
+    beginSave,
+    applySaveResult,
+    markSaveUncertain,
+    releaseUncertainSave,
     $count,
     $unresolvedVideoIds,
     $totalDurationSeconds,
@@ -346,6 +529,10 @@ export const sessionDraftStore = createSessionDraftStore();
 export const {
   $draft: $sessionDraft,
   $isHydrated: $sessionDraftHydrated,
+  $saveState: $draftSaveState,
+  $isReadOnly: $draftReadOnly,
+  $canSave: $draftCanSave,
+  $saveIssue: $draftSaveIssue,
   $count: $sessionDraftCount,
   $unresolvedVideoIds: $sessionDraftUnresolvedVideoIds,
   $totalDurationSeconds: $sessionDraftTotalDurationSeconds,

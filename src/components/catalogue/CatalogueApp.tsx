@@ -14,6 +14,7 @@ import {
 import { formatResultCount } from '@features/catalogue/format';
 import {
   $sessionDraft,
+  $draftReadOnly,
   addVideoToDraft,
   hydrateSessionDraft,
   registerDraftVideos,
@@ -47,6 +48,7 @@ function CatalogueContent(props: CataloguePageProps) {
   const search = useCatalogueSearch(props);
   const [canObserveDraft, setCanObserveDraft] = useState(false);
   const draft = useStore($sessionDraft);
+  const readOnly = useStore($draftReadOnly);
   const [detailsVideoId, setDetailsVideoId] = useState<string>();
   const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const selectedIds = useMemo(
@@ -183,6 +185,7 @@ function CatalogueContent(props: CataloguePageProps) {
             search.criteria.headset ||
             search.criteria.legacyQuery,
           )}
+          readOnly={readOnly}
           selectedIds={selectedIds}
           jobLabelFor={(video) =>
             jobLabels.get(video.jobs[0] ?? '') ??
@@ -203,6 +206,7 @@ function CatalogueContent(props: CataloguePageProps) {
       />
 
       <VideoDetailsSheet
+        readOnly={readOnly}
         videoId={detailsVideoId}
         references={references}
         isSelected={detailsVideoId ? selectedIds.has(detailsVideoId) : false}

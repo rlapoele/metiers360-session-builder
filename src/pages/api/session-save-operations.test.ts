@@ -1,7 +1,10 @@
 import type { APIContext } from 'astro';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { POST } from '@pages/api/session-save-operations/index';
+import {
+  POST,
+  GET as runtimeStatus,
+} from '@pages/api/session-save-operations/index';
 import { GET } from '@pages/api/session-save-operations/[id]';
 import { createSaveOperationRegistry } from '@features/sessions/save-operations.server';
 import { SaveOperationSchema } from '@features/sessions/save-operation-contracts';
@@ -47,6 +50,12 @@ beforeEach(() => {
   registry = createSaveOperationRegistry(save);
 });
 describe('save-operation HTTP boundary', () => {
+  it('provides a no-store runtime handshake before a browser reserves its save', async () => {
+    const result = await response(runtimeStatus(context()));
+    expect(result.status).toBe(200);
+    expect(await result.json()).toEqual({ runtime_id: registry.runtimeId });
+    expect(save).not.toHaveBeenCalled();
+  });
   it('validates JSON and identifiers without calling the upstream', async () => {
     expect((await response(POST(context('{')))).status).toBe(400);
     for (const body of [

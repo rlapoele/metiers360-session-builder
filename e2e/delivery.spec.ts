@@ -283,17 +283,24 @@ test('prepare, persist, order, save and review a session', async ({
     await name.fill(sessionName);
   }
   for (let attempt = 0; attempt < 6; attempt++) {
-    const response = page.waitForResponse(
-      (value) =>
-        value.url().endsWith('/api/sessions') &&
-        value.request().method() === 'POST',
-    );
     await form
       .getByRole('button', {
         name: /^(Enregistrer la séance|Réessayer d’enregistrer)$/,
       })
       .click();
-    if ((await response).status() === 201) break;
+    // Completion is now reported by the tracked operation, rather than a legacy POST.
+    await expect
+      .poll(async () => {
+        if (page.url().includes('/sessions?created=')) return 'succeeded';
+        const retry = form.getByRole('button', {
+          name: 'Réessayer d’enregistrer',
+        });
+        return (await retry.isVisible()) && (await retry.isEnabled())
+          ? 'failed'
+          : 'pending';
+      })
+      .not.toBe('pending');
+    if (page.url().includes('/sessions?created=')) break;
     await expect(name).toHaveValue(sessionName); // Explicit user retry, never automatic application replay.
   }
   await expect(page).toHaveURL(/\/sessions\?created=ses_/);

@@ -1,4 +1,5 @@
 ---
+import { SessionSaveStatus } from '@components/sessions/SessionSaveStatus';
 import AppHeader from '@components/app-shell/AppHeader.astro';
 import '@styles/global.css';
 
@@ -26,6 +27,7 @@ const { title, description } = Astro.props;
     >
       Aller au contenu principal
     </a>
+    <SessionSaveStatus client:only="react" />
     <AppHeader currentPath={Astro.url.pathname} />
     <main
       id="contenu-principal"

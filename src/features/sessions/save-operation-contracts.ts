@@ -11,6 +11,7 @@ export const SaveOperationIdSchema = z.uuid();
 export const SaveOperationRequestSchema = z
   .object({
     operation_id: SaveOperationIdSchema,
+    expected_runtime_id: z.uuid().optional(),
     client_id: z.uuid(),
     draft_id: z.string().min(1).max(128),
     revision: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
@@ -47,3 +48,10 @@ export const SaveOperationSchema = z.discriminatedUnion('status', [
   }),
 ]);
 export type SaveOperation = z.infer<typeof SaveOperationSchema>;
+
+export const SaveRuntimeSchema = z.object({ runtime_id: z.uuid() });
+export const SaveOperationProblemSchema = SaveRuntimeSchema.extend({
+  error: z.string(),
+  message: z.string().optional(),
+  operation: SaveOperationSchema.optional(),
+});

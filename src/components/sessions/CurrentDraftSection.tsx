@@ -8,6 +8,7 @@ import type { SessionDraft } from '@lib/api/schemas';
 import { cn } from '@lib/utils';
 
 interface CurrentDraftSectionProps {
+  readOnly?: boolean;
   canObserveDraft: boolean;
   isHydrated: boolean;
   draft: SessionDraft;
@@ -15,6 +16,7 @@ interface CurrentDraftSectionProps {
 }
 
 export function CurrentDraftSection({
+  readOnly = false,
   canObserveDraft,
   isHydrated,
   draft,
@@ -52,7 +54,9 @@ export function CurrentDraftSection({
               </p>
               <p className="text-muted-foreground mt-1 text-sm">
                 {formatVideoCount(draft.video_ids.length)} · {durationLabel} ·
-                Non enregistrée
+                {readOnly
+                  ? 'Enregistrement à confirmer — lecture seule'
+                  : 'Non enregistrée'}
               </p>
             </div>
             <a

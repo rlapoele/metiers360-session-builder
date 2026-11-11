@@ -15,6 +15,7 @@ import {
 } from '@features/sessions/api';
 import {
   $sessionDraft,
+  $draftReadOnly,
   $sessionDraftHydrated,
   $sessionDraftTotalDurationSeconds,
   hydrateSessionDraft,
@@ -62,6 +63,7 @@ function SessionsContent({
 }: SessionsAppProps) {
   const [canObserveDraft, setCanObserveDraft] = useState(false);
   const draft = useStore($sessionDraft);
+  const readOnly = useStore($draftReadOnly);
   const isDraftHydrated = useStore($sessionDraftHydrated);
   const draftDuration = useStore($sessionDraftTotalDurationSeconds);
   useDraftVideos(canObserveDraft ? draft.video_ids : []);
@@ -98,6 +100,7 @@ function SessionsContent({
       )}
 
       <CurrentDraftSection
+        readOnly={readOnly}
         canObserveDraft={canObserveDraft}
         isHydrated={isDraftHydrated}
         draft={draft}

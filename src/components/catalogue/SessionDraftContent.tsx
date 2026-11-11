@@ -23,6 +23,7 @@ export interface DraftVideoItem {
 
 interface SessionDraftContentProps {
   idPrefix: string;
+  readOnly?: boolean;
   items: DraftVideoItem[];
   headsetId: string | null;
   headsetName?: string;
@@ -47,6 +48,7 @@ function compatibilityText(
 
 export function SessionDraftContent({
   idPrefix,
+  readOnly = false,
   items,
   headsetId,
   headsetName = headsetId ?? '',
@@ -195,7 +197,7 @@ export function SessionDraftContent({
                     type="button"
                     variant="outline"
                     size="compact"
-                    disabled={index === 0}
+                    disabled={readOnly || index === 0}
                     aria-label={`Monter ${title}`}
                     onClick={() => onMoveUp(item.id)}
                     className="px-3 disabled:opacity-40"
@@ -207,7 +209,7 @@ export function SessionDraftContent({
                     type="button"
                     variant="outline"
                     size="compact"
-                    disabled={index === items.length - 1}
+                    disabled={readOnly || index === items.length - 1}
                     aria-label={`Descendre ${title}`}
                     onClick={() => onMoveDown(item.id)}
                     className="px-3 disabled:opacity-40"
@@ -224,6 +226,7 @@ export function SessionDraftContent({
                     variant="secondary"
                     size="compact"
                     aria-label={`Retirer ${title} de ma séance`}
+                    disabled={readOnly}
                     onClick={() => removeItem(index)}
                     className="col-span-2 justify-self-end px-4 @sm:ml-auto"
                   >

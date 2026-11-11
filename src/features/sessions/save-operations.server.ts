@@ -53,6 +53,12 @@ export function createSaveOperationRegistry(
   function start(request: SaveOperationRequest) {
     // Capture a canonical immutable snapshot, including ordered video IDs.
     const input = structuredClone(request);
+    if (input.expected_runtime_id && input.expected_runtime_id !== runtimeId)
+      return error(
+        409,
+        'runtime_changed',
+        'Le suivi précédent a été perdu. Le résultat de cet enregistrement ne peut pas être confirmé.',
+      );
     const fingerprint = JSON.stringify([
       input.client_id,
       input.draft_id,

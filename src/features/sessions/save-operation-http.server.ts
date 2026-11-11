@@ -66,3 +66,7 @@ export function readSaveOperation(id: string | undefined) {
   const result = registry.get(parsed.data);
   return response(result.body, result.status);
 }
+
+export function readSaveRuntime() {
+  return response({ runtime_id: getSaveOperationRegistry().runtimeId }, 200);
+}

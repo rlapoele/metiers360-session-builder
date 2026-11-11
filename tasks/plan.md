@@ -463,7 +463,7 @@ Shared dialog focus follow-up (2026-11-11): candidate-authorised extraction into
 
 ### Cross-tab draft follow-up — 2026-11-11
 
-The candidate authorised only step 1 of the separate [three-step plan](cross-tab-draft.md): shared browser draft, validated persistence migration, serialized edits and responsive focus/metadata behaviour. Step 2 (BFF operation tracking) was subsequently authorised on 2026-11-11, with desktop-only browser verification; its contract and evidence live in the linked record. Step 3 (save coordination/recovery/banner integration) remains planned, not authorised. Preserve the historical Checkpoint G marker and accepted Checkpoint H/accessibility deferral. The new record owns acceptance criteria and bounded verification results; it does not reopen completed search work.
+The candidate authorised only step 1 of the separate [three-step plan](cross-tab-draft.md): shared browser draft, validated persistence migration, serialized edits and responsive focus/metadata behaviour. Step 2 (BFF operation tracking) was subsequently authorised on 2026-11-11, with desktop-only browser verification; its contract and evidence live in the linked record. Step 3 (save coordination/recovery/banner integration) was subsequently authorised after the candidate committed/pushed step 2 (`ae7c08a`), with desktop-only browser verification. Its current contract, acceptance and evidence live in the linked record. Preserve the historical Checkpoint G marker and accepted Checkpoint H/accessibility deferral. The new record owns acceptance criteria and bounded verification results; it does not reopen completed search work.
 
 After each task:
 

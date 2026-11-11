@@ -1,3 +1,5 @@
+import { saveCoordinator } from '@features/sessions/save-coordinator';
+import { SaveStatusBanner } from '@components/sessions/SessionSaveStatus';
 import { keepFocusInside } from '@lib/dialog-focus';
 import { useStore } from '@nanostores/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -16,7 +18,8 @@ import {
   $sessionDraft,
   $sessionDraftHydrated,
   $sessionDraftTotalDurationSeconds,
-  clearDraftAfterSave,
+  $draftReadOnly,
+  $draftCanSave,
   moveDraftVideoDown,
   moveDraftVideoUp,
   removeVideoFromDraft,
@@ -47,6 +50,8 @@ export function SessionDraftComposition({
   initialVideos,
 }: SessionDraftCompositionProps) {
   const storedDraft = useStore($sessionDraft);
+  const readOnly = useStore($draftReadOnly);
+  const canSave = useStore($draftCanSave);
   const isHydrated = useStore($sessionDraftHydrated);
   const storedTotalDuration = useStore($sessionDraftTotalDurationSeconds);
   const draft = canObserveDraft
@@ -156,20 +161,21 @@ export function SessionDraftComposition({
     }
   }
 
-  async function completeSave(session: Session) {
-    await clearDraftAfterSave();
+  function completeSave(session: Session) {
     window.location.assign(
       `/sessions?created=${encodeURIComponent(session.id)}`,
     );
   }
 
   const canFinalise =
+    !readOnly &&
     canObserveDraft &&
     isHydrated &&
     draft.video_ids.length >= 1 &&
     draft.video_ids.length <= 30;
 
   const contentProps = {
+    readOnly,
     items,
     headsetId: draft.headset_id,
     headsetName,
@@ -257,6 +263,7 @@ export function SessionDraftComposition({
           className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 xl:hidden"
         >
           <div className="flex h-full flex-col">
+            <SaveStatusBanner onlyOperation />
             <header className="border-border bg-card shrink-0 border-b px-4 py-3 sm:px-6">
               <div className="flex min-h-11 items-center justify-between gap-4">
                 <h2
@@ -303,6 +310,9 @@ export function SessionDraftComposition({
       {isFinalising && (
         <SessionFinalisationDialog
           draft={draft}
+          readOnly={readOnly}
+          canSave={canSave}
+          saveSession={saveCoordinator.save}
           items={items}
           headsets={references?.headsets.data ?? []}
           onNameChange={setDraftName}

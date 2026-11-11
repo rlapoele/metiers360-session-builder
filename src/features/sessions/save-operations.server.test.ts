@@ -35,6 +35,23 @@ function deferred() {
 }
 
 describe('process-owned save operations', () => {
+  it('rejects a stale runtime before admission, including replay, without another upstream call', async () => {
+    const save = vi.fn().mockResolvedValue(session);
+    const registry = createSaveOperationRegistry(save);
+    const input = request();
+    expect(
+      registry.start({ ...input, expected_runtime_id: crypto.randomUUID() }),
+    ).toMatchObject({ status: 409, body: { error: 'runtime_changed' } });
+    expect(save).not.toHaveBeenCalled();
+    registry.start({ ...input, expected_runtime_id: registry.runtimeId });
+    await vi.waitFor(() => expect(save).toHaveBeenCalledTimes(1));
+    expect(
+      registry.start({ ...input, expected_runtime_id: crypto.randomUUID() })
+        .status,
+    ).toBe(409);
+    expect(save).toHaveBeenCalledTimes(1);
+  });
+
   it('admits synchronously, joins concurrent requests and replays one successful save', async () => {
     const delayed = deferred();
     const save = vi.fn(() => delayed.promise);
