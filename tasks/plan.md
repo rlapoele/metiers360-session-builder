@@ -459,6 +459,8 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 
 ## Progress protocol
 
+Release v1.2.0 (2026-11-11): the candidate tested/committed/pushed the reviewed changes and explicitly authorised backup of v1.1.0 onto `main`, semantic minor bump, promotion/tag/push and automatic Railway deployment. [Deployment](../docs/deployment.md) owns remote backup, verification and promotion evidence. Existing implementation review gates are satisfied by the candidate’s reported testing/commits; unresolved simultaneous-finalisation questions and accepted accessibility limitations remain open.
+
 Post-review refinements (2026-11-11): after committing step 3 (`a46d1b0`), the candidate authorises an eight-second success-only presentation timeout with interaction/hidden-tab pauses and a 1024px draft panel threshold. Preserve tracking data, independent filter container layout and original wireframe history. The [cross-tab record](cross-tab-draft.md) and live checklist own acceptance/evidence, including requested 1024/1100/1280px checks.
 
 Shared dialog focus follow-up (2026-11-11): candidate-authorised extraction into one plain helper for the three existing dialogs, with focused red–green tests, the full quality gate and desktop-only browser verification. Track the result in [todo.md](todo.md); this does not authorise cross-tab steps 2–3.

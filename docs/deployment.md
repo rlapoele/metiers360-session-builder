@@ -55,6 +55,15 @@ Local setup remains `npm ci`, `npm --prefix server ci`, `npm run dev`; no Railwa
 
 ## Release promotion
 
+### v1.2.0 — 2026-11-11
+
+The candidate explicitly authorised backing up the current `releases` onto `main`, promoting reviewed `dev`, applying a semantic version bump, tagging and pushing to trigger Railway. The reviewed application baseline is `87e6268` and the previous release is `ec77e36f9fd00aca6bea053ab2d0b4c893d552d5` (v1.1.0). `main` was fast-forwarded and pushed to that exact previous release; remote `main` and `releases` were verified equal before promotion. All branch tips matched their remotes on initial fetch, with no uncommitted changes or divergence.
+
+Version 1.2.0 is a minor release for the additive shared draft/save-recovery capabilities and tablet layout improvements. Root manifest/lockfile version fields change only; supplied API/catalogue and dependencies are unchanged. The candidate accepted/tested the implementation and reported remaining simultaneous finalisation/save edge cases as an open investigation. Those cases and accepted keyword-popup accessibility limitations are preserved rather than described as resolved.
+
+Release preparation includes the version/changelog/README and current handoff records. Production-mode local verification passed formatting/lint, 144-file strict checks with zero diagnostics, all 310 tests and production build. All 21 local desktop browser scenarios passed in 1.6 minutes, zero retries, including 1024/1100/1280px layout, boundary/rotation, tracked save/review, recovery and success dismissal. Publish `releases` and annotated `v1.2.0` together, push the release-preparation `dev`, then verify both Railway services and the public UI. Deployment must be triggered only by the source push; no Railway settings change, manual deploy or restart is authorised by this procedure. Live deployment results are pending and must be recorded after verification.
+
+
 ### v1.1.0 — 2026-11-07
 
 The candidate explicitly authorised promoting their reviewed release-preparation commit `ec77e36f9fd00aca6bea053ab2d0b4c893d552d5`, preserving the previous release on `main`, publishing the annotated `v1.1.0` tag and verifying Railway. Local and remote `main` already equalled the previous release, `17d809fa85672ede76900202eb56cff414039f07`, so no backup-branch update was needed. `releases` fast-forwarded to `dev`; one atomic push published `releases` and the tag. The checkout returned to `dev`. No new commit, force-push, Railway settings change, manual deployment or restart was used; the release-branch push alone triggered both service deployments.

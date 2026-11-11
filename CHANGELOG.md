@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0] - 2026-11-11
+
+### Added
+
+- Shared session drafts across same-origin tabs, with validated persistence migration, serialized edits, metadata resolution and focus handling for external updates.
+- Process-owned BFF save-operation tracking, duplicate admission protection and runtime checks for recovering the original operation after tab closure or response loss.
+- Cross-tab read-only draft controls while saving or checking an uncertain result, with explicit failure/retry, atomic success clearing and confirmed manual recovery after lost tracking.
+- Accessible status feedback using existing semantic colors and the candidate-selected gold warning background/dark foreground.
+
+### Changed
+
+- Success feedback dismisses after eight seconds of foreground display, pausing for hidden tabs, pointer hover and keyboard focus; dismissal survives navigation/reload without deleting save tracking.
+- The persistent draft panel starts at 1024px, with sheet behaviour below that width and focus-safe transitions during tablet rotation. Filter controls retain their allocated-width rules.
+- The three catalogue dialogs share one keyboard focus-boundary helper.
+
+The supplied mock API, catalogue and dependencies are unchanged. Save coordination is limited to one Astro process and available browser storage/Web Locks. Simultaneous multi-tab finalisation/save interactions remain a follow-up investigation beyond the verified scenarios; the existing keyword-popup accessibility findings remain deferred. See [the cross-tab verification record](tasks/cross-tab-draft.md).
+
 ## [1.1.0] - 2026-11-07
 
 ### Added

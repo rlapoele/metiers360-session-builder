@@ -2,6 +2,10 @@
 
 Last updated: 2026-11-11
 
+## v1.2.0 release
+
+- [ ] **Authorised — preparation/verification in progress:** Preserve v1.1.0 on `main` (done/remote verified), prepare v1.2.0 metadata/docs, verify, promote/tag/push and check Railway/public application. See [deployment](../docs/deployment.md).
+
 ## Success feedback and landscape draft panel
 
 - [x] **Technically complete — candidate review pending:** Dismiss success feedback after eight foreground seconds, pausing for interaction/hidden tabs and retaining tracking. Show the persistent draft panel from 1024px with consistent media/focus behaviour. Full gate passes (310 tests, 144-file zero-diagnostic strict checks); all 21 browser scenarios pass, including inspected 1024/1100/1280px captures, 1023px boundary/rotation, real pointer/focus pause and reload dismissal. Timeout mutation fails as expected and was restored. Evidence lives in [the follow-up record](cross-tab-draft.md).

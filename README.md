@@ -31,9 +31,9 @@ npm start
 
 ## Utiliser l’application
 
-Le parcours et les captures ci-dessous correspondent à la version **1.1.0**, disponible sur la démonstration en ligne.
+Cette livraison correspond à la version **1.2.0**. Les captures ci-dessous illustrent le parcours principal.
 
-La synchronisation multi-onglets décrite ci-dessous est un suivi local en cours de revue ; elle n’est pas encore déployée sur cette démonstration.
+La livraison ajoute la synchronisation multi-onglets, le suivi des enregistrements et le panneau de séance dès 1024 px. Le [changelog](CHANGELOG.md#120---2026-11-11) et le [suivi multi-onglets](tasks/cross-tab-draft.md) précisent les changements et leurs limites.
 
 1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats s’actualisent automatiquement à chaque sélection ou retrait de critère.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
