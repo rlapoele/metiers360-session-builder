@@ -8,7 +8,7 @@ Baseline: clean `dev` at `b3fa83b`. The candidate authorised step 1 initially an
 2. **Implemented / committed:** BFF-owned, process-lifetime save-operation tracking and duplicate-request protection.
 3. **Technically complete / candidate review pending:** Cross-tab saving restrictions, operation recovery and accessible banners using existing semantic colors (add warning primitives/semantics/Tailwind mapping only if needed).
 
-The supplied mock API/catalogue and per-tab URL filters remain unchanged. Step 1 does not promise protected simultaneous API saves; steps 2–3 supply that behaviour. No commit, release or deployment is authorised.
+The supplied mock API/catalogue and per-tab URL filters remain unchanged. Step 1 does not promise protected simultaneous API saves; steps 2–3 supply that behaviour. Those implementation slices did not authorise release actions; the later explicit v1.2.0 authorisation and verified outcome are recorded below.
 
 ## Step 1 acceptance
 
@@ -103,4 +103,4 @@ Verification stayed within the 30-minute ceiling; no browser harness repair was 
 
 ## Candidate acceptance and release — 2026-11-11
 
-The candidate tested, committed and pushed all refinements (`87e6268`) and accepted the result overall. Possible remaining simultaneous two-tab finalisation/save interactions are an open investigation, not a reproduced defect or resolved guarantee. The candidate then explicitly authorised backing up `releases` onto `main`, promoting `dev`, semantic version/tag and push-triggered Railway deployment. Local/remote `main` now preserve previous release v1.1.0 (`ec77e36`). v1.2.0 preparation and release verification are in progress; see [deployment](../docs/deployment.md).
+The candidate tested, committed and pushed all refinements (`87e6268`) and accepted the result overall. Possible remaining simultaneous two-tab finalisation/save interactions are an open investigation, not a reproduced defect or resolved guarantee. The candidate then explicitly authorised backing up `releases` onto `main`, promoting `dev`, semantic version/tag and push-triggered Railway deployment. Local/remote `main` now preserve previous release v1.1.0 (`ec77e36`). v1.2.0 was published from `55f742e`: remote `main` preserves v1.1.0 `ec77e36`, and `releases` plus annotated tag identify the release commit. Both Railway services are online at that source. Production-mode local/hosted build gates pass all 310 tests; 21 local and 20 hosted desktop browser scenarios and public smoke checks pass. A docs-only outcome follow-up on `dev` does not move the release/tag or trigger another deployment. See [deployment](../docs/deployment.md).

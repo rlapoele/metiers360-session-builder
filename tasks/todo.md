@@ -4,7 +4,7 @@ Last updated: 2026-11-11
 
 ## v1.2.0 release
 
-- [ ] **Authorised — preparation/verification in progress:** Preserve v1.1.0 on `main` (done/remote verified), prepare v1.2.0 metadata/docs, verify, promote/tag/push and check Railway/public application. See [deployment](../docs/deployment.md).
+- [x] **Published and verified:** `main` preserves v1.1.0 (`ec77e36`); `releases`/annotated `v1.2.0` identify release commit `55f742e`. Production-mode gate passes 310 tests/strict checks/build; all 21 local and 20 hosted desktop browser scenarios pass. Both Railway services are online at the release commit; public smoke checks pass. Docs-only outcome follow-up is on `dev`, with no second deployment. See [deployment](../docs/deployment.md).
 
 ## Success feedback and landscape draft panel
 

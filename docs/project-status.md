@@ -6,7 +6,7 @@ This file records transient project state that does not belong in the stable arc
 
 ## Current work — 2026-11-11
 
-The candidate tested, committed and pushed all refinements (`87e6268`), accepted the implementation overall and noted possible remaining simultaneous two-tab finalisation/save edge cases for future investigation. They explicitly authorised a release: preserve v1.1.0 on `main`, promote `dev` to `releases`, bump/tag/push to trigger Railway. The exact backup `ec77e36` is now on local/remote `main`. All initial branches matched their remotes and the working tree was clean. Preparing **v1.2.0**, an additive minor release; production-mode verification passed formatting/lint, 144-file zero-diagnostic strict checks, all 310 tests and build; all 21 local desktop browser scenarios passed in 1.6 minutes. Remote promotion/live verification are next. The existing cross-tab and keyword-popup limitations remain documented. No Railway settings change, manual deploy or restart is planned.
+**v1.2.0 is published and verified.** After candidate testing/commit/push (`87e6268`) and explicit release authorisation, `main` was advanced/pushed to previous release v1.1.0 (`ec77e36`). Release commit `55f742e` bumps only root version metadata plus changelog/records; an atomic push published `dev`, fast-forwarded `releases` and annotated `v1.2.0`. Railway web/API deployments both succeeded at that commit, with no settings/manual deploy/restart action. Public health/readiness/catalogue/thumbnail/SSR/operation-runtime checks pass. Local production-mode gate passes all 310 tests, 144-file zero-diagnostic strict checks and build; 21 local and 20 hosted desktop browser cases pass, zero retries. Hosted Node 24.14.1 build also passes all 310 tests. Deployment outcome is recorded in [deployment.md](deployment.md#v120--2026-11-11), with a docs-only follow-up on `dev`; release/tag stay at `55f742e`. Simultaneous finalisation/save questions and accepted keyword-popup limitations remain open. No further implementation or deployment is inferred.
 
 ## Delivery
 
@@ -15,6 +15,8 @@ The candidate tested, committed and pushed all refinements (`87e6268`), accepted
 - Attention time and AI-use evidence are tracked in [exercise-log.md](exercise-log.md). Do not infer missing durations after the fact.
 
 ## Current phase
+
+- Current delivered release: **v1.2.0**; see the verified summary above. The earlier task bullets below preserve delivery history, including the original save flow superseded by tracked operations.
 
 - The supplied mock API, catalogue and original brief are present.
 - Product structure, responsive behavior and intended frontend architecture have been agreed and documented.
@@ -43,6 +45,12 @@ The candidate tested, committed and pushed all refinements (`87e6268`), accepted
 - Task 11 is technically complete: the public Astro web and private API are online using Railpack and Node 24.14.1, with separate health checks. Public HTTPS health/catalogue/proxied-thumbnail checks and all four desktop/mobile Chromium cases pass; 20 axe scans report zero violations with five retained incomplete contrast-node occurrences. The hosted web quality gate passes all 95 tests, zero-diagnostic strict checks and production build. Firefox supplied a visual catalogue smoke check; no new full native Firefox or screen-reader audit is claimed. The README links the demo; release/rollback details and the two recovered deployment/test-environment issues are in [deployment.md](deployment.md).
 
 ## Next action
+
+Review/use the verified v1.2.0 demo and await the candidate’s next instruction. Possible simultaneous-finalisation edge cases and deferred keyword-popup accessibility work remain follow-ups, without new implementation authorisation.
+
+### Historical handoffs
+
+The dated entries below preserve prior review/release boundaries; the current release summary supersedes their pending-authorisation statements.
 
 **Active follow-up — 2026-11-11:** The candidate authorised step 1 of the [three-step cross-tab plan](../tasks/cross-tab-draft.md). Shared draft synchronization, persistence migration, short Web Locks and external-update focus/metadata handling are implemented and technically verified; committed in `f06bfe6`. The step 1 quality gate passed (270 tests); all 33 browser scenarios passed across the full run and one isolated cold-start rerun. Steps 2–3 were subsequently authorised and are tracked above. Filters stay independent per tab; mock API/catalogue, deployment and deferred keyword-popup findings are outside this slice. The linked record owns acceptance criteria, verification budget and final evidence. No staging, commit, push or deployment is authorised.
 
