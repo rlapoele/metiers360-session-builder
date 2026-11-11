@@ -513,3 +513,7 @@ Browser coverage should prioritise:
 12. If time remains after submission readiness, optionally deploy to Railway (Task 11).
 
 Keep each step independently reviewable and working. The exercise explicitly values stopping deliberately and explaining omissions over presenting an unverified exhaustive build.
+
+## Shared dialog keyboard boundary helper — 2026-11-11
+
+`src/lib/dialog-focus.ts` owns `keepFocusInside` and the common focusable-control selector for the draft sheet, session finalisation dialog and video-details sheet. It wraps Tab/Shift+Tab at the first/last control; dialog lifecycle, initial focus, closing and focus restoration remain with each component. Finalisation now uses the same link/textarea-inclusive selector as the other two surfaces; its current controls are unchanged.

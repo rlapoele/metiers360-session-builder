@@ -1,6 +1,7 @@
+import { keepFocusInside } from '@lib/dialog-focus';
 import { useStore } from '@nanostores/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@components/ui/button';
 
@@ -34,9 +35,6 @@ interface SessionDraftCompositionProps {
   references?: CatalogueReferences;
   initialVideos: Video[];
 }
-
-const focusableSelector =
-  'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function countLabel(count: number) {
   if (count === 0) return 'Aucune vidéo';
@@ -137,23 +135,6 @@ export function SessionDraftComposition({
       triggerRef.current ??
       document.querySelector<HTMLElement>('[data-session-draft-trigger]');
     trigger?.focus();
-  }
-
-  function keepFocusInside(event: KeyboardEvent<HTMLDialogElement>) {
-    if (event.key !== 'Tab') return;
-    const elements = Array.from(
-      event.currentTarget.querySelectorAll<HTMLElement>(focusableSelector),
-    );
-    const first = elements.at(0);
-    const last = elements.at(-1);
-    if (!first || !last) return;
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
   }
 
   function openFinalisation(

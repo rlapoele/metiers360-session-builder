@@ -459,6 +459,8 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 
 ## Progress protocol
 
+Shared dialog focus follow-up (2026-11-11): candidate-authorised extraction into one plain helper for the three existing dialogs, with focused red–green tests, the full quality gate and desktop-only browser verification. Track the result in [todo.md](todo.md); this does not authorise cross-tab steps 2–3.
+
 ### Cross-tab draft follow-up — 2026-11-11
 
 The candidate authorised only step 1 of the separate [three-step plan](cross-tab-draft.md): shared browser draft, validated persistence migration, serialized edits and responsive focus/metadata behaviour. Steps 2 (BFF operation tracking) and 3 (save coordination/recovery/banner integration) remain planned, not authorised. Preserve the historical Checkpoint G marker and accepted Checkpoint H/accessibility deferral. The new record owns acceptance criteria and bounded verification results; it does not reopen completed search work.

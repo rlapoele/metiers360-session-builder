@@ -1,16 +1,11 @@
+import { keepFocusInside } from '@lib/dialog-focus';
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useMutation } from '@tanstack/react-query';
-import {
-  useEffect,
-  useRef,
-  useState,
-  type FormEvent,
-  type KeyboardEvent,
-} from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 import { Badge } from '@components/ui/badge';
 import { Button } from '@components/ui/button';
@@ -37,9 +32,6 @@ interface SessionFinalisationDialogProps {
   onClose: () => void;
   onSaved: (session: Session) => void;
 }
-
-const focusableSelector =
-  'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 interface FieldErrors {
   name?: string;
@@ -105,23 +97,6 @@ export function SessionFinalisationDialog({
       document.documentElement.style.overflow = previousOverflow;
     };
   }, []);
-
-  function keepFocusInside(event: KeyboardEvent<HTMLDialogElement>) {
-    if (event.key !== 'Tab') return;
-    const elements = Array.from(
-      event.currentTarget.querySelectorAll<HTMLElement>(focusableSelector),
-    );
-    const first = elements.at(0);
-    const last = elements.at(-1);
-    if (!first || !last) return;
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

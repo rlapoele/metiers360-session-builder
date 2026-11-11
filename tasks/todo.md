@@ -2,6 +2,10 @@
 
 Last updated: 2026-11-11
 
+## Shared dialog focus helper
+
+- [x] **Technically complete — candidate review pending:** Extract `keepFocusInside` into `src/lib/dialog-focus.ts` and reuse it in the draft sheet, finalisation dialog and video-details sheet. Verified with the existing red–green/full-gate strategy: five new keyboard-boundary tests; full gate passed (275 tests, 126 strict-checked files, zero diagnostics); all 11 desktop browser scenarios passed in 42.6 seconds. Desktop-only scope was explicitly requested. Existing tests were unchanged.
+
 ## Cross-tab draft follow-up
 
 See the separate [three-step contract and verification record](cross-tab-draft.md). Historical review markers below are preserved.

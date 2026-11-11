@@ -4,6 +4,10 @@ Last reviewed: 2026-11-11
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
+## Current refactor — 2026-11-11
+
+The candidate committed/pushed cross-tab step 1 (`f06bfe6`) and authorised extracting the duplicated dialog keyboard handler. The three consumers now share `src/lib/dialog-focus.ts`; five focused tests and the full quality gate pass (275 tests, 126 strict-checked files, zero diagnostics). All 11 desktop browser scenarios passed in 42.6 seconds, including delivery/save/review, cross-tab and startup checks. The refactor is technically complete and awaits candidate review. Candidate explicitly limited browser verification to desktop for this refactor. Cross-tab steps 2–3 remain planned only; no commit or deployment is authorised.
+
 ## Delivery
 
 - Submission deadline: **2026-10-27**. This is the concrete date supplied by the candidate; it resolves the original brief's relative “7 days after receipt” wording.
