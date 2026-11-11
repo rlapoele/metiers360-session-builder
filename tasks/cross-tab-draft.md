@@ -1,11 +1,11 @@
 # Cross-tab draft follow-up — 2026-11-11
 
-Baseline: clean `dev` at `b3fa83b`. The candidate authorised step 1 only. This record preserves the existing plan/checklist and their historical review markers.
+Baseline: clean `dev` at `b3fa83b`. The candidate authorised step 1 initially and step 2 on 2026-11-11. This record preserves the existing plan/checklist and their historical review markers.
 
 ## Three-step scope
 
-1. **Implemented / candidate review pending:** Synchronise the draft across same-origin tabs, migrate existing persistence, serialize edits against the latest value, preserve focus and resolve newly received video IDs.
-2. **Planned only:** BFF-owned, process-lifetime save-operation tracking and duplicate-request protection.
+1. **Implemented / committed:** Synchronise the draft across same-origin tabs, migrate existing persistence, serialize edits against the latest value, preserve focus and resolve newly received video IDs.
+2. **Technically complete / candidate review pending:** BFF-owned, process-lifetime save-operation tracking and duplicate-request protection.
 3. **Planned only:** Cross-tab saving restrictions, operation recovery and accessible banners using existing semantic colors (add warning primitives/semantics/Tailwind mapping only if needed).
 
 The supplied mock API/catalogue and per-tab URL filters remain unchanged. Step 1 does not promise protected simultaneous API saves; steps 2–3 supply that behaviour. No commit, release or deployment is authorised.
@@ -41,3 +41,25 @@ The under-lock reread mutation check failed two concurrency regressions when rem
 - Two diagnostic cycles were used (asynchronous reload durability; overlapping build output). Verification remained within the 30-minute ceiling; no optional stress benchmark or native assistive-technology audit was added. Deferred keyword-popup axe findings are unchanged. Candidate attention duration was not supplied.
 
 Step 1 is technically complete and ready for candidate review. Steps 2–3 remain planned only. Suggested commit: `feat: synchronize session drafts across browser tabs`.
+
+## Step 2 contract — 2026-11-11
+
+Baseline: clean `dev` at `32c8665`; candidate reports the preceding refactor committed/pushed. Step 2 is additive BFF infrastructure; the existing UI and legacy POST stay unchanged until separately authorised step 3. Candidate requests desktop-only browser verification.
+
+- POST `/api/session-save-operations`: validated `{ operation_id: UUID, client_id: UUID, draft_id: nonempty bounded string, revision: nonnegative safe integer, session: CreateSession }`. Admit synchronously before starting one upstream call. Return 202 while pending, 200 for a retained terminal result, with `Location` and `Cache-Control: no-store`.
+- GET `/api/session-save-operations/[id]`: 200 snapshot or 404 unknown; invalid IDs return 400. Every response identifies the current runtime. Snapshots retain operation/client/draft/revision and pending, succeeded (session) or failed (sanitised BFF error plus HTTP status) state.
+- Same operation ID and canonical request joins/replays the original result, including failure. Reusing an ID with different content returns 409. A different operation for a pending or successfully saved draft within the same client returns 409 with the existing snapshot; a failed draft may start a fresh operation ID. No automatic upstream retries. Step 3 must persist one random client UUID shared by its tabs; the client namespace prevents unrelated browsers with `initial`/`legacy` draft IDs blocking each other.
+- The process owns work independently of browser disconnection. Registry capacity is 1000 operations with no time eviction: reject new admissions with 503 at capacity, retaining all known results. Existing IDs remain readable/replayable. A restart or another instance has a different runtime ID and no record; unknown must never mean safe-to-retry automatically. This is deliberately single-process memory, not durable idempotency.
+- Preserve supplied API/catalogue and upstream validation/error semantics. As agreed, uncertainty between BFF and mock API remains outside the exercise model. No cross-tab banners, browser save restrictions or UI protocol integration in this step.
+
+Acceptance: deterministic pending/concurrent/replay/conflict/failure/new-attempt/capacity/restart tests; route validation/status/no-store/error tests; a real desktop HTTP round trip plus existing browser regressions. Use failing-first focused tests, full `npm run verify`, sequential desktop browser verification, one targeted admission-guard mutation and final diff review. Verification ceiling remains 30 minutes and two diagnostic cycles; no load benchmark.
+
+## Step 2 verification and handoff — 2026-11-11
+
+- Failing-first registry and route suites initially failed on absent modules, then passed all 10 new regressions. Delayed promises prove one upstream call for concurrent replay; tests cover pending/success/failure, conflicting reuse, duplicate draft admission, explicit retry after failure, independent client namespaces, capacity retention, sanitisation, browser abort independence, canonicalisation, route validation/no-store/Location and unknown runtime state.
+- `npm run verify` passed formatting, ESLint, strict Astro/TypeScript checks (135 files, zero diagnostics), all 285 tests in 39 files and production build. The first gate caught a too-narrow inferred entry type; explicitly retaining the inferred schema union fixed it without suppressions. Final source was restored after mutation before this gate.
+- Mutation: removing the duplicate-draft guard made its targeted regression fail (202 admitted instead of 409). Restored immediately; no persistent mutation or skipped tests.
+- All 12 desktop Chromium browser scenarios passed in 51.9 seconds with zero Playwright retries. New browser calls start a real operation, read its state, replay from a second page, reject conflicting IDs/draft saves and confirm exactly one matching saved session. The unchanged mock can reject a save; the test alone permits a fresh operation ID after an explicit failed status, bounded to three attempts. Existing save/review, cross-tab, search, recovery, focus and axe checks passed; deferred keyword-popup findings remain unchanged. No additional viewport or formal conformance audit is claimed.
+- Build-writing gates ran sequentially. Verification stayed within the 30-minute/two-diagnostic-cycle ceiling; no harness repair or benchmark was needed. Candidate attention duration was not supplied.
+
+Step 2 is technically complete, uncommitted and ready for candidate review. Current UI and legacy save endpoint remain unchanged; step 3 is planned only. No supplied API/catalogue, dependency, styles, Git staging/commit/push or deployment changes. Suggested commit: `feat: track session save operations in the BFF`.

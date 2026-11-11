@@ -12,7 +12,7 @@ See the separate [three-step contract and verification record](cross-tab-draft.m
 
 - [x] **Step 1 — technically complete, candidate review pending:** Synchronise the shared browser draft, migrate persistence, serialize edits and preserve focus/metadata behaviour.
   - Evidence: full quality gate passed (270 tests); all 33 browser scenarios passed across the full run and one isolated cold-start rerun. See the linked record for concurrency mutation evidence, reload durability limitation and verification details.
-- [ ] **Step 2 — planned only:** BFF save-operation tracking.
+- [x] **Step 2 — technically complete, candidate review pending:** BFF save-operation tracking. Ten new registry/route regressions and the full quality gate pass (285 tests, 135 strict-checked files, zero diagnostics); all 12 desktop browser scenarios pass (51.9 seconds). Admission-guard mutation fails as expected. See the linked contract for process-lifetime limits; UI integration remains step 3.
 - [ ] **Step 3 — planned only:** Cross-tab save recovery, editing restrictions and semantic banners.
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
