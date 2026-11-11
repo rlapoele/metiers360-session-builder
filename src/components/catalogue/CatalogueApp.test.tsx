@@ -299,7 +299,7 @@ describe('CatalogueApp', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Dans ma séance')).toHaveClass('text-success');
     expect(
-      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? '').draft,
     ).toMatchObject({ video_ids: ['vid_001'] });
   });
 
@@ -366,7 +366,7 @@ describe('CatalogueApp', () => {
       expect.stringContaining('2Une journée avec Omar'),
     ]);
     expect(
-      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? '').draft,
     ).toMatchObject({ video_ids: ['vid_002', 'vid_001'] });
 
     await user.click(
@@ -569,7 +569,7 @@ describe('CatalogueApp', () => {
       '1 vidéo · durée à confirmer',
     );
     expect(
-      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+      JSON.parse(localStorage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? '').draft,
     ).toMatchObject({ video_ids: ['vid_unavailable'] });
   });
 

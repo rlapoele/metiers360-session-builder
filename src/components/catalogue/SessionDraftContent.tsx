@@ -5,7 +5,7 @@ import {
   ExclamationTriangleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Button } from '@components/ui/button';
 import { Badge } from '@components/ui/badge';
@@ -56,6 +56,19 @@ export function SessionDraftContent({
 }: SessionDraftContentProps) {
   const removeButtonRefs = useRef(new Map<string, HTMLButtonElement>());
   const focusEmptyState = useRef(false);
+  const emptyHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const focusedRow = useRef<{ id: string; index: number }>();
+
+  useEffect(() => {
+    const previous = focusedRow.current;
+    if (!previous || items.some((item) => item.id === previous.id)) return;
+    focusedRow.current = undefined;
+    // A removed DOM control leaves focus on body. Never interrupt another field.
+    if (document.activeElement !== document.body) return;
+    const neighbour = items[previous.index] ?? items.at(-1);
+    if (neighbour) removeButtonRefs.current.get(neighbour.id)?.focus();
+    else emptyHeadingRef.current?.focus();
+  }, [items]);
 
   function removeItem(index: number) {
     const nextItem = items[index + 1] ?? items[index - 1];
@@ -73,6 +86,7 @@ export function SessionDraftContent({
       <div className="px-4 py-10 text-center">
         <h3
           ref={(heading) => {
+            emptyHeadingRef.current = heading;
             if (heading && focusEmptyState.current) {
               heading.focus();
               focusEmptyState.current = false;
@@ -111,6 +125,9 @@ export function SessionDraftContent({
           return (
             <li
               key={item.id}
+              onFocusCapture={() => {
+                focusedRow.current = { id: item.id, index };
+              }}
               className="border-border bg-background @container rounded-md border p-4"
             >
               <article aria-labelledby={titleId} className="space-y-3">

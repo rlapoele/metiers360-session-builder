@@ -186,6 +186,15 @@ test('prepare, persist, order, save and review a session', async ({
       .first()
       .click();
   }
+  // Web Lock writes are asynchronous; verify durability before testing reload.
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const raw = localStorage.getItem('metiers360.session-draft.v1');
+        return raw ? JSON.parse(raw).draft?.video_ids.length : 0;
+      }),
+    )
+    .toBe(3);
   await page.reload();
   await recoverReads(page, catalogueReady);
   const draftTrigger = page.getByRole('button', {

@@ -459,6 +459,10 @@ Chip acceptance: single-line text with ellipsis within the available width; non-
 
 ## Progress protocol
 
+### Cross-tab draft follow-up — 2026-11-11
+
+The candidate authorised only step 1 of the separate [three-step plan](cross-tab-draft.md): shared browser draft, validated persistence migration, serialized edits and responsive focus/metadata behaviour. Steps 2 (BFF operation tracking) and 3 (save coordination/recovery/banner integration) remain planned, not authorised. Preserve the historical Checkpoint G marker and accepted Checkpoint H/accessibility deferral. The new record owns acceptance criteria and bounded verification results; it does not reopen completed search work.
+
 After each task:
 
 1. verify its acceptance criteria with the commands and browser checks that actually exist;

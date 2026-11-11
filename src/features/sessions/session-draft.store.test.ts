@@ -141,7 +141,7 @@ describe('session draft store', () => {
     expect(store.$draft.get().video_ids).toEqual(['vid_001', 'vid_002']);
     expect(store.$count.get()).toBe(2);
     expect(
-      JSON.parse(storage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+      JSON.parse(storage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? '').draft,
     ).toEqual({
       version: 1,
       name: '',
@@ -172,19 +172,19 @@ describe('session draft store', () => {
     expect(store.$draft.get().video_ids).toEqual(['vid_001', 'vid_002']);
   });
 
-  it('owns the draft name and optional headset without accepting invalid values', () => {
+  it('owns the draft name and optional headset without accepting invalid values', async () => {
     const store = createSessionDraftStore();
     store.hydrate(createMemoryStorage());
 
-    expect(store.setName('Atelier orientation')).toBe(true);
-    expect(store.setHeadset('quest-3')).toBe(true);
+    expect(await store.setName('Atelier orientation')).toBe(true);
+    expect(await store.setHeadset('quest-3')).toBe(true);
     expect(store.$draft.get()).toMatchObject({
       name: 'Atelier orientation',
       headset_id: 'quest-3',
     });
 
-    expect(store.setName('x'.repeat(121))).toBe(false);
-    expect(store.setHeadset('')).toBe(false);
+    expect(await store.setName('x'.repeat(121))).toBe(false);
+    expect(await store.setHeadset('')).toBe(false);
     expect(store.$draft.get()).toMatchObject({
       name: 'Atelier orientation',
       headset_id: 'quest-3',
@@ -258,7 +258,7 @@ describe('session draft store', () => {
     expect(store.$draft.get()).toEqual(EMPTY_SESSION_DRAFT);
     expect(store.$count.get()).toBe(0);
     expect(
-      JSON.parse(storage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? ''),
+      JSON.parse(storage.getItem(SESSION_DRAFT_STORAGE_KEY) ?? '').draft,
     ).toEqual(EMPTY_SESSION_DRAFT);
   });
 });

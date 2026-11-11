@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom/vitest';
 
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -52,6 +52,42 @@ afterEach(() => {
 });
 
 describe('SessionsApp', () => {
+  it('resolves titles and duration for draft IDs received from another tab', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(
+        async () => new Response(JSON.stringify(draftVideo), { status: 200 }),
+      ),
+    );
+    render(<SessionsApp initialOverview={overview} />);
+    await screen.findByText('Aucune séance en cours');
+    await act(async () => {
+      localStorage.setItem(
+        'metiers360.session-draft.v1',
+        JSON.stringify({
+          version: 1,
+          name: 'Depuis un autre onglet',
+          video_ids: ['vid_001'],
+          headset_id: null,
+        }),
+      );
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: 'metiers360.session-draft.v1',
+          storageArea: localStorage,
+        }),
+      );
+    });
+    expect(await screen.findByText('Depuis un autre onglet')).toBeVisible();
+    await waitFor(() =>
+      expect(
+        screen.getByText((content) =>
+          content.startsWith('1 vidéo · 7 min 35 s'),
+        ),
+      ).toBeVisible(),
+    );
+  });
+
   it('separates the current draft from saved sessions', async () => {
     addVideoToDraft(draftVideo);
     render(<SessionsApp initialOverview={overview} />);

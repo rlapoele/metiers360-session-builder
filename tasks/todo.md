@@ -1,6 +1,15 @@
 # Project task checklist
 
-Last updated: 2026-11-07
+Last updated: 2026-11-11
+
+## Cross-tab draft follow-up
+
+See the separate [three-step contract and verification record](cross-tab-draft.md). Historical review markers below are preserved.
+
+- [x] **Step 1 — technically complete, candidate review pending:** Synchronise the shared browser draft, migrate persistence, serialize edits and preserve focus/metadata behaviour.
+  - Evidence: full quality gate passed (270 tests); all 33 browser scenarios passed across the full run and one isolated cold-start rerun. See the linked record for concurrency mutation evidence, reload durability limitation and verification details.
+- [ ] **Step 2 — planned only:** BFF save-operation tracking.
+- [ ] **Step 3 — planned only:** Cross-tab save recovery, editing restrictions and semantic banners.
 
 This is the live progress record for the accepted [implementation plan](plan.md). Check an item only after its acceptance criteria and relevant verification have passed. Record concise evidence beneath the completed item rather than duplicating implementation detail.
 

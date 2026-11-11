@@ -33,9 +33,11 @@ npm start
 
 Le parcours et les captures ci-dessous correspondent à la version **1.1.0**, disponible sur la démonstration en ligne.
 
+La synchronisation multi-onglets décrite ci-dessous est un suivi local en cours de revue ; elle n’est pas encore déployée sur cette démonstration.
+
 1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats s’actualisent automatiquement à chaque sélection ou retrait de critère.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
-3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur lors d’un rechargement ou d’un changement de page.
+3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur et synchronisé entre les onglets ouverts sur la même adresse d’application. Les recherches restent indépendantes dans chaque onglet.
 4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer.
 5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**.
 
@@ -57,7 +59,7 @@ Saisir un terme affiche jusqu’à **cinq suggestions** ; il faut en choisir une
 
 ## Trois hypothèses structurantes
 
-1. **Un seul brouillon local suffit.** La préparation en cours appartient au navigateur utilisé ; aucun compte ou partage entre appareils n’a été ajouté.
+1. **Un seul brouillon local suffit.** La préparation en cours appartient au navigateur utilisé et est partagée entre ses onglets de même origine ; aucun compte ou partage entre appareils n’a été ajouté.
 2. **Reconsulter les séances enregistrées est utile.** L’API expose une collection : une liste et un programme en lecture seule prolongent donc le parcours après l’enregistrement.
 3. **L’utilisateur garde la décision sur le casque.** Le choix reste facultatif comme dans l’API ; une incompatibilité est signalée explicitement, sans supprimer automatiquement des vidéos de la sélection. Je ne sais pas si, dans la réalité, cette hypothèse « tient la route ».
 
@@ -91,7 +93,7 @@ L’accessibilité a fait l’objet de vérifications axe et manuelles : clavier
 
 ## Limites et suite
 
-Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon local n’est pas une sauvegarde partagée. Le dictionnaire est déterministe et conserve les prénoms ainsi que les appellations choisies ; il ne produit pas de recherche sémantique. Les anciennes URL utilisant `q` conservent leur recherche par sous-chaîne du titre et comptent dans la limite de dix critères. Astro prépare le catalogue et le dictionnaire au démarrage, puis les conserve pendant la durée du processus, avec chargement et récupération en cas d’échec.
+Les séances enregistrées sont **en mémoire dans l’API** et disparaissent à son redémarrage. Le brouillon est partagé entre les onglets de ce navigateur, mais pas entre appareils. Web Locks protège les modifications simultanées ; sans cette API, la synchronisation reste au mieux séquentielle. Une fermeture ou un rechargement avant la fin d’une écriture en attente peut perdre la dernière modification. Sans stockage disponible, le brouillon reste utilisable en mémoire. La coordination des enregistrements API entre onglets est une étape ultérieure : voir [le suivi multi-onglets](tasks/cross-tab-draft.md). Le dictionnaire est déterministe et conserve les prénoms ainsi que les appellations choisies ; il ne produit pas de recherche sémantique. Les anciennes URL utilisant `q` conservent leur recherche par sous-chaîne du titre et comptent dans la limite de dix critères. Astro prépare le catalogue et le dictionnaire au démarrage, puis les conserve pendant la durée du processus, avec chargement et récupération en cas d’échec.
 
 Pas d’édition/suppression des séances enregistrées, d’authentification, de diffusion réelle vers les casques ou de glisser-déposer : ces capacités dépassent l’API ou ne sont pas nécessaires au parcours démontré. La démo déployée sur Railway reste un environnement d’exercice.
 

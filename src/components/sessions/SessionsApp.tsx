@@ -20,6 +20,7 @@ import {
   hydrateSessionDraft,
 } from '@features/sessions/session-draft.store';
 import { cn } from '@lib/utils';
+import { useDraftVideos } from '@features/sessions/use-draft-videos';
 import { CurrentDraftSection } from '@components/sessions/CurrentDraftSection';
 import { SavedSessionsSection } from '@components/sessions/SavedSessionsSection';
 
@@ -63,6 +64,7 @@ function SessionsContent({
   const draft = useStore($sessionDraft);
   const isDraftHydrated = useStore($sessionDraftHydrated);
   const draftDuration = useStore($sessionDraftTotalDurationSeconds);
+  useDraftVideos(canObserveDraft ? draft.video_ids : []);
   const overviewQuery = useQuery({
     queryKey: ['sessions-overview'],
     queryFn: ({ signal }) => fetchSessionsOverview(signal),

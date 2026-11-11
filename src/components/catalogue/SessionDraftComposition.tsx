@@ -1,11 +1,11 @@
 import { useStore } from '@nanostores/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useQueries } from '@tanstack/react-query';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 
 import { Button } from '@components/ui/button';
 
-import { fetchVideo, type CatalogueReferences } from '@features/catalogue/api';
+import type { CatalogueReferences } from '@features/catalogue/api';
+import { useDraftVideos } from '@features/sessions/use-draft-videos';
 import { formatDuration } from '@features/catalogue/format';
 import {
   OPEN_SESSION_DRAFT_EVENT,
@@ -18,7 +18,6 @@ import {
   clearDraftAfterSave,
   moveDraftVideoDown,
   moveDraftVideoUp,
-  registerDraftVideos,
   removeVideoFromDraft,
   setDraftHeadset,
   setDraftName,
@@ -64,20 +63,7 @@ export function SessionDraftComposition({
   const panelHeadingRef = useRef<HTMLHeadingElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const finalisationTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const initialVideosById = new Map(
-    initialVideos.map((video) => [video.id, video]),
-  );
-  const videoQueries = useQueries({
-    queries: draft.video_ids.map((videoId) => ({
-      queryKey: ['video-details', videoId],
-      queryFn: async ({ signal }: { signal: AbortSignal }) => {
-        const video = await fetchVideo(videoId, signal);
-        registerDraftVideos([video]);
-        return video;
-      },
-      initialData: initialVideosById.get(videoId),
-    })),
-  });
+  const videoQueries = useDraftVideos(draft.video_ids, initialVideos);
   const items: DraftVideoItem[] = draft.video_ids.map((id, index) => ({
     id,
     video: videoQueries[index]?.data,
@@ -189,8 +175,8 @@ export function SessionDraftComposition({
     }
   }
 
-  function completeSave(session: Session) {
-    clearDraftAfterSave();
+  async function completeSave(session: Session) {
+    await clearDraftAfterSave();
     window.location.assign(
       `/sessions?created=${encodeURIComponent(session.id)}`,
     );

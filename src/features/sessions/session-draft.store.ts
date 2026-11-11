@@ -5,15 +5,19 @@ import {
   type SessionDraft,
   type Video,
 } from '@lib/api/schemas';
+import {
+  EMPTY_SESSION_DRAFT,
+  SESSION_DRAFT_STORAGE_KEY,
+  SESSION_DRAFT_LOCK,
+  emptyDraftRecord,
+  parsePersistedDraft,
+  type PersistedSessionDraft,
+} from '@features/sessions/session-draft.persistence';
 
-export const SESSION_DRAFT_STORAGE_KEY = 'metiers360.session-draft.v1';
-
-export const EMPTY_SESSION_DRAFT: SessionDraft = {
-  version: 1,
-  name: '',
-  video_ids: [],
-  headset_id: null,
-};
+export {
+  EMPTY_SESSION_DRAFT,
+  SESSION_DRAFT_STORAGE_KEY,
+} from '@features/sessions/session-draft.persistence';
 
 export interface DraftStorage {
   getItem(key: string): string | null;
@@ -56,7 +60,11 @@ function unresolvedVideoIdsFor(
   return draft.video_ids.filter((videoId) => videosById[videoId] === undefined);
 }
 
-export function createSessionDraftStore() {
+interface DraftStoreOptions {
+  runExclusive?: (change: () => boolean) => Promise<boolean>;
+}
+
+export function createSessionDraftStore(options: DraftStoreOptions = {}) {
   const $draft = atom<SessionDraft>({ ...EMPTY_SESSION_DRAFT });
   const $isHydrated = atom(false);
   const $videosById = atom<Record<string, Video>>({});
@@ -108,57 +116,141 @@ export function createSessionDraftStore() {
   );
 
   let storage: DraftStorage | undefined;
+  let record: PersistedSessionDraft = emptyDraftRecord();
+  type Change = (draft: SessionDraft) => SessionDraft;
+  const pending: { draftId: string; revision: number; change: Change }[] = [];
+  let detach: (() => void) | undefined;
+  let disposed = false;
+  const runExclusive =
+    options.runExclusive ??
+    (typeof navigator !== 'undefined' && navigator.locks
+      ? (change: () => boolean) =>
+          navigator.locks.request(SESSION_DRAFT_LOCK, change)
+      : undefined);
 
-  function setDraft(candidate: SessionDraft) {
-    const parsed = SessionDraftSchema.safeParse(candidate);
-    if (!parsed.success) return false;
+  function publish() {
+    let draft = record.draft;
+    // Preserve fast local typing while earlier writes wait for the Web Lock.
+    for (const action of pending) {
+      if (
+        action.draftId !== record.draft_id ||
+        action.revision > record.revision
+      )
+        continue;
+      const parsed = SessionDraftSchema.safeParse(action.change(draft));
+      if (parsed.success) draft = parsed.data;
+    }
+    if (JSON.stringify(draft) !== JSON.stringify($draft.get()))
+      $draft.set(draft);
+  }
 
-    $draft.set(parsed.data);
-    return true;
+  function readLatest(initial = false) {
+    if (!storage) return;
+    try {
+      const raw = storage.getItem(SESSION_DRAFT_STORAGE_KEY);
+      if (raw === null && !initial) record = emptyDraftRecord();
+      else {
+        const parsed = raw === null ? undefined : parsePersistedDraft(raw);
+        if (parsed) record = parsed;
+        else if (initial && raw !== null)
+          storage.removeItem(SESSION_DRAFT_STORAGE_KEY);
+      }
+    } catch {
+      storage = undefined;
+    }
+  }
+
+  function refresh() {
+    readLatest();
+    publish();
+  }
+
+  function mutate(change: Change, reset = false): Promise<boolean> {
+    readLatest();
+    const action = {
+      draftId: record.draft_id,
+      revision: record.revision,
+      change,
+    };
+    pending.push(action);
+    publish();
+    function finish() {
+      const index = pending.indexOf(action);
+      if (index !== -1) pending.splice(index, 1);
+      publish();
+    }
+    function commit() {
+      if (disposed) {
+        finish();
+        return false;
+      }
+      readLatest();
+      if (
+        action.draftId !== record.draft_id ||
+        action.revision > record.revision
+      ) {
+        finish();
+        return false;
+      }
+      const parsed = SessionDraftSchema.safeParse(change(record.draft));
+      if (!parsed.success) {
+        finish();
+        return false;
+      }
+      if (
+        reset ||
+        JSON.stringify(parsed.data) !== JSON.stringify(record.draft)
+      ) {
+        record = {
+          version: 2,
+          draft_id: reset ? crypto.randomUUID() : record.draft_id,
+          revision: reset ? 0 : record.revision + 1,
+          draft: parsed.data,
+        };
+        try {
+          storage?.setItem(SESSION_DRAFT_STORAGE_KEY, JSON.stringify(record));
+        } catch {
+          // Keep the latest edits in memory if persistence becomes unavailable.
+          storage = undefined;
+        }
+      }
+      finish();
+      return true;
+    }
+    return runExclusive
+      ? runExclusive(commit).catch(() => {
+          finish();
+          return false;
+        })
+      : Promise.resolve(commit());
   }
 
   function hydrate(nextStorage: DraftStorage | undefined = browserStorage()) {
     if ($isHydrated.get()) return true;
-    if (!nextStorage) return false;
-
+    disposed = false;
     storage = nextStorage;
-    let persistedValue: string | null = null;
-
-    try {
-      persistedValue = storage.getItem(SESSION_DRAFT_STORAGE_KEY);
-    } catch {
-      // The draft remains usable in memory when browser storage is blocked.
+    readLatest(true);
+    publish();
+    if (typeof window !== 'undefined') {
+      const onStorage = (event: StorageEvent) => {
+        if (event.storageArea !== storage) return;
+        if (event.key === null || event.key === SESSION_DRAFT_STORAGE_KEY)
+          refresh();
+      };
+      const onVisible = () => {
+        if (document.visibilityState === 'visible') refresh();
+      };
+      window.addEventListener('storage', onStorage);
+      window.addEventListener('focus', refresh);
+      window.addEventListener('pageshow', refresh);
+      document.addEventListener('visibilitychange', onVisible);
+      detach = () => {
+        window.removeEventListener('storage', onStorage);
+        window.removeEventListener('focus', refresh);
+        window.removeEventListener('pageshow', refresh);
+        document.removeEventListener('visibilitychange', onVisible);
+      };
     }
-
-    if (persistedValue !== null) {
-      try {
-        const parsed = SessionDraftSchema.safeParse(
-          JSON.parse(persistedValue) as unknown,
-        );
-        if (parsed.success) $draft.set(parsed.data);
-        else {
-          try {
-            storage.removeItem(SESSION_DRAFT_STORAGE_KEY);
-          } catch {
-            // Ignore storage restrictions after rejecting the persisted value.
-          }
-        }
-      } catch {
-        try {
-          storage.removeItem(SESSION_DRAFT_STORAGE_KEY);
-        } catch {
-          // Ignore storage restrictions after rejecting the persisted value.
-        }
-      }
-    }
-
-    $draft.listen((draft) => {
-      try {
-        storage?.setItem(SESSION_DRAFT_STORAGE_KEY, JSON.stringify(draft));
-      } catch {
-        // Keep the in-memory draft usable if persistence becomes unavailable.
-      }
-    });
     $isHydrated.set(true);
     return true;
   }
@@ -167,6 +259,7 @@ export function createSessionDraftStore() {
     if (videos.length === 0) return;
 
     const current = $videosById.get();
+    if (videos.every((video) => current[video.id] === video)) return;
     const next = { ...current };
     for (const video of videos) next[video.id] = video;
     $videosById.set(next);
@@ -174,55 +267,54 @@ export function createSessionDraftStore() {
 
   function addVideo(video: Video) {
     registerVideos([video]);
-    const draft = $draft.get();
-    if (draft.video_ids.includes(video.id)) return true;
-
-    return setDraft({
-      ...draft,
-      video_ids: [...draft.video_ids, video.id],
-    });
+    return mutate((draft) =>
+      draft.video_ids.includes(video.id)
+        ? draft
+        : {
+            ...draft,
+            video_ids: [...draft.video_ids, video.id],
+          },
+    );
   }
 
   function removeVideo(videoId: string) {
-    const draft = $draft.get();
-    if (!draft.video_ids.includes(videoId)) return true;
-
-    return setDraft({
+    return mutate((draft) => ({
       ...draft,
       video_ids: draft.video_ids.filter((id) => id !== videoId),
-    });
+    }));
   }
 
   function moveVideo(videoId: string, offset: -1 | 1) {
-    const draft = $draft.get();
-    const currentIndex = draft.video_ids.indexOf(videoId);
-    const nextIndex = currentIndex + offset;
+    return mutate((draft) => {
+      const currentIndex = draft.video_ids.indexOf(videoId);
+      const nextIndex = currentIndex + offset;
 
-    if (
-      currentIndex === -1 ||
-      nextIndex < 0 ||
-      nextIndex >= draft.video_ids.length
-    ) {
-      return true;
-    }
+      if (
+        currentIndex === -1 ||
+        nextIndex < 0 ||
+        nextIndex >= draft.video_ids.length
+      ) {
+        return draft;
+      }
 
-    return setDraft({
-      ...draft,
-      video_ids: swap(draft.video_ids, currentIndex, nextIndex),
+      return {
+        ...draft,
+        video_ids: swap(draft.video_ids, currentIndex, nextIndex),
+      };
     });
   }
 
   function setName(name: string) {
-    return setDraft({ ...$draft.get(), name });
+    return mutate((draft) => ({ ...draft, name }));
   }
 
   function setHeadset(headsetId: string | null) {
-    return setDraft({ ...$draft.get(), headset_id: headsetId });
+    return mutate((draft) => ({ ...draft, headset_id: headsetId }));
   }
 
   function clearAfterSave() {
     $videosById.set({});
-    return setDraft({ ...EMPTY_SESSION_DRAFT });
+    return mutate(() => ({ ...EMPTY_SESSION_DRAFT }), true);
   }
 
   return {
@@ -241,6 +333,11 @@ export function createSessionDraftStore() {
     setName,
     setHeadset,
     clearAfterSave,
+    dispose() {
+      disposed = true;
+      detach?.();
+      detach = undefined;
+    },
   };
 }
 
@@ -263,3 +360,5 @@ export const {
   setHeadset: setDraftHeadset,
   clearAfterSave: clearDraftAfterSave,
 } = sessionDraftStore;
+
+if (import.meta.hot) import.meta.hot.dispose(() => sessionDraftStore.dispose());

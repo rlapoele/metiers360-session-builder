@@ -1,6 +1,6 @@
 # Project status and handoff
 
-Last reviewed: 2026-11-07
+Last reviewed: 2026-11-11
 
 This file records transient project state that does not belong in the stable architecture document. A new contributor or agent must still inspect the actual working tree with `git status` and read the sources in the order defined by `AGENTS.md`.
 
@@ -39,6 +39,8 @@ This file records transient project state that does not belong in the stable arc
 - Task 11 is technically complete: the public Astro web and private API are online using Railpack and Node 24.14.1, with separate health checks. Public HTTPS health/catalogue/proxied-thumbnail checks and all four desktop/mobile Chromium cases pass; 20 axe scans report zero violations with five retained incomplete contrast-node occurrences. The hosted web quality gate passes all 95 tests, zero-diagnostic strict checks and production build. Firefox supplied a visual catalogue smoke check; no new full native Firefox or screen-reader audit is claimed. The README links the demo; release/rollback details and the two recovered deployment/test-environment issues are in [deployment.md](deployment.md).
 
 ## Next action
+
+**Active follow-up — 2026-11-11:** The candidate authorised step 1 of the [three-step cross-tab plan](../tasks/cross-tab-draft.md). Shared draft synchronization, persistence migration, short Web Locks and external-update focus/metadata handling are implemented and technically verified; candidate review is pending. The full quality gate passed (270 tests); all 33 browser scenarios passed across the full run and one isolated cold-start rerun. Steps 2–3 (BFF save tracking, recovery/restrictions and banners) remain planned, not authorised. Filters stay independent per tab; mock API/catalogue, deployment and deferred keyword-popup findings are outside this slice. The linked record owns acceptance criteria, verification budget and final evidence. No staging, commit, push or deployment is authorised.
 
 **Version 1.1.0 deployed and verified — 2026-11-07:** Following explicit candidate authorisation, `releases` fast-forwarded to reviewed `dev` commit `ec77e36`; an atomic push published that branch and annotated tag `v1.1.0`. Local/remote `main` already preserve the previous release `17d809f` and remain there. The push alone triggered Railway; no settings, manual deployment or restart action was used. Both services are online at the intended commit with no pending changes. Local production-mode and hosted-build gates pass all 255 tests, zero-diagnostic strict checks and build; all 27 hosted desktop/tablet/mobile browser scenarios pass. Public health/readiness/catalogue/thumbnail/SSR checks pass, with startup readiness on the first attempt in 2.8s and zero dictionary diagnostics. Accepted accessibility limitations and the reviewed moderate development-tooling advisory remain unresolved. See [the dated deployment record](deployment.md#v110--2026-11-07). Checkout is back on `dev`; only release-outcome documentation is left uncommitted for candidate review. No further delivery action is implied.
 
