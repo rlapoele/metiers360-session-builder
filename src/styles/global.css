@@ -97,7 +97,7 @@
   --color-badge: var(--border-badge);
   --color-dialog: var(--border-dialog);
   --color-input: var(--input);
-/*  --color-input-boundary: var(--input-boundary);*/
+  /*  --color-input-boundary: var(--input-boundary);*/
   --color-ring: var(--ring);
   --color-navigation-current: var(--navigation-current);
   --color-action-hover: var(--action-hover);

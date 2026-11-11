@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { successBannerTimer } from '@features/sessions/success-banner-timer';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { Button } from '@components/ui/button';
 import { saveCoordinator } from '@features/sessions/save-coordinator';
@@ -20,12 +21,27 @@ export function SaveStatusBanner({
   const canSave = useStore($draftCanSave);
   const issue = useStore($draftSaveIssue);
   const hydrated = useStore($sessionDraftHydrated);
+  const successId =
+    save?.result?.status === 'succeeded'
+      ? save.request.operation_id
+      : undefined;
+  const owner = useRef(Symbol('success-banner')).current;
+  const dismissedId = useStore(successBannerTimer.$dismissed);
+  useEffect(() => {
+    if (successId) return successBannerTimer.observe(successId, owner);
+  }, [successId, owner]);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  if (!hydrated || (!save && (onlyOperation || (canSave && !issue))))
+  if (
+    !hydrated ||
+    (successId &&
+      (dismissedId === successId ||
+        successBannerTimer.wasDismissed(successId))) ||
+    (!save && (onlyOperation || (canSave && !issue)))
+  )
     return null;
   const result = save?.result;
   const pending = Boolean(save && (!result || result.status === 'pending'));
@@ -60,6 +76,19 @@ export function SaveStatusBanner({
   return (
     <section
       aria-label="Statut de l’enregistrement"
+      onPointerEnter={(event) => {
+        if (event.pointerType !== 'touch')
+          successBannerTimer.pause(owner, 'pointer');
+      }}
+      onPointerLeave={() => successBannerTimer.resume(owner, 'pointer')}
+      onFocusCapture={() => successBannerTimer.pause(owner, 'focus')}
+      onBlurCapture={(event) => {
+        if (
+          !(event.relatedTarget instanceof Node) ||
+          !event.currentTarget.contains(event.relatedTarget)
+        )
+          successBannerTimer.resume(owner, 'focus');
+      }}
       className={`${colors} px-4 py-3 sm:px-6`}
     >
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">

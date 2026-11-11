@@ -99,8 +99,8 @@ function CatalogueContent(props: CataloguePageProps) {
       : video.compatible_headsets.map((id) => headsetLabels.get(id) ?? id);
   }
   return (
-    <div className="grid gap-6 xl:grid-cols-3 xl:items-start xl:gap-8">
-      <div className="@container space-y-6 pb-24 xl:col-span-2 xl:pb-0">
+    <div className="grid gap-6 lg:grid-cols-3 lg:items-start lg:gap-8">
+      <div className="@container space-y-6 pb-24 lg:col-span-2 lg:pb-0">
         <div className="border-border bg-card space-y-5 rounded-lg border p-4 sm:p-5">
           <CatalogueSearchForm
             criteria={search.criteria}

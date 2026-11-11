@@ -39,6 +39,8 @@ interface SessionDraftCompositionProps {
   initialVideos: Video[];
 }
 
+const PANEL_MEDIA_QUERY = '(min-width: 64rem)';
+
 function countLabel(count: number) {
   if (count === 0) return 'Aucune vidéo';
   return `${count} ${count === 1 ? 'vidéo' : 'vidéos'}`;
@@ -88,7 +90,7 @@ export function SessionDraftComposition({
   useEffect(() => {
     function revealDraft(trigger: HTMLElement | null) {
       triggerRef.current = trigger;
-      if (window.matchMedia?.('(min-width: 80rem)').matches) {
+      if (window.matchMedia?.(PANEL_MEDIA_QUERY).matches) {
         panelHeadingRef.current?.focus();
       } else {
         setIsOpen(true);
@@ -112,12 +114,24 @@ export function SessionDraftComposition({
 
   useEffect(() => {
     if (!isOpen || !dialogRef.current) return;
+    const media = window.matchMedia?.(PANEL_MEDIA_QUERY);
+    const switchToPanel = () => {
+      if (!media?.matches) return;
+      setIsOpen(false);
+      requestAnimationFrame(() => panelHeadingRef.current?.focus());
+    };
+    if (media?.matches) {
+      switchToPanel();
+      return;
+    }
+    media?.addEventListener('change', switchToPanel);
     const previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
     dialogRef.current.showModal();
     closeButtonRef.current?.focus();
 
     return () => {
+      media?.removeEventListener('change', switchToPanel);
       document.documentElement.style.overflow = previousOverflow;
     };
   }, [isOpen]);
@@ -154,10 +168,15 @@ export function SessionDraftComposition({
 
   function closeFinalisation() {
     setIsFinalising(false);
-    if (returnToDraftSheet) {
+    if (!window.matchMedia?.(PANEL_MEDIA_QUERY).matches) {
       setIsOpen(true);
     } else {
-      requestAnimationFrame(() => finalisationTriggerRef.current?.focus());
+      requestAnimationFrame(() => {
+        const target = returnToDraftSheet
+          ? panelHeadingRef.current
+          : finalisationTriggerRef.current;
+        target?.focus();
+      });
     }
   }
 
@@ -189,7 +208,7 @@ export function SessionDraftComposition({
       <aside
         id="ma-seance"
         aria-labelledby="session-draft-panel-title"
-        className="border-border bg-card sticky top-6 hidden max-h-draft-panel flex-col overflow-hidden rounded-lg border shadow-sm xl:flex"
+        className="border-border bg-card sticky top-6 hidden max-h-draft-panel flex-col overflow-hidden rounded-lg border shadow-sm lg:flex"
       >
         <header
           data-slot="session-draft-summary"
@@ -236,7 +255,7 @@ export function SessionDraftComposition({
         </footer>
       </aside>
 
-      <div className="border-border bg-card fixed inset-x-0 bottom-0 z-20 border-t p-3 shadow-lg xl:hidden">
+      <div className="border-border bg-card fixed inset-x-0 bottom-0 z-20 border-t p-3 shadow-lg lg:hidden">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
           <div className="min-w-0">
             <p className="font-semibold">Ma séance</p>
@@ -260,7 +279,7 @@ export function SessionDraftComposition({
           aria-labelledby="session-draft-dialog-title"
           onClose={closeSheet}
           onKeyDown={keepFocusInside}
-          className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 xl:hidden"
+          className="bg-card text-foreground fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-hidden shadow-xl backdrop:bg-foreground/40 lg:hidden"
         >
           <div className="flex h-full flex-col">
             <SaveStatusBanner onlyOperation />

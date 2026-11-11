@@ -37,9 +37,9 @@ La synchronisation multi-onglets décrite ci-dessous est un suivi local en cours
 
 1. Choisir un **public**, sélectionner des **métiers ou mots-clés de titre**, puis éventuellement un **casque VR**. Les résultats s’actualisent automatiquement à chaque sélection ou retrait de critère.
 2. Consulter ses détails et l’ajouter à **Ma séance**. Sans filtre casque, la carte présente toutes ses compatibilités ; avec un filtre, elle affiche le casque choisi.
-3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur et synchronisé entre les onglets ouverts sur la même adresse d’application. Les recherches restent indépendantes dans chaque onglet.
+3. Utiliser **Monter**, **Descendre** et **Retirer** pour préparer l’ordre de lecture. Le brouillon est conservé dans ce navigateur et synchronisé entre les onglets ouverts sur la même adresse d’application. Les recherches restent indépendantes dans chaque onglet. À partir de 1024 px, le panneau Ma séance reste visible à côté du catalogue ; en dessous, il s’ouvre depuis le résumé en bas de l’écran.
 4. Choisir **Finaliser ma séance**, saisir un nom et, éventuellement, un casque. Consulter les avertissements de compatibilité avant d’enregistrer. Pendant l’enregistrement et sa vérification, le brouillon reste en lecture seule dans tous les onglets ; un bandeau en indique le statut.
-5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**.
+5. Retrouver la confirmation, la liste et le programme enregistré dans **Mes séances**. Le bandeau de succès disparaît après huit secondes de présence dans l’onglet visible ; le survol ou le focus suspend ce délai. La séance reste accessible dans la liste.
 
 Saisir un terme affiche jusqu’à **cinq suggestions** ; il faut en choisir une pour ajouter un critère. Les métiers se combinent avec **OU** ; les mots-clés de titre, le public et le casque avec **ET**. Jusqu’à **dix critères métier/titre** peuvent être sélectionnés. Les choix sans vidéo correspondante sont désactivés ; les critères restent retirables.
 

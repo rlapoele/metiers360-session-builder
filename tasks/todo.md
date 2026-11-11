@@ -2,6 +2,10 @@
 
 Last updated: 2026-11-11
 
+## Success feedback and landscape draft panel
+
+- [x] **Technically complete — candidate review pending:** Dismiss success feedback after eight foreground seconds, pausing for interaction/hidden tabs and retaining tracking. Show the persistent draft panel from 1024px with consistent media/focus behaviour. Full gate passes (310 tests, 144-file zero-diagnostic strict checks); all 21 browser scenarios pass, including inspected 1024/1100/1280px captures, 1023px boundary/rotation, real pointer/focus pause and reload dismissal. Timeout mutation fails as expected and was restored. Evidence lives in [the follow-up record](cross-tab-draft.md).
+
 ## Shared dialog focus helper
 
 - [x] **Technically complete — candidate review pending:** Extract `keepFocusInside` into `src/lib/dialog-focus.ts` and reuse it in the draft sheet, finalisation dialog and video-details sheet. Verified with the existing red–green/full-gate strategy: five new keyboard-boundary tests; full gate passed (275 tests, 126 strict-checked files, zero diagnostics); all 11 desktop browser scenarios passed in 42.6 seconds. Desktop-only scope was explicitly requested. Existing tests were unchanged.

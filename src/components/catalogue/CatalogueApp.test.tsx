@@ -449,7 +449,7 @@ describe('CatalogueApp', () => {
     expect(panel).toHaveClass(
       'max-h-draft-panel',
       'overflow-hidden',
-      'xl:flex',
+      'lg:flex',
     );
     expect(summary).toHaveClass('shrink-0');
     expect(scrollRegion).toHaveClass(
